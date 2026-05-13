@@ -4,7 +4,7 @@
   "type": "object",
   "required": ["schema_version", "product", "inputs", "summary", "band_events", "warnings", "path"],
   "properties": {
-    "schema_version": {"const": "0.1"},
+    "schema_version": {"const": "0.2"},
     "product": {"type": "object"},
     "inputs": {"type": "object"},
     "summary": {"type": "object"},

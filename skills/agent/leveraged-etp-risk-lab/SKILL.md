@@ -6,6 +6,8 @@ Use this skill when a user asks an agent to inspect, extend, validate, or explai
 
 - Add or review CLI commands for leveraged ETP scenario analysis.
 - Validate product-term fixtures, scenario paths, or deterministic outputs.
+- Generate deterministic trend, chop, crash, or rebound scenario paths.
+- Aggregate exposure reports from a portfolio manifest.
 - Explain daily reset leverage, fee drag, path decay, stop-loss bands, or take-profit bands.
 - Run repository checks before sharing a public package.
 
@@ -21,6 +23,8 @@ Use this skill when a user asks an agent to inspect, extend, validate, or explai
 ```bash
 python -m leveraged_etp_risk_lab --help
 python -m leveraged_etp_risk_lab simulate --product examples/fixtures/leveraged_nasdaq_3x.json --path examples/fixtures/nasdaq_chop_path.csv
+python -m leveraged_etp_risk_lab generate-scenario --kind crash --days 10 --output crash_path.csv
+python -m leveraged_etp_risk_lab exposure-report --manifest examples/fixtures/portfolio_manifest.json
 python -m leveraged_etp_risk_lab checklist --profile risk-review
 python -m leveraged_etp_risk_lab demo-bundle --output-dir examples/outputs
 python -m leveraged_etp_risk_lab selfcheck
@@ -34,6 +38,7 @@ python -m unittest discover -s tests
 - Run `python scripts/selfcheck.py`.
 - Confirm no `.github/workflows` files were added.
 - Confirm CLI JSON output is deterministic for fixture inputs.
+- Confirm generated scenario CSVs and exposure reports are deterministic for fixture inputs.
 
 ## Safety Boundaries
 

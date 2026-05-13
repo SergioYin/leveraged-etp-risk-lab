@@ -7,10 +7,10 @@ from pathlib import Path
 from typing import List, Optional
 
 from . import __version__
-from .engine import simulate
-from .io import load_path, load_product, write_text
+from .engine import exposure_report, generate_scenario, simulate
+from .io import load_path, load_portfolio_manifest, load_product, write_path_csv, write_text
 from .models import RiskBand, SimulationConfig
-from .render import checklist_json, checklist_markdown, simulation_markdown, to_json, version_report
+from .render import checklist_json, checklist_markdown, exposure_markdown, simulation_markdown, to_json, version_report
 
 
 def main(argv: Optional[List[str]] = None) -> int:
@@ -21,6 +21,10 @@ def main(argv: Optional[List[str]] = None) -> int:
             return command_simulate(args)
         if args.command == "checklist":
             return command_checklist(args)
+        if args.command == "generate-scenario":
+            return command_generate_scenario(args)
+        if args.command == "exposure-report":
+            return command_exposure_report(args)
         if args.command == "demo-bundle":
             return command_demo_bundle(args)
         if args.command == "selfcheck":
@@ -54,6 +58,16 @@ def build_parser() -> argparse.ArgumentParser:
     checklist.add_argument("--format", choices=["json", "markdown"], default="markdown")
     checklist.add_argument("--output", help="write output to a file instead of stdout")
 
+    scenario = sub.add_parser("generate-scenario", help="write a deterministic scenario path CSV")
+    scenario.add_argument("--kind", choices=["trend", "chop", "crash", "rebound"], required=True)
+    scenario.add_argument("--days", type=int, default=10)
+    scenario.add_argument("--output", required=True, help="CSV output path")
+
+    exposure = sub.add_parser("exposure-report", help="aggregate portfolio exposure from a JSON manifest")
+    exposure.add_argument("--manifest", required=True, help="portfolio manifest JSON file")
+    exposure.add_argument("--format", choices=["json", "markdown"], default="json")
+    exposure.add_argument("--output", help="write output to a file instead of stdout")
+
     demo = sub.add_parser("demo-bundle", help="generate deterministic demo outputs")
     demo.add_argument("--output-dir", default="examples/outputs")
 
@@ -80,6 +94,19 @@ def command_checklist(args: argparse.Namespace) -> int:
     return emit(text, args.output)
 
 
+def command_generate_scenario(args: argparse.Namespace) -> int:
+    days = generate_scenario(args.kind, args.days)
+    write_path_csv(Path(args.output), days)
+    sys.stdout.write(f"wrote {args.kind} scenario with {args.days} days to {args.output}\n")
+    return 0
+
+
+def command_exposure_report(args: argparse.Namespace) -> int:
+    result = exposure_report(load_portfolio_manifest(args.manifest), args.manifest)
+    text = to_json(result) if args.format == "json" else exposure_markdown(result)
+    return emit(text, args.output)
+
+
 def command_demo_bundle(args: argparse.Namespace) -> int:
     root = Path(args.output_dir)
     examples = Path("examples/fixtures")
@@ -101,6 +128,11 @@ def command_demo_bundle(args: argparse.Namespace) -> int:
         result = simulate(SimulationConfig(load_product(str(product_path)), load_path(str(path_file)), 100.0, band))
         write_text(root / f"{name}.json", to_json(result))
         write_text(root / f"{name}.md", simulation_markdown(result))
+    manifest = examples / "portfolio_manifest.json"
+    if manifest.exists():
+        result = exposure_report(load_portfolio_manifest(str(manifest)), str(manifest))
+        write_text(root / "portfolio_exposure.json", to_json(result))
+        write_text(root / "portfolio_exposure.md", exposure_markdown(result))
     write_text(root / "checklist.md", checklist_markdown("risk-review"))
     sys.stdout.write(f"wrote demo bundle to {root}\n")
     return 0

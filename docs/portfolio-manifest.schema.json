@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Leveraged ETP portfolio manifest",
+  "type": "object",
+  "required": ["positions"],
+  "properties": {
+    "name": {"type": "string", "default": "Portfolio"},
+    "base_currency": {"type": "string", "default": "USD"},
+    "positions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["notional"],
+        "anyOf": [
+          {"required": ["product_fixture"]},
+          {"required": ["product"]}
+        ],
+        "oneOf": [
+          {"required": ["path_fixture"]},
+          {"required": ["path"]}
+        ],
+        "properties": {
+          "id": {"type": "string"},
+          "product_fixture": {"type": "string"},
+          "product": {"type": "string"},
+          "path_fixture": {"type": "string"},
+          "path": {"type": "string"},
+          "notional": {"type": "number", "exclusiveMinimum": 0},
+          "stop_loss": {"type": "number", "minimum": 0},
+          "take_profit": {"type": "number", "minimum": 0}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

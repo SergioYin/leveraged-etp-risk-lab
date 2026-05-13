@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Leveraged ETP exposure report output",
+  "type": "object",
+  "required": ["schema_version", "portfolio", "summary", "positions", "portfolio_path", "stop_events", "warnings"],
+  "properties": {
+    "schema_version": {"const": "0.2"},
+    "portfolio": {"type": "object"},
+    "summary": {"type": "object"},
+    "positions": {"type": "array"},
+    "portfolio_path": {"type": "array"},
+    "stop_events": {"type": "array"},
+    "warnings": {"type": "array", "items": {"type": "string"}}
+  }
+}

@@ -37,6 +37,42 @@ def simulation_markdown(data: Dict[str, Any]) -> str:
     return "\n".join(lines) + "\n"
 
 
+def exposure_markdown(data: Dict[str, Any]) -> str:
+    summary = data["summary"]
+    portfolio = data["portfolio"]
+    lines: List[str] = [
+        f"# Exposure Report: {portfolio['name']}",
+        "",
+        f"- Base currency: {portfolio['base_currency']}",
+        f"- Starting value: {summary['starting_value']}",
+        f"- Ending value: {summary['ending_value']}",
+        f"- Return: {summary['return_pct']}%",
+        f"- Weighted exposure: {summary['weighted_exposure']}x",
+        f"- Worst drawdown approximation: {summary['worst_drawdown_pct']}%",
+        "",
+        "## Positions",
+        "",
+        _table_with_headers(
+            data["positions"],
+            ["id", "ticker", "notional", "notional_weight_pct", "leverage", "weighted_exposure", "ending_value", "return_pct"],
+        ),
+        "",
+        "## Stop Events",
+        "",
+    ]
+    if data["stop_events"]:
+        for event in data["stop_events"]:
+            lines.append(
+                f"- {event['position_id']} ({event['ticker']}), day {event['day']} ({event['label']}): "
+                f"{event['event']} at NAV {event['nav']}"
+            )
+    else:
+        lines.append("- None")
+    lines.extend(["", "## Portfolio Path", "", _table_with_headers(data["portfolio_path"], ["day", "value"]), "", "## Warnings", ""])
+    lines.extend(f"- {warning}" for warning in data["warnings"])
+    return "\n".join(lines) + "\n"
+
+
 def checklist_markdown(profile: str) -> str:
     items = checklist_items(profile)
     lines = [f"# Leveraged ETP Risk Checklist: {profile}", ""]
@@ -45,7 +81,7 @@ def checklist_markdown(profile: str) -> str:
 
 
 def checklist_json(profile: str) -> str:
-    return to_json({"schema_version": "0.1", "profile": profile, "items": checklist_items(profile)})
+    return to_json({"schema_version": "0.2", "profile": profile, "items": checklist_items(profile)})
 
 
 def checklist_items(profile: str) -> List[str]:
@@ -72,7 +108,15 @@ def version_report(version: str) -> str:
             "version": version,
             "python": ">=3.9",
             "dependencies": [],
-            "commands": ["simulate", "checklist", "demo-bundle", "selfcheck", "version-report"],
+            "commands": [
+                "simulate",
+                "generate-scenario",
+                "exposure-report",
+                "checklist",
+                "demo-bundle",
+                "selfcheck",
+                "version-report",
+            ],
         }
     )
 
@@ -88,6 +132,13 @@ def _table(rows: Iterable[Dict[str, Any]]) -> str:
         "simple_multiple_nav",
         "path_decay",
     ]
+    lines = ["| " + " | ".join(headers) + " |", "| " + " | ".join(["---"] * len(headers)) + " |"]
+    for row in rows:
+        lines.append("| " + " | ".join(str(row[key]) for key in headers) + " |")
+    return "\n".join(lines)
+
+
+def _table_with_headers(rows: Iterable[Dict[str, Any]], headers: List[str]) -> str:
     lines = ["| " + " | ".join(headers) + " |", "| " + " | ".join(["---"] * len(headers)) + " |"]
     for row in rows:
         lines.append("| " + " | ".join(str(row[key]) for key in headers) + " |")

@@ -1,0 +1,134 @@
+{
+  "portfolio": {
+    "base_currency": "USD",
+    "name": "Generic Leveraged ETP Portfolio"
+  },
+  "portfolio_path": [
+    {
+      "day": 1,
+      "value": 9769.59128
+    },
+    {
+      "day": 2,
+      "value": 9131.04326
+    },
+    {
+      "day": 3,
+      "value": 9710.75222
+    },
+    {
+      "day": 4,
+      "value": 9211.74922
+    },
+    {
+      "day": 5,
+      "value": 9633.27884
+    },
+    {
+      "day": 6,
+      "value": 9446.34026
+    }
+  ],
+  "positions": [
+    {
+      "ending_value": 6036.5277,
+      "id": "nasdaq_tactical",
+      "leverage": 3.0,
+      "notional": 6000.0,
+      "notional_weight_pct": 60.0,
+      "path": [
+        {
+          "day": 1,
+          "value": 6449.7738
+        },
+        {
+          "day": 2,
+          "value": 6023.84562
+        },
+        {
+          "day": 3,
+          "value": 6348.90618
+        },
+        {
+          "day": 4,
+          "value": 6024.87258
+        },
+        {
+          "day": 5,
+          "value": 6223.46628
+        },
+        {
+          "day": 6,
+          "value": 6036.5277
+        }
+      ],
+      "product": "Generic 3x Nasdaq Daily Reset ETP",
+      "return_pct": 0.6088,
+      "stop_loss_pct": 15.0,
+      "take_profit_pct": 20.0,
+      "ticker": "NDAQ3X",
+      "weighted_exposure": 1.8
+    },
+    {
+      "ending_value": 3409.81256,
+      "id": "single_stock_satellite",
+      "leverage": 2.0,
+      "notional": 4000.0,
+      "notional_weight_pct": 40.0,
+      "path": [
+        {
+          "day": 1,
+          "value": 3319.81748
+        },
+        {
+          "day": 2,
+          "value": 3107.19764
+        },
+        {
+          "day": 3,
+          "value": 3361.84604
+        },
+        {
+          "day": 4,
+          "value": 3186.87664
+        },
+        {
+          "day": 5,
+          "value": 3409.81256
+        }
+      ],
+      "product": "Generic 2x Single-Stock Daily Reset ETP",
+      "return_pct": -14.7547,
+      "stop_loss_pct": 20.0,
+      "take_profit_pct": 30.0,
+      "ticker": "STK2X",
+      "weighted_exposure": 0.8
+    }
+  ],
+  "schema_version": "0.2",
+  "stop_events": [
+    {
+      "day": 2,
+      "event": "stop_loss",
+      "label": "Follow-through selloff",
+      "nav": 77.679941,
+      "position_id": "single_stock_satellite",
+      "ticker": "STK2X"
+    }
+  ],
+  "summary": {
+    "ending_value": 9446.34026,
+    "return_pct": -5.5366,
+    "starting_value": 10000.0,
+    "weighted_exposure": 2.6,
+    "worst_drawdown_pct": -8.6896
+  },
+  "warnings": [
+    "Portfolio aggregation is scenario-based and does not model tax, borrow, spread, liquidity, or intraday stop execution.",
+    "Weighted exposure uses starting notional weights and product daily leverage factors.",
+    "Daily reset leverage means multi-day returns can differ materially from the underlying return times leverage.",
+    "Scenario output is not investment advice and does not predict future returns.",
+    "Large daily moves can compound quickly and may create losses larger than a simple one-day estimate.",
+    "Fee drag is approximated as a constant daily deduction from the leveraged daily return."
+  ]
+}

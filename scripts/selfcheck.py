@@ -6,6 +6,7 @@ import os
 import re
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 from typing import Iterable, List
 
@@ -45,6 +46,7 @@ def check_required_files() -> List[str]:
         "leveraged_etp_risk_lab/__main__.py",
         "examples/fixtures/leveraged_nasdaq_3x.json",
         "examples/fixtures/single_stock_2x.json",
+        "examples/fixtures/portfolio_manifest.json",
         "docs/schema.md",
         "scripts/selfcheck.py",
         "skills/agent/leveraged-etp-risk-lab/SKILL.md",
@@ -55,7 +57,7 @@ def check_required_files() -> List[str]:
 def check_no_workflows() -> List[str]:
     workflows = ROOT / ".github" / "workflows"
     if workflows.exists() and any(workflows.iterdir()):
-        return ["workflow files are not allowed for this v0.1 repo"]
+        return ["workflow files are not allowed for this repo"]
     return []
 
 
@@ -116,12 +118,42 @@ def check_cli_smoke() -> List[str]:
     commands = [
         [sys.executable, "-m", "leveraged_etp_risk_lab", "version-report"],
         [sys.executable, "-m", "leveraged_etp_risk_lab", "checklist"],
+        [
+            sys.executable,
+            "-m",
+            "leveraged_etp_risk_lab",
+            "exposure-report",
+            "--manifest",
+            "examples/fixtures/portfolio_manifest.json",
+        ],
     ]
     failures = []
     for command in commands:
         result = subprocess.run(command, cwd=ROOT, text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False)
         if result.returncode:
             failures.append(f"command failed: {' '.join(command)}\n{result.stderr}")
+    with tempfile.TemporaryDirectory() as tmp:
+        result = subprocess.run(
+            [
+                sys.executable,
+                "-m",
+                "leveraged_etp_risk_lab",
+                "generate-scenario",
+                "--kind",
+                "trend",
+                "--days",
+                "3",
+                "--output",
+                str(Path(tmp) / "trend.csv"),
+            ],
+            cwd=ROOT,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            check=False,
+        )
+        if result.returncode:
+            failures.append(f"generate-scenario smoke failed:\n{result.stderr}")
     return failures
 
 

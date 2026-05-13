@@ -1,6 +1,6 @@
 # Data Schema
 
-All schemas are versioned as `0.1` and are intentionally small enough to edit by hand.
+Schemas are versioned as `0.2` and are intentionally small enough to edit by hand.
 
 ## Product
 
@@ -23,6 +23,27 @@ Path files are CSV files with:
 - `label`: scenario label.
 - `underlying_return`: decimal daily return, such as `-0.025` for -2.5%.
 
+The `generate-scenario` command writes deterministic CSV paths in this shape for `trend`, `chop`, `crash`, and `rebound` scenarios.
+
+## Portfolio Manifest
+
+Portfolio manifest files are JSON objects with:
+
+- `name`: display name.
+- `base_currency`: optional, defaults to `USD`.
+- `positions`: non-empty list of position objects.
+
+Each position contains:
+
+- `id`: optional position identifier.
+- `product_fixture`: product JSON path. Relative paths are resolved from the manifest directory first.
+- `path_fixture`: path CSV path. Relative paths are resolved from the manifest directory first.
+- `notional`: positive starting notional value.
+- `stop_loss`: optional decimal stop-loss band.
+- `take_profit`: optional decimal take-profit band.
+
+The aliases `product` and `path` are accepted for `product_fixture` and `path_fixture`.
+
 ## Simulation Output
 
 Simulation output contains:
@@ -33,3 +54,14 @@ Simulation output contains:
 - `band_events`: first stop-loss or take-profit events as modeled NAV crosses bands.
 - `warnings`: deterministic risk warnings.
 - `path`: per-day modeled values.
+
+## Exposure Report Output
+
+Exposure reports contain:
+
+- `portfolio`: manifest name and base currency.
+- `summary`: starting value, aggregate ending value, portfolio return, starting-notional weighted exposure, and worst drawdown approximation.
+- `positions`: per-position notional, leverage, weighted exposure, ending value, return, risk bands, and value path.
+- `portfolio_path`: aggregate modeled daily portfolio value.
+- `stop_events`: stop-loss and take-profit events with position identifiers.
+- `warnings`: portfolio-level and deduplicated simulation warnings.

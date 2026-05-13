@@ -67,7 +67,7 @@
     "ticker": "STK2X",
     "underlying": "Single-stock reference share"
   },
-  "schema_version": "0.1",
+  "schema_version": "0.2",
   "summary": {
     "ending_etp_nav": 85.245314,
     "ending_underlying_index": 92.949378,

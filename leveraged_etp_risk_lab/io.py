@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 from typing import Any, Dict, List
 
-from .models import ProductTerms, ScenarioDay
+from .models import PortfolioManifest, ProductTerms, ScenarioDay
 
 
 def load_product(path: str) -> ProductTerms:
@@ -31,6 +31,27 @@ def load_path(path: str) -> List[ScenarioDay]:
     if not days:
         raise ValueError("path CSV has no scenario rows")
     return days
+
+
+def load_portfolio_manifest(path: str) -> PortfolioManifest:
+    with Path(path).open("r", encoding="utf-8") as handle:
+        data: Dict[str, Any] = json.load(handle)
+    return PortfolioManifest.from_dict(data)
+
+
+def write_path_csv(path: Path, days: List[ScenarioDay]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=["day", "label", "underlying_return"])
+        writer.writeheader()
+        for day in days:
+            writer.writerow(
+                {
+                    "day": day.day,
+                    "label": day.label,
+                    "underlying_return": f"{day.underlying_return:.6f}",
+                }
+            )
 
 
 def write_text(path: Path, text: str) -> None:

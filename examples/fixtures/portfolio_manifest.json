@@ -1,0 +1,22 @@
+{
+  "name": "Generic Leveraged ETP Portfolio",
+  "base_currency": "USD",
+  "positions": [
+    {
+      "id": "nasdaq_tactical",
+      "product_fixture": "leveraged_nasdaq_3x.json",
+      "path_fixture": "nasdaq_chop_path.csv",
+      "notional": 6000,
+      "stop_loss": 0.15,
+      "take_profit": 0.2
+    },
+    {
+      "id": "single_stock_satellite",
+      "product_fixture": "single_stock_2x.json",
+      "path_fixture": "single_stock_gap_path.csv",
+      "notional": 4000,
+      "stop_loss": 0.2,
+      "take_profit": 0.3
+    }
+  ]
+}

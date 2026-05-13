@@ -1,8 +1,10 @@
 from __future__ import annotations
 
+from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-from .models import SimulationConfig
+from .io import load_path, load_product
+from .models import PortfolioManifest, ScenarioDay, SimulationConfig
 
 
 TRADING_DAYS = 252
@@ -59,7 +61,7 @@ def simulate(config: SimulationConfig) -> Dict[str, Any]:
     fee_drag = product.annual_fee * len(config.path) / TRADING_DAYS * config.initial_nav
 
     return {
-        "schema_version": "0.1",
+        "schema_version": "0.2",
         "product": {
             "name": product.name,
             "ticker": product.ticker,
@@ -90,6 +92,120 @@ def simulate(config: SimulationConfig) -> Dict[str, Any]:
     }
 
 
+def generate_scenario(kind: str, days: int) -> List[ScenarioDay]:
+    if days <= 0:
+        raise ValueError("days must be positive")
+    patterns = {
+        "trend": [
+            ("Trend advance", 0.007),
+            ("Orderly pullback", -0.002),
+            ("Follow-through", 0.006),
+            ("Consolidation", 0.001),
+            ("Momentum close", 0.004),
+        ],
+        "chop": [
+            ("Risk-on swing", 0.022),
+            ("Risk-off swing", -0.021),
+            ("Relief bid", 0.018),
+            ("Fade", -0.017),
+        ],
+        "crash": [
+            ("De-risking", -0.018),
+            ("Liquidity break", -0.035),
+            ("Gap lower", -0.055),
+            ("Forced selling", -0.038),
+            ("Weak bounce", 0.012),
+        ],
+        "rebound": [
+            ("Capitulation", -0.032),
+            ("Base building", -0.011),
+            ("Stabilization", 0.009),
+            ("Short-cover rally", 0.027),
+            ("Follow-through", 0.019),
+        ],
+    }
+    if kind not in patterns:
+        raise ValueError(f"unknown scenario kind: {kind}")
+    pattern = patterns[kind]
+    generated: List[ScenarioDay] = []
+    for index in range(days):
+        label, underlying_return = pattern[index % len(pattern)]
+        generated.append(ScenarioDay(day=index + 1, label=label, underlying_return=underlying_return))
+    return generated
+
+
+def exposure_report(manifest: PortfolioManifest, manifest_path: str) -> Dict[str, Any]:
+    base_dir = Path(manifest_path).resolve().parent
+    total_notional = sum(position.notional for position in manifest.positions)
+    position_results: List[Dict[str, Any]] = []
+    stop_events: List[Dict[str, Any]] = []
+    warnings = [
+        "Portfolio aggregation is scenario-based and does not model tax, borrow, spread, liquidity, or intraday stop execution.",
+        "Weighted exposure uses starting notional weights and product daily leverage factors.",
+    ]
+
+    for position in manifest.positions:
+        product_path = _resolve_fixture(base_dir, position.product_fixture)
+        path_file = _resolve_fixture(base_dir, position.path_fixture)
+        product = load_product(str(product_path))
+        path = load_path(str(path_file))
+        result = simulate(SimulationConfig(product, path, 100.0, position.risk_band))
+        ending_nav = float(result["summary"]["ending_etp_nav"])
+        ending_value = position.notional * ending_nav / 100.0
+        position_path = []
+        for row in result["path"]:
+            value = position.notional * float(row["etp_nav"]) / 100.0
+            day = int(row["day"])
+            position_path.append({"day": day, "value": money(value)})
+        for event in result["band_events"]:
+            stop_events.append(
+                {
+                    "position_id": position.identifier,
+                    "ticker": product.ticker,
+                    "day": event["day"],
+                    "label": event["label"],
+                    "event": event["event"],
+                    "nav": event["nav"],
+                }
+            )
+        position_results.append(
+            {
+                "id": position.identifier,
+                "ticker": product.ticker,
+                "product": product.name,
+                "notional": money(position.notional),
+                "notional_weight_pct": pct(position.notional / total_notional),
+                "leverage": product.leverage,
+                "weighted_exposure": money(position.notional / total_notional * product.leverage),
+                "ending_value": money(ending_value),
+                "return_pct": result["summary"]["etp_return_pct"],
+                "stop_loss_pct": _optional_pct(position.risk_band.stop_loss),
+                "take_profit_pct": _optional_pct(position.risk_band.take_profit),
+                "path": position_path,
+            }
+        )
+        warnings.extend(result["warnings"])
+
+    ending_value = sum(float(position["ending_value"]) for position in position_results)
+    weighted_exposure = sum(float(position["weighted_exposure"]) for position in position_results)
+    portfolio_path = _aggregate_position_paths(position_results, total_notional)
+    return {
+        "schema_version": "0.2",
+        "portfolio": {"name": manifest.name, "base_currency": manifest.base_currency},
+        "summary": {
+            "starting_value": money(total_notional),
+            "ending_value": money(ending_value),
+            "return_pct": pct(ending_value / total_notional - 1),
+            "weighted_exposure": money(weighted_exposure),
+            "worst_drawdown_pct": pct(_worst_drawdown(portfolio_path, total_notional)),
+        },
+        "positions": position_results,
+        "portfolio_path": [{"day": day, "value": money(portfolio_path[day])} for day in sorted(portfolio_path)],
+        "stop_events": stop_events,
+        "warnings": _unique(warnings),
+    }
+
+
 def build_warnings(config: SimulationConfig) -> List[str]:
     product = config.product
     warnings = [
@@ -103,6 +219,56 @@ def build_warnings(config: SimulationConfig) -> List[str]:
     if product.annual_fee > 0:
         warnings.append("Fee drag is approximated as a constant daily deduction from the leveraged daily return.")
     return warnings
+
+
+def _resolve_fixture(base_dir: Path, value: str) -> Path:
+    path = Path(value)
+    if path.is_absolute():
+        return path
+    candidate = base_dir / path
+    if candidate.exists():
+        return candidate
+    return path
+
+
+def _worst_drawdown(portfolio_path: Dict[int, float], starting_value: float) -> float:
+    peak = starting_value
+    worst = 0.0
+    for day in sorted(portfolio_path):
+        value = portfolio_path[day]
+        if value > peak:
+            peak = value
+        drawdown = value / peak - 1
+        if drawdown < worst:
+            worst = drawdown
+    return worst
+
+
+def _aggregate_position_paths(position_results: List[Dict[str, Any]], starting_value: float) -> Dict[int, float]:
+    max_day = 0
+    for position in position_results:
+        for row in position["path"]:
+            max_day = max(max_day, int(row["day"]))
+    aggregate: Dict[int, float] = {}
+    last_values = {position["id"]: float(position["notional"]) for position in position_results}
+    for day in range(1, max_day + 1):
+        for position in position_results:
+            for row in position["path"]:
+                if int(row["day"]) == day:
+                    last_values[position["id"]] = float(row["value"])
+                    break
+        aggregate[day] = sum(last_values.values()) if last_values else starting_value
+    return aggregate
+
+
+def _unique(items: List[str]) -> List[str]:
+    seen = set()
+    result = []
+    for item in items:
+        if item not in seen:
+            seen.add(item)
+            result.append(item)
+    return result
 
 
 def _hit_stop(nav: float, stop_loss: Optional[float], initial_nav: float) -> bool:

@@ -1,0 +1,57 @@
+# Schema Inventory
+
+- Schema version: 0.26
+- Schemas: 39
+- Matching examples: 39
+
+| Schema | Document type | Version | Required fields | Matching examples | Safety notes |
+| --- | --- | --- | --- | --- | --- |
+| docs/artifact-validation.schema.json | artifact_validation | 0.26 | schema_version, document_type, summary, artifacts, provenance | examples/outputs/artifact_validation.json | requires live_market_data: false; requires shell_out: false; requires private_context: false; requires broker_execution: false; requires provenance |
+| docs/asset-hub.schema.json | asset_hub | 0.25 | schema_version, document_type, not_investment_advice, product_positioning, command_map, demo_artifact_map, readiness_checklist, safety_boundaries, agent_skill_path, release_checklist, roadmap, inputs, provenance | examples/outputs/asset_hub.json | requires not_investment_advice; requires live_market_data: false; requires shell_out: false; requires private_context: false; requires provenance |
+| docs/audit-trail.schema.json | audit_trail | 0.20 | schema_version, document_type, inputs, summary, artifacts, checklist, ledger_rows, provenance | examples/outputs/audit_trail.json | requires live_market_data: false; requires shell_out: false; requires provenance |
+| docs/compare-runs.schema.json | run_comparison | 0.5 | schema_version, document_type, inputs, base, candidate, deltas | examples/outputs/compare_runs.json | None |
+| docs/cycle-state.schema.json | cycle_state | 0.22 | schema_version, document_type, not_investment_advice, state_id, inputs, summary, baseline_artifact_hashes, baseline_watch_items, baseline_risks, open_checks, review_cadence, provenance | examples/outputs/cycle_state.json | requires not_investment_advice; requires live_market_data: false; requires shell_out: false; requires provenance |
+| docs/cycle-update.schema.json | cycle_update | 0.22 | schema_version, document_type, not_investment_advice, state_id, inputs, summary, watch_items, hash_drift, status_transitions, next_review_actions, provenance | examples/outputs/cycle_update.json | requires not_investment_advice; requires live_market_data: false; requires shell_out: false; requires provenance |
+| docs/demo-story.schema.json | demo_story | 0.12 | schema_version, document_type, not_investment_advice, inputs, sections, provenance | examples/outputs/demo_story.json | requires not_investment_advice; requires provenance |
+| docs/docs-export.schema.json | docs_export | 0.29 | schema_version, document_type, title, summary, sources, safety_caveats, command_map, release_notes, local_artifact_links, markdown_artifacts, provenance | examples/outputs/docs_export.json | requires live_market_data: false; requires private_context: false; requires provenance |
+| docs/exposure-report.schema.json | n/a | 0.2 | schema_version, portfolio, summary, positions, portfolio_path, stop_events, warnings | examples/outputs/portfolio_exposure.json | None |
+| docs/factsheet-check.schema.json | factsheet_check | 0.15 | schema_version, document_type, not_investment_advice, inputs, product, summary, checks, missing_fields, provenance | examples/outputs/factsheet_check.json | requires not_investment_advice; requires provenance |
+| docs/gallery-index.schema.json | gallery_index | 0.13 | schema_version, document_type, input_dir, summary, stages, provenance | examples/outputs/gallery_index.json | requires provenance |
+| docs/glossary.schema.json | glossary | 0.14 | schema_version, document_type, not_investment_advice, summary, terms, provenance | examples/outputs/glossary.json | requires not_investment_advice; requires provenance |
+| docs/guardrail-check.schema.json | guardrail_check | 0.23 | schema_version, document_type, not_investment_advice, inputs, policy, summary, observed, rules, violated_rules, next_actions, provenance | examples/outputs/guardrail_check.json | requires not_investment_advice; requires live_market_data: false; requires shell_out: false; requires provenance |
+| docs/guardrail-policy.schema.json | guardrail_policy | 0.23 | schema_version, document_type, not_investment_advice, policy_id, name, description, limits, required_artifacts, review_conditions, provenance | examples/outputs/guardrail_policy.json | requires not_investment_advice; requires live_market_data: false; requires shell_out: false; requires provenance |
+| docs/investment-memo-review.schema.json | investment_memo_review | 0.21 | schema_version, document_type, not_investment_advice, inputs, summary, changed_risks, checklist, next_actions, provenance | examples/outputs/investment_memo_review.json | requires not_investment_advice; requires live_market_data: false; requires shell_out: false; requires provenance |
+| docs/investment-memo.schema.json | investment_memo_packet | 0.21 | schema_version, document_type, not_investment_advice, inputs, thesis, product_terms, scenario_evidence, risk_budget, open_checks, invalidation_triggers, provenance | examples/outputs/investment_memo.json | requires not_investment_advice; requires live_market_data: false; requires shell_out: false; requires provenance |
+| docs/order-review.schema.json | order_review | 0.24 | schema_version, document_type, not_investment_advice, inputs, summary, checklist, final_notes, provenance | examples/outputs/order_review.json | requires not_investment_advice; requires live_market_data: false; requires shell_out: false; requires broker_execution: false; requires provenance |
+| docs/order-ticket.schema.json | order_ticket | 0.24 | schema_version, document_type, not_investment_advice, inputs, summary, product, order_intent, sizing, required_broker_fields, no_live_price_warning, do_not_trade_if, warnings, provenance | examples/outputs/order_ticket.json | requires not_investment_advice; requires live_market_data: false; requires shell_out: false; requires broker_execution: false; requires provenance |
+| docs/package-audit.schema.json | package_audit | 0.11 | schema_version, document_type, package, summary, checks, test_commands | examples/outputs/package_audit.json | None |
+| docs/path.schema.json | n/a | n/a | day, underlying_return | None | None |
+| docs/portfolio-manifest.schema.json | n/a | n/a | positions | examples/outputs/portfolio_exposure.json, examples/outputs/portfolio_sensitivity.json | None |
+| docs/portfolio-sensitivity.schema.json | portfolio_sensitivity | 0.20 | schema_version, document_type, not_investment_advice, portfolio, inputs, summary, positions, warnings, provenance | examples/outputs/portfolio_sensitivity.json | requires not_investment_advice; requires live_market_data: false; requires shell_out: false; requires provenance |
+| docs/position-size.schema.json | position_size_plan | 0.8 | schema_version, document_type, not_investment_advice, product, inputs, recommendation, scenario, checklist, warnings, provenance | examples/outputs/position_size.json | requires not_investment_advice; requires provenance |
+| docs/pretrade-plan.schema.json | pretrade_plan | 0.3 | schema_version, document_type, not_investment_advice, product, scenario, risk_bands, budget, thesis, assumptions, checklist, warnings, provenance | examples/outputs/pretrade_plan.json | requires not_investment_advice; requires provenance |
+| docs/product.schema.json | n/a | n/a | name, ticker, underlying, leverage, annual_fee | None | None |
+| docs/recipe-run.schema.json | recipe_run | 0.17 | schema_version, document_type, inputs, summary, workflow, components, artifacts, provenance | examples/outputs/recipe_run.json | requires provenance |
+| docs/regime-gallery.schema.json | regime_gallery | 0.7 | schema_version, document_type, regimes | examples/outputs/regime_gallery.json | None |
+| docs/release-manifest.schema.json | release_manifest | 0.29 | schema_version, document_type, version, inputs, git, public_artifact_inventory, validation_summary, release_readiness, agent_skill_path, local_skill_sync_recommendation, github_release_notes_draft, post_release_verification_checklist, provenance | examples/outputs/release_manifest.json | requires live_market_data: false; requires private_context: false; requires provenance |
+| docs/report-card.schema.json | report_card | 0.18 | schema_version, document_type, not_investment_advice, inputs, summary, artifact_cards, strengths, unresolved_checks, warnings, next_commands, provenance | examples/outputs/report_card.json | requires not_investment_advice; requires live_market_data: false; requires shell_out: false; requires provenance |
+| docs/risk-profile.schema.json | risk_profile_rules | 0.16 | schema_version, document_type, not_investment_advice, summary, profiles, provenance | examples/outputs/risk_profiles.json | requires not_investment_advice; requires provenance |
+| docs/run-ledger.schema.json | run_ledger_entry | 0.5 | schema_version, document_type, artifact_name, artifact_type, artifact_schema_version, bytes, sha256 | examples/outputs/run_ledger.jsonl | None |
+| docs/schema-inventory.schema.json | schema_inventory | 0.26 | schema_version, document_type, summary, schemas, provenance | examples/outputs/schema_inventory.json | requires live_market_data: false; requires shell_out: false; requires private_context: false; requires broker_execution: false; requires provenance |
+| docs/sensitivity-grid.schema.json | sensitivity_grid | 0.19 | schema_version, document_type, not_investment_advice, product, inputs, summary, rows, cells, warnings, provenance | examples/outputs/sensitivity_grid.json | requires not_investment_advice; requires provenance |
+| docs/simulation-output.schema.json | n/a | 0.2 | schema_version, product, inputs, summary, band_events, warnings, path | examples/outputs/leveraged_nasdaq_3x.json, examples/outputs/single_stock_2x.json | None |
+| docs/stress-matrix.schema.json | stress_matrix | 0.9 | schema_version, document_type, not_investment_advice, product, inputs, rows, warnings, provenance | examples/outputs/stress_matrix.json | requires not_investment_advice; requires provenance |
+| docs/template-gallery.schema.json | template_gallery | 0.4 | schema_version, document_type, templates | examples/outputs/template_gallery.json | None |
+| docs/thesis-dashboard-data.schema.json | thesis_dashboard_data | 0.20 | schema_version, document_type, not_investment_advice, inputs, summary, cards, warnings, provenance | examples/outputs/thesis_dashboard_data.json | requires not_investment_advice; requires live_market_data: false; requires shell_out: false; requires provenance |
+| docs/thesis-impact.schema.json | thesis_impact | 0.6 | schema_version, document_type, inputs, thesis, artifacts, claim_mappings, warnings, action_checklist, provenance | examples/outputs/thesis_impact.json | requires provenance |
+| docs/watchlist.schema.json | watchlist | 0.10 | schema_version, document_type, not_investment_advice, inputs, summary, entries, provenance | examples/outputs/watchlist.json | requires not_investment_advice; requires provenance |
+
+## Provenance
+
+- broker_execution: False
+- command: schema-inventory
+- examples_dir: examples/outputs
+- live_market_data: False
+- private_context: False
+- schema_dir: docs
+- shell_out: False

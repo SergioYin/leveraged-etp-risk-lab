@@ -1,0 +1,32 @@
+{
+  "description": "Balanced public default for short-horizon leveraged ETP scenario review.",
+  "document_type": "guardrail_policy",
+  "limits": {
+    "max_holding_days": 10,
+    "max_leverage_exposure": 3.0,
+    "max_loss_budget_pct": 1.5
+  },
+  "name": "Default allocation guardrail",
+  "not_investment_advice": "This allocation guardrail policy is for scenario planning and education only. It is not investment advice, a recommendation, or a suitability determination.",
+  "policy_id": "default",
+  "provenance": {
+    "command": "guardrail-policy",
+    "live_market_data": false,
+    "profile": "default",
+    "shell_out": false
+  },
+  "required_artifacts": [
+    "portfolio_sensitivity",
+    "position_size_plan",
+    "investment_memo_packet",
+    "cycle_update"
+  ],
+  "review_conditions": [
+    "Review if investment memo open checks remain unresolved.",
+    "Review if cycle-update is not decision-ready.",
+    "Review if latest cycle-update reports added, changed, or removed watch items.",
+    "Review if critical or high memo invalidation triggers are present.",
+    "Review if aggregate modeled portfolio loss exceeds the loss-budget percent."
+  ],
+  "schema_version": "0.23"
+}

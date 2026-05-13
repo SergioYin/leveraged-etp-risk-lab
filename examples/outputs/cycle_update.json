@@ -1,0 +1,86 @@
+{
+  "document_type": "cycle_update",
+  "hash_drift": [
+    {
+      "artifact_name": "investment_memo.json",
+      "baseline_bytes": 10963,
+      "baseline_sha256": "e65fdac470f187a1b38ecc8c67b034364fcbb86f98193f09f35e01767be0dbf7",
+      "current_bytes": 10963,
+      "current_sha256": "e65fdac470f187a1b38ecc8c67b034364fcbb86f98193f09f35e01767be0dbf7",
+      "document_type": "investment_memo_packet",
+      "status": "unchanged"
+    },
+    {
+      "artifact_name": "watchlist.json",
+      "baseline_bytes": 15069,
+      "baseline_sha256": "31eb2d3ed67f894ef362ed078845d4db489e3270eebf312aa39951a5d9134aa4",
+      "current_bytes": 15069,
+      "current_sha256": "31eb2d3ed67f894ef362ed078845d4db489e3270eebf312aa39951a5d9134aa4",
+      "document_type": "watchlist",
+      "status": "unchanged"
+    },
+    {
+      "artifact_name": "report_card.json",
+      "baseline_bytes": 16254,
+      "baseline_sha256": "77e2de589d7bcc779073c6e99affc7d5cee32c524ab2374a02dd1a2b76ce7a76",
+      "current_bytes": 16254,
+      "current_sha256": "77e2de589d7bcc779073c6e99affc7d5cee32c524ab2374a02dd1a2b76ce7a76",
+      "document_type": "report_card",
+      "status": "unchanged"
+    },
+    {
+      "artifact_name": "sensitivity_grid.json",
+      "baseline_bytes": 75105,
+      "baseline_sha256": "37c2e08ee361260a79c744df8f5d373ab6cee9ec07cf3f97e2cb081270757f0d",
+      "current_bytes": 75105,
+      "current_sha256": "37c2e08ee361260a79c744df8f5d373ab6cee9ec07cf3f97e2cb081270757f0d",
+      "document_type": "sensitivity_grid",
+      "status": "unchanged"
+    }
+  ],
+  "inputs": {
+    "audit_trail": "examples/outputs/audit_trail.json",
+    "cycle_state": "examples/outputs/cycle_state.json",
+    "report_card": "examples/outputs/report_card.json",
+    "watchlist": "examples/outputs/watchlist.json"
+  },
+  "next_review_actions": [
+    "Close latest report-card unresolved checks before the next review signoff.",
+    "Record status transitions in the next cycle update."
+  ],
+  "not_investment_advice": "This watch cycle update is for scenario planning and education only. It is not investment advice, a recommendation, or a suitability determination.",
+  "provenance": {
+    "artifacts": [
+      "examples/outputs/cycle_state.json",
+      "examples/outputs/report_card.json",
+      "examples/outputs/watchlist.json",
+      "examples/outputs/audit_trail.json"
+    ],
+    "command": "cycle-update",
+    "live_market_data": false,
+    "shell_out": false
+  },
+  "schema_version": "0.22",
+  "state_id": "cycle_c46a3e619fcf75f4",
+  "status_transitions": [
+    {
+      "from": "decision_ready_unknown",
+      "id": "report_card",
+      "reason": "latest report card is not decision-ready",
+      "to": "review"
+    }
+  ],
+  "summary": {
+    "added_watch_items": 0,
+    "changed_watch_items": 0,
+    "decision_ready": false,
+    "hash_drift": 0,
+    "removed_watch_items": 0,
+    "status_transitions": 1
+  },
+  "watch_items": {
+    "added": [],
+    "changed": [],
+    "removed": []
+  }
+}

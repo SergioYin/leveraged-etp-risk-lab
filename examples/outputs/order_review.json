@@ -1,0 +1,79 @@
+{
+  "checklist": [
+    {
+      "action": "Review or block unresolved ticket conditions.",
+      "id": "ticket_status",
+      "item": "Order ticket status is ready.",
+      "status": "review"
+    },
+    {
+      "action": "Resolve guardrail review or failed rules.",
+      "id": "guardrail_status",
+      "item": "Guardrail check passed.",
+      "status": "review"
+    },
+    {
+      "action": "Resolve cycle update next review actions.",
+      "id": "cycle_current",
+      "item": "Cycle update is decision-ready.",
+      "status": "review"
+    },
+    {
+      "action": "No action required.",
+      "id": "audit_current",
+      "item": "Audit trail has no review rows.",
+      "status": "ready"
+    },
+    {
+      "action": "No action required.",
+      "id": "no_live_price_acknowledged",
+      "item": "No-live-price warning is present.",
+      "status": "ready"
+    },
+    {
+      "action": "No action required.",
+      "id": "broker_execution_disabled",
+      "item": "Package confirms no broker execution.",
+      "status": "ready"
+    },
+    {
+      "action": "Resolve or explicitly reject every do-not-trade condition outside this package.",
+      "id": "do_not_trade_conditions",
+      "item": "13 do-not-trade conditions require external signoff.",
+      "status": "review"
+    }
+  ],
+  "document_type": "order_review",
+  "final_notes": [
+    "Do not use this output as a broker order or trade recommendation.",
+    "Confirm all live broker, price, liquidity, and suitability requirements outside this package.",
+    "No order has been placed, staged, routed, previewed, or transmitted."
+  ],
+  "inputs": {
+    "audit_trail": "examples/outputs/audit_trail.json",
+    "cycle_update": "examples/outputs/cycle_update.json",
+    "guardrail_check": "examples/outputs/guardrail_check.json",
+    "order_ticket": "examples/outputs/order_ticket.json"
+  },
+  "not_investment_advice": "This final order review checklist is for education only. It is not investment advice, a recommendation, a suitability determination, or broker execution authorization.",
+  "provenance": {
+    "artifacts": [
+      "examples/outputs/order_ticket.json",
+      "examples/outputs/guardrail_check.json",
+      "examples/outputs/cycle_update.json",
+      "examples/outputs/audit_trail.json"
+    ],
+    "broker_execution": false,
+    "command": "order-review",
+    "live_market_data": false,
+    "shell_out": false
+  },
+  "schema_version": "0.24",
+  "summary": {
+    "blocked": 0,
+    "broker_execution": false,
+    "ready": 3,
+    "review": 4,
+    "status": "review"
+  }
+}

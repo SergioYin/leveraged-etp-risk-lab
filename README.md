@@ -59,6 +59,18 @@ python -m leveraged_etp_risk_lab stress-matrix \
   --take-profit 0.20 \
   --format markdown
 
+python -m leveraged_etp_risk_lab sensitivity-grid \
+  --product examples/fixtures/leveraged_nasdaq_3x.json \
+  --stop-loss none,0.15,0.25 \
+  --take-profit none,0.20,0.35 \
+  --format markdown
+
+python -m leveraged_etp_risk_lab portfolio-sensitivity \
+  --manifest examples/fixtures/portfolio_manifest.json \
+  --stop-loss none,0.15,0.25 \
+  --take-profit none,0.20,0.35 \
+  --format markdown
+
 python -m leveraged_etp_risk_lab compare-runs \
   --base examples/outputs/leveraged_nasdaq_3x.json \
   --candidate examples/outputs/single_stock_2x.json \
@@ -85,6 +97,81 @@ python -m leveraged_etp_risk_lab factsheet-check \
   --factsheet-file examples/fixtures/factsheet_note.txt \
   --format markdown
 
+python -m leveraged_etp_risk_lab risk-profile \
+  --profile thesis-review \
+  --format markdown
+
+python -m leveraged_etp_risk_lab recipe-run \
+  --recipe examples/fixtures/recipe_thesis_review.json \
+  --format markdown
+
+python -m leveraged_etp_risk_lab report-card \
+  --artifact examples/outputs/pretrade_plan.json \
+  --artifact examples/outputs/position_size.json \
+  --artifact examples/outputs/stress_matrix.json \
+  --artifact examples/outputs/factsheet_check.json \
+  --format markdown
+
+python -m leveraged_etp_risk_lab thesis-dashboard-data \
+  --recipe-run examples/outputs/recipe_run.json \
+  --report-card examples/outputs/report_card.json \
+  --watchlist examples/outputs/watchlist.json \
+  --sensitivity-grid examples/outputs/sensitivity_grid.json \
+  --format markdown
+
+python -m leveraged_etp_risk_lab audit-trail \
+  --ledger examples/outputs/run_ledger.jsonl \
+  --artifact examples/outputs/pretrade_plan.json \
+  --artifact examples/outputs/stress_matrix.json \
+  --format markdown
+
+python -m leveraged_etp_risk_lab schema-inventory \
+  --format markdown
+
+python -m leveraged_etp_risk_lab artifact-validate \
+  --format markdown
+
+python -m leveraged_etp_risk_lab cycle-init \
+  --memo examples/outputs/investment_memo.json \
+  --watchlist examples/outputs/watchlist.json \
+  --report-card examples/outputs/report_card.json \
+  --sensitivity-grid examples/outputs/sensitivity_grid.json \
+  --format markdown
+
+python -m leveraged_etp_risk_lab cycle-update \
+  --cycle-state examples/outputs/cycle_state.json \
+  --report-card examples/outputs/report_card.json \
+  --watchlist examples/outputs/watchlist.json \
+  --audit-trail examples/outputs/audit_trail.json \
+  --format markdown
+
+python -m leveraged_etp_risk_lab guardrail-policy \
+  --policy default \
+  --format markdown
+
+python -m leveraged_etp_risk_lab guardrail-check \
+  --policy examples/outputs/guardrail_policy.json \
+  --portfolio-sensitivity examples/outputs/portfolio_sensitivity.json \
+  --position-size examples/outputs/position_size.json \
+  --investment-memo examples/outputs/investment_memo.json \
+  --cycle-update examples/outputs/cycle_update.json \
+  --format markdown
+
+python -m leveraged_etp_risk_lab order-ticket \
+  --guardrail-check examples/outputs/guardrail_check.json \
+  --investment-memo examples/outputs/investment_memo.json \
+  --position-size examples/outputs/position_size.json \
+  --factsheet-check examples/outputs/factsheet_check.json \
+  --thesis-dashboard-data examples/outputs/thesis_dashboard_data.json \
+  --format markdown
+
+python -m leveraged_etp_risk_lab order-review \
+  --order-ticket examples/outputs/order_ticket.json \
+  --guardrail-check examples/outputs/guardrail_check.json \
+  --cycle-update examples/outputs/cycle_update.json \
+  --audit-trail examples/outputs/audit_trail.json \
+  --format markdown
+
 python -m leveraged_etp_risk_lab demo-story \
   --input-dir examples/outputs \
   --format markdown
@@ -92,6 +179,18 @@ python -m leveraged_etp_risk_lab demo-story \
 python -m leveraged_etp_risk_lab gallery-index \
   --input-dir examples/outputs \
   --format markdown
+
+python -m leveraged_etp_risk_lab asset-hub \
+  --input-dir examples/outputs \
+  --format markdown
+
+python -m leveraged_etp_risk_lab release-manifest \
+  --input-dir examples/outputs \
+  --format markdown
+
+python -m leveraged_etp_risk_lab docs-export \
+  --input-dir examples/outputs \
+  --output examples/outputs/docs_export.html
 
 python -m leveraged_etp_risk_lab static-dashboard \
   --manifest examples/fixtures/portfolio_manifest.json \
@@ -113,6 +212,9 @@ python -m leveraged_etp_risk_lab glossary-list --format markdown
 
 python -m leveraged_etp_risk_lab checklist --profile active-trader
 python -m leveraged_etp_risk_lab demo-bundle --output-dir demo-output
+python -m leveraged_etp_risk_lab asset-hub --input-dir examples/outputs --format markdown
+python -m leveraged_etp_risk_lab release-manifest --input-dir examples/outputs --format markdown
+python -m leveraged_etp_risk_lab docs-export --input-dir examples/outputs --output examples/outputs/docs_export.html
 python -m leveraged_etp_risk_lab package-audit --format markdown
 python -m leveraged_etp_risk_lab selfcheck
 python -m leveraged_etp_risk_lab version-report
@@ -129,6 +231,7 @@ Fixtures are in `examples/fixtures/`:
 - `portfolio_manifest.json`: two-position portfolio fixture for exposure aggregation.
 - `thesis_note.md`: generic thesis note fixture for pretrade plan examples.
 - `factsheet_note.txt`: generic plain-text factsheet note for product checklist examples.
+- `recipe_thesis_review.json`: workflow recipe fixture for a factsheet, profile, scenario, sizing, stress, thesis, and watchlist bundle.
 
 Generated path kinds are `trend`, `chop`, `crash`, and `rebound`. They are deterministic and use the same `day,label,underlying_return` CSV shape as checked-in path fixtures.
 
@@ -140,6 +243,10 @@ The `position-size` command reads either `--product` plus `--path`, or a generat
 
 The `stress-matrix` command reads a product JSON file and runs it across every built-in market regime, or only repeated `--regime` selections. It emits JSON or Markdown rows for modeled return, path decay versus a simple multiple, worst drawdown, stop/take event counts, and warning counts.
 
+The `sensitivity-grid` command reads a product JSON file and runs every built-in regime across leverage, stop-loss, and take-profit grids. Default leverage multipliers are `1x`, `2x`, and `3x`; pass repeated or comma-separated `--leverage-multiplier`, `--stop-loss`, and `--take-profit` values to override grids. It emits JSON or Markdown focused on worst return, stop/take event counts, path decay, and warnings.
+
+The `portfolio-sensitivity` command reads a portfolio manifest and runs sensitivity-grid style summaries for every leveraged position. It emits per-position worst return, modeled loss, and weighted exposure plus aggregate worst-case modeled loss and exposure across the manifest.
+
 The `compare-runs` command reads two simulation, pretrade-plan, or exposure-report JSON outputs and emits deterministic JSON or Markdown deltas for return, path decay versus a simple multiple, weighted exposure, and warnings added or removed.
 
 The `run-ledger` command appends JSONL metadata rows for generated artifacts. Rows include only deterministic metadata such as artifact filename, detected output type, schema version, byte count, and SHA-256 digest; artifact contents, secrets, timestamps, and machine-local absolute paths are not written.
@@ -150,9 +257,37 @@ The `watchlist-build` command reads a thesis-impact JSON artifact and a stress-m
 
 The `factsheet-check` command reads a product JSON file and an optional plain-text factsheet note. It emits JSON or Markdown checks for issuer, exchange, underlying, leverage factor, daily reset wording, fee, currency, liquidity/spread review placeholder, iNAV, premium/discount, and missing fields. It does not fetch live market data and includes explicit not-investment-advice language.
 
-The `demo-story` command reads existing public demo outputs from an input directory: `stress_matrix.json`, `watchlist.json`, `package_audit.json`, and `pretrade_plan.json`. It emits a concise JSON or Markdown walkthrough with problem, workflow, commands, key outputs, safety caveats, and next extension ideas.
+The `risk-profile` command emits deterministic JSON or Markdown risk-rule profiles for `default`, `conservative`, `active-trader`, and `thesis-review`. Each profile includes max holding days, a max-account-risk-percent placeholder, required factsheet fields, required scenario regimes, mandatory checklist questions, and stop/take review defaults.
 
-The `gallery-index` command reads the public demo output directory and emits a self-contained JSON or Markdown index grouped by workflow stage: fixtures, plans, sizing, stress, thesis/watchlist, audit/story, and dashboard. Each artifact row includes filename, format, detected document type and schema version when available, byte count, and a suggested next command. It records metadata only and skips the generated `gallery_index.*` files for deterministic regeneration.
+The `recipe-run` command reads a JSON workflow recipe and composes the same library functions used by factsheet-check, risk-profile, simulate or built-in regime paths, stress-matrix, position-size, pretrade-plan, thesis-impact, and watchlist-build. It does not shell out or write hidden intermediates; it emits one deterministic JSON or Markdown bundle with conceptual command links and embedded component summaries.
+
+The `report-card` command reads one or more generated JSON artifacts from simulation, pretrade-plan, position-size, stress-matrix, sensitivity-grid, factsheet-check, risk-profile, recipe-run, investment-memo, and memo-review outputs. It emits a concise decision-readiness card with strengths, unresolved checks, warnings, artifact metrics, and suggested next commands. It is deterministic and does not fetch live market data, shell out, read workflow files, or load private context.
+
+The `thesis-dashboard-data` command reads recipe-run, report-card, watchlist, and sensitivity-grid JSON outputs and emits one JSON or Markdown packet for dashboard rendering. It keeps the merged data deterministic and records `live_market_data: false` and `shell_out: false`.
+
+The `audit-trail` command reads a run-ledger JSONL file plus generated artifacts and emits a deterministic provenance checklist. It recomputes byte counts and SHA-256 hashes, compares them with ledger rows, and records pass/review status without embedding artifact contents.
+
+The `schema-inventory` command reads local `docs/*.schema.json` files and lists document type, schema version, required top-level fields, matching examples from `examples/outputs`, and public safety notes. It is deterministic and records no live market data, shelling out, private context, or broker execution.
+
+The `artifact-validate` command checks JSON and JSONL artifacts against the local lightweight schema inventory. With no paths it validates `examples/outputs`; with positional paths it validates only those artifacts. It checks required top-level fields, schema version, document type, and safety flags such as `live_market_data`, `shell_out`, `private_context`, and `broker_execution` when present.
+
+The `memo-draft` command reads `recipe_run.json`, `thesis_dashboard_data.json`, `report_card.json`, and optional `factsheet_check.json` to emit a structured JSON or Markdown investment memo packet. The memo includes thesis, product terms, scenario evidence, risk budget, open checks, invalidation triggers, warnings, and explicit not-investment-advice language.
+
+The `memo-review` command reads a memo JSON plus latest report-card, watchlist, and audit-trail JSON outputs. It emits a deterministic review checklist with changed risks and next actions, while recording `live_market_data: false` and `shell_out: false`.
+
+The `cycle-init` command reads investment memo, watchlist, report-card, and sensitivity-grid JSON outputs and emits a persistent cycle state. The state includes a deterministic state id, baseline risks, baseline artifact hashes, compact baseline watch items, open checks, review cadence placeholders, and explicit not-investment-advice language.
+
+The `cycle-update` command reads a cycle state plus latest report-card, watchlist, and audit-trail JSON outputs. It emits added, removed, and changed watch items, artifact hash drift, status transitions, and next review actions without timestamps, shelling out, live data, workflows, or private context.
+
+The `guardrail-policy` command emits deterministic `default`, `conservative`, or `aggressive` allocation policies with max leverage exposure, max loss budget percent, max holding days, required artifact types, and review conditions. The `guardrail-check` command reads a policy JSON plus portfolio-sensitivity, position-size, investment-memo, and cycle-update artifacts, then emits `pass`, `review`, or `fail` results with violated rules and next actions. It does not fetch live market data, shell out, read workflow files, or load private context.
+
+The `order-ticket` command reads guardrail, memo, sizing, factsheet, and optional thesis-dashboard artifacts, then emits a pre-order ticket with intent placeholders, max notional, required broker fields, a no-live-price warning, and do-not-trade-if conditions. The `order-review` command reads the ticket plus guardrail, cycle-update, and audit-trail artifacts, then emits a final educational checklist with `blocked`, `review`, or `ready` status. These commands do not fetch live data, read broker accounts, or place, stage, preview, route, or execute orders.
+
+The `demo-story` command reads existing public demo outputs from an input directory: `stress_matrix.json`, `sensitivity_grid.json`, `watchlist.json`, `package_audit.json`, `pretrade_plan.json`, `report_card.json`, `investment_memo.json`, `investment_memo_review.json`, `cycle_state.json`, `cycle_update.json`, `guardrail_policy.json`, `guardrail_check.json`, `order_ticket.json`, and `order_review.json`. It emits a concise JSON or Markdown walkthrough with problem, workflow, commands, key outputs, safety caveats, and next extension ideas.
+
+The `gallery-index` command reads the public demo output directory and emits a self-contained JSON or Markdown index grouped by workflow stage: fixtures, plans, sizing, stress, thesis/watchlist, audit/story, dashboard, and validation. Each artifact row includes filename, format, detected document type and schema version when available, byte count, and a suggested next command. It records metadata only and skips the generated `gallery_index.*` files for deterministic regeneration.
+
+The `docs-export` command reads `release_manifest.json`, `asset_hub.json`, `demo_story.json`, `gallery_index.json`, `package_audit.json`, and sibling Markdown artifacts from the public output directory. It emits one self-contained static HTML documentation page by default, or JSON/Markdown with `--format`. The HTML uses inline CSS only and links to local artifact paths; it has no JavaScript, no external assets, no live data, no workflow reads, and no private context.
 
 The `static-dashboard` command writes a self-contained no-JavaScript HTML dashboard from either a portfolio manifest or demo output JSON files. It includes summary cards, positions, warnings, band events, and command provenance.
 
@@ -162,7 +297,7 @@ The `explain-term` command explains one built-in leveraged product glossary term
 
 The `glossary-list` command emits the full built-in glossary as JSON or Markdown. It is deterministic and does not read live market data, workflow files, private context, environment variables, or command history.
 
-The `package-audit` command emits a deterministic JSON or Markdown package-readiness checklist. It checks README and license presence, schema and example outputs, the checked-in agent skill file, absence of workflow files, public hygiene, zero dependencies, version consistency, and listed test commands. Pass `--run-tests` to execute the listed validation commands during the audit.
+The `package-audit` command emits a deterministic JSON or Markdown package-readiness checklist. It checks README and license presence, schema and example outputs, the checked-in agent skill file, absence of workflow files, public hygiene, zero dependencies, version consistency, schema inventory, artifact validation, and listed test commands. Pass `--run-tests` to execute the listed validation commands during the audit.
 
 The local skill sync helper copies the checked-in skill file into a local Codex skills directory:
 
@@ -188,6 +323,8 @@ Schema notes live in `docs/schema.md`. Machine-readable draft schemas are provid
 - `docs/pretrade-plan.schema.json`
 - `docs/position-size.schema.json`
 - `docs/stress-matrix.schema.json`
+- `docs/sensitivity-grid.schema.json`
+- `docs/portfolio-sensitivity.schema.json`
 - `docs/template-gallery.schema.json`
 - `docs/regime-gallery.schema.json`
 - `docs/compare-runs.schema.json`
@@ -195,7 +332,21 @@ Schema notes live in `docs/schema.md`. Machine-readable draft schemas are provid
 - `docs/thesis-impact.schema.json`
 - `docs/watchlist.schema.json`
 - `docs/factsheet-check.schema.json`
+- `docs/risk-profile.schema.json`
+- `docs/recipe-run.schema.json`
+- `docs/report-card.schema.json`
+- `docs/thesis-dashboard-data.schema.json`
+- `docs/audit-trail.schema.json`
+- `docs/investment-memo.schema.json`
+- `docs/investment-memo-review.schema.json`
+- `docs/cycle-state.schema.json`
+- `docs/cycle-update.schema.json`
+- `docs/guardrail-policy.schema.json`
+- `docs/guardrail-check.schema.json`
+- `docs/order-ticket.schema.json`
+- `docs/order-review.schema.json`
 - `docs/package-audit.schema.json`
+- `docs/docs-export.schema.json`
 - `docs/glossary.schema.json`
 - `docs/demo-story.schema.json`
 - `docs/gallery-index.schema.json`

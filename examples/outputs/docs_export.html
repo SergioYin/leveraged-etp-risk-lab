@@ -1,0 +1,528 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leveraged ETP Risk Lab Documentation</title>
+<style>
+body{margin:0;font:16px/1.5 Arial,Helvetica,sans-serif;color:#1f2933;background:#f7f7f2}
+main{max-width:1120px;margin:0 auto;padding:32px 20px 48px}
+header{border-bottom:3px solid #254d4d;padding-bottom:18px;margin-bottom:24px}
+h1{font-size:34px;line-height:1.15;margin:0 0 10px;color:#173f3f}
+h2{font-size:22px;margin:30px 0 10px;color:#263238}
+h3{font-size:17px;margin:18px 0 8px;color:#263238}
+p{margin:8px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin:14px 0}
+.metric{border:1px solid #c7d2cc;background:#fff;padding:12px;border-radius:6px}
+.metric b{display:block;font-size:13px;color:#52615c;text-transform:uppercase}
+.metric span{font-size:20px;color:#173f3f}
+table{width:100%;border-collapse:collapse;background:#fff;margin:10px 0 18px}
+th,td{border:1px solid #d7ded9;padding:8px;vertical-align:top;text-align:left}
+th{background:#e9efeb;color:#263238}
+code{background:#eef1ee;padding:2px 4px;border-radius:4px}
+pre{white-space:pre-wrap;background:#fff;border:1px solid #d7ded9;padding:12px;overflow:auto}
+a{color:#175e63}
+.caveats{background:#fff7df;border:1px solid #d9bd72;padding:14px;border-radius:6px}
+footer{margin-top:32px;border-top:1px solid #c7d2cc;padding-top:14px;color:#52615c}
+</style>
+</head>
+<body>
+<main>
+<header>
+<h1>Leveraged ETP Risk Lab Documentation</h1>
+<p>Self-contained static documentation export for checked local artifacts. No JavaScript, external assets, live data, broker execution, workflows, or private context are required.</p>
+</header>
+<section><h2>Summary</h2><div class="grid">
+<div class="metric"><b>Sources</b><span>5/5</span></div>
+<div class="metric"><b>Markdown</b><span>36</span></div>
+<div class="metric"><b>Commands</b><span>21</span></div>
+<div class="metric"><b>Links</b><span>81</span></div>
+<div class="metric"><b>Release</b><span>ready</span></div>
+<div class="metric"><b>Package Ready</b><span>yes</span></div>
+</div></section>
+<section><h2>Safety Caveats</h2><div class="caveats"><ul>
+<li>This decision packet is for scenario planning and education only. It is not investment advice, a recommendation, or a suitability determination.</li>
+<li>Do not present generated artifacts as investment advice, recommendations, suitability determinations, or broker orders.</li>
+<li>Do not fetch live or delayed market prices, quotes, spreads, depth, halts, or broker availability.</li>
+<li>Do not use private context, organization-specific messaging, secrets, environment variables, or workflow files.</li>
+<li>Treat position-size, guardrail, order-ticket, and order-review outputs as educational review aids only.</li>
+<li>The demo uses deterministic fixtures, not forecasts or live market data.</li>
+<li>Stop-loss and take-profit bands are planning levels, not guaranteed execution prices.</li>
+<li>Position sizing and watchlist severity are review aids, not recommendations.</li>
+<li>Order ticket and review outputs are educational checklists, not broker orders.</li>
+<li>The package intentionally avoids workflow files, secrets, live prices, and private context.</li>
+<li>Daily reset leverage means multi-day returns can differ materially from the underlying return times leverage.</li>
+<li>Scenario output is not investment advice and does not predict future returns.</li>
+<li>Review aggregate modeled portfolio loss against the stated budget before proceeding.</li>
+<li>Close or explicitly accept memo open checks before relying on the allocation.</li>
+<li>Review memo invalidation triggers and regenerate memo artifacts if the thesis changed.</li>
+<li>Resolve cycle-update next review actions before proceeding.</li>
+<li>Do not use this output as a broker order or trade recommendation.</li>
+<li>Confirm all live broker, price, liquidity, and suitability requirements outside this package.</li>
+<li>No order has been placed, staged, routed, previewed, or transmitted.</li>
+<li>This documentation is for deterministic scenario planning and education only.</li>
+<li>It is not investment advice, a recommendation, broker instruction, or suitability determination.</li>
+<li>The export is static HTML with no JavaScript, no external assets, no live market data, no workflow reads, and no private context.</li>
+</ul></div></section>
+<section><h2>Command Map</h2>
+<table><thead><tr>
+<th>Name</th>
+<th>Purpose</th>
+<th>Example</th>
+</tr></thead><tbody>
+<tr>
+<td>pretrade-plan</td>
+<td>Build the base thesis, budget, and risk-band packet.</td>
+<td>python -m leveraged_etp_risk_lab pretrade-plan --product examples/fixtures/leveraged_nasdaq_3x.json --path examples/fixtures/nasdaq_chop_path.csv --thesis-file examples/fixtures/thesis_note.md --max-loss-budget 750 --stop-loss 0.15 --take-profit 0.20 --format markdown</td>
+</tr>
+<tr>
+<td>stress-matrix</td>
+<td>Run the product across built-in deterministic regimes.</td>
+<td>python -m leveraged_etp_risk_lab stress-matrix --product examples/fixtures/leveraged_nasdaq_3x.json --stop-loss 0.15 --take-profit 0.20 --format markdown</td>
+</tr>
+<tr>
+<td>sensitivity-grid</td>
+<td>Compare leverage, stop-loss, and take-profit grids.</td>
+<td>python -m leveraged_etp_risk_lab sensitivity-grid --product examples/fixtures/leveraged_nasdaq_3x.json --stop-loss none,0.15,0.25 --take-profit none,0.20,0.35 --format markdown</td>
+</tr>
+<tr>
+<td>watchlist-build</td>
+<td>Turn thesis and stress results into review triggers.</td>
+<td>python -m leveraged_etp_risk_lab watchlist-build --thesis-impact examples/outputs/thesis_impact.json --stress-matrix examples/outputs/stress_matrix.json --format markdown</td>
+</tr>
+<tr>
+<td>package-audit</td>
+<td>Check public sharing readiness and validation commands.</td>
+<td>python -m leveraged_etp_risk_lab package-audit --format markdown</td>
+</tr>
+<tr>
+<td>recipe-run</td>
+<td>Compose the public workflow from one JSON recipe.</td>
+<td>python -m leveraged_etp_risk_lab recipe-run --recipe examples/fixtures/recipe_thesis_review.json --format markdown</td>
+</tr>
+<tr>
+<td>report-card</td>
+<td>Summarize artifact strengths, warnings, and unresolved checks.</td>
+<td>python -m leveraged_etp_risk_lab report-card --artifact examples/outputs/pretrade_plan.json --artifact examples/outputs/position_size.json --artifact examples/outputs/stress_matrix.json --artifact examples/outputs/factsheet_check.json --format markdown</td>
+</tr>
+<tr>
+<td>memo-draft</td>
+<td>Package thesis, scenario evidence, and risk budget into a memo.</td>
+<td>python -m leveraged_etp_risk_lab memo-draft --recipe-run examples/outputs/recipe_run.json --thesis-dashboard-data examples/outputs/thesis_dashboard_data.json --report-card examples/outputs/report_card.json --factsheet-check examples/outputs/factsheet_check.json --format markdown</td>
+</tr>
+<tr>
+<td>memo-review</td>
+<td>Compare the memo against latest review artifacts.</td>
+<td>python -m leveraged_etp_risk_lab memo-review --memo examples/outputs/investment_memo.json --report-card examples/outputs/report_card.json --watchlist examples/outputs/watchlist.json --audit-trail examples/outputs/audit_trail.json --format markdown</td>
+</tr>
+<tr>
+<td>cycle-init</td>
+<td>Create a persistent public watch-cycle state.</td>
+<td>python -m leveraged_etp_risk_lab cycle-init --memo examples/outputs/investment_memo.json --watchlist examples/outputs/watchlist.json --report-card examples/outputs/report_card.json --sensitivity-grid examples/outputs/sensitivity_grid.json --format markdown</td>
+</tr>
+<tr>
+<td>cycle-update</td>
+<td>Detect watch-cycle hash drift and watchlist changes.</td>
+<td>python -m leveraged_etp_risk_lab cycle-update --cycle-state examples/outputs/cycle_state.json --report-card examples/outputs/report_card.json --watchlist examples/outputs/watchlist.json --audit-trail examples/outputs/audit_trail.json --format markdown</td>
+</tr>
+<tr>
+<td>guardrail-policy</td>
+<td>Emit explicit allocation review limits.</td>
+<td>python -m leveraged_etp_risk_lab guardrail-policy --policy default --format markdown</td>
+</tr>
+<tr>
+<td>guardrail-check</td>
+<td>Gate artifacts against exposure, budget, horizon, and review rules.</td>
+<td>python -m leveraged_etp_risk_lab guardrail-check --policy examples/outputs/guardrail_policy.json --portfolio-sensitivity examples/outputs/portfolio_sensitivity.json --position-size examples/outputs/position_size.json --investment-memo examples/outputs/investment_memo.json --cycle-update examples/outputs/cycle_update.json --format markdown</td>
+</tr>
+<tr>
+<td>order-ticket</td>
+<td>Create placeholder-only broker field and do-not-trade checklists.</td>
+<td>python -m leveraged_etp_risk_lab order-ticket --guardrail-check examples/outputs/guardrail_check.json --investment-memo examples/outputs/investment_memo.json --position-size examples/outputs/position_size.json --factsheet-check examples/outputs/factsheet_check.json --thesis-dashboard-data examples/outputs/thesis_dashboard_data.json --format markdown</td>
+</tr>
+<tr>
+<td>order-review</td>
+<td>Run a final educational order review without execution.</td>
+<td>python -m leveraged_etp_risk_lab order-review --order-ticket examples/outputs/order_ticket.json --guardrail-check examples/outputs/guardrail_check.json --cycle-update examples/outputs/cycle_update.json --audit-trail examples/outputs/audit_trail.json --format markdown</td>
+</tr>
+<tr>
+<td>demo-story</td>
+<td>Render the public walkthrough from checked demo artifacts.</td>
+<td>python -m leveraged_etp_risk_lab demo-story --input-dir examples/outputs --format markdown</td>
+</tr>
+<tr>
+<td>schema-inventory</td>
+<td>List local schemas, required fields, matching examples, and public safety notes.</td>
+<td>python -m leveraged_etp_risk_lab schema-inventory --format markdown</td>
+</tr>
+<tr>
+<td>artifact-validate</td>
+<td>Validate example JSON artifacts against the local lightweight schema inventory.</td>
+<td>python -m leveraged_etp_risk_lab artifact-validate --format markdown</td>
+</tr>
+<tr>
+<td>release-manifest</td>
+<td>Emit release readiness, public artifact inventory, and release notes.</td>
+<td>python -m leveraged_etp_risk_lab release-manifest --input-dir examples/outputs --format markdown</td>
+</tr>
+<tr>
+<td>docs-export</td>
+<td>Render one self-contained static HTML documentation page from public artifacts.</td>
+<td>python -m leveraged_etp_risk_lab docs-export --input-dir examples/outputs --output examples/outputs/docs_export.html</td>
+</tr>
+<tr>
+<td>asset-hub</td>
+<td>Emit the GitHub-facing public asset hub.</td>
+<td>python -m leveraged_etp_risk_lab asset-hub --input-dir examples/outputs --format markdown</td>
+</tr>
+</tbody></table>
+</section>
+<section><h2>Release Notes</h2>
+<pre>## v0.29.0
+
+### Highlights
+
+- Hardens deterministic release artifact generation for package audit, schema inventory, artifact validation, release manifest, and docs export.
+- Keeps docs export and release manifest schemas aligned for the final public v0.29 release surface.
+- Carries safety caveats, command map, release notes, and local artifact links from checked public artifacts.
+- Publishes 80 public demo artifacts across 8 gallery stages.
+- Tracks 39 local schemas and 37 validated artifacts.
+
+### Readiness
+
+- Release status: ready
+- Package audit ready: yes
+- Artifact validation ready: yes
+
+### Verification
+
+- `python -m unittest discover -s tests`
+- `python scripts/selfcheck.py`
+- `python -m leveraged_etp_risk_lab docs-export --input-dir examples/outputs --output examples/outputs/docs_export.html`
+- `python -m leveraged_etp_risk_lab package-audit --run-tests --format json`</pre>
+</section>
+<section><h2>Local Artifact Links</h2>
+<table><thead><tr><th>Artifact</th><th>Type</th><th>Stage</th></tr></thead><tbody>
+<tr><td><a href="examples/outputs/checklist.md">examples/outputs/checklist.md</a></td><td>md</td><td>fixtures</td></tr>
+<tr><td><a href="examples/outputs/glossary.json">examples/outputs/glossary.json</a></td><td>json</td><td>fixtures</td></tr>
+<tr><td><a href="examples/outputs/glossary.md">examples/outputs/glossary.md</a></td><td>md</td><td>fixtures</td></tr>
+<tr><td><a href="examples/outputs/leveraged_nasdaq_3x.json">examples/outputs/leveraged_nasdaq_3x.json</a></td><td>json</td><td>fixtures</td></tr>
+<tr><td><a href="examples/outputs/leveraged_nasdaq_3x.md">examples/outputs/leveraged_nasdaq_3x.md</a></td><td>md</td><td>fixtures</td></tr>
+<tr><td><a href="examples/outputs/portfolio_exposure.json">examples/outputs/portfolio_exposure.json</a></td><td>json</td><td>fixtures</td></tr>
+<tr><td><a href="examples/outputs/portfolio_exposure.md">examples/outputs/portfolio_exposure.md</a></td><td>md</td><td>fixtures</td></tr>
+<tr><td><a href="examples/outputs/regime_chop.csv">examples/outputs/regime_chop.csv</a></td><td>csv</td><td>fixtures</td></tr>
+<tr><td><a href="examples/outputs/regime_gallery.json">examples/outputs/regime_gallery.json</a></td><td>json</td><td>fixtures</td></tr>
+<tr><td><a href="examples/outputs/regime_gallery.md">examples/outputs/regime_gallery.md</a></td><td>md</td><td>fixtures</td></tr>
+<tr><td><a href="examples/outputs/regime_gap_down.csv">examples/outputs/regime_gap_down.csv</a></td><td>csv</td><td>fixtures</td></tr>
+<tr><td><a href="examples/outputs/regime_rebound.csv">examples/outputs/regime_rebound.csv</a></td><td>csv</td><td>fixtures</td></tr>
+<tr><td><a href="examples/outputs/regime_trend_down.csv">examples/outputs/regime_trend_down.csv</a></td><td>csv</td><td>fixtures</td></tr>
+<tr><td><a href="examples/outputs/regime_trend_up.csv">examples/outputs/regime_trend_up.csv</a></td><td>csv</td><td>fixtures</td></tr>
+<tr><td><a href="examples/outputs/regime_volatility_cluster.csv">examples/outputs/regime_volatility_cluster.csv</a></td><td>csv</td><td>fixtures</td></tr>
+<tr><td><a href="examples/outputs/risk_profiles.json">examples/outputs/risk_profiles.json</a></td><td>json</td><td>fixtures</td></tr>
+<tr><td><a href="examples/outputs/risk_profiles.md">examples/outputs/risk_profiles.md</a></td><td>md</td><td>fixtures</td></tr>
+<tr><td><a href="examples/outputs/single_stock_2x.json">examples/outputs/single_stock_2x.json</a></td><td>json</td><td>fixtures</td></tr>
+<tr><td><a href="examples/outputs/single_stock_2x.md">examples/outputs/single_stock_2x.md</a></td><td>md</td><td>fixtures</td></tr>
+<tr><td><a href="examples/outputs/template_gallery.json">examples/outputs/template_gallery.json</a></td><td>json</td><td>fixtures</td></tr>
+<tr><td><a href="examples/outputs/template_gallery.md">examples/outputs/template_gallery.md</a></td><td>md</td><td>fixtures</td></tr>
+<tr><td><a href="examples/outputs/compare_runs.json">examples/outputs/compare_runs.json</a></td><td>json</td><td>plans</td></tr>
+<tr><td><a href="examples/outputs/compare_runs.md">examples/outputs/compare_runs.md</a></td><td>md</td><td>plans</td></tr>
+<tr><td><a href="examples/outputs/pretrade_plan.json">examples/outputs/pretrade_plan.json</a></td><td>json</td><td>plans</td></tr>
+<tr><td><a href="examples/outputs/pretrade_plan.md">examples/outputs/pretrade_plan.md</a></td><td>md</td><td>plans</td></tr>
+<tr><td><a href="examples/outputs/recipe_run.json">examples/outputs/recipe_run.json</a></td><td>json</td><td>plans</td></tr>
+<tr><td><a href="examples/outputs/recipe_run.md">examples/outputs/recipe_run.md</a></td><td>md</td><td>plans</td></tr>
+<tr><td><a href="examples/outputs/report_card.json">examples/outputs/report_card.json</a></td><td>json</td><td>plans</td></tr>
+<tr><td><a href="examples/outputs/report_card.md">examples/outputs/report_card.md</a></td><td>md</td><td>plans</td></tr>
+<tr><td><a href="examples/outputs/run_ledger.jsonl">examples/outputs/run_ledger.jsonl</a></td><td>jsonl</td><td>plans</td></tr>
+<tr><td><a href="examples/outputs/position_size.json">examples/outputs/position_size.json</a></td><td>json</td><td>sizing</td></tr>
+<tr><td><a href="examples/outputs/position_size.md">examples/outputs/position_size.md</a></td><td>md</td><td>sizing</td></tr>
+<tr><td><a href="examples/outputs/portfolio_sensitivity.json">examples/outputs/portfolio_sensitivity.json</a></td><td>json</td><td>stress</td></tr>
+<tr><td><a href="examples/outputs/portfolio_sensitivity.md">examples/outputs/portfolio_sensitivity.md</a></td><td>md</td><td>stress</td></tr>
+<tr><td><a href="examples/outputs/sensitivity_grid.json">examples/outputs/sensitivity_grid.json</a></td><td>json</td><td>stress</td></tr>
+<tr><td><a href="examples/outputs/sensitivity_grid.md">examples/outputs/sensitivity_grid.md</a></td><td>md</td><td>stress</td></tr>
+<tr><td><a href="examples/outputs/stress_matrix.json">examples/outputs/stress_matrix.json</a></td><td>json</td><td>stress</td></tr>
+<tr><td><a href="examples/outputs/stress_matrix.md">examples/outputs/stress_matrix.md</a></td><td>md</td><td>stress</td></tr>
+<tr><td><a href="examples/outputs/thesis_impact.json">examples/outputs/thesis_impact.json</a></td><td>json</td><td>thesis/watchlist</td></tr>
+<tr><td><a href="examples/outputs/thesis_impact.md">examples/outputs/thesis_impact.md</a></td><td>md</td><td>thesis/watchlist</td></tr>
+<tr><td><a href="examples/outputs/watchlist.json">examples/outputs/watchlist.json</a></td><td>json</td><td>thesis/watchlist</td></tr>
+<tr><td><a href="examples/outputs/watchlist.md">examples/outputs/watchlist.md</a></td><td>md</td><td>thesis/watchlist</td></tr>
+<tr><td><a href="examples/outputs/asset_hub.json">examples/outputs/asset_hub.json</a></td><td>json</td><td>audit/story</td></tr>
+<tr><td><a href="examples/outputs/asset_hub.md">examples/outputs/asset_hub.md</a></td><td>md</td><td>audit/story</td></tr>
+<tr><td><a href="examples/outputs/audit_trail.json">examples/outputs/audit_trail.json</a></td><td>json</td><td>audit/story</td></tr>
+<tr><td><a href="examples/outputs/audit_trail.md">examples/outputs/audit_trail.md</a></td><td>md</td><td>audit/story</td></tr>
+<tr><td><a href="examples/outputs/demo_story.json">examples/outputs/demo_story.json</a></td><td>json</td><td>audit/story</td></tr>
+<tr><td><a href="examples/outputs/demo_story.md">examples/outputs/demo_story.md</a></td><td>md</td><td>audit/story</td></tr>
+<tr><td><a href="examples/outputs/factsheet_check.json">examples/outputs/factsheet_check.json</a></td><td>json</td><td>audit/story</td></tr>
+<tr><td><a href="examples/outputs/factsheet_check.md">examples/outputs/factsheet_check.md</a></td><td>md</td><td>audit/story</td></tr>
+<tr><td><a href="examples/outputs/package_audit.json">examples/outputs/package_audit.json</a></td><td>json</td><td>audit/story</td></tr>
+<tr><td><a href="examples/outputs/package_audit.md">examples/outputs/package_audit.md</a></td><td>md</td><td>audit/story</td></tr>
+<tr><td><a href="examples/outputs/cycle_state.json">examples/outputs/cycle_state.json</a></td><td>json</td><td>dashboard</td></tr>
+<tr><td><a href="examples/outputs/cycle_state.md">examples/outputs/cycle_state.md</a></td><td>md</td><td>dashboard</td></tr>
+<tr><td><a href="examples/outputs/cycle_update.json">examples/outputs/cycle_update.json</a></td><td>json</td><td>dashboard</td></tr>
+<tr><td><a href="examples/outputs/cycle_update.md">examples/outputs/cycle_update.md</a></td><td>md</td><td>dashboard</td></tr>
+<tr><td><a href="examples/outputs/dashboard.html">examples/outputs/dashboard.html</a></td><td>html</td><td>dashboard</td></tr>
+<tr><td><a href="examples/outputs/guardrail_check.json">examples/outputs/guardrail_check.json</a></td><td>json</td><td>dashboard</td></tr>
+<tr><td><a href="examples/outputs/guardrail_check.md">examples/outputs/guardrail_check.md</a></td><td>md</td><td>dashboard</td></tr>
+<tr><td><a href="examples/outputs/guardrail_policy.json">examples/outputs/guardrail_policy.json</a></td><td>json</td><td>dashboard</td></tr>
+<tr><td><a href="examples/outputs/guardrail_policy.md">examples/outputs/guardrail_policy.md</a></td><td>md</td><td>dashboard</td></tr>
+<tr><td><a href="examples/outputs/investment_memo.json">examples/outputs/investment_memo.json</a></td><td>json</td><td>dashboard</td></tr>
+<tr><td><a href="examples/outputs/investment_memo.md">examples/outputs/investment_memo.md</a></td><td>md</td><td>dashboard</td></tr>
+<tr><td><a href="examples/outputs/investment_memo_review.json">examples/outputs/investment_memo_review.json</a></td><td>json</td><td>dashboard</td></tr>
+<tr><td><a href="examples/outputs/investment_memo_review.md">examples/outputs/investment_memo_review.md</a></td><td>md</td><td>dashboard</td></tr>
+<tr><td><a href="examples/outputs/order_review.json">examples/outputs/order_review.json</a></td><td>json</td><td>dashboard</td></tr>
+<tr><td><a href="examples/outputs/order_review.md">examples/outputs/order_review.md</a></td><td>md</td><td>dashboard</td></tr>
+<tr><td><a href="examples/outputs/order_ticket.json">examples/outputs/order_ticket.json</a></td><td>json</td><td>dashboard</td></tr>
+<tr><td><a href="examples/outputs/order_ticket.md">examples/outputs/order_ticket.md</a></td><td>md</td><td>dashboard</td></tr>
+<tr><td><a href="examples/outputs/thesis_dashboard_data.json">examples/outputs/thesis_dashboard_data.json</a></td><td>json</td><td>dashboard</td></tr>
+<tr><td><a href="examples/outputs/thesis_dashboard_data.md">examples/outputs/thesis_dashboard_data.md</a></td><td>md</td><td>dashboard</td></tr>
+<tr><td><a href="examples/outputs/artifact_validation.json">examples/outputs/artifact_validation.json</a></td><td>json</td><td>validation</td></tr>
+<tr><td><a href="examples/outputs/artifact_validation.md">examples/outputs/artifact_validation.md</a></td><td>md</td><td>validation</td></tr>
+<tr><td><a href="examples/outputs/docs_export.html">examples/outputs/docs_export.html</a></td><td>html</td><td>validation</td></tr>
+<tr><td><a href="examples/outputs/docs_export.json">examples/outputs/docs_export.json</a></td><td>json</td><td>validation</td></tr>
+<tr><td><a href="examples/outputs/docs_export.md">examples/outputs/docs_export.md</a></td><td>md</td><td>validation</td></tr>
+<tr><td><a href="examples/outputs/release_manifest.json">examples/outputs/release_manifest.json</a></td><td>json</td><td>validation</td></tr>
+<tr><td><a href="examples/outputs/release_manifest.md">examples/outputs/release_manifest.md</a></td><td>md</td><td>validation</td></tr>
+<tr><td><a href="examples/outputs/schema_inventory.json">examples/outputs/schema_inventory.json</a></td><td>json</td><td>validation</td></tr>
+<tr><td><a href="examples/outputs/schema_inventory.md">examples/outputs/schema_inventory.md</a></td><td>md</td><td>validation</td></tr>
+<tr><td><a href="examples/outputs/gallery_index.md">examples/outputs/gallery_index.md</a></td><td>markdown</td><td>markdown</td></tr>
+</tbody></table>
+</section>
+<section><h2>Markdown Artifacts</h2>
+<table><thead><tr>
+<th>Path</th>
+<th>Title</th>
+<th>Bytes</th>
+</tr></thead><tbody>
+<tr>
+<td>examples/outputs/artifact_validation.md</td>
+<td>Artifact Validation</td>
+<td>4366</td>
+</tr>
+<tr>
+<td>examples/outputs/asset_hub.md</td>
+<td>leveraged-etp-risk-lab Public Asset Hub</td>
+<td>11973</td>
+</tr>
+<tr>
+<td>examples/outputs/audit_trail.md</td>
+<td>Audit Trail</td>
+<td>3442</td>
+</tr>
+<tr>
+<td>examples/outputs/checklist.md</td>
+<td>Leveraged ETP Risk Checklist: risk-review</td>
+<td>718</td>
+</tr>
+<tr>
+<td>examples/outputs/compare_runs.md</td>
+<td>Run Comparison</td>
+<td>408</td>
+</tr>
+<tr>
+<td>examples/outputs/cycle_state.md</td>
+<td>Watch Cycle State</td>
+<td>3271</td>
+</tr>
+<tr>
+<td>examples/outputs/cycle_update.md</td>
+<td>Watch Cycle Update</td>
+<td>1435</td>
+</tr>
+<tr>
+<td>examples/outputs/demo_story.md</td>
+<td>Public Demo Story</td>
+<td>9015</td>
+</tr>
+<tr>
+<td>examples/outputs/factsheet_check.md</td>
+<td>Product Factsheet Checklist</td>
+<td>1174</td>
+</tr>
+<tr>
+<td>examples/outputs/gallery_index.md</td>
+<td>Public Gallery Index</td>
+<td>22312</td>
+</tr>
+<tr>
+<td>examples/outputs/glossary.md</td>
+<td>Leveraged Product Glossary</td>
+<td>5341</td>
+</tr>
+<tr>
+<td>examples/outputs/guardrail_check.md</td>
+<td>Allocation Guardrail Check</td>
+<td>2207</td>
+</tr>
+<tr>
+<td>examples/outputs/guardrail_policy.md</td>
+<td>Allocation Guardrail Policy: default</td>
+<td>961</td>
+</tr>
+<tr>
+<td>examples/outputs/investment_memo.md</td>
+<td>Investment Memo: NDAQ3X</td>
+<td>4262</td>
+</tr>
+<tr>
+<td>examples/outputs/investment_memo_review.md</td>
+<td>Investment Memo Review</td>
+<td>2477</td>
+</tr>
+<tr>
+<td>examples/outputs/leveraged_nasdaq_3x.md</td>
+<td>Simulation: NDAQ3X</td>
+<td>1426</td>
+</tr>
+<tr>
+<td>examples/outputs/order_review.md</td>
+<td>Final Educational Order Review</td>
+<td>1414</td>
+</tr>
+<tr>
+<td>examples/outputs/order_ticket.md</td>
+<td>Pre-Order Ticket: NDAQ3X</td>
+<td>3555</td>
+</tr>
+<tr>
+<td>examples/outputs/package_audit.md</td>
+<td>Package Audit</td>
+<td>5371</td>
+</tr>
+<tr>
+<td>examples/outputs/portfolio_exposure.md</td>
+<td>Exposure Report: Generic Leveraged ETP Portfolio</td>
+<td>1430</td>
+</tr>
+<tr>
+<td>examples/outputs/portfolio_sensitivity.md</td>
+<td>Portfolio Sensitivity: Generic Leveraged ETP Portfolio</td>
+<td>1870</td>
+</tr>
+<tr>
+<td>examples/outputs/position_size.md</td>
+<td>Position Size Plan: NDAQ3X</td>
+<td>2279</td>
+</tr>
+<tr>
+<td>examples/outputs/pretrade_plan.md</td>
+<td>Pretrade Plan: NDAQ3X</td>
+<td>3090</td>
+</tr>
+<tr>
+<td>examples/outputs/recipe_run.md</td>
+<td>Recipe Run</td>
+<td>1965</td>
+</tr>
+<tr>
+<td>examples/outputs/regime_gallery.md</td>
+<td>Market Regime Gallery</td>
+<td>4525</td>
+</tr>
+<tr>
+<td>examples/outputs/release_manifest.md</td>
+<td>Release Manifest</td>
+<td>4148</td>
+</tr>
+<tr>
+<td>examples/outputs/report_card.md</td>
+<td>Decision Readiness Report Card</td>
+<td>4259</td>
+</tr>
+<tr>
+<td>examples/outputs/risk_profiles.md</td>
+<td>Risk Rule Profiles</td>
+<td>4978</td>
+</tr>
+<tr>
+<td>examples/outputs/schema_inventory.md</td>
+<td>Schema Inventory</td>
+<td>11100</td>
+</tr>
+<tr>
+<td>examples/outputs/sensitivity_grid.md</td>
+<td>Sensitivity Grid: NDAQ3X</td>
+<td>3962</td>
+</tr>
+<tr>
+<td>examples/outputs/single_stock_2x.md</td>
+<td>Simulation: STK2X</td>
+<td>1372</td>
+</tr>
+<tr>
+<td>examples/outputs/stress_matrix.md</td>
+<td>Stress Matrix: NDAQ3X</td>
+<td>1957</td>
+</tr>
+<tr>
+<td>examples/outputs/template_gallery.md</td>
+<td>Product Template Gallery</td>
+<td>2751</td>
+</tr>
+<tr>
+<td>examples/outputs/thesis_dashboard_data.md</td>
+<td>Thesis Dashboard Data</td>
+<td>2658</td>
+</tr>
+<tr>
+<td>examples/outputs/thesis_impact.md</td>
+<td>Thesis Impact</td>
+<td>4851</td>
+</tr>
+<tr>
+<td>examples/outputs/watchlist.md</td>
+<td>Thesis Watchlist</td>
+<td>9699</td>
+</tr>
+</tbody></table>
+</section>
+<section><h2>Source Artifacts</h2>
+<table><thead><tr>
+<th>Name</th>
+<th>Status</th>
+<th>Path</th>
+<th>Document Type</th>
+<th>Schema Version</th>
+</tr></thead><tbody>
+<tr>
+<td>asset_hub</td>
+<td>present</td>
+<td>examples/outputs/asset_hub.json</td>
+<td>asset_hub</td>
+<td>0.25</td>
+</tr>
+<tr>
+<td>demo_story</td>
+<td>present</td>
+<td>examples/outputs/demo_story.json</td>
+<td>demo_story</td>
+<td>0.12</td>
+</tr>
+<tr>
+<td>gallery_index</td>
+<td>present</td>
+<td>examples/outputs/gallery_index.json</td>
+<td>gallery_index</td>
+<td>0.13</td>
+</tr>
+<tr>
+<td>package_audit</td>
+<td>present</td>
+<td>examples/outputs/package_audit.json</td>
+<td>package_audit</td>
+<td>0.11</td>
+</tr>
+<tr>
+<td>release_manifest</td>
+<td>present</td>
+<td>examples/outputs/release_manifest.json</td>
+<td>release_manifest</td>
+<td>0.29</td>
+</tr>
+</tbody></table>
+</section>
+<footer>
+<p>Generated by <code>docs-export</code> from <code>examples/outputs</code>.</p>
+<p>Provenance flags: live_market_data=false, external_assets=false, javascript=false, private_context=false, workflow_files_read=false.</p>
+</footer>
+</main>
+</body>
+</html>

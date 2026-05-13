@@ -8,7 +8,7 @@
   "schema_version": "0.13",
   "stages": [
     {
-      "artifact_count": 19,
+      "artifact_count": 21,
       "artifacts": [
         {
           "bytes": 718,
@@ -161,6 +161,26 @@
           "suggested_next_command": "python -m leveraged_etp_risk_lab regime-export --regime volatility_cluster --output volatility_cluster_path.csv"
         },
         {
+          "bytes": 6498,
+          "document_type": "risk_profile_rules",
+          "format": "json",
+          "name": "risk_profiles.json",
+          "path": "examples/outputs/risk_profiles.json",
+          "schema_version": "0.16",
+          "stage": "fixtures",
+          "suggested_next_command": "python -m leveraged_etp_risk_lab risk-profile --format markdown"
+        },
+        {
+          "bytes": 4978,
+          "document_type": "risk_profile_rules",
+          "format": "md",
+          "name": "risk_profiles.md",
+          "path": "examples/outputs/risk_profiles.md",
+          "schema_version": "0.16",
+          "stage": "fixtures",
+          "suggested_next_command": "python -m leveraged_etp_risk_lab risk-profile --format markdown"
+        },
+        {
           "bytes": 2539,
           "document_type": "simulation_output",
           "format": "json",
@@ -205,7 +225,7 @@
       "suggested_next_command": "python -m leveraged_etp_risk_lab pretrade-plan --product examples/fixtures/leveraged_nasdaq_3x.json --path examples/fixtures/nasdaq_chop_path.csv --thesis-file examples/fixtures/thesis_note.md --max-loss-budget 750 --format markdown"
     },
     {
-      "artifact_count": 5,
+      "artifact_count": 9,
       "artifacts": [
         {
           "bytes": 961,
@@ -248,7 +268,47 @@
           "suggested_next_command": "python -m leveraged_etp_risk_lab position-size --pretrade-plan examples/outputs/pretrade_plan.json --account-value 50000 --risk-budget-pct 0.015"
         },
         {
-          "bytes": 1868,
+          "bytes": 40281,
+          "document_type": "recipe_run",
+          "format": "json",
+          "name": "recipe_run.json",
+          "path": "examples/outputs/recipe_run.json",
+          "schema_version": "0.17",
+          "stage": "plans",
+          "suggested_next_command": "python -m leveraged_etp_risk_lab recipe-run --recipe examples/fixtures/recipe_thesis_review.json --format markdown"
+        },
+        {
+          "bytes": 1965,
+          "document_type": "recipe_run",
+          "format": "md",
+          "name": "recipe_run.md",
+          "path": "examples/outputs/recipe_run.md",
+          "schema_version": "0.17",
+          "stage": "plans",
+          "suggested_next_command": "python -m leveraged_etp_risk_lab recipe-run --recipe examples/fixtures/recipe_thesis_review.json --format markdown"
+        },
+        {
+          "bytes": 16254,
+          "document_type": "report_card",
+          "format": "json",
+          "name": "report_card.json",
+          "path": "examples/outputs/report_card.json",
+          "schema_version": "0.18",
+          "stage": "plans",
+          "suggested_next_command": "python -m leveraged_etp_risk_lab report-card --artifact examples/outputs/pretrade_plan.json --artifact examples/outputs/position_size.json --artifact examples/outputs/stress_matrix.json --format markdown"
+        },
+        {
+          "bytes": 4259,
+          "document_type": "report_card",
+          "format": "md",
+          "name": "report_card.md",
+          "path": "examples/outputs/report_card.md",
+          "schema_version": "0.18",
+          "stage": "plans",
+          "suggested_next_command": "python -m leveraged_etp_risk_lab report-card --artifact examples/outputs/pretrade_plan.json --artifact examples/outputs/position_size.json --artifact examples/outputs/stress_matrix.json --format markdown"
+        },
+        {
+          "bytes": 4813,
           "document_type": "run_ledger",
           "format": "jsonl",
           "name": "run_ledger.jsonl",
@@ -289,8 +349,48 @@
       "suggested_next_command": "python -m leveraged_etp_risk_lab stress-matrix --product examples/fixtures/leveraged_nasdaq_3x.json --stop-loss 0.15 --take-profit 0.20 --format markdown"
     },
     {
-      "artifact_count": 2,
+      "artifact_count": 6,
       "artifacts": [
+        {
+          "bytes": 31150,
+          "document_type": "portfolio_sensitivity",
+          "format": "json",
+          "name": "portfolio_sensitivity.json",
+          "path": "examples/outputs/portfolio_sensitivity.json",
+          "schema_version": "0.20",
+          "stage": "stress",
+          "suggested_next_command": "python -m leveraged_etp_risk_lab portfolio-sensitivity --manifest examples/fixtures/portfolio_manifest.json --format markdown"
+        },
+        {
+          "bytes": 1870,
+          "document_type": "portfolio_sensitivity",
+          "format": "md",
+          "name": "portfolio_sensitivity.md",
+          "path": "examples/outputs/portfolio_sensitivity.md",
+          "schema_version": "0.20",
+          "stage": "stress",
+          "suggested_next_command": "python -m leveraged_etp_risk_lab portfolio-sensitivity --manifest examples/fixtures/portfolio_manifest.json --format markdown"
+        },
+        {
+          "bytes": 75105,
+          "document_type": "sensitivity_grid",
+          "format": "json",
+          "name": "sensitivity_grid.json",
+          "path": "examples/outputs/sensitivity_grid.json",
+          "schema_version": "0.19",
+          "stage": "stress",
+          "suggested_next_command": "python -m leveraged_etp_risk_lab report-card --artifact examples/outputs/sensitivity_grid.json --format markdown"
+        },
+        {
+          "bytes": 3962,
+          "document_type": "sensitivity_grid",
+          "format": "md",
+          "name": "sensitivity_grid.md",
+          "path": "examples/outputs/sensitivity_grid.md",
+          "schema_version": "0.19",
+          "stage": "stress",
+          "suggested_next_command": "python -m leveraged_etp_risk_lab report-card --artifact examples/outputs/sensitivity_grid.json --format markdown"
+        },
         {
           "bytes": 3894,
           "document_type": "stress_matrix",
@@ -363,10 +463,50 @@
       "suggested_next_command": "python -m leveraged_etp_risk_lab demo-story --input-dir examples/outputs --format markdown"
     },
     {
-      "artifact_count": 6,
+      "artifact_count": 10,
       "artifacts": [
         {
-          "bytes": 5178,
+          "bytes": 17425,
+          "document_type": "asset_hub",
+          "format": "json",
+          "name": "asset_hub.json",
+          "path": "examples/outputs/asset_hub.json",
+          "schema_version": "0.25",
+          "stage": "audit/story",
+          "suggested_next_command": "python -m leveraged_etp_risk_lab asset-hub --input-dir examples/outputs --format markdown"
+        },
+        {
+          "bytes": 11973,
+          "document_type": "asset_hub",
+          "format": "md",
+          "name": "asset_hub.md",
+          "path": "examples/outputs/asset_hub.md",
+          "schema_version": "0.25",
+          "stage": "audit/story",
+          "suggested_next_command": "python -m leveraged_etp_risk_lab asset-hub --input-dir examples/outputs --format markdown"
+        },
+        {
+          "bytes": 19322,
+          "document_type": "audit_trail",
+          "format": "json",
+          "name": "audit_trail.json",
+          "path": "examples/outputs/audit_trail.json",
+          "schema_version": "0.20",
+          "stage": "audit/story",
+          "suggested_next_command": "python -m leveraged_etp_risk_lab audit-trail --ledger examples/outputs/run_ledger.jsonl --artifact examples/outputs/pretrade_plan.json --format markdown"
+        },
+        {
+          "bytes": 3442,
+          "document_type": "audit_trail",
+          "format": "md",
+          "name": "audit_trail.md",
+          "path": "examples/outputs/audit_trail.md",
+          "schema_version": "0.20",
+          "stage": "audit/story",
+          "suggested_next_command": "python -m leveraged_etp_risk_lab audit-trail --ledger examples/outputs/run_ledger.jsonl --artifact examples/outputs/pretrade_plan.json --format markdown"
+        },
+        {
+          "bytes": 14357,
           "document_type": "demo_story",
           "format": "json",
           "name": "demo_story.json",
@@ -376,7 +516,7 @@
           "suggested_next_command": "python -m leveraged_etp_risk_lab gallery-index --input-dir examples/outputs --format markdown"
         },
         {
-          "bytes": 3303,
+          "bytes": 9015,
           "document_type": "demo_story",
           "format": "md",
           "name": "demo_story.md",
@@ -406,7 +546,7 @@
           "suggested_next_command": "python -m leveraged_etp_risk_lab factsheet-check --product examples/fixtures/leveraged_nasdaq_3x.json --factsheet-file examples/fixtures/factsheet_note.txt --format markdown"
         },
         {
-          "bytes": 8727,
+          "bytes": 29200,
           "document_type": "package_audit",
           "format": "json",
           "name": "package_audit.json",
@@ -416,7 +556,7 @@
           "suggested_next_command": "python -m leveraged_etp_risk_lab gallery-index --input-dir examples/outputs --format markdown"
         },
         {
-          "bytes": 1519,
+          "bytes": 5371,
           "document_type": "package_audit",
           "format": "md",
           "name": "package_audit.md",
@@ -430,8 +570,48 @@
       "suggested_next_command": "python -m leveraged_etp_risk_lab static-dashboard --input-dir examples/outputs --output examples/outputs/dashboard.html"
     },
     {
-      "artifact_count": 1,
+      "artifact_count": 19,
       "artifacts": [
+        {
+          "bytes": 9527,
+          "document_type": "cycle_state",
+          "format": "json",
+          "name": "cycle_state.json",
+          "path": "examples/outputs/cycle_state.json",
+          "schema_version": "0.22",
+          "stage": "dashboard",
+          "suggested_next_command": "python -m leveraged_etp_risk_lab cycle-update --cycle-state examples/outputs/cycle_state.json --report-card examples/outputs/report_card.json --watchlist examples/outputs/watchlist.json --audit-trail examples/outputs/audit_trail.json --format markdown"
+        },
+        {
+          "bytes": 3271,
+          "document_type": "cycle_state",
+          "format": "md",
+          "name": "cycle_state.md",
+          "path": "examples/outputs/cycle_state.md",
+          "schema_version": "0.22",
+          "stage": "dashboard",
+          "suggested_next_command": "python -m leveraged_etp_risk_lab cycle-update --cycle-state examples/outputs/cycle_state.json --report-card examples/outputs/report_card.json --watchlist examples/outputs/watchlist.json --audit-trail examples/outputs/audit_trail.json --format markdown"
+        },
+        {
+          "bytes": 2967,
+          "document_type": "cycle_update",
+          "format": "json",
+          "name": "cycle_update.json",
+          "path": "examples/outputs/cycle_update.json",
+          "schema_version": "0.22",
+          "stage": "dashboard",
+          "suggested_next_command": "python -m leveraged_etp_risk_lab cycle-init --memo examples/outputs/investment_memo.json --watchlist examples/outputs/watchlist.json --report-card examples/outputs/report_card.json --sensitivity-grid examples/outputs/sensitivity_grid.json --format markdown"
+        },
+        {
+          "bytes": 1435,
+          "document_type": "cycle_update",
+          "format": "md",
+          "name": "cycle_update.md",
+          "path": "examples/outputs/cycle_update.md",
+          "schema_version": "0.22",
+          "stage": "dashboard",
+          "suggested_next_command": "python -m leveraged_etp_risk_lab cycle-init --memo examples/outputs/investment_memo.json --watchlist examples/outputs/watchlist.json --report-card examples/outputs/report_card.json --sensitivity-grid examples/outputs/sensitivity_grid.json --format markdown"
+        },
         {
           "bytes": 3536,
           "document_type": null,
@@ -441,15 +621,252 @@
           "schema_version": null,
           "stage": "dashboard",
           "suggested_next_command": "python -m leveraged_etp_risk_lab gallery-index --input-dir examples/outputs --format markdown"
+        },
+        {
+          "bytes": 5525,
+          "document_type": "guardrail_check",
+          "format": "json",
+          "name": "guardrail_check.json",
+          "path": "examples/outputs/guardrail_check.json",
+          "schema_version": "0.23",
+          "stage": "dashboard",
+          "suggested_next_command": "python -m leveraged_etp_risk_lab order-ticket --guardrail-check examples/outputs/guardrail_check.json --investment-memo examples/outputs/investment_memo.json --position-size examples/outputs/position_size.json --factsheet-check examples/outputs/factsheet_check.json --thesis-dashboard-data examples/outputs/thesis_dashboard_data.json --format markdown"
+        },
+        {
+          "bytes": 2207,
+          "document_type": "guardrail_check",
+          "format": "md",
+          "name": "guardrail_check.md",
+          "path": "examples/outputs/guardrail_check.md",
+          "schema_version": "0.23",
+          "stage": "dashboard",
+          "suggested_next_command": "python -m leveraged_etp_risk_lab order-ticket --guardrail-check examples/outputs/guardrail_check.json --investment-memo examples/outputs/investment_memo.json --position-size examples/outputs/position_size.json --factsheet-check examples/outputs/factsheet_check.json --thesis-dashboard-data examples/outputs/thesis_dashboard_data.json --format markdown"
+        },
+        {
+          "bytes": 1191,
+          "document_type": "guardrail_policy",
+          "format": "json",
+          "name": "guardrail_policy.json",
+          "path": "examples/outputs/guardrail_policy.json",
+          "schema_version": "0.23",
+          "stage": "dashboard",
+          "suggested_next_command": "python -m leveraged_etp_risk_lab guardrail-check --policy examples/outputs/guardrail_policy.json --portfolio-sensitivity examples/outputs/portfolio_sensitivity.json --position-size examples/outputs/position_size.json --investment-memo examples/outputs/investment_memo.json --cycle-update examples/outputs/cycle_update.json --format markdown"
+        },
+        {
+          "bytes": 961,
+          "document_type": "guardrail_policy",
+          "format": "md",
+          "name": "guardrail_policy.md",
+          "path": "examples/outputs/guardrail_policy.md",
+          "schema_version": "0.23",
+          "stage": "dashboard",
+          "suggested_next_command": "python -m leveraged_etp_risk_lab guardrail-check --policy examples/outputs/guardrail_policy.json --portfolio-sensitivity examples/outputs/portfolio_sensitivity.json --position-size examples/outputs/position_size.json --investment-memo examples/outputs/investment_memo.json --cycle-update examples/outputs/cycle_update.json --format markdown"
+        },
+        {
+          "bytes": 10963,
+          "document_type": "investment_memo_packet",
+          "format": "json",
+          "name": "investment_memo.json",
+          "path": "examples/outputs/investment_memo.json",
+          "schema_version": "0.21",
+          "stage": "dashboard",
+          "suggested_next_command": "python -m leveraged_etp_risk_lab memo-draft --recipe-run examples/outputs/recipe_run.json --thesis-dashboard-data examples/outputs/thesis_dashboard_data.json --report-card examples/outputs/report_card.json --factsheet-check examples/outputs/factsheet_check.json --format markdown"
+        },
+        {
+          "bytes": 4262,
+          "document_type": "investment_memo_packet",
+          "format": "md",
+          "name": "investment_memo.md",
+          "path": "examples/outputs/investment_memo.md",
+          "schema_version": "0.21",
+          "stage": "dashboard",
+          "suggested_next_command": "python -m leveraged_etp_risk_lab memo-draft --recipe-run examples/outputs/recipe_run.json --thesis-dashboard-data examples/outputs/thesis_dashboard_data.json --report-card examples/outputs/report_card.json --factsheet-check examples/outputs/factsheet_check.json --format markdown"
+        },
+        {
+          "bytes": 3877,
+          "document_type": "investment_memo_review",
+          "format": "json",
+          "name": "investment_memo_review.json",
+          "path": "examples/outputs/investment_memo_review.json",
+          "schema_version": "0.21",
+          "stage": "dashboard",
+          "suggested_next_command": "python -m leveraged_etp_risk_lab memo-review --memo examples/outputs/investment_memo.json --report-card examples/outputs/report_card.json --watchlist examples/outputs/watchlist.json --audit-trail examples/outputs/audit_trail.json --format markdown"
+        },
+        {
+          "bytes": 2477,
+          "document_type": "investment_memo_review",
+          "format": "md",
+          "name": "investment_memo_review.md",
+          "path": "examples/outputs/investment_memo_review.md",
+          "schema_version": "0.21",
+          "stage": "dashboard",
+          "suggested_next_command": "python -m leveraged_etp_risk_lab memo-review --memo examples/outputs/investment_memo.json --report-card examples/outputs/report_card.json --watchlist examples/outputs/watchlist.json --audit-trail examples/outputs/audit_trail.json --format markdown"
+        },
+        {
+          "bytes": 2548,
+          "document_type": "order_review",
+          "format": "json",
+          "name": "order_review.json",
+          "path": "examples/outputs/order_review.json",
+          "schema_version": "0.24",
+          "stage": "dashboard",
+          "suggested_next_command": "python -m leveraged_etp_risk_lab guardrail-policy --policy conservative --format markdown"
+        },
+        {
+          "bytes": 1414,
+          "document_type": "order_review",
+          "format": "md",
+          "name": "order_review.md",
+          "path": "examples/outputs/order_review.md",
+          "schema_version": "0.24",
+          "stage": "dashboard",
+          "suggested_next_command": "python -m leveraged_etp_risk_lab guardrail-policy --policy conservative --format markdown"
+        },
+        {
+          "bytes": 7380,
+          "document_type": "order_ticket",
+          "format": "json",
+          "name": "order_ticket.json",
+          "path": "examples/outputs/order_ticket.json",
+          "schema_version": "0.24",
+          "stage": "dashboard",
+          "suggested_next_command": "python -m leveraged_etp_risk_lab order-review --order-ticket examples/outputs/order_ticket.json --guardrail-check examples/outputs/guardrail_check.json --cycle-update examples/outputs/cycle_update.json --audit-trail examples/outputs/audit_trail.json --format markdown"
+        },
+        {
+          "bytes": 3555,
+          "document_type": "order_ticket",
+          "format": "md",
+          "name": "order_ticket.md",
+          "path": "examples/outputs/order_ticket.md",
+          "schema_version": "0.24",
+          "stage": "dashboard",
+          "suggested_next_command": "python -m leveraged_etp_risk_lab order-review --order-ticket examples/outputs/order_ticket.json --guardrail-check examples/outputs/guardrail_check.json --cycle-update examples/outputs/cycle_update.json --audit-trail examples/outputs/audit_trail.json --format markdown"
+        },
+        {
+          "bytes": 6625,
+          "document_type": "thesis_dashboard_data",
+          "format": "json",
+          "name": "thesis_dashboard_data.json",
+          "path": "examples/outputs/thesis_dashboard_data.json",
+          "schema_version": "0.20",
+          "stage": "dashboard",
+          "suggested_next_command": "python -m leveraged_etp_risk_lab thesis-dashboard-data --recipe-run examples/outputs/recipe_run.json --report-card examples/outputs/report_card.json --watchlist examples/outputs/watchlist.json --sensitivity-grid examples/outputs/sensitivity_grid.json --format markdown"
+        },
+        {
+          "bytes": 2658,
+          "document_type": "thesis_dashboard_data",
+          "format": "md",
+          "name": "thesis_dashboard_data.md",
+          "path": "examples/outputs/thesis_dashboard_data.md",
+          "schema_version": "0.20",
+          "stage": "dashboard",
+          "suggested_next_command": "python -m leveraged_etp_risk_lab thesis-dashboard-data --recipe-run examples/outputs/recipe_run.json --report-card examples/outputs/report_card.json --watchlist examples/outputs/watchlist.json --sensitivity-grid examples/outputs/sensitivity_grid.json --format markdown"
         }
       ],
       "stage": "dashboard",
       "suggested_next_command": "python -m leveraged_etp_risk_lab package-audit --format markdown"
+    },
+    {
+      "artifact_count": 9,
+      "artifacts": [
+        {
+          "bytes": 9802,
+          "document_type": "artifact_validation",
+          "format": "json",
+          "name": "artifact_validation.json",
+          "path": "examples/outputs/artifact_validation.json",
+          "schema_version": "0.26",
+          "stage": "validation",
+          "suggested_next_command": "python -m leveraged_etp_risk_lab artifact-validate --format markdown"
+        },
+        {
+          "bytes": 4366,
+          "document_type": "artifact_validation",
+          "format": "md",
+          "name": "artifact_validation.md",
+          "path": "examples/outputs/artifact_validation.md",
+          "schema_version": "0.26",
+          "stage": "validation",
+          "suggested_next_command": "python -m leveraged_etp_risk_lab artifact-validate --format markdown"
+        },
+        {
+          "bytes": 27577,
+          "document_type": "docs_export",
+          "format": "html",
+          "name": "docs_export.html",
+          "path": "examples/outputs/docs_export.html",
+          "schema_version": "0.29",
+          "stage": "validation",
+          "suggested_next_command": "python -m leveraged_etp_risk_lab docs-export --input-dir examples/outputs --output examples/outputs/docs_export.html"
+        },
+        {
+          "bytes": 25504,
+          "document_type": "docs_export",
+          "format": "json",
+          "name": "docs_export.json",
+          "path": "examples/outputs/docs_export.json",
+          "schema_version": "0.29",
+          "stage": "validation",
+          "suggested_next_command": "python -m leveraged_etp_risk_lab docs-export --input-dir examples/outputs --output examples/outputs/docs_export.html"
+        },
+        {
+          "bytes": 16674,
+          "document_type": "docs_export",
+          "format": "md",
+          "name": "docs_export.md",
+          "path": "examples/outputs/docs_export.md",
+          "schema_version": "0.29",
+          "stage": "validation",
+          "suggested_next_command": "python -m leveraged_etp_risk_lab docs-export --input-dir examples/outputs --output examples/outputs/docs_export.html"
+        },
+        {
+          "bytes": 9265,
+          "document_type": "release_manifest",
+          "format": "json",
+          "name": "release_manifest.json",
+          "path": "examples/outputs/release_manifest.json",
+          "schema_version": "0.29",
+          "stage": "validation",
+          "suggested_next_command": "python -m leveraged_etp_risk_lab release-manifest --input-dir examples/outputs --format markdown"
+        },
+        {
+          "bytes": 4148,
+          "document_type": "release_manifest",
+          "format": "md",
+          "name": "release_manifest.md",
+          "path": "examples/outputs/release_manifest.md",
+          "schema_version": "0.29",
+          "stage": "validation",
+          "suggested_next_command": "python -m leveraged_etp_risk_lab release-manifest --input-dir examples/outputs --format markdown"
+        },
+        {
+          "bytes": 24375,
+          "document_type": "schema_inventory",
+          "format": "json",
+          "name": "schema_inventory.json",
+          "path": "examples/outputs/schema_inventory.json",
+          "schema_version": "0.26",
+          "stage": "validation",
+          "suggested_next_command": "python -m leveraged_etp_risk_lab artifact-validate --format markdown"
+        },
+        {
+          "bytes": 11100,
+          "document_type": "schema_inventory",
+          "format": "md",
+          "name": "schema_inventory.md",
+          "path": "examples/outputs/schema_inventory.md",
+          "schema_version": "0.26",
+          "stage": "validation",
+          "suggested_next_command": "python -m leveraged_etp_risk_lab artifact-validate --format markdown"
+        }
+      ],
+      "stage": "validation",
+      "suggested_next_command": "python -m leveraged_etp_risk_lab artifact-validate --format markdown"
     }
   ],
   "summary": {
-    "artifacts": 39,
-    "bytes": 131257,
-    "stages": 7
+    "artifacts": 80,
+    "bytes": 617556,
+    "stages": 8
   }
 }

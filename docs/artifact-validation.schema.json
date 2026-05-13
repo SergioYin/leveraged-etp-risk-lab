@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Artifact Validation",
+  "type": "object",
+  "required": ["schema_version", "document_type", "summary", "artifacts", "provenance"],
+  "properties": {
+    "schema_version": {"const": "0.26"},
+    "document_type": {"const": "artifact_validation"},
+    "summary": {
+      "type": "object",
+      "required": ["artifacts", "passed", "failed", "ready"],
+      "properties": {
+        "artifacts": {"type": "integer"},
+        "passed": {"type": "integer"},
+        "failed": {"type": "integer"},
+        "ready": {"type": "boolean"}
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "document_type", "schema_version", "status", "issues", "provenance_flags"],
+        "properties": {
+          "path": {"type": "string"},
+          "document_type": {"type": ["string", "null"]},
+          "schema_version": {"type": ["string", "null"]},
+          "status": {"enum": ["pass", "fail"]},
+          "issues": {"type": "array", "items": {"type": "string"}},
+          "provenance_flags": {"type": "object"}
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["command", "source", "live_market_data", "shell_out", "private_context", "broker_execution"],
+      "properties": {
+        "command": {"const": "artifact-validate"},
+        "source": {"enum": ["examples/outputs", "path_list"]},
+        "live_market_data": {"const": false},
+        "shell_out": {"const": false},
+        "private_context": {"const": false},
+        "broker_execution": {"const": false}
+      }
+    }
+  }
+}

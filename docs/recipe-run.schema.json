@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Recipe Run",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "document_type",
+    "inputs",
+    "summary",
+    "workflow",
+    "components",
+    "artifacts",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "0.17"
+    },
+    "document_type": {
+      "const": "recipe_run"
+    },
+    "not_investment_advice": {
+      "type": "string"
+    },
+    "inputs": {
+      "type": "object"
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "product",
+        "scenario_days",
+        "scenario_return_pct",
+        "path_decay_vs_simple_multiple",
+        "recommended_notional",
+        "components",
+        "watchlist_entries"
+      ]
+    },
+    "workflow": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "step",
+          "command"
+        ],
+        "properties": {
+          "step": {
+            "type": "string"
+          },
+          "command": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "components": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "document_type",
+          "schema_version",
+          "summary"
+        ]
+      }
+    },
+    "artifacts": {
+      "type": "object"
+    },
+    "provenance": {
+      "type": "object",
+      "required": [
+        "command",
+        "recipe",
+        "shell_out"
+      ]
+    }
+  }
+}

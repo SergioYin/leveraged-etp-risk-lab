@@ -1,0 +1,108 @@
+{
+  "changed_risks": [
+    {
+      "change": "worsened",
+      "detail": "medium/needs_review -> high/challenged",
+      "id": "claim_1"
+    },
+    {
+      "change": "removed",
+      "detail": "Report card is not decision-ready.",
+      "id": "decision_not_ready"
+    },
+    {
+      "change": "added",
+      "detail": "return 5.1886%; worst drawdown -12.5903%; path decay -1.385944",
+      "id": "regime_rebound"
+    },
+    {
+      "change": "added",
+      "detail": "return 20.0961%; worst drawdown -0.6038%; path decay 0.994607; band events: day 12 take_profit at NAV 120.096051",
+      "id": "regime_trend_up"
+    },
+    {
+      "change": "added",
+      "detail": "return -9.0937%; worst drawdown -16.3862%; path decay -3.205395; band events: day 7 stop_loss at NAV 83.613785",
+      "id": "regime_volatility_cluster"
+    },
+    {
+      "change": "removed",
+      "detail": "Worst grid return is -48.8504% in gap_down.",
+      "id": "worst_grid_return"
+    }
+  ],
+  "checklist": [
+    {
+      "action": "Keep explicit educational framing in the memo.",
+      "id": "memo_not_investment_advice",
+      "item": "Memo contains not-investment-advice language.",
+      "status": "pass"
+    },
+    {
+      "action": "Resolve latest report-card unresolved checks and warnings.",
+      "id": "report_card_decision_ready",
+      "item": "Latest report-card is decision-ready.",
+      "status": "review"
+    },
+    {
+      "action": "Update memo invalidation triggers from latest watchlist.",
+      "id": "watchlist_risks_stable",
+      "item": "Watchlist has no added or changed memo risks.",
+      "status": "review"
+    },
+    {
+      "action": "Regenerate ledger or investigate artifacts with audit review status.",
+      "id": "audit_trail_passed",
+      "item": "Audit trail hashes pass for reviewed artifacts.",
+      "status": "pass"
+    },
+    {
+      "action": "Close or explicitly accept each memo open check.",
+      "id": "open_checks_closed",
+      "item": "Memo open checks are closed or accepted.",
+      "status": "review"
+    },
+    {
+      "action": "Escalate critical watchlist triggers before any decision review.",
+      "id": "critical_watchlist_clear",
+      "item": "Latest watchlist has no critical entries.",
+      "status": "review"
+    }
+  ],
+  "document_type": "investment_memo_review",
+  "inputs": {
+    "audit_trail": "examples/outputs/audit_trail.json",
+    "memo": "examples/outputs/investment_memo.json",
+    "report_card": "examples/outputs/report_card.json",
+    "watchlist": "examples/outputs/watchlist.json"
+  },
+  "next_actions": [
+    "Resolve latest report-card unresolved checks and warnings.",
+    "Update memo invalidation triggers from latest watchlist.",
+    "Close or explicitly accept each memo open check.",
+    "Escalate critical watchlist triggers before any decision review.",
+    "Regenerate memo-draft after reviewing changed watchlist risks.",
+    "python -m leveraged_etp_risk_lab report-card --artifact examples/outputs/pretrade_plan.json --artifact examples/outputs/position_size.json --artifact examples/outputs/stress_matrix.json --artifact examples/outputs/factsheet_check.json --format markdown",
+    "python -m leveraged_etp_risk_lab package-audit --format markdown --run-tests"
+  ],
+  "not_investment_advice": "This memo review is for scenario planning and education only. It is not investment advice, a recommendation, or a suitability determination.",
+  "provenance": {
+    "artifacts": [
+      "examples/outputs/investment_memo.json",
+      "examples/outputs/report_card.json",
+      "examples/outputs/watchlist.json",
+      "examples/outputs/audit_trail.json"
+    ],
+    "command": "memo-review",
+    "live_market_data": false,
+    "shell_out": false
+  },
+  "schema_version": "0.21",
+  "summary": {
+    "changed_risks": 6,
+    "checklist_items": 6,
+    "decision_ready": false,
+    "pass": 2,
+    "review": 4
+  }
+}

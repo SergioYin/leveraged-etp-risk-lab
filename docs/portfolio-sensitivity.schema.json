@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Portfolio Sensitivity",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "document_type",
+    "not_investment_advice",
+    "portfolio",
+    "inputs",
+    "summary",
+    "positions",
+    "warnings",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {"const": "0.20"},
+    "document_type": {"const": "portfolio_sensitivity"},
+    "not_investment_advice": {"type": "string"},
+    "portfolio": {"type": "object"},
+    "inputs": {"type": "object"},
+    "summary": {
+      "type": "object",
+      "required": [
+        "positions",
+        "starting_value",
+        "base_weighted_exposure",
+        "aggregate_worst_case_modeled_loss",
+        "aggregate_worst_case_loss_pct",
+        "aggregate_worst_case_weighted_exposure"
+      ]
+    },
+    "positions": {"type": "array", "items": {"type": "object"}},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "provenance": {
+      "type": "object",
+      "required": ["command", "manifest", "live_market_data", "shell_out"],
+      "properties": {
+        "command": {"const": "portfolio-sensitivity"},
+        "manifest": {"type": "string"},
+        "live_market_data": {"const": false},
+        "shell_out": {"const": false}
+      }
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,272 @@
+{
+  "baseline_artifact_hashes": [
+    {
+      "artifact_name": "investment_memo.json",
+      "bytes": 10963,
+      "document_type": "investment_memo_packet",
+      "path": "examples/outputs/investment_memo.json",
+      "schema_version": "0.21",
+      "sha256": "e65fdac470f187a1b38ecc8c67b034364fcbb86f98193f09f35e01767be0dbf7"
+    },
+    {
+      "artifact_name": "watchlist.json",
+      "bytes": 15069,
+      "document_type": "watchlist",
+      "path": "examples/outputs/watchlist.json",
+      "schema_version": "0.10",
+      "sha256": "31eb2d3ed67f894ef362ed078845d4db489e3270eebf312aa39951a5d9134aa4"
+    },
+    {
+      "artifact_name": "report_card.json",
+      "bytes": 16254,
+      "document_type": "report_card",
+      "path": "examples/outputs/report_card.json",
+      "schema_version": "0.18",
+      "sha256": "77e2de589d7bcc779073c6e99affc7d5cee32c524ab2374a02dd1a2b76ce7a76"
+    },
+    {
+      "artifact_name": "sensitivity_grid.json",
+      "bytes": 75105,
+      "document_type": "sensitivity_grid",
+      "path": "examples/outputs/sensitivity_grid.json",
+      "schema_version": "0.19",
+      "sha256": "37c2e08ee361260a79c744df8f5d373ab6cee9ec07cf3f97e2cb081270757f0d"
+    }
+  ],
+  "baseline_risks": [
+    {
+      "id": "regime_gap_down",
+      "severity": "critical",
+      "source": "watchlist",
+      "status": "triggered",
+      "trigger": "return -48.8504%; worst drawdown -52.5497%; path decay 5.694511; band events: day 1 stop_loss at NAV 74.49623"
+    },
+    {
+      "id": "regime_trend_down",
+      "severity": "high",
+      "source": "watchlist",
+      "status": "triggered",
+      "trigger": "return -19.8516%; worst drawdown -19.8516%; path decay 1.136554; band events: day 8 stop_loss at NAV 84.483822"
+    },
+    {
+      "id": "regime_volatility_cluster",
+      "severity": "high",
+      "source": "watchlist",
+      "status": "triggered",
+      "trigger": "return -9.0937%; worst drawdown -16.3862%; path decay -3.205395; band events: day 7 stop_loss at NAV 83.613785"
+    },
+    {
+      "id": "sensitivity_worst_return",
+      "severity": "high",
+      "source": "sensitivity_grid",
+      "status": "review",
+      "trigger": "Worst grid return is -48.8504% in gap_down."
+    },
+    {
+      "id": "worst_grid_return",
+      "severity": "high",
+      "source": "thesis_dashboard_data",
+      "status": "review",
+      "trigger": "Worst grid return is -48.8504% in gap_down."
+    },
+    {
+      "id": "claim_1",
+      "severity": "medium",
+      "source": "watchlist",
+      "status": "needs_review",
+      "trigger": "The modeled trade is a short-horizon tactical scenario for a generic daily-reset leveraged ETP. The thesis assumes the reference index can recover after recent volatility, but recognizes that choppy paths can create decay even when the underlying ends near flat."
+    },
+    {
+      "id": "claim_2",
+      "severity": "medium",
+      "source": "watchlist",
+      "status": "needs_review",
+      "trigger": "The plan should be rejected if the loss budget, stop band, liquidity review, or event-risk checklist cannot be accepted before entry."
+    },
+    {
+      "id": "decision_not_ready",
+      "severity": "medium",
+      "source": "report_card",
+      "status": "review",
+      "trigger": "Report card is not decision-ready."
+    },
+    {
+      "id": "regime_chop",
+      "severity": "medium",
+      "source": "watchlist",
+      "status": "triggered",
+      "trigger": "return -0.3186%; worst drawdown -6.5029%; path decay -1.429133"
+    }
+  ],
+  "baseline_watch_items": [
+    {
+      "category": "regime_trigger",
+      "id": "regime_gap_down",
+      "severity": "critical",
+      "status": "triggered",
+      "title": "Gap Down stress trigger",
+      "trigger": "return -48.8504%; worst drawdown -52.5497%; path decay 5.694511; band events: day 1 stop_loss at NAV 74.49623"
+    },
+    {
+      "category": "claim",
+      "id": "claim_1",
+      "severity": "high",
+      "status": "challenged",
+      "title": "The modeled trade is a short-horizon tactical scenario for a generic daily-re...",
+      "trigger": "The modeled trade is a short-horizon tactical scenario for a generic daily-reset leveraged ETP. The thesis assumes the reference index can recover after recent volatility, but recognizes that choppy paths can create decay even when the underlying ends near flat."
+    },
+    {
+      "category": "regime_trigger",
+      "id": "regime_trend_down",
+      "severity": "high",
+      "status": "triggered",
+      "title": "Trend Down stress trigger",
+      "trigger": "return -19.8516%; worst drawdown -19.8516%; path decay 1.136554; band events: day 8 stop_loss at NAV 84.483822"
+    },
+    {
+      "category": "regime_trigger",
+      "id": "regime_volatility_cluster",
+      "severity": "high",
+      "status": "triggered",
+      "title": "Volatility Cluster stress trigger",
+      "trigger": "return -9.0937%; worst drawdown -16.3862%; path decay -3.205395; band events: day 7 stop_loss at NAV 83.613785"
+    },
+    {
+      "category": "claim",
+      "id": "claim_2",
+      "severity": "medium",
+      "status": "needs_review",
+      "title": "The plan should be rejected if the loss budget, stop band, liquidity review,...",
+      "trigger": "The plan should be rejected if the loss budget, stop band, liquidity review, or event-risk checklist cannot be accepted before entry."
+    },
+    {
+      "category": "regime_trigger",
+      "id": "regime_chop",
+      "severity": "medium",
+      "status": "triggered",
+      "title": "Chop stress trigger",
+      "trigger": "return -0.3186%; worst drawdown -6.5029%; path decay -1.429133"
+    },
+    {
+      "category": "regime_trigger",
+      "id": "regime_rebound",
+      "severity": "medium",
+      "status": "triggered",
+      "title": "Rebound stress trigger",
+      "trigger": "return 5.1886%; worst drawdown -12.5903%; path decay -1.385944"
+    },
+    {
+      "category": "regime_trigger",
+      "id": "regime_trend_up",
+      "severity": "medium",
+      "status": "triggered",
+      "title": "Trend Up stress trigger",
+      "trigger": "return 20.0961%; worst drawdown -0.6038%; path decay 0.994607; band events: day 12 take_profit at NAV 120.096051"
+    }
+  ],
+  "document_type": "cycle_state",
+  "inputs": {
+    "investment_memo": "examples/outputs/investment_memo.json",
+    "report_card": "examples/outputs/report_card.json",
+    "sensitivity_grid": "examples/outputs/sensitivity_grid.json",
+    "watchlist": "examples/outputs/watchlist.json"
+  },
+  "not_investment_advice": "This watch cycle state is for scenario planning and education only. It is not investment advice, a recommendation, or a suitability determination.",
+  "open_checks": [
+    {
+      "id": "check_1",
+      "source": "report_card",
+      "status": "open",
+      "text": "Checklist item: Confirm the product uses daily reset leverage and identify the stated leverage factor."
+    },
+    {
+      "id": "check_2",
+      "source": "report_card",
+      "status": "open",
+      "text": "Checklist item: Compare the planned holding period with the product objective and risk disclosures."
+    },
+    {
+      "id": "check_3",
+      "source": "report_card",
+      "status": "open",
+      "text": "Checklist item: Run at least one trending path and one choppy path before sizing the trade."
+    },
+    {
+      "id": "check_4",
+      "source": "report_card",
+      "status": "open",
+      "text": "Checklist item: Record stop-loss and take-profit levels before entry."
+    },
+    {
+      "id": "check_5",
+      "source": "report_card",
+      "status": "open",
+      "text": "Checklist item: Review borrowing, financing, and management-fee drag assumptions."
+    },
+    {
+      "id": "check_6",
+      "source": "report_card",
+      "status": "open",
+      "text": "Confirm liquidity, execution quality, tax treatment, and suitability outside this model."
+    },
+    {
+      "id": "check_7",
+      "source": "report_card",
+      "status": "open",
+      "text": "Checklist item: Confirm account value and loss budget before using the notional figure."
+    },
+    {
+      "id": "check_8",
+      "source": "report_card",
+      "status": "open",
+      "text": "Checklist item: Convert notional to shares with the intended execution price outside this model."
+    },
+    {
+      "id": "check_9",
+      "source": "report_card",
+      "status": "open",
+      "text": "Checklist item: Check liquidity, spreads, trading halts, and gap risk before relying on a stop."
+    },
+    {
+      "id": "check_10",
+      "source": "report_card",
+      "status": "open",
+      "text": "Checklist item: Compare exposure multiple with portfolio concentration and leverage limits."
+    },
+    {
+      "id": "check_11",
+      "source": "factsheet_check",
+      "status": "open",
+      "text": "Review factsheet field: liquidity_spread"
+    }
+  ],
+  "provenance": {
+    "artifacts": [
+      "examples/outputs/investment_memo.json",
+      "examples/outputs/watchlist.json",
+      "examples/outputs/report_card.json",
+      "examples/outputs/sensitivity_grid.json"
+    ],
+    "command": "cycle-init",
+    "live_market_data": false,
+    "shell_out": false
+  },
+  "review_cadence": {
+    "cadence": "placeholder",
+    "next_review": "set-by-user",
+    "review_inputs": [
+      "latest report_card",
+      "latest watchlist",
+      "latest audit_trail"
+    ],
+    "review_owner": "set-by-user"
+  },
+  "schema_version": "0.22",
+  "state_id": "cycle_c46a3e619fcf75f4",
+  "summary": {
+    "baseline_risks": 9,
+    "decision_ready": false,
+    "open_checks": 11,
+    "watch_items": 8
+  }
+}

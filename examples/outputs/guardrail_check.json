@@ -1,0 +1,172 @@
+{
+  "document_type": "guardrail_check",
+  "inputs": {
+    "cycle_update": "examples/outputs/cycle_update.json",
+    "investment_memo": "examples/outputs/investment_memo.json",
+    "policy": "examples/outputs/guardrail_policy.json",
+    "portfolio_sensitivity": "examples/outputs/portfolio_sensitivity.json",
+    "position_size": "examples/outputs/position_size.json"
+  },
+  "next_actions": [
+    "Complete review items before relying on the allocation packet.",
+    "Review aggregate modeled portfolio loss against the stated budget before proceeding.",
+    "Close or explicitly accept memo open checks before relying on the allocation.",
+    "Review memo invalidation triggers and regenerate memo artifacts if the thesis changed.",
+    "Resolve cycle-update next review actions before proceeding."
+  ],
+  "not_investment_advice": "This allocation guardrail check is for scenario planning and education only. It is not investment advice, a recommendation, or a suitability determination.",
+  "observed": {
+    "aggregate_worst_case_loss_pct": 48.8518,
+    "cycle_added_watch_items": 0,
+    "cycle_changed_watch_items": 0,
+    "cycle_decision_ready": false,
+    "cycle_hash_drift": 0,
+    "cycle_removed_watch_items": 0,
+    "cycle_status_transitions": 1.0,
+    "holding_days": 6.0,
+    "leverage_exposure": 3.0,
+    "loss_budget_pct": 1.5,
+    "memo_critical_triggers": 1,
+    "memo_high_triggers": 2,
+    "memo_invalidation_triggers": 7,
+    "memo_open_checks": 11,
+    "position_exposure_multiple": 0.3
+  },
+  "policy": {
+    "limits": {
+      "max_holding_days": 10,
+      "max_leverage_exposure": 3.0,
+      "max_loss_budget_pct": 1.5
+    },
+    "name": "Default allocation guardrail",
+    "policy_id": "default"
+  },
+  "provenance": {
+    "artifacts": [
+      "examples/outputs/guardrail_policy.json",
+      "examples/outputs/portfolio_sensitivity.json",
+      "examples/outputs/position_size.json",
+      "examples/outputs/investment_memo.json",
+      "examples/outputs/cycle_update.json"
+    ],
+    "command": "guardrail-check",
+    "live_market_data": false,
+    "shell_out": false
+  },
+  "rules": [
+    {
+      "action": "No action required.",
+      "id": "max_leverage_exposure",
+      "label": "Maximum leverage exposure",
+      "limit": 3.0,
+      "observed": 3.0,
+      "status": "pass"
+    },
+    {
+      "action": "No action required.",
+      "id": "max_loss_budget_pct",
+      "label": "Maximum loss budget percent",
+      "limit": 1.5,
+      "observed": 1.5,
+      "status": "pass"
+    },
+    {
+      "action": "No action required.",
+      "id": "max_holding_days",
+      "label": "Maximum holding days",
+      "limit": 10.0,
+      "observed": 6.0,
+      "status": "pass"
+    },
+    {
+      "action": "No action required.",
+      "id": "required_artifacts",
+      "label": "Required artifact types",
+      "limit": "portfolio_sensitivity,position_size_plan,investment_memo_packet,cycle_update",
+      "observed": "cycle_update,investment_memo_packet,portfolio_sensitivity,position_size_plan",
+      "status": "pass"
+    },
+    {
+      "action": "Review aggregate modeled portfolio loss against the stated budget before proceeding.",
+      "id": "aggregate_modeled_loss_review",
+      "label": "Aggregate modeled loss review",
+      "limit": 1.5,
+      "observed": 48.8518,
+      "status": "review"
+    },
+    {
+      "action": "Close or explicitly accept memo open checks before relying on the allocation.",
+      "id": "memo_open_checks",
+      "label": "Investment memo open checks",
+      "limit": 0,
+      "observed": 11,
+      "status": "review"
+    },
+    {
+      "action": "Review memo invalidation triggers and regenerate memo artifacts if the thesis changed.",
+      "id": "memo_invalidation_triggers",
+      "label": "Critical or high memo invalidation triggers",
+      "limit": 0,
+      "observed": 3,
+      "status": "review"
+    },
+    {
+      "action": "Resolve cycle-update next review actions before proceeding.",
+      "id": "cycle_decision_ready",
+      "label": "Cycle update decision ready",
+      "limit": true,
+      "observed": false,
+      "status": "review"
+    },
+    {
+      "action": "No action required.",
+      "id": "cycle_changes",
+      "label": "Cycle watch item changes",
+      "limit": 0,
+      "observed": 0,
+      "status": "pass"
+    }
+  ],
+  "schema_version": "0.23",
+  "summary": {
+    "fail": 0,
+    "pass": 5,
+    "result": "review",
+    "review": 4,
+    "rules": 9
+  },
+  "violated_rules": [
+    {
+      "action": "Review aggregate modeled portfolio loss against the stated budget before proceeding.",
+      "id": "aggregate_modeled_loss_review",
+      "label": "Aggregate modeled loss review",
+      "limit": 1.5,
+      "observed": 48.8518,
+      "status": "review"
+    },
+    {
+      "action": "Close or explicitly accept memo open checks before relying on the allocation.",
+      "id": "memo_open_checks",
+      "label": "Investment memo open checks",
+      "limit": 0,
+      "observed": 11,
+      "status": "review"
+    },
+    {
+      "action": "Review memo invalidation triggers and regenerate memo artifacts if the thesis changed.",
+      "id": "memo_invalidation_triggers",
+      "label": "Critical or high memo invalidation triggers",
+      "limit": 0,
+      "observed": 3,
+      "status": "review"
+    },
+    {
+      "action": "Resolve cycle-update next review actions before proceeding.",
+      "id": "cycle_decision_ready",
+      "label": "Cycle update decision ready",
+      "limit": true,
+      "observed": false,
+      "status": "review"
+    }
+  ]
+}

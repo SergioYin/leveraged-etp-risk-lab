@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Docs Export",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "document_type",
+    "title",
+    "summary",
+    "sources",
+    "safety_caveats",
+    "command_map",
+    "release_notes",
+    "local_artifact_links",
+    "markdown_artifacts",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {"const": "0.29"},
+    "document_type": {"const": "docs_export"},
+    "title": {"type": "string"},
+    "summary": {
+      "type": "object",
+      "required": [
+        "source_artifacts",
+        "source_artifacts_present",
+        "markdown_artifacts",
+        "commands",
+        "local_links",
+        "release_status",
+        "package_ready"
+      ],
+      "properties": {
+        "source_artifacts": {"type": "integer"},
+        "source_artifacts_present": {"type": "integer"},
+        "markdown_artifacts": {"type": "integer"},
+        "commands": {"type": "integer"},
+        "local_links": {"type": "integer"},
+        "release_status": {"anyOf": [{"type": "string"}, {"type": "null"}]},
+        "package_ready": {"anyOf": [{"type": "boolean"}, {"type": "null"}]}
+      },
+      "additionalProperties": false
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "path", "status", "document_type", "schema_version", "error"],
+        "properties": {
+          "name": {"type": "string"},
+          "path": {"type": "string"},
+          "status": {"enum": ["present", "missing", "invalid"]},
+          "document_type": {"anyOf": [{"type": "string"}, {"type": "null"}]},
+          "schema_version": {"anyOf": [{"type": "string"}, {"type": "null"}]},
+          "error": {"anyOf": [{"type": "string"}, {"type": "null"}]}
+        },
+        "additionalProperties": false
+      }
+    },
+    "safety_caveats": {"type": "array", "items": {"type": "string"}},
+    "command_map": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "purpose", "example"],
+        "properties": {
+          "name": {"type": "string"},
+          "purpose": {"type": "string"},
+          "example": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "release_notes": {
+      "type": "object",
+      "required": ["title", "markdown"],
+      "properties": {
+        "title": {"type": "string"},
+        "markdown": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "local_artifact_links": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "kind", "stage"],
+        "properties": {
+          "path": {"type": "string"},
+          "kind": {"type": "string"},
+          "stage": {"anyOf": [{"type": "string"}, {"type": "null"}]}
+        },
+        "additionalProperties": false
+      }
+    },
+    "markdown_artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "title", "bytes"],
+        "properties": {
+          "path": {"type": "string"},
+          "title": {"type": "string"},
+          "bytes": {"type": "integer"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "required": [
+        "command",
+        "input_dir",
+        "live_market_data",
+        "external_assets",
+        "javascript",
+        "private_context",
+        "workflow_files_read"
+      ],
+      "properties": {
+        "command": {"const": "docs-export"},
+        "input_dir": {"type": "string"},
+        "live_market_data": {"const": false},
+        "external_assets": {"const": false},
+        "javascript": {"const": false},
+        "private_context": {"const": false},
+        "workflow_files_read": {"const": false}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

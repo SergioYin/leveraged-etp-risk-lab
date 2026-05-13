@@ -1,0 +1,194 @@
+{
+  "do_not_trade_if": [
+    {
+      "condition": "No current broker quote, spread, liquidity, halt, and order preview has been reviewed.",
+      "id": "no_live_quote",
+      "severity": "review",
+      "source": "order-ticket"
+    },
+    {
+      "condition": "Any required broker field remains unset or inconsistent with the user's intent.",
+      "id": "broker_fields_incomplete",
+      "severity": "review",
+      "source": "order-ticket"
+    },
+    {
+      "condition": "Guardrail check has review items that have not been explicitly resolved.",
+      "id": "guardrail_review",
+      "severity": "review",
+      "source": "guardrail_check"
+    },
+    {
+      "condition": "Review aggregate modeled portfolio loss against the stated budget before proceeding.",
+      "id": "guardrail_rule_aggregate_modeled_loss_review",
+      "severity": "review",
+      "source": "guardrail_check"
+    },
+    {
+      "condition": "Close or explicitly accept memo open checks before relying on the allocation.",
+      "id": "guardrail_rule_memo_open_checks",
+      "severity": "review",
+      "source": "guardrail_check"
+    },
+    {
+      "condition": "Review memo invalidation triggers and regenerate memo artifacts if the thesis changed.",
+      "id": "guardrail_rule_memo_invalidation_triggers",
+      "severity": "review",
+      "source": "guardrail_check"
+    },
+    {
+      "condition": "Resolve cycle-update next review actions before proceeding.",
+      "id": "guardrail_rule_cycle_decision_ready",
+      "severity": "review",
+      "source": "guardrail_check"
+    },
+    {
+      "condition": "Investment memo has open checks.",
+      "id": "memo_open_checks",
+      "severity": "review",
+      "source": "investment_memo"
+    },
+    {
+      "condition": "return -48.8504%; worst drawdown -52.5497%; path decay 5.694511; band events: day 1 stop_loss at NAV 74.49623",
+      "id": "memo_trigger_regime_gap_down",
+      "severity": "review",
+      "source": "investment_memo"
+    },
+    {
+      "condition": "return -19.8516%; worst drawdown -19.8516%; path decay 1.136554; band events: day 8 stop_loss at NAV 84.483822",
+      "id": "memo_trigger_regime_trend_down",
+      "severity": "review",
+      "source": "investment_memo"
+    },
+    {
+      "condition": "The modeled trade is a short-horizon tactical scenario for a generic daily-reset leveraged ETP. The thesis assumes the reference index can recover after recent volatility, but recognizes that choppy paths can create decay even when the underlying ends near flat.",
+      "id": "memo_trigger_claim_1",
+      "severity": "review",
+      "source": "investment_memo"
+    },
+    {
+      "condition": "The plan should be rejected if the loss budget, stop band, liquidity review, or event-risk checklist cannot be accepted before entry.",
+      "id": "memo_trigger_claim_2",
+      "severity": "review",
+      "source": "investment_memo"
+    },
+    {
+      "condition": "Thesis dashboard data is not decision-ready.",
+      "id": "dashboard_not_ready",
+      "severity": "review",
+      "source": "thesis_dashboard_data"
+    }
+  ],
+  "document_type": "order_ticket",
+  "inputs": {
+    "factsheet_check": "examples/outputs/factsheet_check.json",
+    "guardrail_check": "examples/outputs/guardrail_check.json",
+    "investment_memo": "examples/outputs/investment_memo.json",
+    "position_size": "examples/outputs/position_size.json",
+    "thesis_dashboard_data": "examples/outputs/thesis_dashboard_data.json"
+  },
+  "no_live_price_warning": "No live or delayed market data is read; confirm quote, spread, liquidity, and broker order preview outside this package.",
+  "not_investment_advice": "This pre-order ticket is for scenario planning and education only. It is not investment advice, a recommendation, a suitability determination, or a broker order.",
+  "order_intent": {
+    "limit_price": "set-by-user-no-live-price",
+    "notes": "placeholder-only; this package does not place, stage, route, or execute orders",
+    "order_type": "set-by-user",
+    "planned_entry_window": "set-by-user",
+    "side": "set-by-user",
+    "stop_or_exit_plan": "set-by-user",
+    "time_in_force": "set-by-user"
+  },
+  "product": {
+    "currency": "USD",
+    "leverage": 3.0,
+    "name": "Generic 3x Nasdaq Daily Reset ETP",
+    "ticker": "NDAQ3X",
+    "underlying": "Nasdaq-100 reference index"
+  },
+  "provenance": {
+    "artifacts": [
+      "examples/outputs/guardrail_check.json",
+      "examples/outputs/investment_memo.json",
+      "examples/outputs/position_size.json",
+      "examples/outputs/factsheet_check.json",
+      "examples/outputs/thesis_dashboard_data.json"
+    ],
+    "broker_execution": false,
+    "command": "order-ticket",
+    "live_market_data": false,
+    "shell_out": false
+  },
+  "required_broker_fields": [
+    {
+      "field": "account",
+      "reason": "Broker account must be selected outside this package.",
+      "status": "placeholder"
+    },
+    {
+      "field": "symbol",
+      "reason": "Confirm ticker and listing venue in broker UI.",
+      "status": "placeholder"
+    },
+    {
+      "field": "side",
+      "reason": "User must choose buy/sell or other permitted side.",
+      "status": "placeholder"
+    },
+    {
+      "field": "quantity",
+      "reason": "Convert notional to shares with an execution price outside this package.",
+      "status": "placeholder"
+    },
+    {
+      "field": "order_type",
+      "reason": "User must choose market, limit, stop, or other broker-supported type.",
+      "status": "placeholder"
+    },
+    {
+      "field": "limit_or_stop_price",
+      "reason": "Required when selected order type needs a price; no live price is provided here.",
+      "status": "placeholder"
+    },
+    {
+      "field": "time_in_force",
+      "reason": "User must choose day, GTC, or other broker-supported duration.",
+      "status": "placeholder"
+    },
+    {
+      "field": "estimated_commission_and_fees",
+      "reason": "Confirm broker preview costs outside this package.",
+      "status": "placeholder"
+    },
+    {
+      "field": "liquidity_spread_halt_review",
+      "reason": "Confirm spread, depth, halts, and trading status outside this package.",
+      "status": "placeholder"
+    }
+  ],
+  "schema_version": "0.24",
+  "sizing": {
+    "exposure_multiple": 0.3,
+    "max_notional": 5000.0,
+    "max_shares": null,
+    "max_shares_placeholder": "Divide recommended_notional by the intended execution price; no live price is modeled.",
+    "modeled_loss_at_stop": 750.0,
+    "risk_budget_pct": 1.5
+  },
+  "summary": {
+    "currency": "USD",
+    "do_not_trade_conditions": 13,
+    "guardrail_result": "review",
+    "max_notional": 5000.0,
+    "status": "review",
+    "ticker": "NDAQ3X"
+  },
+  "warnings": [
+    "No live price, bid-ask spread, depth, halt, or broker availability check is performed.",
+    "This order ticket is a pre-order educational checklist, not an instruction to trade.",
+    "Broker fields remain placeholders and must be completed outside this package.",
+    "Daily reset leverage means multi-day returns can differ materially from the underlying return times leverage.",
+    "Scenario output is not investment advice and does not predict future returns.",
+    "Large daily moves can compound quickly and may create losses larger than a simple one-day estimate.",
+    "Fee drag is approximated as a constant daily deduction from the leveraged daily return."
+  ]
+}

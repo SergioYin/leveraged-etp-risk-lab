@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Investment memo review",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "document_type",
+    "not_investment_advice",
+    "inputs",
+    "summary",
+    "changed_risks",
+    "checklist",
+    "next_actions",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {"const": "0.21"},
+    "document_type": {"const": "investment_memo_review"},
+    "not_investment_advice": {"type": "string"},
+    "inputs": {"type": "object"},
+    "summary": {"type": "object"},
+    "changed_risks": {"type": "array", "items": {"type": "object"}},
+    "checklist": {"type": "array", "items": {"type": "object"}},
+    "next_actions": {"type": "array", "items": {"type": "string"}},
+    "provenance": {
+      "type": "object",
+      "required": ["command", "live_market_data", "shell_out"],
+      "properties": {
+        "command": {"const": "memo-review"},
+        "live_market_data": {"const": false},
+        "shell_out": {"const": false}
+      }
+    }
+  },
+  "additionalProperties": true
+}

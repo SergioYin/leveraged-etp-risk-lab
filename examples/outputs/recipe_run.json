@@ -1,0 +1,1017 @@
+{
+  "artifacts": {
+    "factsheet_check": {
+      "checks": [
+        {
+          "evidence": {
+            "source": "factsheet_text",
+            "value": "Generic Education Issuer."
+          },
+          "field": "issuer",
+          "label": "Issuer",
+          "message": "Issuer mentioned in factsheet text.",
+          "status": "pass"
+        },
+        {
+          "evidence": {
+            "source": "factsheet_text",
+            "value": "Example Exchange."
+          },
+          "field": "exchange",
+          "label": "Exchange",
+          "message": "Exchange mentioned in factsheet text.",
+          "status": "pass"
+        },
+        {
+          "evidence": {
+            "source": "product_json",
+            "value": "Nasdaq-100 reference index"
+          },
+          "field": "underlying",
+          "label": "Underlying",
+          "message": "Underlying found in product JSON.",
+          "status": "pass"
+        },
+        {
+          "evidence": {
+            "source": "product_json",
+            "value": 3
+          },
+          "field": "leverage_factor",
+          "label": "Leverage factor",
+          "message": "Leverage factor found in product JSON.",
+          "status": "pass"
+        },
+        {
+          "evidence": {
+            "source": "product_json",
+            "value": "reset_frequency=daily"
+          },
+          "field": "daily_reset",
+          "label": "Daily reset wording",
+          "message": "Product reset frequency is daily.",
+          "status": "pass"
+        },
+        {
+          "evidence": {
+            "source": "product_json",
+            "value": 0.0095
+          },
+          "field": "fee",
+          "label": "Fee",
+          "message": "Fee found in product JSON.",
+          "status": "pass"
+        },
+        {
+          "evidence": {
+            "source": "product_json",
+            "value": "USD"
+          },
+          "field": "currency",
+          "label": "Currency",
+          "message": "Currency found in product JSON.",
+          "status": "pass"
+        },
+        {
+          "evidence": {
+            "source": "factsheet_text",
+            "value": "placeholder: verify current liquidity and bid-ask spread before use"
+          },
+          "field": "liquidity_spread",
+          "label": "Liquidity/spread placeholder",
+          "message": "Factsheet text includes liquidity or spread language, but no live market data is fetched.",
+          "status": "review"
+        },
+        {
+          "evidence": {
+            "source": "factsheet_text",
+            "value": "review the public intraday indicative value field or ticker before use."
+          },
+          "field": "inav",
+          "label": "iNAV field",
+          "message": "iNAV field mentioned in factsheet text.",
+          "status": "pass"
+        },
+        {
+          "evidence": {
+            "source": "factsheet_text",
+            "value": "review issuer premium/discount history before use."
+          },
+          "field": "premium_discount",
+          "label": "Premium/discount field",
+          "message": "Premium/discount field mentioned in factsheet text.",
+          "status": "pass"
+        }
+      ],
+      "document_type": "factsheet_check",
+      "inputs": {
+        "factsheet_file": "examples/fixtures/factsheet_note.txt",
+        "product": "examples/fixtures/leveraged_nasdaq_3x.json"
+      },
+      "missing_fields": [],
+      "not_investment_advice": "This factsheet checklist is for educational product-term review only. It is not investment advice, a recommendation, or a suitability determination.",
+      "product": {
+        "name": "Generic 3x Nasdaq Daily Reset ETP",
+        "ticker": "NDAQ3X"
+      },
+      "provenance": {
+        "command": "factsheet-check",
+        "factsheet_file": "examples/fixtures/factsheet_note.txt",
+        "product": "examples/fixtures/leveraged_nasdaq_3x.json"
+      },
+      "schema_version": "0.15",
+      "summary": {
+        "checks": 10,
+        "missing": 0,
+        "passed": 9,
+        "ready_for_review": true,
+        "review": 1
+      }
+    },
+    "position_size": {
+      "checklist": [
+        "Confirm account value and loss budget before using the notional figure.",
+        "Convert notional to shares with the intended execution price outside this model.",
+        "Check liquidity, spreads, trading halts, and gap risk before relying on a stop.",
+        "Compare exposure multiple with portfolio concentration and leverage limits.",
+        "Record that this output is for scenario planning and is not investment advice."
+      ],
+      "document_type": "position_size_plan",
+      "inputs": {
+        "account_value": 50000.0,
+        "currency": "USD",
+        "loss_basis": "stop_loss",
+        "max_loss_budget": 750.0,
+        "risk_budget_pct": 1.5,
+        "stop_loss_pct": 15.0
+      },
+      "not_investment_advice": "This position sizing planner is for scenario planning and education only. It is not investment advice, a recommendation, or a suitability determination.",
+      "product": {
+        "annual_fee_pct": 0.95,
+        "currency": "USD",
+        "leverage": 3.0,
+        "name": "Generic 3x Nasdaq Daily Reset ETP",
+        "reset_frequency": "daily",
+        "ticker": "NDAQ3X",
+        "underlying": "Nasdaq-100 reference index"
+      },
+      "provenance": {
+        "account_value": 50000.0,
+        "command": "recipe-run:position-size",
+        "max_loss_budget": null,
+        "recipe": "examples/fixtures/recipe_thesis_review.json",
+        "risk_budget_pct": 0.015,
+        "source": "recipe_pretrade_plan",
+        "stop_loss": 0.15
+      },
+      "recommendation": {
+        "exposure_multiple": 0.3,
+        "max_shares": null,
+        "max_shares_placeholder": "Divide recommended_notional by the intended execution price; no live price is modeled.",
+        "modeled_loss_at_stop": 750.0,
+        "modeled_loss_pct_of_account": 1.5,
+        "recommended_notional": 5000.0
+      },
+      "scenario": {
+        "days": 6,
+        "ending_etp_nav": 100.608795,
+        "etp_return_pct": 0.6088,
+        "path_decay_vs_simple_multiple": -0.602755,
+        "underlying_return_pct": 0.4038
+      },
+      "schema_version": "0.8",
+      "warnings": [
+        "Daily reset leverage means multi-day returns can differ materially from the underlying return times leverage.",
+        "Scenario output is not investment advice and does not predict future returns.",
+        "Large daily moves can compound quickly and may create losses larger than a simple one-day estimate.",
+        "Fee drag is approximated as a constant daily deduction from the leveraged daily return.",
+        "A pretrade plan does not confirm liquidity, execution quality, tax treatment, or suitability.",
+        "Stop-loss and take-profit bands are planning levels, not guaranteed execution prices.",
+        "Recommended notional is a deterministic planning output, not a trade recommendation.",
+        "Share count is a placeholder because no live or execution price is modeled.",
+        "Stop-loss levels are planning inputs and do not guarantee execution at the modeled loss."
+      ]
+    },
+    "pretrade_plan": {
+      "assumptions": [
+        "Scenario path is deterministic fixture data, not a forecast.",
+        "Modeled NAV starts at 100 and applies daily reset leverage once per scenario row.",
+        "Fees are approximated as a constant daily deduction from leveraged daily return.",
+        "Risk bands are evaluated on modeled end-of-day NAV values.",
+        "The maximum loss budget is supplied by the user and is not a sizing recommendation."
+      ],
+      "budget": {
+        "currency": "USD",
+        "max_loss_budget": 750.0
+      },
+      "checklist": {
+        "items": [
+          "Confirm the product uses daily reset leverage and identify the stated leverage factor.",
+          "Compare the planned holding period with the product objective and risk disclosures.",
+          "Run at least one trending path and one choppy path before sizing the trade.",
+          "Record stop-loss and take-profit levels before entry.",
+          "Review borrowing, financing, and management-fee drag assumptions.",
+          "Check whether the underlying has event risk, earnings, regulatory decisions, or macro releases.",
+          "Document why the scenario does not rely on a simple leverage multiple over several days.",
+          "Record maximum tolerable loss, concentration, and portfolio correlation."
+        ],
+        "profile": "risk-review"
+      },
+      "document_type": "pretrade_plan",
+      "not_investment_advice": "This decision packet is for scenario planning and education only. It is not investment advice, a recommendation, or a suitability determination.",
+      "product": {
+        "annual_fee_pct": 0.95,
+        "currency": "USD",
+        "leverage": 3.0,
+        "name": "Generic 3x Nasdaq Daily Reset ETP",
+        "reset_frequency": "daily",
+        "ticker": "NDAQ3X",
+        "underlying": "Nasdaq-100 reference index"
+      },
+      "provenance": {
+        "checklist_profile": "risk-review",
+        "command": "recipe-run:pretrade-plan",
+        "initial_nav": 100.0,
+        "max_loss_budget": 750.0,
+        "path": "examples/fixtures/nasdaq_chop_path.csv",
+        "product": "examples/fixtures/leveraged_nasdaq_3x.json",
+        "stop_loss": 0.15,
+        "take_profit": 0.2,
+        "thesis_file": "examples/fixtures/thesis_note.md"
+      },
+      "risk_bands": {
+        "band_events": [],
+        "stop_loss_pct": 15.0,
+        "take_profit_pct": 20.0
+      },
+      "scenario": {
+        "days": 6,
+        "ending_etp_nav": 100.608795,
+        "etp_return_pct": 0.6088,
+        "path_decay_vs_simple_multiple": -0.602755,
+        "underlying_return_pct": 0.4038
+      },
+      "schema_version": "0.3",
+      "thesis": "# Example Thesis Note\n\nThe modeled trade is a short-horizon tactical scenario for a generic daily-reset leveraged ETP. The thesis assumes the reference index can recover after recent volatility, but recognizes that choppy paths can create decay even when the underlying ends near flat.\n\nThe plan should be rejected if the loss budget, stop band, liquidity review, or event-risk checklist cannot be accepted before entry.",
+      "warnings": [
+        "Daily reset leverage means multi-day returns can differ materially from the underlying return times leverage.",
+        "Scenario output is not investment advice and does not predict future returns.",
+        "Large daily moves can compound quickly and may create losses larger than a simple one-day estimate.",
+        "Fee drag is approximated as a constant daily deduction from the leveraged daily return.",
+        "A pretrade plan does not confirm liquidity, execution quality, tax treatment, or suitability.",
+        "Stop-loss and take-profit bands are planning levels, not guaranteed execution prices."
+      ]
+    },
+    "risk_profile": {
+      "document_type": "risk_profile_rules",
+      "not_investment_advice": "These profile rules are for scenario planning and education only. They are not investment advice, recommendations, or suitability determinations.",
+      "profiles": [
+        {
+          "description": "Rules for linking a written thesis to factsheet checks, stress regimes, and review questions.",
+          "id": "thesis-review",
+          "mandatory_checklist_questions": [
+            "What specific thesis claim would invalidate the trade or require size reduction?",
+            "Which factsheet fields or product terms are critical to the thesis?",
+            "Which stress-matrix regime most directly challenges the thesis?",
+            "What metric, warning, or watchlist entry triggers the next review?",
+            "Has the thesis been updated after modeled path decay, drawdown, and stop/take events?"
+          ],
+          "max_account_risk_pct_placeholder": "Document a thesis-specific account risk cap before sizing; leave unset if no cap is approved.",
+          "max_holding_days": 10,
+          "name": "Thesis Review",
+          "required_factsheet_fields": [
+            "issuer",
+            "exchange",
+            "underlying",
+            "leverage_factor",
+            "daily_reset",
+            "annual_fee",
+            "currency",
+            "liquidity_spread",
+            "inav",
+            "premium_discount"
+          ],
+          "required_scenario_regimes": [
+            "trend_up",
+            "trend_down",
+            "chop",
+            "gap_down",
+            "rebound",
+            "volatility_cluster"
+          ],
+          "stop_take_review_defaults": {
+            "gap_review": "Review thesis language after any gap, rebound failure, or volatility-cluster result.",
+            "review_frequency": "daily close and thesis event",
+            "stop_loss_pct": 12.0,
+            "take_profit_pct": 18.0
+          }
+        }
+      ],
+      "provenance": {
+        "command": "risk-profile",
+        "profile": "thesis-review"
+      },
+      "schema_version": "0.16",
+      "summary": {
+        "available_profiles": [
+          "default",
+          "conservative",
+          "active-trader",
+          "thesis-review"
+        ],
+        "profiles": 1
+      }
+    },
+    "simulation": {
+      "band_events": [],
+      "inputs": {
+        "days": 6,
+        "initial_nav": 100.0,
+        "stop_loss_pct": 15.0,
+        "take_profit_pct": 20.0
+      },
+      "path": [
+        {
+          "daily_levered_return_pct": 7.4962,
+          "day": 1,
+          "etp_nav": 107.49623,
+          "label": "Up impulse",
+          "path_decay": -0.00377,
+          "simple_multiple_nav": 107.5,
+          "underlying_index": 102.5,
+          "underlying_return_pct": 2.5
+        },
+        {
+          "daily_levered_return_pct": -6.6038,
+          "day": 2,
+          "etp_nav": 100.397427,
+          "label": "Sharp giveback",
+          "path_decay": -0.337573,
+          "simple_multiple_nav": 100.735,
+          "underlying_index": 100.245,
+          "underlying_return_pct": -2.2
+        },
+        {
+          "daily_levered_return_pct": 5.3962,
+          "day": 3,
+          "etp_nav": 105.815103,
+          "label": "Relief bounce",
+          "path_decay": -0.333127,
+          "simple_multiple_nav": 106.14823,
+          "underlying_index": 102.04941,
+          "underlying_return_pct": 1.8
+        },
+        {
+          "daily_levered_return_pct": -5.1038,
+          "day": 4,
+          "etp_nav": 100.414543,
+          "label": "Distribution day",
+          "path_decay": -0.529167,
+          "simple_multiple_nav": 100.94371,
+          "underlying_index": 100.31457,
+          "underlying_return_pct": -1.7
+        },
+        {
+          "daily_levered_return_pct": 3.2962,
+          "day": 5,
+          "etp_nav": 103.724438,
+          "label": "Small rally",
+          "path_decay": -0.529653,
+          "simple_multiple_nav": 104.254091,
+          "underlying_index": 101.41803,
+          "underlying_return_pct": 1.1
+        },
+        {
+          "daily_levered_return_pct": -3.0038,
+          "day": 6,
+          "etp_nav": 100.608795,
+          "label": "Fade",
+          "path_decay": -0.602755,
+          "simple_multiple_nav": 101.21155,
+          "underlying_index": 100.40385,
+          "underlying_return_pct": -1.0
+        }
+      ],
+      "product": {
+        "annual_fee_pct": 0.95,
+        "currency": "USD",
+        "leverage": 3.0,
+        "name": "Generic 3x Nasdaq Daily Reset ETP",
+        "reset_frequency": "daily",
+        "ticker": "NDAQ3X",
+        "underlying": "Nasdaq-100 reference index"
+      },
+      "schema_version": "0.2",
+      "summary": {
+        "ending_etp_nav": 100.608795,
+        "ending_underlying_index": 100.40385,
+        "estimated_fee_drag_nav_points": 0.022619,
+        "etp_return_pct": 0.6088,
+        "path_decay_vs_simple_multiple": -0.602755,
+        "simple_multiple_return_pct": 1.2115,
+        "underlying_return_pct": 0.4038
+      },
+      "warnings": [
+        "Daily reset leverage means multi-day returns can differ materially from the underlying return times leverage.",
+        "Scenario output is not investment advice and does not predict future returns.",
+        "Large daily moves can compound quickly and may create losses larger than a simple one-day estimate.",
+        "Fee drag is approximated as a constant daily deduction from the leveraged daily return."
+      ]
+    },
+    "stress_matrix": {
+      "document_type": "stress_matrix",
+      "inputs": {
+        "initial_nav": 100.0,
+        "product": "examples/fixtures/leveraged_nasdaq_3x.json",
+        "regimes": [
+          "trend_down",
+          "chop",
+          "gap_down"
+        ],
+        "stop_loss_pct": 15.0,
+        "take_profit_pct": 20.0
+      },
+      "not_investment_advice": "This stress matrix is for scenario planning and education only. It is not investment advice, a recommendation, or a suitability determination.",
+      "product": {
+        "annual_fee_pct": 0.95,
+        "currency": "USD",
+        "leverage": 3.0,
+        "name": "Generic 3x Nasdaq Daily Reset ETP",
+        "reset_frequency": "daily",
+        "ticker": "NDAQ3X",
+        "underlying": "Nasdaq-100 reference index"
+      },
+      "provenance": {
+        "command": "stress-matrix",
+        "initial_nav": 100.0,
+        "product": "examples/fixtures/leveraged_nasdaq_3x.json",
+        "regimes": [
+          "trend_down",
+          "chop",
+          "gap_down"
+        ],
+        "stop_loss": 0.15,
+        "take_profit": 0.2
+      },
+      "rows": [
+        {
+          "days": 12,
+          "etp_return_pct": -19.8516,
+          "name": "Trend Down",
+          "path_decay_vs_simple_multiple": 1.136554,
+          "regime": "trend_down",
+          "return_pct": -19.8516,
+          "stop_event_labels": [
+            "day 8 stop_loss at NAV 84.483822"
+          ],
+          "stop_events": 1,
+          "underlying_return_pct": -6.996,
+          "warnings_count": 4,
+          "worst_drawdown_pct": -19.8516
+        },
+        {
+          "days": 12,
+          "etp_return_pct": -0.3186,
+          "name": "Chop",
+          "path_decay_vs_simple_multiple": -1.429133,
+          "regime": "chop",
+          "return_pct": -0.3186,
+          "stop_event_labels": [],
+          "stop_events": 0,
+          "underlying_return_pct": 0.3702,
+          "warnings_count": 4,
+          "worst_drawdown_pct": -6.5029
+        },
+        {
+          "days": 8,
+          "etp_return_pct": -48.8504,
+          "name": "Gap Down",
+          "path_decay_vs_simple_multiple": 5.694511,
+          "regime": "gap_down",
+          "return_pct": -48.8504,
+          "stop_event_labels": [
+            "day 1 stop_loss at NAV 74.49623"
+          ],
+          "stop_events": 1,
+          "underlying_return_pct": -18.1816,
+          "warnings_count": 4,
+          "worst_drawdown_pct": -52.5497
+        }
+      ],
+      "schema_version": "0.9",
+      "warnings": [
+        "Daily reset leverage means multi-day returns can differ materially from the underlying return times leverage.",
+        "Scenario output is not investment advice and does not predict future returns.",
+        "Large daily moves can compound quickly and may create losses larger than a simple one-day estimate.",
+        "Fee drag is approximated as a constant daily deduction from the leveraged daily return."
+      ]
+    },
+    "thesis_impact": {
+      "action_checklist": [
+        "Record whether the observed artifact metrics support, challenge, or leave the claim unresolved.",
+        "Compare the thesis return expectation with modeled ETP and underlying returns.",
+        "Review path decay versus the simple multiple before relying on multi-day leverage.",
+        "Check aggregate exposure and concentration against portfolio limits.",
+        "Confirm loss budget and stop band are acceptable before entry.",
+        "Complete a liquidity and execution-quality review outside this model.",
+        "Check event risk before treating the scenario as actionable."
+      ],
+      "artifacts": [
+        {
+          "document_type": "pretrade_plan",
+          "label": "NDAQ3X",
+          "metrics": {
+            "path_decay_vs_simple_multiple": -0.602755,
+            "return_pct": 0.6088,
+            "weighted_exposure": null
+          },
+          "path": "recipe:pretrade_plan",
+          "schema_version": "0.3",
+          "warnings_count": 6
+        },
+        {
+          "document_type": "position_size_plan",
+          "label": "position_size_plan",
+          "metrics": {
+            "path_decay_vs_simple_multiple": null,
+            "return_pct": null,
+            "weighted_exposure": null
+          },
+          "path": "recipe:position_size",
+          "schema_version": "0.8",
+          "warnings_count": 9
+        },
+        {
+          "document_type": "stress_matrix",
+          "label": "stress_matrix",
+          "metrics": {
+            "path_decay_vs_simple_multiple": null,
+            "return_pct": null,
+            "weighted_exposure": null
+          },
+          "path": "recipe:stress_matrix",
+          "schema_version": "0.9",
+          "warnings_count": 4
+        }
+      ],
+      "claim_mappings": [
+        {
+          "checklist": [
+            "Record whether the observed artifact metrics support, challenge, or leave the claim unresolved.",
+            "Compare the thesis return expectation with modeled ETP and underlying returns.",
+            "Review path decay versus the simple multiple before relying on multi-day leverage.",
+            "Check aggregate exposure and concentration against portfolio limits."
+          ],
+          "claim": "The modeled trade is a short-horizon tactical scenario for a generic daily-reset leveraged ETP. The thesis assumes the reference index can recover after recent volatility, but recognizes that choppy paths can create decay even when the underlying ends near flat.",
+          "claim_id": "claim_1",
+          "observed_metrics": [
+            {
+              "artifact": "recipe:pretrade_plan",
+              "interpretation": "observed return metric",
+              "label": "NDAQ3X",
+              "metric": "return_pct",
+              "value": 0.6088
+            },
+            {
+              "artifact": "recipe:pretrade_plan",
+              "interpretation": "shows modeled path decay",
+              "label": "NDAQ3X",
+              "metric": "path_decay_vs_simple_multiple",
+              "value": -0.602755
+            }
+          ],
+          "status": "needs_review",
+          "warnings": [
+            "Daily reset leverage means multi-day returns can differ materially from the underlying return times leverage.",
+            "Scenario output is not investment advice and does not predict future returns.",
+            "Fee drag is approximated as a constant daily deduction from the leveraged daily return."
+          ]
+        },
+        {
+          "checklist": [
+            "Record whether the observed artifact metrics support, challenge, or leave the claim unresolved.",
+            "Confirm loss budget and stop band are acceptable before entry.",
+            "Complete a liquidity and execution-quality review outside this model.",
+            "Check event risk before treating the scenario as actionable."
+          ],
+          "claim": "The plan should be rejected if the loss budget, stop band, liquidity review, or event-risk checklist cannot be accepted before entry.",
+          "claim_id": "claim_2",
+          "observed_metrics": [
+            {
+              "artifact": "recipe:pretrade_plan",
+              "interpretation": "observed return metric",
+              "label": "NDAQ3X",
+              "metric": "return_pct",
+              "value": 0.6088
+            },
+            {
+              "artifact": "recipe:pretrade_plan",
+              "interpretation": "shows modeled path decay",
+              "label": "NDAQ3X",
+              "metric": "path_decay_vs_simple_multiple",
+              "value": -0.602755
+            }
+          ],
+          "status": "needs_review",
+          "warnings": [
+            "Large daily moves can compound quickly and may create losses larger than a simple one-day estimate.",
+            "A pretrade plan does not confirm liquidity, execution quality, tax treatment, or suitability.",
+            "Stop-loss and take-profit bands are planning levels, not guaranteed execution prices."
+          ]
+        }
+      ],
+      "document_type": "thesis_impact",
+      "inputs": {
+        "artifacts": [
+          "recipe:pretrade_plan",
+          "recipe:position_size",
+          "recipe:stress_matrix"
+        ],
+        "thesis_file": "examples/fixtures/thesis_note.md"
+      },
+      "provenance": {
+        "artifacts": [
+          "recipe:pretrade_plan",
+          "recipe:position_size",
+          "recipe:stress_matrix"
+        ],
+        "command": "recipe-run:thesis-impact",
+        "thesis_file": "examples/fixtures/thesis_note.md"
+      },
+      "schema_version": "0.6",
+      "thesis": {
+        "claim_count": 2,
+        "claims": [
+          {
+            "id": "claim_1",
+            "text": "The modeled trade is a short-horizon tactical scenario for a generic daily-reset leveraged ETP. The thesis assumes the reference index can recover after recent volatility, but recognizes that choppy paths can create decay even when the underlying ends near flat."
+          },
+          {
+            "id": "claim_2",
+            "text": "The plan should be rejected if the loss budget, stop band, liquidity review, or event-risk checklist cannot be accepted before entry."
+          }
+        ]
+      },
+      "warnings": [
+        "Daily reset leverage means multi-day returns can differ materially from the underlying return times leverage.",
+        "Scenario output is not investment advice and does not predict future returns.",
+        "Large daily moves can compound quickly and may create losses larger than a simple one-day estimate.",
+        "Fee drag is approximated as a constant daily deduction from the leveraged daily return.",
+        "A pretrade plan does not confirm liquidity, execution quality, tax treatment, or suitability.",
+        "Stop-loss and take-profit bands are planning levels, not guaranteed execution prices.",
+        "Recommended notional is a deterministic planning output, not a trade recommendation.",
+        "Share count is a placeholder because no live or execution price is modeled.",
+        "Stop-loss levels are planning inputs and do not guarantee execution at the modeled loss."
+      ]
+    },
+    "watchlist": {
+      "document_type": "watchlist",
+      "entries": [
+        {
+          "category": "regime_trigger",
+          "id": "regime_gap_down",
+          "metrics": {
+            "path_decay_vs_simple_multiple": 5.694511,
+            "regime": "gap_down",
+            "return_pct": -48.8504,
+            "stop_events": 1,
+            "warnings_count": 4,
+            "worst_drawdown_pct": -52.5497
+          },
+          "next_review_questions": [
+            "Would the thesis still be acceptable under the gap_down regime?",
+            "What pre-defined action follows if this regime starts to resemble the current market path?",
+            "Are modeled stop or take-profit band events acceptable after accounting for execution and gap risk?",
+            "Is the loss budget still valid under this modeled return?"
+          ],
+          "severity": "critical",
+          "source_artifacts": [
+            {
+              "artifact": "recipe:stress_matrix",
+              "detail": "stress row gap_down",
+              "document_type": "stress_matrix",
+              "schema_version": "0.9"
+            }
+          ],
+          "status": "triggered",
+          "title": "Gap Down stress trigger",
+          "trigger": "return -48.8504%; worst drawdown -52.5497%; path decay 5.694511; band events: day 1 stop_loss at NAV 74.49623",
+          "warnings": [
+            "4 stress-matrix warning(s) observed for this regime."
+          ]
+        },
+        {
+          "category": "regime_trigger",
+          "id": "regime_trend_down",
+          "metrics": {
+            "path_decay_vs_simple_multiple": 1.136554,
+            "regime": "trend_down",
+            "return_pct": -19.8516,
+            "stop_events": 1,
+            "warnings_count": 4,
+            "worst_drawdown_pct": -19.8516
+          },
+          "next_review_questions": [
+            "Would the thesis still be acceptable under the trend_down regime?",
+            "What pre-defined action follows if this regime starts to resemble the current market path?",
+            "Are modeled stop or take-profit band events acceptable after accounting for execution and gap risk?",
+            "Is the loss budget still valid under this modeled return?"
+          ],
+          "severity": "high",
+          "source_artifacts": [
+            {
+              "artifact": "recipe:stress_matrix",
+              "detail": "stress row trend_down",
+              "document_type": "stress_matrix",
+              "schema_version": "0.9"
+            }
+          ],
+          "status": "triggered",
+          "title": "Trend Down stress trigger",
+          "trigger": "return -19.8516%; worst drawdown -19.8516%; path decay 1.136554; band events: day 8 stop_loss at NAV 84.483822",
+          "warnings": [
+            "4 stress-matrix warning(s) observed for this regime."
+          ]
+        },
+        {
+          "category": "claim",
+          "id": "claim_1",
+          "metrics": [
+            {
+              "artifact": "recipe:pretrade_plan",
+              "interpretation": "observed return metric",
+              "metric": "return_pct",
+              "value": 0.6088
+            },
+            {
+              "artifact": "recipe:pretrade_plan",
+              "interpretation": "shows modeled path decay",
+              "metric": "path_decay_vs_simple_multiple",
+              "value": -0.602755
+            }
+          ],
+          "next_review_questions": [
+            "What evidence would change the status of claim_1 from needs_review?",
+            "Which observed metrics are most relevant to the claim, and are any expected metrics missing?",
+            "Record whether the observed artifact metrics support, challenge, or leave the claim unresolved.",
+            "Compare the thesis return expectation with modeled ETP and underlying returns.",
+            "Review path decay versus the simple multiple before relying on multi-day leverage.",
+            "Which warning would invalidate the thesis if it appears in live review?"
+          ],
+          "severity": "medium",
+          "source_artifacts": [
+            {
+              "artifact": "recipe:thesis_impact",
+              "detail": "claim mapping claim_1",
+              "document_type": "thesis_impact",
+              "schema_version": "0.6"
+            },
+            {
+              "artifact": "recipe:pretrade_plan",
+              "detail": "return_pct for claim_1",
+              "document_type": "observed_metric_source",
+              "schema_version": null
+            },
+            {
+              "artifact": "recipe:pretrade_plan",
+              "detail": "path_decay_vs_simple_multiple for claim_1",
+              "document_type": "observed_metric_source",
+              "schema_version": null
+            }
+          ],
+          "status": "needs_review",
+          "title": "The modeled trade is a short-horizon tactical scenario for a generic daily-re...",
+          "trigger": "The modeled trade is a short-horizon tactical scenario for a generic daily-reset leveraged ETP. The thesis assumes the reference index can recover after recent volatility, but recognizes that choppy paths can create decay even when the underlying ends near flat.",
+          "warnings": [
+            "Daily reset leverage means multi-day returns can differ materially from the underlying return times leverage.",
+            "Scenario output is not investment advice and does not predict future returns.",
+            "Fee drag is approximated as a constant daily deduction from the leveraged daily return."
+          ]
+        },
+        {
+          "category": "claim",
+          "id": "claim_2",
+          "metrics": [
+            {
+              "artifact": "recipe:pretrade_plan",
+              "interpretation": "observed return metric",
+              "metric": "return_pct",
+              "value": 0.6088
+            },
+            {
+              "artifact": "recipe:pretrade_plan",
+              "interpretation": "shows modeled path decay",
+              "metric": "path_decay_vs_simple_multiple",
+              "value": -0.602755
+            }
+          ],
+          "next_review_questions": [
+            "What evidence would change the status of claim_2 from needs_review?",
+            "Which observed metrics are most relevant to the claim, and are any expected metrics missing?",
+            "Record whether the observed artifact metrics support, challenge, or leave the claim unresolved.",
+            "Confirm loss budget and stop band are acceptable before entry.",
+            "Complete a liquidity and execution-quality review outside this model.",
+            "Which warning would invalidate the thesis if it appears in live review?"
+          ],
+          "severity": "medium",
+          "source_artifacts": [
+            {
+              "artifact": "recipe:thesis_impact",
+              "detail": "claim mapping claim_2",
+              "document_type": "thesis_impact",
+              "schema_version": "0.6"
+            },
+            {
+              "artifact": "recipe:pretrade_plan",
+              "detail": "return_pct for claim_2",
+              "document_type": "observed_metric_source",
+              "schema_version": null
+            },
+            {
+              "artifact": "recipe:pretrade_plan",
+              "detail": "path_decay_vs_simple_multiple for claim_2",
+              "document_type": "observed_metric_source",
+              "schema_version": null
+            }
+          ],
+          "status": "needs_review",
+          "title": "The plan should be rejected if the loss budget, stop band, liquidity review,...",
+          "trigger": "The plan should be rejected if the loss budget, stop band, liquidity review, or event-risk checklist cannot be accepted before entry.",
+          "warnings": [
+            "Large daily moves can compound quickly and may create losses larger than a simple one-day estimate.",
+            "A pretrade plan does not confirm liquidity, execution quality, tax treatment, or suitability.",
+            "Stop-loss and take-profit bands are planning levels, not guaranteed execution prices."
+          ]
+        },
+        {
+          "category": "regime_trigger",
+          "id": "regime_chop",
+          "metrics": {
+            "path_decay_vs_simple_multiple": -1.429133,
+            "regime": "chop",
+            "return_pct": -0.3186,
+            "stop_events": 0,
+            "warnings_count": 4,
+            "worst_drawdown_pct": -6.5029
+          },
+          "next_review_questions": [
+            "Would the thesis still be acceptable under the chop regime?",
+            "What pre-defined action follows if this regime starts to resemble the current market path?",
+            "Does modeled path decay weaken the expected holding-period thesis?",
+            "Is the loss budget still valid under this modeled return?"
+          ],
+          "severity": "medium",
+          "source_artifacts": [
+            {
+              "artifact": "recipe:stress_matrix",
+              "detail": "stress row chop",
+              "document_type": "stress_matrix",
+              "schema_version": "0.9"
+            }
+          ],
+          "status": "triggered",
+          "title": "Chop stress trigger",
+          "trigger": "return -0.3186%; worst drawdown -6.5029%; path decay -1.429133",
+          "warnings": [
+            "4 stress-matrix warning(s) observed for this regime."
+          ]
+        }
+      ],
+      "inputs": {
+        "stress_matrix": "recipe:stress_matrix",
+        "thesis_impact": "recipe:thesis_impact"
+      },
+      "not_investment_advice": "This watchlist is for scenario planning and education only. It is not investment advice, a recommendation, or a suitability determination.",
+      "provenance": {
+        "command": "recipe-run:watchlist-build",
+        "stress_matrix": "recipe:stress_matrix",
+        "thesis_impact": "recipe:thesis_impact"
+      },
+      "schema_version": "0.10",
+      "summary": {
+        "critical": 1,
+        "entries": 5,
+        "high": 1,
+        "low": 0,
+        "medium": 3
+      }
+    }
+  },
+  "components": [
+    {
+      "document_type": "factsheet_check",
+      "id": "factsheet_check",
+      "schema_version": "0.15",
+      "summary": "9 passed, 1 review, 0 missing"
+    },
+    {
+      "document_type": "risk_profile_rules",
+      "id": "risk_profile",
+      "schema_version": "0.16",
+      "summary": "1 profile(s)"
+    },
+    {
+      "document_type": "simulation_output",
+      "id": "simulation_output",
+      "schema_version": "0.2",
+      "summary": "scenario return 0.6088%"
+    },
+    {
+      "document_type": "stress_matrix",
+      "id": "stress_matrix",
+      "schema_version": "0.9",
+      "summary": "3 regimes"
+    },
+    {
+      "document_type": "position_size_plan",
+      "id": "position_size_plan",
+      "schema_version": "0.8",
+      "summary": "recommended notional 5000.0"
+    },
+    {
+      "document_type": "pretrade_plan",
+      "id": "pretrade_plan",
+      "schema_version": "0.3",
+      "summary": "max loss budget 750.0"
+    },
+    {
+      "document_type": "thesis_impact",
+      "id": "thesis_impact",
+      "schema_version": "0.6",
+      "summary": "2 claim(s)"
+    },
+    {
+      "document_type": "watchlist",
+      "id": "watchlist",
+      "schema_version": "0.10",
+      "summary": "5 entries"
+    }
+  ],
+  "document_type": "recipe_run",
+  "inputs": {
+    "account_value": 50000.0,
+    "factsheet_note": "examples/fixtures/factsheet_note.txt",
+    "max_loss_budget": 750.0,
+    "path": "examples/fixtures/nasdaq_chop_path.csv",
+    "product": "examples/fixtures/leveraged_nasdaq_3x.json",
+    "profile": "thesis-review",
+    "recipe": "examples/fixtures/recipe_thesis_review.json",
+    "risk_budget_source": "risk_budget_pct",
+    "stress_regimes": [
+      "trend_down",
+      "chop",
+      "gap_down"
+    ],
+    "thesis_file": "examples/fixtures/thesis_note.md"
+  },
+  "not_investment_advice": "This recipe bundle is for scenario planning and education only. It is not investment advice, a recommendation, or a suitability determination.",
+  "provenance": {
+    "command": "recipe-run",
+    "recipe": "examples/fixtures/recipe_thesis_review.json",
+    "shell_out": false
+  },
+  "schema_version": "0.17",
+  "summary": {
+    "components": 8,
+    "path_decay_vs_simple_multiple": -0.602755,
+    "product": "NDAQ3X",
+    "recommended_notional": 5000.0,
+    "scenario_days": 6,
+    "scenario_return_pct": 0.6088,
+    "watchlist_entries": 5
+  },
+  "workflow": [
+    {
+      "command": "factsheet-check --product examples/fixtures/leveraged_nasdaq_3x.json --factsheet-file examples/fixtures/factsheet_note.txt",
+      "step": "factsheet-check"
+    },
+    {
+      "command": "risk-profile --profile thesis-review",
+      "step": "risk-profile"
+    },
+    {
+      "command": "simulate --product examples/fixtures/leveraged_nasdaq_3x.json --path examples/fixtures/nasdaq_chop_path.csv",
+      "step": "simulate"
+    },
+    {
+      "command": "stress-matrix --product examples/fixtures/leveraged_nasdaq_3x.json --regime trend_down --regime chop --regime gap_down",
+      "step": "stress-matrix"
+    },
+    {
+      "command": "position-size --pretrade-plan recipe:pretrade_plan",
+      "step": "position-size"
+    },
+    {
+      "command": "pretrade-plan --product examples/fixtures/leveraged_nasdaq_3x.json --path examples/fixtures/nasdaq_chop_path.csv",
+      "step": "pretrade-plan"
+    },
+    {
+      "command": "thesis-impact --thesis-file examples/fixtures/thesis_note.md --artifact recipe:pretrade_plan",
+      "step": "thesis-impact"
+    },
+    {
+      "command": "watchlist-build --thesis-impact recipe:thesis_impact --stress-matrix recipe:stress_matrix",
+      "step": "watchlist-build"
+    }
+  ]
+}

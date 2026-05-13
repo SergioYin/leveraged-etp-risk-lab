@@ -4,12 +4,14 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from .io import load_path, load_product
-from .models import PortfolioManifest, ScenarioDay, SimulationConfig
+from .models import PortfolioManifest, ProductTerms, RiskBand, ScenarioDay, SimulationConfig
 
 
 TRADING_DAYS = 252
 POSITION_SIZE_SCHEMA_VERSION = "0.8"
 STRESS_MATRIX_SCHEMA_VERSION = "0.9"
+SENSITIVITY_GRID_SCHEMA_VERSION = "0.19"
+PORTFOLIO_SENSITIVITY_SCHEMA_VERSION = "0.20"
 
 
 def pct(value: float) -> float:
@@ -279,6 +281,228 @@ def stress_matrix(
     }
 
 
+def sensitivity_grid(
+    product: ProductTerms,
+    leverage_multipliers: Optional[List[float]],
+    stop_losses: Optional[List[Optional[float]]],
+    take_profits: Optional[List[Optional[float]]],
+    selected_regimes: Optional[List[str]],
+    initial_nav: float,
+    product_path: str,
+) -> Dict[str, Any]:
+    from .regimes import get_regime, regime_ids, regime_path
+
+    if initial_nav <= 0:
+        raise ValueError("--initial-nav must be positive")
+    leverage_values = leverage_multipliers or _default_leverage_grid(product.leverage)
+    stop_values = stop_losses if stop_losses is not None else [None, 0.10, 0.15, 0.25]
+    take_values = take_profits if take_profits is not None else [None, 0.15, 0.25, 0.40]
+    regimes = selected_regimes or regime_ids()
+    _validate_grid_values(leverage_values, stop_values, take_values)
+
+    rows: List[Dict[str, Any]] = []
+    cells: List[Dict[str, Any]] = []
+    warning_pool: List[str] = []
+    for leverage in leverage_values:
+        scenario_product = ProductTerms(
+            name=product.name,
+            ticker=product.ticker,
+            underlying=product.underlying,
+            leverage=leverage,
+            annual_fee=product.annual_fee,
+            currency=product.currency,
+            reset_frequency=product.reset_frequency,
+            notes=product.notes,
+        )
+        for stop_loss in stop_values:
+            for take_profit in take_values:
+                combo_cells: List[Dict[str, Any]] = []
+                for regime_id in regimes:
+                    regime = get_regime(regime_id)
+                    result = simulate(
+                        SimulationConfig(
+                            scenario_product,
+                            regime_path(regime_id),
+                            initial_nav,
+                            RiskBand(stop_loss=stop_loss, take_profit=take_profit),
+                        )
+                    )
+                    warnings = [str(item) for item in result["warnings"]]
+                    warning_pool.extend(warnings)
+                    band_events = list(result["band_events"])
+                    cell = {
+                        "leverage": money(leverage),
+                        "stop_loss_pct": _optional_pct(stop_loss),
+                        "take_profit_pct": _optional_pct(take_profit),
+                        "regime": regime_id,
+                        "name": regime["name"],
+                        "days": result["inputs"]["days"],
+                        "return_pct": result["summary"]["etp_return_pct"],
+                        "worst_drawdown_pct": pct(_nav_worst_drawdown(result["path"], initial_nav)),
+                        "path_decay_vs_simple_multiple": result["summary"]["path_decay_vs_simple_multiple"],
+                        "stop_events": len(band_events),
+                        "stop_event_labels": [_band_event_label(event) for event in band_events],
+                        "warnings_count": len(warnings),
+                    }
+                    cells.append(cell)
+                    combo_cells.append(cell)
+                rows.append(_sensitivity_row(leverage, stop_loss, take_profit, combo_cells))
+    return {
+        "schema_version": SENSITIVITY_GRID_SCHEMA_VERSION,
+        "document_type": "sensitivity_grid",
+        "not_investment_advice": (
+            "This sensitivity grid is for scenario planning and education only. "
+            "It is not investment advice, a recommendation, or a suitability determination."
+        ),
+        "product": {
+            "name": product.name,
+            "ticker": product.ticker,
+            "underlying": product.underlying,
+            "base_leverage": product.leverage,
+            "annual_fee_pct": pct(product.annual_fee),
+            "currency": product.currency,
+            "reset_frequency": product.reset_frequency,
+        },
+        "inputs": {
+            "product": product_path,
+            "initial_nav": money(initial_nav),
+            "regimes": list(regimes),
+            "leverage_multipliers": [money(value) for value in leverage_values],
+            "stop_loss_pct_grid": [_optional_pct(value) for value in stop_values],
+            "take_profit_pct_grid": [_optional_pct(value) for value in take_values],
+        },
+        "summary": _sensitivity_summary(rows),
+        "rows": rows,
+        "cells": cells,
+        "warnings": _unique(
+            warning_pool
+            + [
+                "Sensitivity rows summarize deterministic built-in regimes and do not model execution, liquidity, tax, or suitability.",
+                "Stop-loss and take-profit values are planning bands and do not guarantee fills.",
+            ]
+        ),
+        "provenance": {
+            "command": "sensitivity-grid",
+            "product": product_path,
+            "regimes": list(regimes),
+            "initial_nav": initial_nav,
+            "leverage_multipliers": leverage_values,
+            "stop_losses": stop_values,
+            "take_profits": take_values,
+            "live_market_data": False,
+            "shell_out": False,
+        },
+    }
+
+
+def portfolio_sensitivity(
+    manifest: PortfolioManifest,
+    manifest_path: str,
+    leverage_multipliers: Optional[List[float]],
+    stop_losses: Optional[List[Optional[float]]],
+    take_profits: Optional[List[Optional[float]]],
+    selected_regimes: Optional[List[str]],
+    initial_nav: float,
+) -> Dict[str, Any]:
+    if initial_nav <= 0:
+        raise ValueError("--initial-nav must be positive")
+    base_dir = Path(manifest_path).resolve().parent
+    total_notional = sum(position.notional for position in manifest.positions)
+    if total_notional <= 0:
+        raise ValueError("portfolio manifest notional total must be positive")
+
+    position_reports = []
+    warning_pool = [
+        "Portfolio sensitivity uses starting notional weights and deterministic built-in regimes.",
+        "Aggregate worst-case exposure is a scenario-planning metric, not a margin, liquidity, tax, or suitability model.",
+    ]
+    for position in manifest.positions:
+        product_path = _resolve_fixture(base_dir, position.product_fixture)
+        product = load_product(str(product_path))
+        grid = sensitivity_grid(
+            product=product,
+            leverage_multipliers=leverage_multipliers,
+            stop_losses=stop_losses,
+            take_profits=take_profits,
+            selected_regimes=selected_regimes,
+            initial_nav=initial_nav,
+            product_path=_display_input_path(str(product_path), manifest_path),
+        )
+        weight = position.notional / total_notional
+        summary = grid["summary"]
+        weighted_base_exposure = weight * product.leverage
+        worst_return_pct = _optional_float_value(summary.get("worst_return_pct"))
+        modeled_loss = 0.0
+        if worst_return_pct is not None and worst_return_pct < 0:
+            modeled_loss = position.notional * -worst_return_pct / 100.0
+        worst_leverage = _optional_float_value(summary.get("worst_return_leverage"))
+        worst_weighted_exposure = weight * (worst_leverage if worst_leverage is not None else product.leverage)
+        row = {
+            "id": position.identifier,
+            "ticker": product.ticker,
+            "product": product.name,
+            "notional": money(position.notional),
+            "notional_weight_pct": pct(weight),
+            "base_leverage": product.leverage,
+            "weighted_base_exposure": money(weighted_base_exposure),
+            "sensitivity_summary": summary,
+            "worst_case": {
+                "regime": summary.get("worst_return_regime"),
+                "return_pct": summary.get("worst_return_pct"),
+                "leverage": summary.get("worst_return_leverage"),
+                "stop_loss_pct": summary.get("worst_return_stop_loss_pct"),
+                "take_profit_pct": summary.get("worst_return_take_profit_pct"),
+                "modeled_loss": money(modeled_loss),
+                "weighted_exposure": money(worst_weighted_exposure),
+                "path_decay_vs_simple_multiple": summary.get("worst_path_decay_vs_simple_multiple"),
+                "max_stop_events": summary.get("max_stop_events"),
+            },
+            "grid_rows": grid["rows"],
+        }
+        position_reports.append(row)
+        warning_pool.extend(str(item) for item in grid["warnings"])
+
+    aggregate_worst_loss = sum(float(item["worst_case"]["modeled_loss"]) for item in position_reports)
+    aggregate_worst_exposure = sum(float(item["worst_case"]["weighted_exposure"]) for item in position_reports)
+    weakest = _portfolio_worst_position(position_reports)
+    return {
+        "schema_version": PORTFOLIO_SENSITIVITY_SCHEMA_VERSION,
+        "document_type": "portfolio_sensitivity",
+        "not_investment_advice": (
+            "This portfolio sensitivity packet is for scenario planning and education only. "
+            "It is not investment advice, a recommendation, or a suitability determination."
+        ),
+        "portfolio": {"name": manifest.name, "base_currency": manifest.base_currency},
+        "inputs": {
+            "manifest": _display_input_path(manifest_path, manifest_path),
+            "initial_nav": money(initial_nav),
+            "regimes": selected_regimes or _all_regime_ids(),
+            "leverage_multipliers": [money(value) for value in (leverage_multipliers or [])],
+            "stop_loss_pct_grid": [_optional_pct(value) for value in stop_losses] if stop_losses is not None else None,
+            "take_profit_pct_grid": [_optional_pct(value) for value in take_profits] if take_profits is not None else None,
+        },
+        "summary": {
+            "positions": len(position_reports),
+            "starting_value": money(total_notional),
+            "base_weighted_exposure": money(sum(float(item["weighted_base_exposure"]) for item in position_reports)),
+            "aggregate_worst_case_modeled_loss": money(aggregate_worst_loss),
+            "aggregate_worst_case_loss_pct": pct(aggregate_worst_loss / total_notional),
+            "aggregate_worst_case_weighted_exposure": money(aggregate_worst_exposure),
+            "weakest_position_id": weakest.get("id"),
+            "weakest_position_return_pct": weakest.get("worst_case", {}).get("return_pct"),
+            "weakest_position_regime": weakest.get("worst_case", {}).get("regime"),
+        },
+        "positions": position_reports,
+        "warnings": _unique(warning_pool),
+        "provenance": {
+            "command": "portfolio-sensitivity",
+            "manifest": _display_input_path(manifest_path, manifest_path),
+            "live_market_data": False,
+            "shell_out": False,
+        },
+    }
+
+
 def position_size_plan(
     simulation: Dict[str, Any],
     account_value: float,
@@ -459,6 +683,112 @@ def _optional_pct(value: Optional[float]) -> Optional[float]:
     if value is None:
         return None
     return pct(value)
+
+
+def _default_leverage_grid(product_leverage: float) -> List[float]:
+    sign = -1.0 if product_leverage < 0 else 1.0
+    return [sign * 1.0, sign * 2.0, sign * 3.0]
+
+
+def _all_regime_ids() -> List[str]:
+    from .regimes import regime_ids
+
+    return regime_ids()
+
+
+def _validate_grid_values(
+    leverage_values: List[float],
+    stop_values: List[Optional[float]],
+    take_values: List[Optional[float]],
+) -> None:
+    if not leverage_values:
+        raise ValueError("leverage grid must contain at least one value")
+    if not stop_values:
+        raise ValueError("stop-loss grid must contain at least one value")
+    if not take_values:
+        raise ValueError("take-profit grid must contain at least one value")
+    if any(value == 0 for value in leverage_values):
+        raise ValueError("leverage multipliers must not include zero")
+    for value in stop_values:
+        if value is not None and not 0 < value < 1:
+            raise ValueError("stop-loss grid values must be decimals between 0 and 1, or none")
+    for value in take_values:
+        if value is not None and value <= 0:
+            raise ValueError("take-profit grid values must be positive decimals, or none")
+
+
+def _sensitivity_row(
+    leverage: float,
+    stop_loss: Optional[float],
+    take_profit: Optional[float],
+    combo_cells: List[Dict[str, Any]],
+) -> Dict[str, Any]:
+    worst_return = _lowest_cell(combo_cells, "return_pct")
+    worst_drawdown = _lowest_cell(combo_cells, "worst_drawdown_pct")
+    worst_decay = _lowest_cell(combo_cells, "path_decay_vs_simple_multiple")
+    return {
+        "leverage": money(leverage),
+        "stop_loss_pct": _optional_pct(stop_loss),
+        "take_profit_pct": _optional_pct(take_profit),
+        "regimes": len(combo_cells),
+        "worst_return_regime": worst_return.get("regime"),
+        "worst_return_pct": worst_return.get("return_pct"),
+        "largest_drawdown_regime": worst_drawdown.get("regime"),
+        "largest_drawdown_pct": worst_drawdown.get("worst_drawdown_pct"),
+        "worst_path_decay_regime": worst_decay.get("regime"),
+        "worst_path_decay_vs_simple_multiple": worst_decay.get("path_decay_vs_simple_multiple"),
+        "stop_events": sum(int(cell.get("stop_events", 0)) for cell in combo_cells),
+        "warnings_count": sum(int(cell.get("warnings_count", 0)) for cell in combo_cells),
+    }
+
+
+def _sensitivity_summary(rows: List[Dict[str, Any]]) -> Dict[str, Any]:
+    worst_return = _lowest_cell(rows, "worst_return_pct")
+    worst_decay = _lowest_cell(rows, "worst_path_decay_vs_simple_multiple")
+    most_events = max(rows, key=lambda row: int(row.get("stop_events", 0))) if rows else {}
+    return {
+        "combinations": len(rows),
+        "worst_return_pct": worst_return.get("worst_return_pct"),
+        "worst_return_regime": worst_return.get("worst_return_regime"),
+        "worst_return_leverage": worst_return.get("leverage"),
+        "worst_return_stop_loss_pct": worst_return.get("stop_loss_pct"),
+        "worst_return_take_profit_pct": worst_return.get("take_profit_pct"),
+        "worst_path_decay_vs_simple_multiple": worst_decay.get("worst_path_decay_vs_simple_multiple"),
+        "worst_path_decay_regime": worst_decay.get("worst_path_decay_regime"),
+        "max_stop_events": most_events.get("stop_events"),
+        "max_stop_events_leverage": most_events.get("leverage"),
+        "max_stop_events_stop_loss_pct": most_events.get("stop_loss_pct"),
+        "max_stop_events_take_profit_pct": most_events.get("take_profit_pct"),
+    }
+
+
+def _lowest_cell(rows: List[Dict[str, Any]], key: str) -> Dict[str, Any]:
+    numeric = [row for row in rows if isinstance(row.get(key), (int, float))]
+    if not numeric:
+        return {}
+    return min(numeric, key=lambda row: float(row[key]))
+
+
+def _portfolio_worst_position(rows: List[Dict[str, Any]]) -> Dict[str, Any]:
+    numeric = [
+        row
+        for row in rows
+        if isinstance(row.get("worst_case", {}).get("return_pct"), (int, float))
+    ]
+    if not numeric:
+        return {}
+    return min(numeric, key=lambda row: float(row["worst_case"]["return_pct"]))
+
+
+def _optional_float_value(value: Any) -> Optional[float]:
+    if value is None:
+        return None
+    return float(value)
+
+
+def _display_input_path(path: str, _anchor: str) -> str:
+    value = Path(path)
+    return value.as_posix() if not value.is_absolute() else value.name
 
 
 def _pct_to_decimal(value: Any) -> Optional[float]:

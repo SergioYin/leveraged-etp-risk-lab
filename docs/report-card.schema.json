@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Decision Readiness Report Card",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "document_type",
+    "not_investment_advice",
+    "inputs",
+    "summary",
+    "artifact_cards",
+    "strengths",
+    "unresolved_checks",
+    "warnings",
+    "next_commands",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {"const": "0.18"},
+    "document_type": {"const": "report_card"},
+    "not_investment_advice": {"type": "string"},
+    "inputs": {
+      "type": "object",
+      "required": ["artifacts"],
+      "properties": {
+        "artifacts": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": ["artifacts", "document_types", "strengths", "unresolved_checks", "warnings", "decision_ready"],
+      "properties": {
+        "artifacts": {"type": "integer"},
+        "document_types": {"type": "array", "items": {"type": "string"}},
+        "strengths": {"type": "integer"},
+        "unresolved_checks": {"type": "integer"},
+        "warnings": {"type": "integer"},
+        "decision_ready": {"type": "boolean"}
+      }
+    },
+    "artifact_cards": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "document_type", "schema_version", "label", "metrics", "strengths", "unresolved_checks", "warnings"],
+        "properties": {
+          "path": {"type": "string"},
+          "document_type": {"type": "string"},
+          "schema_version": {},
+          "label": {"type": "string"},
+          "metrics": {"type": "object"},
+          "strengths": {"type": "array", "items": {"type": "string"}},
+          "unresolved_checks": {"type": "array", "items": {"type": "string"}},
+          "warnings": {"type": "array", "items": {"type": "string"}}
+        }
+      }
+    },
+    "strengths": {"type": "array", "items": {"type": "string"}},
+    "unresolved_checks": {"type": "array", "items": {"type": "string"}},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "next_commands": {"type": "array", "items": {"type": "string"}},
+    "provenance": {
+      "type": "object",
+      "required": ["command", "artifacts", "live_market_data", "shell_out"],
+      "properties": {
+        "command": {"const": "report-card"},
+        "artifacts": {"type": "array", "items": {"type": "string"}},
+        "live_market_data": {"const": false},
+        "shell_out": {"const": false}
+      }
+    }
+  }
+}

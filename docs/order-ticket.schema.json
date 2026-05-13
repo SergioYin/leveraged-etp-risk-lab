@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Order Ticket",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "document_type",
+    "not_investment_advice",
+    "inputs",
+    "summary",
+    "product",
+    "order_intent",
+    "sizing",
+    "required_broker_fields",
+    "no_live_price_warning",
+    "do_not_trade_if",
+    "warnings",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {"const": "0.24"},
+    "document_type": {"const": "order_ticket"},
+    "not_investment_advice": {"type": "string"},
+    "inputs": {"type": "object"},
+    "summary": {
+      "type": "object",
+      "required": ["status", "ticker", "max_notional", "currency", "guardrail_result", "do_not_trade_conditions"],
+      "properties": {
+        "status": {"enum": ["blocked", "review", "ready"]},
+        "ticker": {"type": ["string", "null"]},
+        "max_notional": {"type": ["number", "null"]},
+        "currency": {"type": ["string", "null"]},
+        "guardrail_result": {"type": ["string", "null"]},
+        "do_not_trade_conditions": {"type": "integer"}
+      }
+    },
+    "product": {"type": "object"},
+    "order_intent": {"type": "object"},
+    "sizing": {"type": "object"},
+    "required_broker_fields": {"type": "array", "items": {"type": "object"}},
+    "no_live_price_warning": {"type": "string"},
+    "do_not_trade_if": {"type": "array", "items": {"type": "object"}},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "provenance": {
+      "type": "object",
+      "required": ["command", "artifacts", "live_market_data", "shell_out", "broker_execution"],
+      "properties": {
+        "command": {"const": "order-ticket"},
+        "artifacts": {"type": "array", "items": {"type": "string"}},
+        "live_market_data": {"const": false},
+        "shell_out": {"const": false},
+        "broker_execution": {"const": false}
+      }
+    }
+  }
+}

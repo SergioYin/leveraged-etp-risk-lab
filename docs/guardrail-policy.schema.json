@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Allocation Guardrail Policy",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "document_type",
+    "not_investment_advice",
+    "policy_id",
+    "name",
+    "description",
+    "limits",
+    "required_artifacts",
+    "review_conditions",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {"const": "0.23"},
+    "document_type": {"const": "guardrail_policy"},
+    "not_investment_advice": {"type": "string"},
+    "policy_id": {"enum": ["default", "conservative", "aggressive"]},
+    "name": {"type": "string"},
+    "description": {"type": "string"},
+    "limits": {
+      "type": "object",
+      "required": ["max_leverage_exposure", "max_loss_budget_pct", "max_holding_days"],
+      "properties": {
+        "max_leverage_exposure": {"type": "number"},
+        "max_loss_budget_pct": {"type": "number"},
+        "max_holding_days": {"type": "number"}
+      }
+    },
+    "required_artifacts": {"type": "array", "items": {"type": "string"}},
+    "review_conditions": {"type": "array", "items": {"type": "string"}},
+    "provenance": {
+      "type": "object",
+      "required": ["command", "profile", "live_market_data", "shell_out"],
+      "properties": {
+        "command": {"const": "guardrail-policy"},
+        "profile": {"type": "string"},
+        "live_market_data": {"const": false},
+        "shell_out": {"const": false}
+      }
+    }
+  }
+}

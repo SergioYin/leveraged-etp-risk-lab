@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Risk Rule Profiles",
+  "type": "object",
+  "required": ["schema_version", "document_type", "not_investment_advice", "summary", "profiles", "provenance"],
+  "properties": {
+    "schema_version": {"const": "0.16"},
+    "document_type": {"const": "risk_profile_rules"},
+    "not_investment_advice": {"type": "string"},
+    "summary": {
+      "type": "object",
+      "required": ["profiles", "available_profiles"],
+      "properties": {
+        "profiles": {"type": "integer"},
+        "available_profiles": {
+          "type": "array",
+          "items": {"enum": ["default", "conservative", "active-trader", "thesis-review"]}
+        }
+      },
+      "additionalProperties": false
+    },
+    "profiles": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "description",
+          "max_holding_days",
+          "max_account_risk_pct_placeholder",
+          "required_factsheet_fields",
+          "required_scenario_regimes",
+          "mandatory_checklist_questions",
+          "stop_take_review_defaults"
+        ],
+        "properties": {
+          "id": {"enum": ["default", "conservative", "active-trader", "thesis-review"]},
+          "name": {"type": "string"},
+          "description": {"type": "string"},
+          "max_holding_days": {"type": "integer", "minimum": 1},
+          "max_account_risk_pct_placeholder": {"type": "string"},
+          "required_factsheet_fields": {
+            "type": "array",
+            "items": {"type": "string"}
+          },
+          "required_scenario_regimes": {
+            "type": "array",
+            "items": {"type": "string"}
+          },
+          "mandatory_checklist_questions": {
+            "type": "array",
+            "items": {"type": "string"}
+          },
+          "stop_take_review_defaults": {
+            "type": "object",
+            "required": ["stop_loss_pct", "take_profit_pct", "review_frequency", "gap_review"],
+            "properties": {
+              "stop_loss_pct": {"type": "number"},
+              "take_profit_pct": {"type": "number"},
+              "review_frequency": {"type": "string"},
+              "gap_review": {"type": "string"}
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["command", "profile"],
+      "properties": {
+        "command": {"const": "risk-profile"},
+        "profile": {"type": ["string", "null"]}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

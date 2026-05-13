@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Watch Cycle State",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "document_type",
+    "not_investment_advice",
+    "state_id",
+    "inputs",
+    "summary",
+    "baseline_artifact_hashes",
+    "baseline_watch_items",
+    "baseline_risks",
+    "open_checks",
+    "review_cadence",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {"const": "0.22"},
+    "document_type": {"const": "cycle_state"},
+    "not_investment_advice": {"type": "string"},
+    "state_id": {"type": "string"},
+    "inputs": {"type": "object"},
+    "summary": {"type": "object"},
+    "baseline_artifact_hashes": {"type": "array", "items": {"type": "object"}},
+    "baseline_watch_items": {"type": "array", "items": {"type": "object"}},
+    "baseline_risks": {"type": "array", "items": {"type": "object"}},
+    "open_checks": {"type": "array", "items": {"type": "object"}},
+    "review_cadence": {"type": "object"},
+    "provenance": {
+      "type": "object",
+      "required": ["command", "artifacts", "live_market_data", "shell_out"],
+      "properties": {
+        "command": {"const": "cycle-init"},
+        "artifacts": {"type": "array", "items": {"type": "string"}},
+        "live_market_data": {"const": false},
+        "shell_out": {"const": false}
+      }
+    }
+  }
+}

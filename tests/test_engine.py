@@ -1,6 +1,6 @@
 import unittest
 
-from leveraged_etp_risk_lab.engine import exposure_report, generate_scenario, simulate, stress_matrix
+from leveraged_etp_risk_lab.engine import exposure_report, generate_scenario, portfolio_sensitivity, simulate, stress_matrix
 from leveraged_etp_risk_lab.io import load_path, load_portfolio_manifest, load_product
 from leveraged_etp_risk_lab.models import RiskBand, SimulationConfig
 
@@ -51,6 +51,24 @@ class EngineTests(unittest.TestCase):
         self.assertEqual([row["regime"] for row in result["rows"]], ["trend_down", "chop"])
         self.assertIn("worst_drawdown_pct", result["rows"][0])
         self.assertIn("warnings_count", result["rows"][0])
+
+    def test_portfolio_sensitivity_aggregates_worst_case(self):
+        manifest_path = "examples/fixtures/portfolio_manifest.json"
+        result = portfolio_sensitivity(
+            load_portfolio_manifest(manifest_path),
+            manifest_path,
+            [1.0, 2.0],
+            [None, 0.15],
+            [None],
+            ["trend_down"],
+            100.0,
+        )
+
+        self.assertEqual(result["schema_version"], "0.20")
+        self.assertEqual(result["document_type"], "portfolio_sensitivity")
+        self.assertEqual(result["summary"]["positions"], 2)
+        self.assertIn("aggregate_worst_case_modeled_loss", result["summary"])
+        self.assertEqual(len(result["positions"]), 2)
 
 
 if __name__ == "__main__":

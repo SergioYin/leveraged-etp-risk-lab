@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Public Asset Hub",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "document_type",
+    "not_investment_advice",
+    "product_positioning",
+    "command_map",
+    "demo_artifact_map",
+    "readiness_checklist",
+    "safety_boundaries",
+    "agent_skill_path",
+    "release_checklist",
+    "roadmap",
+    "inputs",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {"const": "0.25"},
+    "document_type": {"const": "asset_hub"},
+    "not_investment_advice": {"type": "string"},
+    "product_positioning": {
+      "type": "object",
+      "required": ["name", "version", "tagline", "audience", "proof_points"],
+      "properties": {
+        "name": {"type": "string"},
+        "version": {"type": "string"},
+        "tagline": {"type": "string"},
+        "audience": {"type": "array", "items": {"type": "string"}},
+        "proof_points": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "command_map": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "purpose", "example"],
+        "properties": {
+          "name": {"type": "string"},
+          "purpose": {"type": "string"},
+          "example": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "demo_artifact_map": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["stage", "artifact_count", "key_artifacts", "suggested_next_command"],
+        "properties": {
+          "stage": {"type": "string"},
+          "artifact_count": {"type": "integer"},
+          "key_artifacts": {"type": "array", "items": {"type": "string"}},
+          "suggested_next_command": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "readiness_checklist": {"$ref": "#/$defs/checklist"},
+    "safety_boundaries": {"type": "array", "items": {"type": "string"}},
+    "agent_skill_path": {"type": "string"},
+    "release_checklist": {"$ref": "#/$defs/checklist"},
+    "roadmap": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["version", "theme", "items"],
+        "properties": {
+          "version": {"type": "string"},
+          "theme": {"type": "string"},
+          "items": {"type": "array", "items": {"type": "string"}}
+        },
+        "additionalProperties": false
+      }
+    },
+    "inputs": {"type": "object"},
+    "provenance": {
+      "type": "object",
+      "required": ["command", "input_dir", "readme", "live_market_data", "shell_out", "private_context"],
+      "properties": {
+        "command": {"const": "asset-hub"},
+        "input_dir": {"type": "string"},
+        "readme": {"anyOf": [{"type": "string"}, {"type": "null"}]},
+        "live_market_data": {"const": false},
+        "shell_out": {"const": false},
+        "private_context": {"const": false}
+      },
+      "additionalProperties": false
+    }
+  },
+  "$defs": {
+    "checklist": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "item", "status"],
+        "properties": {
+          "id": {"type": "string"},
+          "item": {"type": "string"},
+          "status": {"enum": ["pass", "review"]}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

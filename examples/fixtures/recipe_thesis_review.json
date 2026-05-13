@@ -1,0 +1,16 @@
+{
+  "account_value": 50000,
+  "factsheet_note": "examples/fixtures/factsheet_note.txt",
+  "path": "examples/fixtures/nasdaq_chop_path.csv",
+  "product": "examples/fixtures/leveraged_nasdaq_3x.json",
+  "profile": "thesis-review",
+  "risk_budget_pct": 0.015,
+  "stop_loss": 0.15,
+  "stress_regimes": [
+    "trend_down",
+    "chop",
+    "gap_down"
+  ],
+  "take_profit": 0.2,
+  "thesis_file": "examples/fixtures/thesis_note.md"
+}

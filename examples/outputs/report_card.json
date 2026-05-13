@@ -1,0 +1,334 @@
+{
+  "artifact_cards": [
+    {
+      "document_type": "pretrade_plan",
+      "label": "NDAQ3X",
+      "metrics": {
+        "band_events": 0,
+        "days": 6,
+        "max_loss_budget": 750.0,
+        "path_decay_vs_simple_multiple": -0.602755,
+        "return_pct": 0.6088
+      },
+      "path": "examples/outputs/pretrade_plan.json",
+      "schema_version": "0.3",
+      "strengths": [
+        "NDAQ3X pretrade plan records thesis, risk bands, and a 750.0 USD loss budget.",
+        "Checklist profile is risk-review."
+      ],
+      "unresolved_checks": [
+        "Checklist item: Confirm the product uses daily reset leverage and identify the stated leverage factor.",
+        "Checklist item: Compare the planned holding period with the product objective and risk disclosures.",
+        "Checklist item: Run at least one trending path and one choppy path before sizing the trade.",
+        "Checklist item: Record stop-loss and take-profit levels before entry.",
+        "Checklist item: Review borrowing, financing, and management-fee drag assumptions.",
+        "Confirm liquidity, execution quality, tax treatment, and suitability outside this model."
+      ],
+      "warnings": [
+        "Daily reset leverage means multi-day returns can differ materially from the underlying return times leverage.",
+        "Scenario output is not investment advice and does not predict future returns.",
+        "Large daily moves can compound quickly and may create losses larger than a simple one-day estimate.",
+        "Fee drag is approximated as a constant daily deduction from the leveraged daily return.",
+        "A pretrade plan does not confirm liquidity, execution quality, tax treatment, or suitability.",
+        "Stop-loss and take-profit bands are planning levels, not guaranteed execution prices."
+      ]
+    },
+    {
+      "document_type": "position_size_plan",
+      "label": "NDAQ3X",
+      "metrics": {
+        "exposure_multiple": 0.3,
+        "modeled_loss_at_stop": 750.0,
+        "recommended_notional": 5000.0
+      },
+      "path": "examples/outputs/position_size.json",
+      "schema_version": "0.8",
+      "strengths": [
+        "Position sizing converts the loss budget into 5000.0 notional.",
+        "Max-share count is intentionally left as a placeholder because no live price is fetched."
+      ],
+      "unresolved_checks": [
+        "Checklist item: Confirm account value and loss budget before using the notional figure.",
+        "Checklist item: Convert notional to shares with the intended execution price outside this model.",
+        "Checklist item: Check liquidity, spreads, trading halts, and gap risk before relying on a stop.",
+        "Checklist item: Compare exposure multiple with portfolio concentration and leverage limits.",
+        "Checklist item: Record that this output is for scenario planning and is not investment advice.",
+        "Translate max-shares placeholder using an intended execution price outside this model."
+      ],
+      "warnings": [
+        "Daily reset leverage means multi-day returns can differ materially from the underlying return times leverage.",
+        "Scenario output is not investment advice and does not predict future returns.",
+        "Large daily moves can compound quickly and may create losses larger than a simple one-day estimate.",
+        "Fee drag is approximated as a constant daily deduction from the leveraged daily return.",
+        "Recommended notional is a deterministic planning output, not a trade recommendation.",
+        "Share count is a placeholder because no live or execution price is modeled.",
+        "Stop-loss levels are planning inputs and do not guarantee execution at the modeled loss."
+      ]
+    },
+    {
+      "document_type": "stress_matrix",
+      "label": "NDAQ3X",
+      "metrics": {
+        "largest_drawdown_pct": -52.5497,
+        "largest_drawdown_regime": "gap_down",
+        "regimes": 6,
+        "weakest_return_pct": -48.8504,
+        "weakest_return_regime": "gap_down"
+      },
+      "path": "examples/outputs/stress_matrix.json",
+      "schema_version": "0.9",
+      "strengths": [
+        "Stress matrix covers 6 deterministic regime rows."
+      ],
+      "unresolved_checks": [
+        "Review whether the weakest regime remains inside the stated loss budget.",
+        "Weakest modeled return regime is gap_down at -48.8504%."
+      ],
+      "warnings": [
+        "Daily reset leverage means multi-day returns can differ materially from the underlying return times leverage.",
+        "Scenario output is not investment advice and does not predict future returns.",
+        "Large daily moves can compound quickly and may create losses larger than a simple one-day estimate.",
+        "Fee drag is approximated as a constant daily deduction from the leveraged daily return.",
+        "trend_up has 4 modeled warning(s).",
+        "trend_up has 1 stop/take event(s).",
+        "trend_down has 4 modeled warning(s).",
+        "trend_down has 1 stop/take event(s).",
+        "chop has 4 modeled warning(s).",
+        "gap_down has 4 modeled warning(s).",
+        "gap_down has 1 stop/take event(s).",
+        "rebound has 4 modeled warning(s).",
+        "volatility_cluster has 4 modeled warning(s).",
+        "volatility_cluster has 1 stop/take event(s)."
+      ]
+    },
+    {
+      "document_type": "sensitivity_grid",
+      "label": "NDAQ3X",
+      "metrics": {
+        "combinations": 27,
+        "max_stop_events": 4,
+        "worst_path_decay_vs_simple_multiple": -3.205395,
+        "worst_return_pct": -48.8504,
+        "worst_return_regime": "gap_down"
+      },
+      "path": "examples/outputs/sensitivity_grid.json",
+      "schema_version": "0.19",
+      "strengths": [
+        "Sensitivity grid covers 27 leverage and risk-band combinations."
+      ],
+      "unresolved_checks": [
+        "Review whether the worst grid combination remains inside the stated loss budget.",
+        "Worst modeled return is -48.8504% in gap_down.",
+        "Maximum stop/take events across a combination is 4."
+      ],
+      "warnings": [
+        "Daily reset leverage means multi-day returns can differ materially from the underlying return times leverage.",
+        "Scenario output is not investment advice and does not predict future returns.",
+        "Fee drag is approximated as a constant daily deduction from the leveraged daily return.",
+        "Large daily moves can compound quickly and may create losses larger than a simple one-day estimate.",
+        "Sensitivity rows summarize deterministic built-in regimes and do not model execution, liquidity, tax, or suitability.",
+        "Stop-loss and take-profit values are planning bands and do not guarantee fills.",
+        "1.0x stop 15.0 take None has 1 stop/take event(s).",
+        "1.0x stop 15.0 take 20.0 has 1 stop/take event(s).",
+        "1.0x stop 15.0 take 35.0 has 1 stop/take event(s).",
+        "2.0x stop 15.0 take None has 1 stop/take event(s)."
+      ]
+    },
+    {
+      "document_type": "portfolio_sensitivity",
+      "label": "Generic Leveraged ETP Portfolio",
+      "metrics": {
+        "aggregate_worst_case_loss_pct": 48.8518,
+        "aggregate_worst_case_modeled_loss": 4885.18,
+        "aggregate_worst_case_weighted_exposure": 3.0,
+        "base_weighted_exposure": 2.6,
+        "positions": 2,
+        "starting_value": 10000.0,
+        "weakest_position_id": "single_stock_satellite",
+        "weakest_position_regime": "gap_down",
+        "weakest_position_return_pct": -48.8539
+      },
+      "path": "examples/outputs/portfolio_sensitivity.json",
+      "schema_version": "0.20",
+      "strengths": [
+        "Portfolio sensitivity covers 2 position(s).",
+        "Aggregate worst-case modeled loss is 4885.18."
+      ],
+      "unresolved_checks": [
+        "Review whether the aggregate worst-case modeled loss remains inside the portfolio loss budget.",
+        "Weakest position is single_stock_satellite in gap_down."
+      ],
+      "warnings": [
+        "Portfolio sensitivity uses starting notional weights and deterministic built-in regimes.",
+        "Aggregate worst-case exposure is a scenario-planning metric, not a margin, liquidity, tax, or suitability model.",
+        "Daily reset leverage means multi-day returns can differ materially from the underlying return times leverage.",
+        "Scenario output is not investment advice and does not predict future returns.",
+        "Fee drag is approximated as a constant daily deduction from the leveraged daily return.",
+        "Large daily moves can compound quickly and may create losses larger than a simple one-day estimate.",
+        "Sensitivity rows summarize deterministic built-in regimes and do not model execution, liquidity, tax, or suitability.",
+        "Stop-loss and take-profit values are planning bands and do not guarantee fills."
+      ]
+    },
+    {
+      "document_type": "factsheet_check",
+      "label": "NDAQ3X",
+      "metrics": {
+        "checks": 10,
+        "missing": 0,
+        "passed": 9,
+        "ready_for_review": true,
+        "review": 1
+      },
+      "path": "examples/outputs/factsheet_check.json",
+      "schema_version": "0.15",
+      "strengths": [
+        "Factsheet checklist has 9 passed checks out of 10."
+      ],
+      "unresolved_checks": [
+        "Review factsheet field: liquidity_spread"
+      ],
+      "warnings": [
+        "Factsheet checklist has 1 review field(s)."
+      ]
+    },
+    {
+      "document_type": "risk_profile_rules",
+      "label": "profiles:default,conservative,active-trader,thesis-review",
+      "metrics": {
+        "profiles": 4
+      },
+      "path": "examples/outputs/risk_profiles.json",
+      "schema_version": "0.16",
+      "strengths": [
+        "Risk profile rules are available for 4 profile(s)."
+      ],
+      "unresolved_checks": [
+        "Apply the selected profile's required factsheet fields, regimes, and checklist questions to the trade packet."
+      ],
+      "warnings": []
+    },
+    {
+      "document_type": "recipe_run",
+      "label": "NDAQ3X",
+      "metrics": {
+        "components": 8,
+        "path_decay_vs_simple_multiple": -0.602755,
+        "product": "NDAQ3X",
+        "recommended_notional": 5000.0,
+        "scenario_days": 6,
+        "scenario_return_pct": 0.6088,
+        "watchlist_entries": 5
+      },
+      "path": "examples/outputs/recipe_run.json",
+      "schema_version": "0.17",
+      "strengths": [
+        "Recipe bundle composes 8 components without shelling out.",
+        "Recipe summary includes recommended notional 5000.0 and 5 watchlist entries."
+      ],
+      "unresolved_checks": [
+        "Review embedded component: factsheet_check",
+        "Review embedded component: risk_profile",
+        "Review embedded component: simulation_output",
+        "Review embedded component: stress_matrix",
+        "Review embedded component: position_size_plan",
+        "Review embedded component: pretrade_plan"
+      ],
+      "warnings": [
+        "Daily reset leverage means multi-day returns can differ materially from the underlying return times leverage.",
+        "Scenario output is not investment advice and does not predict future returns.",
+        "Large daily moves can compound quickly and may create losses larger than a simple one-day estimate.",
+        "Fee drag is approximated as a constant daily deduction from the leveraged daily return.",
+        "A pretrade plan does not confirm liquidity, execution quality, tax treatment, or suitability.",
+        "Stop-loss and take-profit bands are planning levels, not guaranteed execution prices.",
+        "Recommended notional is a deterministic planning output, not a trade recommendation.",
+        "Share count is a placeholder because no live or execution price is modeled.",
+        "Stop-loss levels are planning inputs and do not guarantee execution at the modeled loss."
+      ]
+    }
+  ],
+  "document_type": "report_card",
+  "inputs": {
+    "artifacts": [
+      "examples/outputs/pretrade_plan.json",
+      "examples/outputs/position_size.json",
+      "examples/outputs/stress_matrix.json",
+      "examples/outputs/sensitivity_grid.json",
+      "examples/outputs/portfolio_sensitivity.json",
+      "examples/outputs/factsheet_check.json",
+      "examples/outputs/risk_profiles.json",
+      "examples/outputs/recipe_run.json"
+    ]
+  },
+  "next_commands": [
+    "python -m leveraged_etp_risk_lab report-card --artifact examples/outputs/pretrade_plan.json --artifact examples/outputs/position_size.json --artifact examples/outputs/stress_matrix.json --artifact examples/outputs/factsheet_check.json --format markdown",
+    "python -m leveraged_etp_risk_lab package-audit --format markdown --run-tests"
+  ],
+  "not_investment_advice": "This report card is for scenario planning and education only. It is not investment advice, a recommendation, or a suitability determination.",
+  "provenance": {
+    "artifacts": [
+      "examples/outputs/pretrade_plan.json",
+      "examples/outputs/position_size.json",
+      "examples/outputs/stress_matrix.json",
+      "examples/outputs/sensitivity_grid.json",
+      "examples/outputs/portfolio_sensitivity.json",
+      "examples/outputs/factsheet_check.json",
+      "examples/outputs/risk_profiles.json",
+      "examples/outputs/recipe_run.json"
+    ],
+    "command": "report-card",
+    "live_market_data": false,
+    "shell_out": false
+  },
+  "schema_version": "0.18",
+  "strengths": [
+    "NDAQ3X pretrade plan records thesis, risk bands, and a 750.0 USD loss budget.",
+    "Checklist profile is risk-review.",
+    "Position sizing converts the loss budget into 5000.0 notional.",
+    "Max-share count is intentionally left as a placeholder because no live price is fetched.",
+    "Stress matrix covers 6 deterministic regime rows.",
+    "Sensitivity grid covers 27 leverage and risk-band combinations.",
+    "Portfolio sensitivity covers 2 position(s).",
+    "Aggregate worst-case modeled loss is 4885.18."
+  ],
+  "summary": {
+    "artifacts": 8,
+    "decision_ready": false,
+    "document_types": [
+      "factsheet_check",
+      "portfolio_sensitivity",
+      "position_size_plan",
+      "pretrade_plan",
+      "recipe_run",
+      "risk_profile_rules",
+      "sensitivity_grid",
+      "stress_matrix"
+    ],
+    "strengths": 8,
+    "unresolved_checks": 10,
+    "warnings": 10
+  },
+  "unresolved_checks": [
+    "Checklist item: Confirm the product uses daily reset leverage and identify the stated leverage factor.",
+    "Checklist item: Compare the planned holding period with the product objective and risk disclosures.",
+    "Checklist item: Run at least one trending path and one choppy path before sizing the trade.",
+    "Checklist item: Record stop-loss and take-profit levels before entry.",
+    "Checklist item: Review borrowing, financing, and management-fee drag assumptions.",
+    "Confirm liquidity, execution quality, tax treatment, and suitability outside this model.",
+    "Checklist item: Confirm account value and loss budget before using the notional figure.",
+    "Checklist item: Convert notional to shares with the intended execution price outside this model.",
+    "Checklist item: Check liquidity, spreads, trading halts, and gap risk before relying on a stop.",
+    "Checklist item: Compare exposure multiple with portfolio concentration and leverage limits."
+  ],
+  "warnings": [
+    "Daily reset leverage means multi-day returns can differ materially from the underlying return times leverage.",
+    "Scenario output is not investment advice and does not predict future returns.",
+    "Large daily moves can compound quickly and may create losses larger than a simple one-day estimate.",
+    "Fee drag is approximated as a constant daily deduction from the leveraged daily return.",
+    "A pretrade plan does not confirm liquidity, execution quality, tax treatment, or suitability.",
+    "Stop-loss and take-profit bands are planning levels, not guaranteed execution prices.",
+    "Recommended notional is a deterministic planning output, not a trade recommendation.",
+    "Share count is a placeholder because no live or execution price is modeled.",
+    "Stop-loss levels are planning inputs and do not guarantee execution at the modeled loss.",
+    "trend_up has 4 modeled warning(s)."
+  ]
+}

@@ -1,0 +1,379 @@
+{
+  "artifacts": [
+    {
+      "document_type": "artifact_validation",
+      "issues": [],
+      "path": "examples/outputs/artifact_validation.json",
+      "provenance_flags": {
+        "broker_execution": false,
+        "live_market_data": false,
+        "private_context": false,
+        "shell_out": false
+      },
+      "schema_version": "0.26",
+      "status": "pass"
+    },
+    {
+      "document_type": "asset_hub",
+      "issues": [],
+      "path": "examples/outputs/asset_hub.json",
+      "provenance_flags": {
+        "live_market_data": false,
+        "private_context": false,
+        "shell_out": false
+      },
+      "schema_version": "0.25",
+      "status": "pass"
+    },
+    {
+      "document_type": "audit_trail",
+      "issues": [],
+      "path": "examples/outputs/audit_trail.json",
+      "provenance_flags": {
+        "live_market_data": false,
+        "shell_out": false
+      },
+      "schema_version": "0.20",
+      "status": "pass"
+    },
+    {
+      "document_type": "run_comparison",
+      "issues": [],
+      "path": "examples/outputs/compare_runs.json",
+      "provenance_flags": {},
+      "schema_version": "0.5",
+      "status": "pass"
+    },
+    {
+      "document_type": "cycle_state",
+      "issues": [],
+      "path": "examples/outputs/cycle_state.json",
+      "provenance_flags": {
+        "live_market_data": false,
+        "shell_out": false
+      },
+      "schema_version": "0.22",
+      "status": "pass"
+    },
+    {
+      "document_type": "cycle_update",
+      "issues": [],
+      "path": "examples/outputs/cycle_update.json",
+      "provenance_flags": {
+        "live_market_data": false,
+        "shell_out": false
+      },
+      "schema_version": "0.22",
+      "status": "pass"
+    },
+    {
+      "document_type": "demo_story",
+      "issues": [],
+      "path": "examples/outputs/demo_story.json",
+      "provenance_flags": {},
+      "schema_version": "0.12",
+      "status": "pass"
+    },
+    {
+      "document_type": "docs_export",
+      "issues": [],
+      "path": "examples/outputs/docs_export.json",
+      "provenance_flags": {
+        "live_market_data": false,
+        "private_context": false
+      },
+      "schema_version": "0.29",
+      "status": "pass"
+    },
+    {
+      "document_type": "factsheet_check",
+      "issues": [],
+      "path": "examples/outputs/factsheet_check.json",
+      "provenance_flags": {},
+      "schema_version": "0.15",
+      "status": "pass"
+    },
+    {
+      "document_type": "gallery_index",
+      "issues": [],
+      "path": "examples/outputs/gallery_index.json",
+      "provenance_flags": {},
+      "schema_version": "0.13",
+      "status": "pass"
+    },
+    {
+      "document_type": "glossary",
+      "issues": [],
+      "path": "examples/outputs/glossary.json",
+      "provenance_flags": {},
+      "schema_version": "0.14",
+      "status": "pass"
+    },
+    {
+      "document_type": "guardrail_check",
+      "issues": [],
+      "path": "examples/outputs/guardrail_check.json",
+      "provenance_flags": {
+        "live_market_data": false,
+        "shell_out": false
+      },
+      "schema_version": "0.23",
+      "status": "pass"
+    },
+    {
+      "document_type": "guardrail_policy",
+      "issues": [],
+      "path": "examples/outputs/guardrail_policy.json",
+      "provenance_flags": {
+        "live_market_data": false,
+        "shell_out": false
+      },
+      "schema_version": "0.23",
+      "status": "pass"
+    },
+    {
+      "document_type": "investment_memo_packet",
+      "issues": [],
+      "path": "examples/outputs/investment_memo.json",
+      "provenance_flags": {
+        "live_market_data": false,
+        "shell_out": false
+      },
+      "schema_version": "0.21",
+      "status": "pass"
+    },
+    {
+      "document_type": "investment_memo_review",
+      "issues": [],
+      "path": "examples/outputs/investment_memo_review.json",
+      "provenance_flags": {
+        "live_market_data": false,
+        "shell_out": false
+      },
+      "schema_version": "0.21",
+      "status": "pass"
+    },
+    {
+      "document_type": "simulation_output",
+      "issues": [],
+      "path": "examples/outputs/leveraged_nasdaq_3x.json",
+      "provenance_flags": {},
+      "schema_version": "0.2",
+      "status": "pass"
+    },
+    {
+      "document_type": "order_review",
+      "issues": [],
+      "path": "examples/outputs/order_review.json",
+      "provenance_flags": {
+        "broker_execution": false,
+        "live_market_data": false,
+        "shell_out": false
+      },
+      "schema_version": "0.24",
+      "status": "pass"
+    },
+    {
+      "document_type": "order_ticket",
+      "issues": [],
+      "path": "examples/outputs/order_ticket.json",
+      "provenance_flags": {
+        "broker_execution": false,
+        "live_market_data": false,
+        "shell_out": false
+      },
+      "schema_version": "0.24",
+      "status": "pass"
+    },
+    {
+      "document_type": "package_audit",
+      "issues": [],
+      "path": "examples/outputs/package_audit.json",
+      "provenance_flags": {},
+      "schema_version": "0.11",
+      "status": "pass"
+    },
+    {
+      "document_type": "exposure_report",
+      "issues": [],
+      "path": "examples/outputs/portfolio_exposure.json",
+      "provenance_flags": {},
+      "schema_version": "0.2",
+      "status": "pass"
+    },
+    {
+      "document_type": "portfolio_sensitivity",
+      "issues": [],
+      "path": "examples/outputs/portfolio_sensitivity.json",
+      "provenance_flags": {
+        "live_market_data": false,
+        "shell_out": false
+      },
+      "schema_version": "0.20",
+      "status": "pass"
+    },
+    {
+      "document_type": "position_size_plan",
+      "issues": [],
+      "path": "examples/outputs/position_size.json",
+      "provenance_flags": {},
+      "schema_version": "0.8",
+      "status": "pass"
+    },
+    {
+      "document_type": "pretrade_plan",
+      "issues": [],
+      "path": "examples/outputs/pretrade_plan.json",
+      "provenance_flags": {},
+      "schema_version": "0.3",
+      "status": "pass"
+    },
+    {
+      "document_type": "recipe_run",
+      "issues": [],
+      "path": "examples/outputs/recipe_run.json",
+      "provenance_flags": {
+        "shell_out": false
+      },
+      "schema_version": "0.17",
+      "status": "pass"
+    },
+    {
+      "document_type": "regime_gallery",
+      "issues": [],
+      "path": "examples/outputs/regime_gallery.json",
+      "provenance_flags": {},
+      "schema_version": "0.7",
+      "status": "pass"
+    },
+    {
+      "document_type": "release_manifest",
+      "issues": [],
+      "path": "examples/outputs/release_manifest.json",
+      "provenance_flags": {
+        "live_market_data": false,
+        "private_context": false
+      },
+      "schema_version": "0.29",
+      "status": "pass"
+    },
+    {
+      "document_type": "report_card",
+      "issues": [],
+      "path": "examples/outputs/report_card.json",
+      "provenance_flags": {
+        "live_market_data": false,
+        "shell_out": false
+      },
+      "schema_version": "0.18",
+      "status": "pass"
+    },
+    {
+      "document_type": "risk_profile_rules",
+      "issues": [],
+      "path": "examples/outputs/risk_profiles.json",
+      "provenance_flags": {},
+      "schema_version": "0.16",
+      "status": "pass"
+    },
+    {
+      "document_type": "schema_inventory",
+      "issues": [],
+      "path": "examples/outputs/schema_inventory.json",
+      "provenance_flags": {
+        "broker_execution": false,
+        "live_market_data": false,
+        "private_context": false,
+        "shell_out": false
+      },
+      "schema_version": "0.26",
+      "status": "pass"
+    },
+    {
+      "document_type": "sensitivity_grid",
+      "issues": [],
+      "path": "examples/outputs/sensitivity_grid.json",
+      "provenance_flags": {
+        "live_market_data": false,
+        "shell_out": false
+      },
+      "schema_version": "0.19",
+      "status": "pass"
+    },
+    {
+      "document_type": "simulation_output",
+      "issues": [],
+      "path": "examples/outputs/single_stock_2x.json",
+      "provenance_flags": {},
+      "schema_version": "0.2",
+      "status": "pass"
+    },
+    {
+      "document_type": "stress_matrix",
+      "issues": [],
+      "path": "examples/outputs/stress_matrix.json",
+      "provenance_flags": {},
+      "schema_version": "0.9",
+      "status": "pass"
+    },
+    {
+      "document_type": "template_gallery",
+      "issues": [],
+      "path": "examples/outputs/template_gallery.json",
+      "provenance_flags": {},
+      "schema_version": "0.4",
+      "status": "pass"
+    },
+    {
+      "document_type": "thesis_dashboard_data",
+      "issues": [],
+      "path": "examples/outputs/thesis_dashboard_data.json",
+      "provenance_flags": {
+        "live_market_data": false,
+        "shell_out": false
+      },
+      "schema_version": "0.20",
+      "status": "pass"
+    },
+    {
+      "document_type": "thesis_impact",
+      "issues": [],
+      "path": "examples/outputs/thesis_impact.json",
+      "provenance_flags": {},
+      "schema_version": "0.6",
+      "status": "pass"
+    },
+    {
+      "document_type": "watchlist",
+      "issues": [],
+      "path": "examples/outputs/watchlist.json",
+      "provenance_flags": {},
+      "schema_version": "0.10",
+      "status": "pass"
+    },
+    {
+      "document_type": "run_ledger_entry",
+      "issues": [],
+      "path": "examples/outputs/run_ledger.jsonl",
+      "provenance_flags": {},
+      "schema_version": "0.5",
+      "status": "pass"
+    }
+  ],
+  "document_type": "artifact_validation",
+  "provenance": {
+    "broker_execution": false,
+    "command": "artifact-validate",
+    "live_market_data": false,
+    "private_context": false,
+    "shell_out": false,
+    "source": "path_list"
+  },
+  "schema_version": "0.26",
+  "summary": {
+    "artifacts": 37,
+    "failed": 0,
+    "passed": 37,
+    "ready": true
+  }
+}

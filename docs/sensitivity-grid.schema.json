@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Leveraged ETP Risk Lab Sensitivity Grid",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "document_type",
+    "not_investment_advice",
+    "product",
+    "inputs",
+    "summary",
+    "rows",
+    "cells",
+    "warnings",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {"const": "0.19"},
+    "document_type": {"const": "sensitivity_grid"},
+    "not_investment_advice": {"type": "string"},
+    "product": {"type": "object"},
+    "inputs": {
+      "type": "object",
+      "required": [
+        "product",
+        "initial_nav",
+        "regimes",
+        "leverage_multipliers",
+        "stop_loss_pct_grid",
+        "take_profit_pct_grid"
+      ],
+      "properties": {
+        "product": {"type": "string"},
+        "initial_nav": {"type": "number", "exclusiveMinimum": 0},
+        "regimes": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "leverage_multipliers": {"type": "array", "minItems": 1, "items": {"type": "number"}},
+        "stop_loss_pct_grid": {"type": "array", "minItems": 1, "items": {"type": ["number", "null"]}},
+        "take_profit_pct_grid": {"type": "array", "minItems": 1, "items": {"type": ["number", "null"]}}
+      },
+      "additionalProperties": false
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "combinations",
+        "worst_return_pct",
+        "worst_return_regime",
+        "worst_path_decay_vs_simple_multiple",
+        "max_stop_events"
+      ],
+      "properties": {
+        "combinations": {"type": "integer", "minimum": 1},
+        "worst_return_pct": {"type": ["number", "null"]},
+        "worst_return_regime": {"type": ["string", "null"]},
+        "worst_return_leverage": {"type": ["number", "null"]},
+        "worst_return_stop_loss_pct": {"type": ["number", "null"]},
+        "worst_return_take_profit_pct": {"type": ["number", "null"]},
+        "worst_path_decay_vs_simple_multiple": {"type": ["number", "null"]},
+        "worst_path_decay_regime": {"type": ["string", "null"]},
+        "max_stop_events": {"type": ["integer", "null"], "minimum": 0},
+        "max_stop_events_leverage": {"type": ["number", "null"]},
+        "max_stop_events_stop_loss_pct": {"type": ["number", "null"]},
+        "max_stop_events_take_profit_pct": {"type": ["number", "null"]}
+      },
+      "additionalProperties": false
+    },
+    "rows": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "leverage",
+          "stop_loss_pct",
+          "take_profit_pct",
+          "regimes",
+          "worst_return_regime",
+          "worst_return_pct",
+          "largest_drawdown_regime",
+          "largest_drawdown_pct",
+          "worst_path_decay_regime",
+          "worst_path_decay_vs_simple_multiple",
+          "stop_events",
+          "warnings_count"
+        ],
+        "properties": {
+          "leverage": {"type": "number"},
+          "stop_loss_pct": {"type": ["number", "null"]},
+          "take_profit_pct": {"type": ["number", "null"]},
+          "regimes": {"type": "integer", "minimum": 1},
+          "worst_return_regime": {"type": ["string", "null"]},
+          "worst_return_pct": {"type": ["number", "null"]},
+          "largest_drawdown_regime": {"type": ["string", "null"]},
+          "largest_drawdown_pct": {"type": ["number", "null"]},
+          "worst_path_decay_regime": {"type": ["string", "null"]},
+          "worst_path_decay_vs_simple_multiple": {"type": ["number", "null"]},
+          "stop_events": {"type": "integer", "minimum": 0},
+          "warnings_count": {"type": "integer", "minimum": 0}
+        },
+        "additionalProperties": false
+      }
+    },
+    "cells": {"type": "array", "items": {"type": "object"}},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "provenance": {"type": "object"}
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Allocation Guardrail Check",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "document_type",
+    "not_investment_advice",
+    "inputs",
+    "policy",
+    "summary",
+    "observed",
+    "rules",
+    "violated_rules",
+    "next_actions",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {"const": "0.23"},
+    "document_type": {"const": "guardrail_check"},
+    "not_investment_advice": {"type": "string"},
+    "inputs": {"type": "object"},
+    "policy": {"type": "object"},
+    "summary": {
+      "type": "object",
+      "required": ["result", "rules", "pass", "review", "fail"],
+      "properties": {
+        "result": {"enum": ["pass", "review", "fail"]},
+        "rules": {"type": "integer"},
+        "pass": {"type": "integer"},
+        "review": {"type": "integer"},
+        "fail": {"type": "integer"}
+      }
+    },
+    "observed": {"type": "object"},
+    "rules": {"type": "array", "items": {"type": "object"}},
+    "violated_rules": {"type": "array", "items": {"type": "object"}},
+    "next_actions": {"type": "array", "items": {"type": "string"}},
+    "provenance": {
+      "type": "object",
+      "required": ["command", "artifacts", "live_market_data", "shell_out"],
+      "properties": {
+        "command": {"const": "guardrail-check"},
+        "artifacts": {"type": "array", "items": {"type": "string"}},
+        "live_market_data": {"const": false},
+        "shell_out": {"const": false}
+      }
+    }
+  }
+}

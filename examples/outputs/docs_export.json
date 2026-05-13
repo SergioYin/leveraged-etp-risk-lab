@@ -1,0 +1,789 @@
+{
+  "command_map": [
+    {
+      "example": "python -m leveraged_etp_risk_lab pretrade-plan --product examples/fixtures/leveraged_nasdaq_3x.json --path examples/fixtures/nasdaq_chop_path.csv --thesis-file examples/fixtures/thesis_note.md --max-loss-budget 750 --stop-loss 0.15 --take-profit 0.20 --format markdown",
+      "name": "pretrade-plan",
+      "purpose": "Build the base thesis, budget, and risk-band packet."
+    },
+    {
+      "example": "python -m leveraged_etp_risk_lab stress-matrix --product examples/fixtures/leveraged_nasdaq_3x.json --stop-loss 0.15 --take-profit 0.20 --format markdown",
+      "name": "stress-matrix",
+      "purpose": "Run the product across built-in deterministic regimes."
+    },
+    {
+      "example": "python -m leveraged_etp_risk_lab sensitivity-grid --product examples/fixtures/leveraged_nasdaq_3x.json --stop-loss none,0.15,0.25 --take-profit none,0.20,0.35 --format markdown",
+      "name": "sensitivity-grid",
+      "purpose": "Compare leverage, stop-loss, and take-profit grids."
+    },
+    {
+      "example": "python -m leveraged_etp_risk_lab watchlist-build --thesis-impact examples/outputs/thesis_impact.json --stress-matrix examples/outputs/stress_matrix.json --format markdown",
+      "name": "watchlist-build",
+      "purpose": "Turn thesis and stress results into review triggers."
+    },
+    {
+      "example": "python -m leveraged_etp_risk_lab package-audit --format markdown",
+      "name": "package-audit",
+      "purpose": "Check public sharing readiness and validation commands."
+    },
+    {
+      "example": "python -m leveraged_etp_risk_lab recipe-run --recipe examples/fixtures/recipe_thesis_review.json --format markdown",
+      "name": "recipe-run",
+      "purpose": "Compose the public workflow from one JSON recipe."
+    },
+    {
+      "example": "python -m leveraged_etp_risk_lab report-card --artifact examples/outputs/pretrade_plan.json --artifact examples/outputs/position_size.json --artifact examples/outputs/stress_matrix.json --artifact examples/outputs/factsheet_check.json --format markdown",
+      "name": "report-card",
+      "purpose": "Summarize artifact strengths, warnings, and unresolved checks."
+    },
+    {
+      "example": "python -m leveraged_etp_risk_lab memo-draft --recipe-run examples/outputs/recipe_run.json --thesis-dashboard-data examples/outputs/thesis_dashboard_data.json --report-card examples/outputs/report_card.json --factsheet-check examples/outputs/factsheet_check.json --format markdown",
+      "name": "memo-draft",
+      "purpose": "Package thesis, scenario evidence, and risk budget into a memo."
+    },
+    {
+      "example": "python -m leveraged_etp_risk_lab memo-review --memo examples/outputs/investment_memo.json --report-card examples/outputs/report_card.json --watchlist examples/outputs/watchlist.json --audit-trail examples/outputs/audit_trail.json --format markdown",
+      "name": "memo-review",
+      "purpose": "Compare the memo against latest review artifacts."
+    },
+    {
+      "example": "python -m leveraged_etp_risk_lab cycle-init --memo examples/outputs/investment_memo.json --watchlist examples/outputs/watchlist.json --report-card examples/outputs/report_card.json --sensitivity-grid examples/outputs/sensitivity_grid.json --format markdown",
+      "name": "cycle-init",
+      "purpose": "Create a persistent public watch-cycle state."
+    },
+    {
+      "example": "python -m leveraged_etp_risk_lab cycle-update --cycle-state examples/outputs/cycle_state.json --report-card examples/outputs/report_card.json --watchlist examples/outputs/watchlist.json --audit-trail examples/outputs/audit_trail.json --format markdown",
+      "name": "cycle-update",
+      "purpose": "Detect watch-cycle hash drift and watchlist changes."
+    },
+    {
+      "example": "python -m leveraged_etp_risk_lab guardrail-policy --policy default --format markdown",
+      "name": "guardrail-policy",
+      "purpose": "Emit explicit allocation review limits."
+    },
+    {
+      "example": "python -m leveraged_etp_risk_lab guardrail-check --policy examples/outputs/guardrail_policy.json --portfolio-sensitivity examples/outputs/portfolio_sensitivity.json --position-size examples/outputs/position_size.json --investment-memo examples/outputs/investment_memo.json --cycle-update examples/outputs/cycle_update.json --format markdown",
+      "name": "guardrail-check",
+      "purpose": "Gate artifacts against exposure, budget, horizon, and review rules."
+    },
+    {
+      "example": "python -m leveraged_etp_risk_lab order-ticket --guardrail-check examples/outputs/guardrail_check.json --investment-memo examples/outputs/investment_memo.json --position-size examples/outputs/position_size.json --factsheet-check examples/outputs/factsheet_check.json --thesis-dashboard-data examples/outputs/thesis_dashboard_data.json --format markdown",
+      "name": "order-ticket",
+      "purpose": "Create placeholder-only broker field and do-not-trade checklists."
+    },
+    {
+      "example": "python -m leveraged_etp_risk_lab order-review --order-ticket examples/outputs/order_ticket.json --guardrail-check examples/outputs/guardrail_check.json --cycle-update examples/outputs/cycle_update.json --audit-trail examples/outputs/audit_trail.json --format markdown",
+      "name": "order-review",
+      "purpose": "Run a final educational order review without execution."
+    },
+    {
+      "example": "python -m leveraged_etp_risk_lab demo-story --input-dir examples/outputs --format markdown",
+      "name": "demo-story",
+      "purpose": "Render the public walkthrough from checked demo artifacts."
+    },
+    {
+      "example": "python -m leveraged_etp_risk_lab schema-inventory --format markdown",
+      "name": "schema-inventory",
+      "purpose": "List local schemas, required fields, matching examples, and public safety notes."
+    },
+    {
+      "example": "python -m leveraged_etp_risk_lab artifact-validate --format markdown",
+      "name": "artifact-validate",
+      "purpose": "Validate example JSON artifacts against the local lightweight schema inventory."
+    },
+    {
+      "example": "python -m leveraged_etp_risk_lab release-manifest --input-dir examples/outputs --format markdown",
+      "name": "release-manifest",
+      "purpose": "Emit release readiness, public artifact inventory, and release notes."
+    },
+    {
+      "example": "python -m leveraged_etp_risk_lab docs-export --input-dir examples/outputs --output examples/outputs/docs_export.html",
+      "name": "docs-export",
+      "purpose": "Render one self-contained static HTML documentation page from public artifacts."
+    },
+    {
+      "example": "python -m leveraged_etp_risk_lab asset-hub --input-dir examples/outputs --format markdown",
+      "name": "asset-hub",
+      "purpose": "Emit the GitHub-facing public asset hub."
+    }
+  ],
+  "document_type": "docs_export",
+  "local_artifact_links": [
+    {
+      "kind": "md",
+      "path": "examples/outputs/checklist.md",
+      "stage": "fixtures"
+    },
+    {
+      "kind": "json",
+      "path": "examples/outputs/glossary.json",
+      "stage": "fixtures"
+    },
+    {
+      "kind": "md",
+      "path": "examples/outputs/glossary.md",
+      "stage": "fixtures"
+    },
+    {
+      "kind": "json",
+      "path": "examples/outputs/leveraged_nasdaq_3x.json",
+      "stage": "fixtures"
+    },
+    {
+      "kind": "md",
+      "path": "examples/outputs/leveraged_nasdaq_3x.md",
+      "stage": "fixtures"
+    },
+    {
+      "kind": "json",
+      "path": "examples/outputs/portfolio_exposure.json",
+      "stage": "fixtures"
+    },
+    {
+      "kind": "md",
+      "path": "examples/outputs/portfolio_exposure.md",
+      "stage": "fixtures"
+    },
+    {
+      "kind": "csv",
+      "path": "examples/outputs/regime_chop.csv",
+      "stage": "fixtures"
+    },
+    {
+      "kind": "json",
+      "path": "examples/outputs/regime_gallery.json",
+      "stage": "fixtures"
+    },
+    {
+      "kind": "md",
+      "path": "examples/outputs/regime_gallery.md",
+      "stage": "fixtures"
+    },
+    {
+      "kind": "csv",
+      "path": "examples/outputs/regime_gap_down.csv",
+      "stage": "fixtures"
+    },
+    {
+      "kind": "csv",
+      "path": "examples/outputs/regime_rebound.csv",
+      "stage": "fixtures"
+    },
+    {
+      "kind": "csv",
+      "path": "examples/outputs/regime_trend_down.csv",
+      "stage": "fixtures"
+    },
+    {
+      "kind": "csv",
+      "path": "examples/outputs/regime_trend_up.csv",
+      "stage": "fixtures"
+    },
+    {
+      "kind": "csv",
+      "path": "examples/outputs/regime_volatility_cluster.csv",
+      "stage": "fixtures"
+    },
+    {
+      "kind": "json",
+      "path": "examples/outputs/risk_profiles.json",
+      "stage": "fixtures"
+    },
+    {
+      "kind": "md",
+      "path": "examples/outputs/risk_profiles.md",
+      "stage": "fixtures"
+    },
+    {
+      "kind": "json",
+      "path": "examples/outputs/single_stock_2x.json",
+      "stage": "fixtures"
+    },
+    {
+      "kind": "md",
+      "path": "examples/outputs/single_stock_2x.md",
+      "stage": "fixtures"
+    },
+    {
+      "kind": "json",
+      "path": "examples/outputs/template_gallery.json",
+      "stage": "fixtures"
+    },
+    {
+      "kind": "md",
+      "path": "examples/outputs/template_gallery.md",
+      "stage": "fixtures"
+    },
+    {
+      "kind": "json",
+      "path": "examples/outputs/compare_runs.json",
+      "stage": "plans"
+    },
+    {
+      "kind": "md",
+      "path": "examples/outputs/compare_runs.md",
+      "stage": "plans"
+    },
+    {
+      "kind": "json",
+      "path": "examples/outputs/pretrade_plan.json",
+      "stage": "plans"
+    },
+    {
+      "kind": "md",
+      "path": "examples/outputs/pretrade_plan.md",
+      "stage": "plans"
+    },
+    {
+      "kind": "json",
+      "path": "examples/outputs/recipe_run.json",
+      "stage": "plans"
+    },
+    {
+      "kind": "md",
+      "path": "examples/outputs/recipe_run.md",
+      "stage": "plans"
+    },
+    {
+      "kind": "json",
+      "path": "examples/outputs/report_card.json",
+      "stage": "plans"
+    },
+    {
+      "kind": "md",
+      "path": "examples/outputs/report_card.md",
+      "stage": "plans"
+    },
+    {
+      "kind": "jsonl",
+      "path": "examples/outputs/run_ledger.jsonl",
+      "stage": "plans"
+    },
+    {
+      "kind": "json",
+      "path": "examples/outputs/position_size.json",
+      "stage": "sizing"
+    },
+    {
+      "kind": "md",
+      "path": "examples/outputs/position_size.md",
+      "stage": "sizing"
+    },
+    {
+      "kind": "json",
+      "path": "examples/outputs/portfolio_sensitivity.json",
+      "stage": "stress"
+    },
+    {
+      "kind": "md",
+      "path": "examples/outputs/portfolio_sensitivity.md",
+      "stage": "stress"
+    },
+    {
+      "kind": "json",
+      "path": "examples/outputs/sensitivity_grid.json",
+      "stage": "stress"
+    },
+    {
+      "kind": "md",
+      "path": "examples/outputs/sensitivity_grid.md",
+      "stage": "stress"
+    },
+    {
+      "kind": "json",
+      "path": "examples/outputs/stress_matrix.json",
+      "stage": "stress"
+    },
+    {
+      "kind": "md",
+      "path": "examples/outputs/stress_matrix.md",
+      "stage": "stress"
+    },
+    {
+      "kind": "json",
+      "path": "examples/outputs/thesis_impact.json",
+      "stage": "thesis/watchlist"
+    },
+    {
+      "kind": "md",
+      "path": "examples/outputs/thesis_impact.md",
+      "stage": "thesis/watchlist"
+    },
+    {
+      "kind": "json",
+      "path": "examples/outputs/watchlist.json",
+      "stage": "thesis/watchlist"
+    },
+    {
+      "kind": "md",
+      "path": "examples/outputs/watchlist.md",
+      "stage": "thesis/watchlist"
+    },
+    {
+      "kind": "json",
+      "path": "examples/outputs/asset_hub.json",
+      "stage": "audit/story"
+    },
+    {
+      "kind": "md",
+      "path": "examples/outputs/asset_hub.md",
+      "stage": "audit/story"
+    },
+    {
+      "kind": "json",
+      "path": "examples/outputs/audit_trail.json",
+      "stage": "audit/story"
+    },
+    {
+      "kind": "md",
+      "path": "examples/outputs/audit_trail.md",
+      "stage": "audit/story"
+    },
+    {
+      "kind": "json",
+      "path": "examples/outputs/demo_story.json",
+      "stage": "audit/story"
+    },
+    {
+      "kind": "md",
+      "path": "examples/outputs/demo_story.md",
+      "stage": "audit/story"
+    },
+    {
+      "kind": "json",
+      "path": "examples/outputs/factsheet_check.json",
+      "stage": "audit/story"
+    },
+    {
+      "kind": "md",
+      "path": "examples/outputs/factsheet_check.md",
+      "stage": "audit/story"
+    },
+    {
+      "kind": "json",
+      "path": "examples/outputs/package_audit.json",
+      "stage": "audit/story"
+    },
+    {
+      "kind": "md",
+      "path": "examples/outputs/package_audit.md",
+      "stage": "audit/story"
+    },
+    {
+      "kind": "json",
+      "path": "examples/outputs/cycle_state.json",
+      "stage": "dashboard"
+    },
+    {
+      "kind": "md",
+      "path": "examples/outputs/cycle_state.md",
+      "stage": "dashboard"
+    },
+    {
+      "kind": "json",
+      "path": "examples/outputs/cycle_update.json",
+      "stage": "dashboard"
+    },
+    {
+      "kind": "md",
+      "path": "examples/outputs/cycle_update.md",
+      "stage": "dashboard"
+    },
+    {
+      "kind": "html",
+      "path": "examples/outputs/dashboard.html",
+      "stage": "dashboard"
+    },
+    {
+      "kind": "json",
+      "path": "examples/outputs/guardrail_check.json",
+      "stage": "dashboard"
+    },
+    {
+      "kind": "md",
+      "path": "examples/outputs/guardrail_check.md",
+      "stage": "dashboard"
+    },
+    {
+      "kind": "json",
+      "path": "examples/outputs/guardrail_policy.json",
+      "stage": "dashboard"
+    },
+    {
+      "kind": "md",
+      "path": "examples/outputs/guardrail_policy.md",
+      "stage": "dashboard"
+    },
+    {
+      "kind": "json",
+      "path": "examples/outputs/investment_memo.json",
+      "stage": "dashboard"
+    },
+    {
+      "kind": "md",
+      "path": "examples/outputs/investment_memo.md",
+      "stage": "dashboard"
+    },
+    {
+      "kind": "json",
+      "path": "examples/outputs/investment_memo_review.json",
+      "stage": "dashboard"
+    },
+    {
+      "kind": "md",
+      "path": "examples/outputs/investment_memo_review.md",
+      "stage": "dashboard"
+    },
+    {
+      "kind": "json",
+      "path": "examples/outputs/order_review.json",
+      "stage": "dashboard"
+    },
+    {
+      "kind": "md",
+      "path": "examples/outputs/order_review.md",
+      "stage": "dashboard"
+    },
+    {
+      "kind": "json",
+      "path": "examples/outputs/order_ticket.json",
+      "stage": "dashboard"
+    },
+    {
+      "kind": "md",
+      "path": "examples/outputs/order_ticket.md",
+      "stage": "dashboard"
+    },
+    {
+      "kind": "json",
+      "path": "examples/outputs/thesis_dashboard_data.json",
+      "stage": "dashboard"
+    },
+    {
+      "kind": "md",
+      "path": "examples/outputs/thesis_dashboard_data.md",
+      "stage": "dashboard"
+    },
+    {
+      "kind": "json",
+      "path": "examples/outputs/artifact_validation.json",
+      "stage": "validation"
+    },
+    {
+      "kind": "md",
+      "path": "examples/outputs/artifact_validation.md",
+      "stage": "validation"
+    },
+    {
+      "kind": "html",
+      "path": "examples/outputs/docs_export.html",
+      "stage": "validation"
+    },
+    {
+      "kind": "json",
+      "path": "examples/outputs/docs_export.json",
+      "stage": "validation"
+    },
+    {
+      "kind": "md",
+      "path": "examples/outputs/docs_export.md",
+      "stage": "validation"
+    },
+    {
+      "kind": "json",
+      "path": "examples/outputs/release_manifest.json",
+      "stage": "validation"
+    },
+    {
+      "kind": "md",
+      "path": "examples/outputs/release_manifest.md",
+      "stage": "validation"
+    },
+    {
+      "kind": "json",
+      "path": "examples/outputs/schema_inventory.json",
+      "stage": "validation"
+    },
+    {
+      "kind": "md",
+      "path": "examples/outputs/schema_inventory.md",
+      "stage": "validation"
+    },
+    {
+      "kind": "markdown",
+      "path": "examples/outputs/gallery_index.md",
+      "stage": "markdown"
+    }
+  ],
+  "markdown_artifacts": [
+    {
+      "bytes": 4366,
+      "path": "examples/outputs/artifact_validation.md",
+      "title": "Artifact Validation"
+    },
+    {
+      "bytes": 11973,
+      "path": "examples/outputs/asset_hub.md",
+      "title": "leveraged-etp-risk-lab Public Asset Hub"
+    },
+    {
+      "bytes": 3442,
+      "path": "examples/outputs/audit_trail.md",
+      "title": "Audit Trail"
+    },
+    {
+      "bytes": 718,
+      "path": "examples/outputs/checklist.md",
+      "title": "Leveraged ETP Risk Checklist: risk-review"
+    },
+    {
+      "bytes": 408,
+      "path": "examples/outputs/compare_runs.md",
+      "title": "Run Comparison"
+    },
+    {
+      "bytes": 3271,
+      "path": "examples/outputs/cycle_state.md",
+      "title": "Watch Cycle State"
+    },
+    {
+      "bytes": 1435,
+      "path": "examples/outputs/cycle_update.md",
+      "title": "Watch Cycle Update"
+    },
+    {
+      "bytes": 9015,
+      "path": "examples/outputs/demo_story.md",
+      "title": "Public Demo Story"
+    },
+    {
+      "bytes": 1174,
+      "path": "examples/outputs/factsheet_check.md",
+      "title": "Product Factsheet Checklist"
+    },
+    {
+      "bytes": 22312,
+      "path": "examples/outputs/gallery_index.md",
+      "title": "Public Gallery Index"
+    },
+    {
+      "bytes": 5341,
+      "path": "examples/outputs/glossary.md",
+      "title": "Leveraged Product Glossary"
+    },
+    {
+      "bytes": 2207,
+      "path": "examples/outputs/guardrail_check.md",
+      "title": "Allocation Guardrail Check"
+    },
+    {
+      "bytes": 961,
+      "path": "examples/outputs/guardrail_policy.md",
+      "title": "Allocation Guardrail Policy: default"
+    },
+    {
+      "bytes": 4262,
+      "path": "examples/outputs/investment_memo.md",
+      "title": "Investment Memo: NDAQ3X"
+    },
+    {
+      "bytes": 2477,
+      "path": "examples/outputs/investment_memo_review.md",
+      "title": "Investment Memo Review"
+    },
+    {
+      "bytes": 1426,
+      "path": "examples/outputs/leveraged_nasdaq_3x.md",
+      "title": "Simulation: NDAQ3X"
+    },
+    {
+      "bytes": 1414,
+      "path": "examples/outputs/order_review.md",
+      "title": "Final Educational Order Review"
+    },
+    {
+      "bytes": 3555,
+      "path": "examples/outputs/order_ticket.md",
+      "title": "Pre-Order Ticket: NDAQ3X"
+    },
+    {
+      "bytes": 5371,
+      "path": "examples/outputs/package_audit.md",
+      "title": "Package Audit"
+    },
+    {
+      "bytes": 1430,
+      "path": "examples/outputs/portfolio_exposure.md",
+      "title": "Exposure Report: Generic Leveraged ETP Portfolio"
+    },
+    {
+      "bytes": 1870,
+      "path": "examples/outputs/portfolio_sensitivity.md",
+      "title": "Portfolio Sensitivity: Generic Leveraged ETP Portfolio"
+    },
+    {
+      "bytes": 2279,
+      "path": "examples/outputs/position_size.md",
+      "title": "Position Size Plan: NDAQ3X"
+    },
+    {
+      "bytes": 3090,
+      "path": "examples/outputs/pretrade_plan.md",
+      "title": "Pretrade Plan: NDAQ3X"
+    },
+    {
+      "bytes": 1965,
+      "path": "examples/outputs/recipe_run.md",
+      "title": "Recipe Run"
+    },
+    {
+      "bytes": 4525,
+      "path": "examples/outputs/regime_gallery.md",
+      "title": "Market Regime Gallery"
+    },
+    {
+      "bytes": 4148,
+      "path": "examples/outputs/release_manifest.md",
+      "title": "Release Manifest"
+    },
+    {
+      "bytes": 4259,
+      "path": "examples/outputs/report_card.md",
+      "title": "Decision Readiness Report Card"
+    },
+    {
+      "bytes": 4978,
+      "path": "examples/outputs/risk_profiles.md",
+      "title": "Risk Rule Profiles"
+    },
+    {
+      "bytes": 11100,
+      "path": "examples/outputs/schema_inventory.md",
+      "title": "Schema Inventory"
+    },
+    {
+      "bytes": 3962,
+      "path": "examples/outputs/sensitivity_grid.md",
+      "title": "Sensitivity Grid: NDAQ3X"
+    },
+    {
+      "bytes": 1372,
+      "path": "examples/outputs/single_stock_2x.md",
+      "title": "Simulation: STK2X"
+    },
+    {
+      "bytes": 1957,
+      "path": "examples/outputs/stress_matrix.md",
+      "title": "Stress Matrix: NDAQ3X"
+    },
+    {
+      "bytes": 2751,
+      "path": "examples/outputs/template_gallery.md",
+      "title": "Product Template Gallery"
+    },
+    {
+      "bytes": 2658,
+      "path": "examples/outputs/thesis_dashboard_data.md",
+      "title": "Thesis Dashboard Data"
+    },
+    {
+      "bytes": 4851,
+      "path": "examples/outputs/thesis_impact.md",
+      "title": "Thesis Impact"
+    },
+    {
+      "bytes": 9699,
+      "path": "examples/outputs/watchlist.md",
+      "title": "Thesis Watchlist"
+    }
+  ],
+  "provenance": {
+    "command": "docs-export",
+    "external_assets": false,
+    "input_dir": "examples/outputs",
+    "javascript": false,
+    "live_market_data": false,
+    "private_context": false,
+    "workflow_files_read": false
+  },
+  "release_notes": {
+    "markdown": "## v0.29.0\n\n### Highlights\n\n- Hardens deterministic release artifact generation for package audit, schema inventory, artifact validation, release manifest, and docs export.\n- Keeps docs export and release manifest schemas aligned for the final public v0.29 release surface.\n- Carries safety caveats, command map, release notes, and local artifact links from checked public artifacts.\n- Publishes 80 public demo artifacts across 8 gallery stages.\n- Tracks 39 local schemas and 37 validated artifacts.\n\n### Readiness\n\n- Release status: ready\n- Package audit ready: yes\n- Artifact validation ready: yes\n\n### Verification\n\n- `python -m unittest discover -s tests`\n- `python scripts/selfcheck.py`\n- `python -m leveraged_etp_risk_lab docs-export --input-dir examples/outputs --output examples/outputs/docs_export.html`\n- `python -m leveraged_etp_risk_lab package-audit --run-tests --format json`\n",
+    "title": "v0.29.0"
+  },
+  "safety_caveats": [
+    "This decision packet is for scenario planning and education only. It is not investment advice, a recommendation, or a suitability determination.",
+    "Do not present generated artifacts as investment advice, recommendations, suitability determinations, or broker orders.",
+    "Do not fetch live or delayed market prices, quotes, spreads, depth, halts, or broker availability.",
+    "Do not use private context, organization-specific messaging, secrets, environment variables, or workflow files.",
+    "Treat position-size, guardrail, order-ticket, and order-review outputs as educational review aids only.",
+    "The demo uses deterministic fixtures, not forecasts or live market data.",
+    "Stop-loss and take-profit bands are planning levels, not guaranteed execution prices.",
+    "Position sizing and watchlist severity are review aids, not recommendations.",
+    "Order ticket and review outputs are educational checklists, not broker orders.",
+    "The package intentionally avoids workflow files, secrets, live prices, and private context.",
+    "Daily reset leverage means multi-day returns can differ materially from the underlying return times leverage.",
+    "Scenario output is not investment advice and does not predict future returns.",
+    "Review aggregate modeled portfolio loss against the stated budget before proceeding.",
+    "Close or explicitly accept memo open checks before relying on the allocation.",
+    "Review memo invalidation triggers and regenerate memo artifacts if the thesis changed.",
+    "Resolve cycle-update next review actions before proceeding.",
+    "Do not use this output as a broker order or trade recommendation.",
+    "Confirm all live broker, price, liquidity, and suitability requirements outside this package.",
+    "No order has been placed, staged, routed, previewed, or transmitted.",
+    "This documentation is for deterministic scenario planning and education only.",
+    "It is not investment advice, a recommendation, broker instruction, or suitability determination.",
+    "The export is static HTML with no JavaScript, no external assets, no live market data, no workflow reads, and no private context."
+  ],
+  "schema_version": "0.29",
+  "sources": [
+    {
+      "document_type": "asset_hub",
+      "error": null,
+      "name": "asset_hub",
+      "path": "examples/outputs/asset_hub.json",
+      "schema_version": "0.25",
+      "status": "present"
+    },
+    {
+      "document_type": "demo_story",
+      "error": null,
+      "name": "demo_story",
+      "path": "examples/outputs/demo_story.json",
+      "schema_version": "0.12",
+      "status": "present"
+    },
+    {
+      "document_type": "gallery_index",
+      "error": null,
+      "name": "gallery_index",
+      "path": "examples/outputs/gallery_index.json",
+      "schema_version": "0.13",
+      "status": "present"
+    },
+    {
+      "document_type": "package_audit",
+      "error": null,
+      "name": "package_audit",
+      "path": "examples/outputs/package_audit.json",
+      "schema_version": "0.11",
+      "status": "present"
+    },
+    {
+      "document_type": "release_manifest",
+      "error": null,
+      "name": "release_manifest",
+      "path": "examples/outputs/release_manifest.json",
+      "schema_version": "0.29",
+      "status": "present"
+    }
+  ],
+  "summary": {
+    "commands": 21,
+    "local_links": 81,
+    "markdown_artifacts": 36,
+    "package_ready": true,
+    "release_status": "ready",
+    "source_artifacts": 5,
+    "source_artifacts_present": 5
+  },
+  "title": "Leveraged ETP Risk Lab Documentation"
+}

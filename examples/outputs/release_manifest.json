@@ -1,0 +1,253 @@
+{
+  "agent_skill_path": "skills/agent/leveraged-etp-risk-lab/SKILL.md",
+  "document_type": "release_manifest",
+  "git": {
+    "available": false,
+    "branch": null,
+    "commit": null,
+    "dirty": null,
+    "short_commit": null,
+    "status": "disabled"
+  },
+  "github_release_notes_draft": {
+    "markdown": "## v0.29.0\n\n### Highlights\n\n- Hardens deterministic release artifact generation for package audit, schema inventory, artifact validation, release manifest, and docs export.\n- Keeps docs export and release manifest schemas aligned for the final public v0.29 release surface.\n- Carries safety caveats, command map, release notes, and local artifact links from checked public artifacts.\n- Publishes 80 public demo artifacts across 8 gallery stages.\n- Tracks 39 local schemas and 37 validated artifacts.\n\n### Readiness\n\n- Release status: ready\n- Package audit ready: yes\n- Artifact validation ready: yes\n\n### Verification\n\n- `python -m unittest discover -s tests`\n- `python scripts/selfcheck.py`\n- `python -m leveraged_etp_risk_lab docs-export --input-dir examples/outputs --output examples/outputs/docs_export.html`\n- `python -m leveraged_etp_risk_lab package-audit --run-tests --format json`\n",
+    "title": "v0.29.0"
+  },
+  "inputs": [
+    {
+      "document_type": "artifact_validation",
+      "error": null,
+      "name": "artifact_validation",
+      "path": "examples/outputs/artifact_validation.json",
+      "schema_version": "0.26",
+      "status": "present"
+    },
+    {
+      "document_type": "asset_hub",
+      "error": null,
+      "name": "asset_hub",
+      "path": "examples/outputs/asset_hub.json",
+      "schema_version": "0.25",
+      "status": "present"
+    },
+    {
+      "document_type": "demo_story",
+      "error": null,
+      "name": "demo_story",
+      "path": "examples/outputs/demo_story.json",
+      "schema_version": "0.12",
+      "status": "present"
+    },
+    {
+      "document_type": "gallery_index",
+      "error": null,
+      "name": "gallery_index",
+      "path": "examples/outputs/gallery_index.json",
+      "schema_version": "0.13",
+      "status": "present"
+    },
+    {
+      "document_type": "package_audit",
+      "error": null,
+      "name": "package_audit",
+      "path": "examples/outputs/package_audit.json",
+      "schema_version": "0.11",
+      "status": "present"
+    },
+    {
+      "document_type": "schema_inventory",
+      "error": null,
+      "name": "schema_inventory",
+      "path": "examples/outputs/schema_inventory.json",
+      "schema_version": "0.26",
+      "status": "present"
+    }
+  ],
+  "local_skill_sync_recommendation": {
+    "command": "python scripts/sync_local_skill.py",
+    "recommendation": "sync after release if you use the local Codex skill copy",
+    "source": "skills/agent/leveraged-etp-risk-lab/SKILL.md",
+    "status": "available"
+  },
+  "post_release_verification_checklist": [
+    {
+      "id": "tag",
+      "item": "Confirm release tag v0.29.0 points at the intended commit.",
+      "status": "todo"
+    },
+    {
+      "id": "artifacts",
+      "item": "Confirm JSON and Markdown release_manifest artifacts are attached or linked.",
+      "status": "todo"
+    },
+    {
+      "id": "schema",
+      "item": "Confirm docs/release-manifest.schema.json and docs/docs-export.schema.json are visible in the published package.",
+      "status": "todo"
+    },
+    {
+      "id": "skill",
+      "item": "Run scripts/sync_local_skill.py when a local Codex skill copy should be refreshed.",
+      "status": "todo"
+    },
+    {
+      "id": "smoke",
+      "item": "Run version-report, release-manifest, artifact-validate, and package-audit from a clean checkout.",
+      "status": "todo"
+    }
+  ],
+  "provenance": {
+    "command": "release-manifest",
+    "input_dir": "examples/outputs",
+    "live_market_data": false,
+    "private_context": false,
+    "workflow_files_read": false
+  },
+  "public_artifact_inventory": {
+    "source": "gallery_index",
+    "stages": [
+      {
+        "artifact_count": 21,
+        "key_artifacts": [
+          "examples/outputs/checklist.md",
+          "examples/outputs/glossary.json",
+          "examples/outputs/glossary.md",
+          "examples/outputs/leveraged_nasdaq_3x.json",
+          "examples/outputs/leveraged_nasdaq_3x.md"
+        ],
+        "stage": "fixtures",
+        "suggested_next_command": "python -m leveraged_etp_risk_lab pretrade-plan --product examples/fixtures/leveraged_nasdaq_3x.json --path examples/fixtures/nasdaq_chop_path.csv --thesis-file examples/fixtures/thesis_note.md --max-loss-budget 750 --format markdown"
+      },
+      {
+        "artifact_count": 9,
+        "key_artifacts": [
+          "examples/outputs/compare_runs.json",
+          "examples/outputs/compare_runs.md",
+          "examples/outputs/pretrade_plan.json",
+          "examples/outputs/pretrade_plan.md",
+          "examples/outputs/recipe_run.json"
+        ],
+        "stage": "plans",
+        "suggested_next_command": "python -m leveraged_etp_risk_lab position-size --pretrade-plan examples/outputs/pretrade_plan.json --account-value 50000 --risk-budget-pct 0.015 --format markdown"
+      },
+      {
+        "artifact_count": 2,
+        "key_artifacts": [
+          "examples/outputs/position_size.json",
+          "examples/outputs/position_size.md"
+        ],
+        "stage": "sizing",
+        "suggested_next_command": "python -m leveraged_etp_risk_lab stress-matrix --product examples/fixtures/leveraged_nasdaq_3x.json --stop-loss 0.15 --take-profit 0.20 --format markdown"
+      },
+      {
+        "artifact_count": 6,
+        "key_artifacts": [
+          "examples/outputs/portfolio_sensitivity.json",
+          "examples/outputs/portfolio_sensitivity.md",
+          "examples/outputs/sensitivity_grid.json",
+          "examples/outputs/sensitivity_grid.md",
+          "examples/outputs/stress_matrix.json"
+        ],
+        "stage": "stress",
+        "suggested_next_command": "python -m leveraged_etp_risk_lab thesis-impact --thesis-file examples/fixtures/thesis_note.md --artifact examples/outputs/pretrade_plan.json --artifact examples/outputs/stress_matrix.json --format markdown"
+      },
+      {
+        "artifact_count": 4,
+        "key_artifacts": [
+          "examples/outputs/thesis_impact.json",
+          "examples/outputs/thesis_impact.md",
+          "examples/outputs/watchlist.json",
+          "examples/outputs/watchlist.md"
+        ],
+        "stage": "thesis/watchlist",
+        "suggested_next_command": "python -m leveraged_etp_risk_lab demo-story --input-dir examples/outputs --format markdown"
+      },
+      {
+        "artifact_count": 10,
+        "key_artifacts": [
+          "examples/outputs/asset_hub.json",
+          "examples/outputs/asset_hub.md",
+          "examples/outputs/audit_trail.json",
+          "examples/outputs/audit_trail.md",
+          "examples/outputs/demo_story.json"
+        ],
+        "stage": "audit/story",
+        "suggested_next_command": "python -m leveraged_etp_risk_lab static-dashboard --input-dir examples/outputs --output examples/outputs/dashboard.html"
+      },
+      {
+        "artifact_count": 19,
+        "key_artifacts": [
+          "examples/outputs/cycle_state.json",
+          "examples/outputs/cycle_state.md",
+          "examples/outputs/cycle_update.json",
+          "examples/outputs/cycle_update.md",
+          "examples/outputs/dashboard.html"
+        ],
+        "stage": "dashboard",
+        "suggested_next_command": "python -m leveraged_etp_risk_lab package-audit --format markdown"
+      },
+      {
+        "artifact_count": 9,
+        "key_artifacts": [
+          "examples/outputs/artifact_validation.json",
+          "examples/outputs/artifact_validation.md",
+          "examples/outputs/docs_export.html",
+          "examples/outputs/docs_export.json",
+          "examples/outputs/docs_export.md"
+        ],
+        "stage": "validation",
+        "suggested_next_command": "python -m leveraged_etp_risk_lab artifact-validate --format markdown"
+      }
+    ],
+    "total_artifacts": 80,
+    "total_bytes": 617556
+  },
+  "release_readiness": {
+    "checks": [
+      {
+        "id": "source_artifacts",
+        "item": "All release source artifacts are present",
+        "missing_inputs": [],
+        "status": "pass"
+      },
+      {
+        "id": "package_audit",
+        "item": "Package audit is ready",
+        "missing_inputs": [],
+        "status": "pass"
+      },
+      {
+        "id": "artifact_validation",
+        "item": "Artifact validation is ready",
+        "missing_inputs": [],
+        "status": "pass"
+      },
+      {
+        "id": "public_inventory",
+        "item": "Public artifact inventory is populated",
+        "missing_inputs": [],
+        "status": "pass"
+      },
+      {
+        "id": "safety_boundaries",
+        "item": "No live data, workflow, or private context is required",
+        "missing_inputs": [],
+        "status": "pass"
+      }
+    ],
+    "status": "ready"
+  },
+  "schema_version": "0.29",
+  "validation_summary": {
+    "artifact_validation_failed": 0,
+    "artifact_validation_ready": true,
+    "artifacts_validated": 37,
+    "issues": 0,
+    "package_checks": 10,
+    "package_failed": 0,
+    "package_ready": true,
+    "schema_examples": 39,
+    "schemas_indexed": 39
+  },
+  "version": "0.29.0"
+}

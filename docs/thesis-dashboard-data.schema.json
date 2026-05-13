@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Thesis Dashboard Data",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "document_type",
+    "not_investment_advice",
+    "inputs",
+    "summary",
+    "cards",
+    "warnings",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {"const": "0.20"},
+    "document_type": {"const": "thesis_dashboard_data"},
+    "not_investment_advice": {"type": "string"},
+    "inputs": {
+      "type": "object",
+      "required": ["recipe_run", "report_card", "watchlist", "sensitivity_grid"]
+    },
+    "summary": {"type": "object"},
+    "cards": {
+      "type": "object",
+      "required": ["recipe", "readiness", "watchlist", "sensitivity"]
+    },
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "provenance": {
+      "type": "object",
+      "required": ["command", "artifacts", "live_market_data", "shell_out"],
+      "properties": {
+        "command": {"const": "thesis-dashboard-data"},
+        "artifacts": {"type": "array", "items": {"type": "string"}},
+        "live_market_data": {"const": false},
+        "shell_out": {"const": false}
+      }
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Investment memo packet",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "document_type",
+    "not_investment_advice",
+    "inputs",
+    "thesis",
+    "product_terms",
+    "scenario_evidence",
+    "risk_budget",
+    "open_checks",
+    "invalidation_triggers",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {"const": "0.21"},
+    "document_type": {"const": "investment_memo_packet"},
+    "not_investment_advice": {"type": "string"},
+    "inputs": {"type": "object"},
+    "thesis": {"type": "object"},
+    "product_terms": {"type": "object"},
+    "scenario_evidence": {"type": "object"},
+    "risk_budget": {"type": "object"},
+    "open_checks": {"type": "array", "items": {"type": "object"}},
+    "invalidation_triggers": {"type": "array", "items": {"type": "object"}},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "provenance": {
+      "type": "object",
+      "required": ["command", "live_market_data", "shell_out"],
+      "properties": {
+        "command": {"const": "memo-draft"},
+        "live_market_data": {"const": false},
+        "shell_out": {"const": false}
+      }
+    }
+  },
+  "additionalProperties": true
+}

@@ -16,12 +16,37 @@
     "not_investment_advice": {"type": "string"},
     "inputs": {
       "type": "object",
-      "required": ["stress_matrix", "watchlist", "package_audit", "pretrade_plan"],
+      "required": [
+        "stress_matrix",
+        "sensitivity_grid",
+        "watchlist",
+        "package_audit",
+        "pretrade_plan",
+        "report_card",
+        "investment_memo",
+        "investment_memo_review",
+        "cycle_state",
+        "cycle_update",
+        "guardrail_policy",
+        "guardrail_check",
+        "order_ticket",
+        "order_review"
+      ],
       "properties": {
         "stress_matrix": {"type": "string"},
+        "sensitivity_grid": {"type": "string"},
         "watchlist": {"type": "string"},
         "package_audit": {"type": "string"},
-        "pretrade_plan": {"type": "string"}
+        "pretrade_plan": {"type": "string"},
+        "report_card": {"type": "string"},
+        "investment_memo": {"type": "string"},
+        "investment_memo_review": {"type": "string"},
+        "cycle_state": {"type": "string"},
+        "cycle_update": {"type": "string"},
+        "guardrail_policy": {"type": "string"},
+        "guardrail_check": {"type": "string"},
+        "order_ticket": {"type": "string"},
+        "order_review": {"type": "string"}
       }
     },
     "sections": {

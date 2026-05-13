@@ -1,0 +1,175 @@
+{
+  "document_type": "risk_profile_rules",
+  "not_investment_advice": "These profile rules are for scenario planning and education only. They are not investment advice, recommendations, or suitability determinations.",
+  "profiles": [
+    {
+      "description": "Baseline review rules for generic daily-reset leveraged ETP scenario planning.",
+      "id": "default",
+      "mandatory_checklist_questions": [
+        "Have product objective, leverage factor, reset frequency, fees, and currency been verified?",
+        "Does the planned holding period fit the product objective and modeled path risk?",
+        "Has the scenario been tested against both trending and choppy paths?",
+        "Are stop-loss and take-profit review levels recorded before entry?",
+        "Is the maximum tolerable loss documented outside the model output?"
+      ],
+      "max_account_risk_pct_placeholder": "Set a user-defined account risk cap before sizing; no default is implied.",
+      "max_holding_days": 5,
+      "name": "Default",
+      "required_factsheet_fields": [
+        "issuer",
+        "exchange",
+        "underlying",
+        "leverage_factor",
+        "daily_reset",
+        "annual_fee",
+        "currency",
+        "liquidity_spread",
+        "inav",
+        "premium_discount"
+      ],
+      "required_scenario_regimes": [
+        "trend_up",
+        "trend_down",
+        "chop",
+        "gap_down"
+      ],
+      "stop_take_review_defaults": {
+        "gap_review": "Review immediately after an overnight gap or modeled stop breach.",
+        "review_frequency": "daily close",
+        "stop_loss_pct": 15.0,
+        "take_profit_pct": 20.0
+      }
+    },
+    {
+      "description": "Tighter holding-period and review rules for lower tolerance planning.",
+      "id": "conservative",
+      "mandatory_checklist_questions": [
+        "Is there a documented reason to use a leveraged product instead of lower-leverage exposure?",
+        "Can the position be exited if spreads widen or the product trades at a premium/discount?",
+        "Does the modeled loss remain tolerable after applying gap-risk judgment outside this tool?",
+        "Have concentration and correlated portfolio exposure been reviewed?",
+        "Is there a same-day review trigger for adverse movement?"
+      ],
+      "max_account_risk_pct_placeholder": "Use a smaller user-defined account risk cap; this package does not set suitability limits.",
+      "max_holding_days": 2,
+      "name": "Conservative",
+      "required_factsheet_fields": [
+        "issuer",
+        "exchange",
+        "underlying",
+        "leverage_factor",
+        "daily_reset",
+        "annual_fee",
+        "currency",
+        "liquidity_spread",
+        "inav",
+        "premium_discount"
+      ],
+      "required_scenario_regimes": [
+        "trend_down",
+        "chop",
+        "gap_down",
+        "volatility_cluster"
+      ],
+      "stop_take_review_defaults": {
+        "gap_review": "Review before adding exposure after any gap-down or volatility-cluster regime result.",
+        "review_frequency": "same day and daily close",
+        "stop_loss_pct": 8.0,
+        "take_profit_pct": 12.0
+      }
+    },
+    {
+      "description": "Intraday-oriented review rules for short planned holding periods and fast exits.",
+      "id": "active-trader",
+      "mandatory_checklist_questions": [
+        "Are entry, exit, stop, and take-profit review levels defined before the trade?",
+        "Have intraday liquidity, spreads, halt risk, and closing-auction exposure been reviewed?",
+        "Is there a rule for not averaging down after a stop breach?",
+        "Does the product have event risk during the intended trading window?",
+        "Has position size been checked against both stop loss and worst modeled regime loss?"
+      ],
+      "max_account_risk_pct_placeholder": "Set per-trade and per-day account risk caps outside this package before using the profile.",
+      "max_holding_days": 1,
+      "name": "Active Trader",
+      "required_factsheet_fields": [
+        "issuer",
+        "exchange",
+        "underlying",
+        "leverage_factor",
+        "daily_reset",
+        "annual_fee",
+        "currency",
+        "liquidity_spread",
+        "inav",
+        "premium_discount"
+      ],
+      "required_scenario_regimes": [
+        "trend_up",
+        "trend_down",
+        "gap_down",
+        "rebound",
+        "volatility_cluster"
+      ],
+      "stop_take_review_defaults": {
+        "gap_review": "Review immediately after market open gaps, halts, or fast spread widening.",
+        "review_frequency": "intraday and daily close",
+        "stop_loss_pct": 5.0,
+        "take_profit_pct": 10.0
+      }
+    },
+    {
+      "description": "Rules for linking a written thesis to factsheet checks, stress regimes, and review questions.",
+      "id": "thesis-review",
+      "mandatory_checklist_questions": [
+        "What specific thesis claim would invalidate the trade or require size reduction?",
+        "Which factsheet fields or product terms are critical to the thesis?",
+        "Which stress-matrix regime most directly challenges the thesis?",
+        "What metric, warning, or watchlist entry triggers the next review?",
+        "Has the thesis been updated after modeled path decay, drawdown, and stop/take events?"
+      ],
+      "max_account_risk_pct_placeholder": "Document a thesis-specific account risk cap before sizing; leave unset if no cap is approved.",
+      "max_holding_days": 10,
+      "name": "Thesis Review",
+      "required_factsheet_fields": [
+        "issuer",
+        "exchange",
+        "underlying",
+        "leverage_factor",
+        "daily_reset",
+        "annual_fee",
+        "currency",
+        "liquidity_spread",
+        "inav",
+        "premium_discount"
+      ],
+      "required_scenario_regimes": [
+        "trend_up",
+        "trend_down",
+        "chop",
+        "gap_down",
+        "rebound",
+        "volatility_cluster"
+      ],
+      "stop_take_review_defaults": {
+        "gap_review": "Review thesis language after any gap, rebound failure, or volatility-cluster result.",
+        "review_frequency": "daily close and thesis event",
+        "stop_loss_pct": 12.0,
+        "take_profit_pct": 18.0
+      }
+    }
+  ],
+  "provenance": {
+    "command": "risk-profile",
+    "profile": null
+  },
+  "schema_version": "0.16",
+  "summary": {
+    "available_profiles": [
+      "default",
+      "conservative",
+      "active-trader",
+      "thesis-review"
+    ],
+    "profiles": 4
+  }
+}

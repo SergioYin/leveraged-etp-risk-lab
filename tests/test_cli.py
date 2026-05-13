@@ -29,6 +29,8 @@ class CliTests(unittest.TestCase):
         self.assertIn("pretrade-plan", data["commands"])
         self.assertIn("position-size", data["commands"])
         self.assertIn("stress-matrix", data["commands"])
+        self.assertIn("sensitivity-grid", data["commands"])
+        self.assertIn("portfolio-sensitivity", data["commands"])
         self.assertIn("compare-runs", data["commands"])
         self.assertIn("run-ledger", data["commands"])
         self.assertIn("thesis-impact", data["commands"])
@@ -40,10 +42,28 @@ class CliTests(unittest.TestCase):
         self.assertIn("regime-export", data["commands"])
         self.assertIn("demo-story", data["commands"])
         self.assertIn("gallery-index", data["commands"])
+        self.assertIn("asset-hub", data["commands"])
         self.assertIn("package-audit", data["commands"])
+        self.assertIn("schema-inventory", data["commands"])
+        self.assertIn("artifact-validate", data["commands"])
+        self.assertIn("release-manifest", data["commands"])
+        self.assertIn("docs-export", data["commands"])
         self.assertIn("explain-term", data["commands"])
         self.assertIn("glossary-list", data["commands"])
         self.assertIn("factsheet-check", data["commands"])
+        self.assertIn("risk-profile", data["commands"])
+        self.assertIn("recipe-run", data["commands"])
+        self.assertIn("report-card", data["commands"])
+        self.assertIn("thesis-dashboard-data", data["commands"])
+        self.assertIn("audit-trail", data["commands"])
+        self.assertIn("memo-draft", data["commands"])
+        self.assertIn("memo-review", data["commands"])
+        self.assertIn("cycle-init", data["commands"])
+        self.assertIn("cycle-update", data["commands"])
+        self.assertIn("guardrail-policy", data["commands"])
+        self.assertIn("guardrail-check", data["commands"])
+        self.assertIn("order-ticket", data["commands"])
+        self.assertIn("order-review", data["commands"])
 
     def test_simulate_json(self):
         result = self.run_cli(
@@ -69,6 +89,10 @@ class CliTests(unittest.TestCase):
             self.assertTrue((Path(tmp) / "position_size.md").exists())
             self.assertTrue((Path(tmp) / "stress_matrix.json").exists())
             self.assertTrue((Path(tmp) / "stress_matrix.md").exists())
+            self.assertTrue((Path(tmp) / "sensitivity_grid.json").exists())
+            self.assertTrue((Path(tmp) / "sensitivity_grid.md").exists())
+            self.assertTrue((Path(tmp) / "portfolio_sensitivity.json").exists())
+            self.assertTrue((Path(tmp) / "portfolio_sensitivity.md").exists())
             self.assertTrue((Path(tmp) / "compare_runs.json").exists())
             self.assertTrue((Path(tmp) / "compare_runs.md").exists())
             self.assertTrue((Path(tmp) / "run_ledger.jsonl").exists())
@@ -78,10 +102,47 @@ class CliTests(unittest.TestCase):
             self.assertTrue((Path(tmp) / "watchlist.md").exists())
             self.assertTrue((Path(tmp) / "factsheet_check.json").exists())
             self.assertTrue((Path(tmp) / "factsheet_check.md").exists())
+            self.assertTrue((Path(tmp) / "risk_profiles.json").exists())
+            self.assertTrue((Path(tmp) / "risk_profiles.md").exists())
+            self.assertTrue((Path(tmp) / "recipe_run.json").exists())
+            self.assertTrue((Path(tmp) / "recipe_run.md").exists())
+            self.assertTrue((Path(tmp) / "report_card.json").exists())
+            self.assertTrue((Path(tmp) / "report_card.md").exists())
+            self.assertTrue((Path(tmp) / "thesis_dashboard_data.json").exists())
+            self.assertTrue((Path(tmp) / "thesis_dashboard_data.md").exists())
+            self.assertTrue((Path(tmp) / "investment_memo.json").exists())
+            self.assertTrue((Path(tmp) / "investment_memo.md").exists())
+            self.assertTrue((Path(tmp) / "audit_trail.json").exists())
+            self.assertTrue((Path(tmp) / "audit_trail.md").exists())
+            self.assertTrue((Path(tmp) / "investment_memo_review.json").exists())
+            self.assertTrue((Path(tmp) / "investment_memo_review.md").exists())
+            self.assertTrue((Path(tmp) / "cycle_state.json").exists())
+            self.assertTrue((Path(tmp) / "cycle_state.md").exists())
+            self.assertTrue((Path(tmp) / "cycle_update.json").exists())
+            self.assertTrue((Path(tmp) / "cycle_update.md").exists())
+            self.assertTrue((Path(tmp) / "guardrail_policy.json").exists())
+            self.assertTrue((Path(tmp) / "guardrail_policy.md").exists())
+            self.assertTrue((Path(tmp) / "guardrail_check.json").exists())
+            self.assertTrue((Path(tmp) / "guardrail_check.md").exists())
+            self.assertTrue((Path(tmp) / "order_ticket.json").exists())
+            self.assertTrue((Path(tmp) / "order_ticket.md").exists())
+            self.assertTrue((Path(tmp) / "order_review.json").exists())
+            self.assertTrue((Path(tmp) / "order_review.md").exists())
             self.assertTrue((Path(tmp) / "demo_story.json").exists())
             self.assertTrue((Path(tmp) / "demo_story.md").exists())
             self.assertTrue((Path(tmp) / "gallery_index.json").exists())
             self.assertTrue((Path(tmp) / "gallery_index.md").exists())
+            self.assertTrue((Path(tmp) / "asset_hub.json").exists())
+            self.assertTrue((Path(tmp) / "asset_hub.md").exists())
+            self.assertTrue((Path(tmp) / "schema_inventory.json").exists())
+            self.assertTrue((Path(tmp) / "schema_inventory.md").exists())
+            self.assertTrue((Path(tmp) / "artifact_validation.json").exists())
+            self.assertTrue((Path(tmp) / "artifact_validation.md").exists())
+            self.assertTrue((Path(tmp) / "release_manifest.json").exists())
+            self.assertTrue((Path(tmp) / "release_manifest.md").exists())
+            self.assertTrue((Path(tmp) / "docs_export.html").exists())
+            self.assertTrue((Path(tmp) / "docs_export.json").exists())
+            self.assertTrue((Path(tmp) / "docs_export.md").exists())
             self.assertTrue((Path(tmp) / "dashboard.html").exists())
             self.assertTrue((Path(tmp) / "template_gallery.json").exists())
             self.assertTrue((Path(tmp) / "template_gallery.md").exists())
@@ -92,6 +153,223 @@ class CliTests(unittest.TestCase):
             self.assertTrue((Path(tmp) / "package_audit.md").exists())
             self.assertTrue((Path(tmp) / "glossary.json").exists())
             self.assertTrue((Path(tmp) / "glossary.md").exists())
+            package_audit = json.loads((Path(tmp) / "package_audit.json").read_text(encoding="utf-8"))
+            release_manifest = json.loads((Path(tmp) / "release_manifest.json").read_text(encoding="utf-8"))
+            docs_export = json.loads((Path(tmp) / "docs_export.json").read_text(encoding="utf-8"))
+            self.assertTrue(package_audit["summary"]["ready"])
+            self.assertEqual(release_manifest["schema_version"], "0.29")
+            self.assertEqual(release_manifest["release_readiness"]["status"], "ready")
+            self.assertEqual(docs_export["schema_version"], "0.29")
+
+    def test_release_manifest_json_and_missing_inputs(self):
+        result = self.run_cli("release-manifest", "--no-git")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        data = json.loads(result.stdout)
+        self.assertEqual(data["schema_version"], "0.29")
+        self.assertEqual(data["document_type"], "release_manifest")
+        self.assertEqual(data["version"], __version__)
+        self.assertFalse(data["provenance"]["live_market_data"])
+        self.assertFalse(data["provenance"]["private_context"])
+        self.assertFalse(data["provenance"]["workflow_files_read"])
+        self.assertIn(data["release_readiness"]["status"], {"ready", "review", "blocked"})
+        with tempfile.TemporaryDirectory() as tmp:
+            missing = self.run_cli("release-manifest", "--input-dir", tmp, "--no-git")
+        self.assertEqual(missing.returncode, 0, missing.stderr)
+        missing_data = json.loads(missing.stdout)
+        self.assertTrue(all(item["status"] == "missing" for item in missing_data["inputs"]))
+        self.assertEqual(missing_data["git"]["status"], "disabled")
+
+    def test_docs_export_html_json_and_markdown(self):
+        html_result = self.run_cli("docs-export")
+        self.assertEqual(html_result.returncode, 0, html_result.stderr)
+        self.assertIn("<!doctype html>", html_result.stdout)
+        self.assertIn("Safety Caveats", html_result.stdout)
+        self.assertIn("Command Map", html_result.stdout)
+        self.assertIn("Local Artifact Links", html_result.stdout)
+        self.assertNotIn("<script", html_result.stdout.lower())
+        self.assertNotIn("http://", html_result.stdout.lower())
+        self.assertNotIn("https://", html_result.stdout.lower())
+
+        json_result = self.run_cli("docs-export", "--format", "json")
+        self.assertEqual(json_result.returncode, 0, json_result.stderr)
+        data = json.loads(json_result.stdout)
+        self.assertEqual(data["schema_version"], "0.29")
+        self.assertEqual(data["document_type"], "docs_export")
+        self.assertFalse(data["provenance"]["live_market_data"])
+        self.assertFalse(data["provenance"]["external_assets"])
+        self.assertFalse(data["provenance"]["javascript"])
+        self.assertFalse(data["provenance"]["private_context"])
+        self.assertFalse(data["provenance"]["workflow_files_read"])
+        self.assertTrue(data["command_map"])
+        self.assertTrue(data["markdown_artifacts"])
+
+        markdown_result = self.run_cli("docs-export", "--format", "markdown")
+        self.assertEqual(markdown_result.returncode, 0, markdown_result.stderr)
+        self.assertIn("# Leveraged ETP Risk Lab Documentation", markdown_result.stdout)
+        self.assertIn("## Release Notes", markdown_result.stdout)
+
+    def test_schema_inventory_respects_custom_root_paths(self):
+        from leveraged_etp_risk_lab.schema_validation import schema_inventory
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            docs = root / "docs"
+            outputs = root / "examples" / "outputs"
+            docs.mkdir()
+            outputs.mkdir(parents=True)
+            (docs / "custom.schema.json").write_text(
+                json.dumps(
+                    {
+                        "$schema": "https://json-schema.org/draft/2020-12/schema",
+                        "title": "Custom",
+                        "type": "object",
+                        "required": ["schema_version", "document_type", "value"],
+                        "properties": {
+                            "schema_version": {"const": "1.0"},
+                            "document_type": {"const": "custom_doc"},
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+            (outputs / "custom.json").write_text(
+                json.dumps({"schema_version": "1.0", "document_type": "custom_doc", "value": 1}),
+                encoding="utf-8",
+            )
+            data = schema_inventory(root=root, examples_dir=outputs)
+            self.assertEqual(data["schemas"][0]["examples"], ["examples/outputs/custom.json"])
+
+    def test_cycle_init_and_update_json(self):
+        init = self.run_cli(
+            "cycle-init",
+            "--memo",
+            "examples/outputs/investment_memo.json",
+            "--watchlist",
+            "examples/outputs/watchlist.json",
+            "--report-card",
+            "examples/outputs/report_card.json",
+            "--sensitivity-grid",
+            "examples/outputs/sensitivity_grid.json",
+        )
+        self.assertEqual(init.returncode, 0, init.stderr)
+        state = json.loads(init.stdout)
+        self.assertEqual(state["schema_version"], "0.22")
+        self.assertEqual(state["document_type"], "cycle_state")
+        self.assertTrue(state["state_id"].startswith("cycle_"))
+        self.assertIn("not investment advice", state["not_investment_advice"].lower())
+        with tempfile.TemporaryDirectory() as tmp:
+            state_path = Path(tmp) / "cycle_state.json"
+            state_path.write_text(init.stdout, encoding="utf-8")
+            update = self.run_cli(
+                "cycle-update",
+                "--cycle-state",
+                str(state_path),
+                "--report-card",
+                "examples/outputs/report_card.json",
+                "--watchlist",
+                "examples/outputs/watchlist.json",
+                "--audit-trail",
+                "examples/outputs/audit_trail.json",
+            )
+        self.assertEqual(update.returncode, 0, update.stderr)
+        data = json.loads(update.stdout)
+        self.assertEqual(data["schema_version"], "0.22")
+        self.assertEqual(data["document_type"], "cycle_update")
+        self.assertEqual(data["state_id"], state["state_id"])
+        self.assertIn("hash_drift", data)
+
+    def test_guardrail_policy_and_check_json(self):
+        policy = self.run_cli("guardrail-policy", "--policy", "default")
+        self.assertEqual(policy.returncode, 0, policy.stderr)
+        policy_data = json.loads(policy.stdout)
+        self.assertEqual(policy_data["schema_version"], "0.23")
+        self.assertEqual(policy_data["document_type"], "guardrail_policy")
+        self.assertEqual(policy_data["limits"]["max_leverage_exposure"], 3.0)
+        with tempfile.TemporaryDirectory() as tmp:
+            policy_path = Path(tmp) / "policy.json"
+            policy_path.write_text(policy.stdout, encoding="utf-8")
+            check = self.run_cli(
+                "guardrail-check",
+                "--policy",
+                str(policy_path),
+                "--portfolio-sensitivity",
+                "examples/outputs/portfolio_sensitivity.json",
+                "--position-size",
+                "examples/outputs/position_size.json",
+                "--investment-memo",
+                "examples/outputs/investment_memo.json",
+                "--cycle-update",
+                "examples/outputs/cycle_update.json",
+            )
+        self.assertEqual(check.returncode, 0, check.stderr)
+        data = json.loads(check.stdout)
+        self.assertEqual(data["schema_version"], "0.23")
+        self.assertEqual(data["document_type"], "guardrail_check")
+        self.assertIn(data["summary"]["result"], {"pass", "review", "fail"})
+        self.assertTrue(data["rules"])
+        self.assertIn("next_actions", data)
+
+    def test_order_ticket_and_review_json(self):
+        ticket = self.run_cli(
+            "order-ticket",
+            "--guardrail-check",
+            "examples/outputs/guardrail_check.json",
+            "--investment-memo",
+            "examples/outputs/investment_memo.json",
+            "--position-size",
+            "examples/outputs/position_size.json",
+            "--factsheet-check",
+            "examples/outputs/factsheet_check.json",
+            "--thesis-dashboard-data",
+            "examples/outputs/thesis_dashboard_data.json",
+        )
+        self.assertEqual(ticket.returncode, 0, ticket.stderr)
+        ticket_data = json.loads(ticket.stdout)
+        self.assertEqual(ticket_data["schema_version"], "0.24")
+        self.assertEqual(ticket_data["document_type"], "order_ticket")
+        self.assertIn(ticket_data["summary"]["status"], {"blocked", "review", "ready"})
+        self.assertFalse(ticket_data["provenance"]["live_market_data"])
+        self.assertFalse(ticket_data["provenance"]["broker_execution"])
+        self.assertIn("no_live_price_warning", ticket_data)
+        self.assertTrue(ticket_data["required_broker_fields"])
+        with tempfile.TemporaryDirectory() as tmp:
+            ticket_path = Path(tmp) / "order_ticket.json"
+            ticket_path.write_text(ticket.stdout, encoding="utf-8")
+            review = self.run_cli(
+                "order-review",
+                "--order-ticket",
+                str(ticket_path),
+                "--guardrail-check",
+                "examples/outputs/guardrail_check.json",
+                "--cycle-update",
+                "examples/outputs/cycle_update.json",
+                "--audit-trail",
+                "examples/outputs/audit_trail.json",
+            )
+        self.assertEqual(review.returncode, 0, review.stderr)
+        review_data = json.loads(review.stdout)
+        self.assertEqual(review_data["schema_version"], "0.24")
+        self.assertEqual(review_data["document_type"], "order_review")
+        self.assertIn(review_data["summary"]["status"], {"blocked", "review", "ready"})
+        self.assertFalse(review_data["summary"]["broker_execution"])
+        self.assertTrue(review_data["checklist"])
+
+    def test_asset_hub_json_and_markdown(self):
+        result = self.run_cli("asset-hub", "--input-dir", "examples/outputs", "--format", "json")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        data = json.loads(result.stdout)
+        self.assertEqual(data["schema_version"], "0.25")
+        self.assertEqual(data["document_type"], "asset_hub")
+        self.assertEqual(data["product_positioning"]["version"], __version__)
+        self.assertIn("asset-hub", [item["name"] for item in data["command_map"]])
+        self.assertEqual(data["agent_skill_path"], "skills/agent/leveraged-etp-risk-lab/SKILL.md")
+        self.assertFalse(data["provenance"]["live_market_data"])
+        self.assertFalse(data["provenance"]["shell_out"])
+        self.assertFalse(data["provenance"]["private_context"])
+        markdown = self.run_cli("asset-hub", "--input-dir", "examples/outputs", "--format", "markdown")
+        self.assertEqual(markdown.returncode, 0, markdown.stderr)
+        self.assertIn("# leveraged-etp-risk-lab Public Asset Hub", markdown.stdout)
+        self.assertIn("Three-Version Roadmap", markdown.stdout)
 
     def test_generate_scenario_writes_csv(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -233,6 +511,91 @@ class CliTests(unittest.TestCase):
         self.assertIn("# Stress Matrix", result.stdout)
         self.assertIn("worst_drawdown_pct", result.stdout)
         self.assertIn("volatility_cluster", result.stdout)
+
+    def test_sensitivity_grid_json(self):
+        result = self.run_cli(
+            "sensitivity-grid",
+            "--product",
+            "examples/fixtures/leveraged_nasdaq_3x.json",
+            "--regime",
+            "trend_down",
+            "--regime",
+            "chop",
+            "--leverage-multiplier",
+            "1,3",
+            "--stop-loss",
+            "none,0.15",
+            "--take-profit",
+            "none,0.20",
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        data = json.loads(result.stdout)
+        self.assertEqual(data["schema_version"], "0.19")
+        self.assertEqual(data["document_type"], "sensitivity_grid")
+        self.assertEqual(data["inputs"]["leverage_multipliers"], [1.0, 3.0])
+        self.assertEqual(data["inputs"]["stop_loss_pct_grid"], [None, 15.0])
+        self.assertEqual(data["inputs"]["take_profit_pct_grid"], [None, 20.0])
+        self.assertEqual(data["summary"]["combinations"], 8)
+        self.assertEqual(len(data["cells"]), 16)
+        self.assertIn("worst_return_pct", data["rows"][0])
+        self.assertIn("path_decay", " ".join(data["rows"][0].keys()))
+
+    def test_sensitivity_grid_markdown(self):
+        result = self.run_cli(
+            "sensitivity-grid",
+            "--product",
+            "examples/fixtures/leveraged_nasdaq_3x.json",
+            "--regime",
+            "volatility_cluster",
+            "--stop-loss",
+            "none,0.15",
+            "--take-profit",
+            "none,0.20",
+            "--format",
+            "markdown",
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("# Sensitivity Grid", result.stdout)
+        self.assertIn("worst_return_pct", result.stdout)
+        self.assertIn("volatility_cluster", result.stdout)
+
+    def test_portfolio_sensitivity_json(self):
+        result = self.run_cli(
+            "portfolio-sensitivity",
+            "--manifest",
+            "examples/fixtures/portfolio_manifest.json",
+            "--regime",
+            "trend_down",
+            "--regime",
+            "chop",
+            "--stop-loss",
+            "none,0.15",
+            "--take-profit",
+            "none,0.20",
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        data = json.loads(result.stdout)
+        self.assertEqual(data["schema_version"], "0.20")
+        self.assertEqual(data["document_type"], "portfolio_sensitivity")
+        self.assertEqual(data["summary"]["positions"], 2)
+        self.assertIn("aggregate_worst_case_weighted_exposure", data["summary"])
+        self.assertEqual([item["id"] for item in data["positions"]], ["nasdaq_tactical", "single_stock_satellite"])
+        self.assertFalse(data["provenance"]["live_market_data"])
+        self.assertFalse(data["provenance"]["shell_out"])
+
+    def test_portfolio_sensitivity_markdown(self):
+        result = self.run_cli(
+            "portfolio-sensitivity",
+            "--manifest",
+            "examples/fixtures/portfolio_manifest.json",
+            "--regime",
+            "trend_down",
+            "--format",
+            "markdown",
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("# Portfolio Sensitivity", result.stdout)
+        self.assertIn("Aggregate worst-case", result.stdout)
 
     def test_compare_runs_json(self):
         result = self.run_cli(
@@ -394,6 +757,222 @@ class CliTests(unittest.TestCase):
         self.assertIn("inav", data["missing_fields"])
         self.assertEqual(data["inputs"]["factsheet_file"], None)
 
+    def test_risk_profile_json(self):
+        result = self.run_cli("risk-profile")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        data = json.loads(result.stdout)
+        self.assertEqual(data["schema_version"], "0.16")
+        self.assertEqual(data["document_type"], "risk_profile_rules")
+        self.assertEqual([profile["id"] for profile in data["profiles"]], ["default", "conservative", "active-trader", "thesis-review"])
+        thesis = data["profiles"][3]
+        self.assertEqual(thesis["max_holding_days"], 10)
+        self.assertIn("max_account_risk_pct_placeholder", thesis)
+        self.assertIn("issuer", thesis["required_factsheet_fields"])
+        self.assertIn("volatility_cluster", thesis["required_scenario_regimes"])
+        self.assertTrue(thesis["mandatory_checklist_questions"])
+        self.assertEqual(thesis["stop_take_review_defaults"]["take_profit_pct"], 18.0)
+        self.assertIn("not investment advice", data["not_investment_advice"].lower())
+
+    def test_risk_profile_markdown_selected(self):
+        result = self.run_cli("risk-profile", "--profile", "conservative", "--format", "markdown")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("# Risk Rule Profiles", result.stdout)
+        self.assertIn("## Conservative (conservative)", result.stdout)
+        self.assertIn("Required Factsheet Fields", result.stdout)
+        self.assertIn("Stop/Take Review Defaults", result.stdout)
+        self.assertNotIn("## Active Trader", result.stdout)
+
+    def test_recipe_run_json(self):
+        result = self.run_cli("recipe-run", "--recipe", "examples/fixtures/recipe_thesis_review.json")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        data = json.loads(result.stdout)
+        self.assertEqual(data["schema_version"], "0.17")
+        self.assertEqual(data["document_type"], "recipe_run")
+        self.assertFalse(data["provenance"]["shell_out"])
+        self.assertEqual(data["inputs"]["profile"], "thesis-review")
+        self.assertEqual(data["summary"]["recommended_notional"], 5000.0)
+        self.assertGreater(data["summary"]["watchlist_entries"], 0)
+        self.assertEqual(data["artifacts"]["factsheet_check"]["document_type"], "factsheet_check")
+        self.assertEqual(data["artifacts"]["risk_profile"]["document_type"], "risk_profile_rules")
+        self.assertEqual(data["artifacts"]["stress_matrix"]["document_type"], "stress_matrix")
+        self.assertEqual(data["artifacts"]["pretrade_plan"]["document_type"], "pretrade_plan")
+        self.assertEqual(data["artifacts"]["thesis_impact"]["document_type"], "thesis_impact")
+        self.assertEqual(data["artifacts"]["watchlist"]["document_type"], "watchlist")
+        commands = [item["step"] for item in data["workflow"]]
+        self.assertIn("factsheet-check", commands)
+        self.assertIn("position-size", commands)
+        self.assertIn("watchlist-build", commands)
+
+    def test_recipe_run_markdown(self):
+        result = self.run_cli(
+            "recipe-run",
+            "--recipe",
+            "examples/fixtures/recipe_thesis_review.json",
+            "--format",
+            "markdown",
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("# Recipe Run", result.stdout)
+        self.assertIn("Conceptual Workflow", result.stdout)
+        self.assertIn("watchlist-build", result.stdout)
+
+    def test_report_card_json(self):
+        result = self.run_cli(
+            "report-card",
+            "--artifact",
+            "examples/outputs/pretrade_plan.json",
+            "--artifact",
+            "examples/outputs/position_size.json",
+            "--artifact",
+            "examples/outputs/stress_matrix.json",
+            "--artifact",
+            "examples/outputs/factsheet_check.json",
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        data = json.loads(result.stdout)
+        self.assertEqual(data["schema_version"], "0.18")
+        self.assertEqual(data["document_type"], "report_card")
+        self.assertFalse(data["summary"]["decision_ready"])
+        self.assertIn("pretrade_plan", data["summary"]["document_types"])
+        self.assertIn("factsheet_check", data["summary"]["document_types"])
+        self.assertTrue(data["strengths"])
+        self.assertTrue(data["unresolved_checks"])
+        self.assertTrue(data["warnings"])
+        self.assertFalse(data["provenance"]["live_market_data"])
+        self.assertFalse(data["provenance"]["shell_out"])
+        self.assertTrue(any("package-audit" in command for command in data["next_commands"]))
+
+    def test_report_card_markdown(self):
+        result = self.run_cli(
+            "report-card",
+            "--artifact",
+            "examples/outputs/pretrade_plan.json",
+            "--artifact",
+            "examples/outputs/stress_matrix.json",
+            "--format",
+            "markdown",
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("# Decision Readiness Report Card", result.stdout)
+        self.assertIn("## Unresolved Checks", result.stdout)
+        self.assertIn("## Next Commands", result.stdout)
+
+    def test_thesis_dashboard_data_json(self):
+        result = self.run_cli(
+            "thesis-dashboard-data",
+            "--recipe-run",
+            "examples/outputs/recipe_run.json",
+            "--report-card",
+            "examples/outputs/report_card.json",
+            "--watchlist",
+            "examples/outputs/watchlist.json",
+            "--sensitivity-grid",
+            "examples/outputs/sensitivity_grid.json",
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        data = json.loads(result.stdout)
+        self.assertEqual(data["schema_version"], "0.20")
+        self.assertEqual(data["document_type"], "thesis_dashboard_data")
+        self.assertIn("readiness", data["cards"])
+        self.assertIn("top_entries", data["cards"]["watchlist"])
+        self.assertFalse(data["provenance"]["live_market_data"])
+        self.assertFalse(data["provenance"]["shell_out"])
+
+    def test_audit_trail_json(self):
+        result = self.run_cli(
+            "audit-trail",
+            "--ledger",
+            "examples/outputs/run_ledger.jsonl",
+            "--artifact",
+            "examples/outputs/pretrade_plan.json",
+            "--artifact",
+            "examples/outputs/stress_matrix.json",
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        data = json.loads(result.stdout)
+        self.assertEqual(data["schema_version"], "0.20")
+        self.assertEqual(data["document_type"], "audit_trail")
+        self.assertEqual(data["summary"]["artifacts"], 2)
+        self.assertTrue(all(item["hash_matches_ledger"] for item in data["checklist"]))
+
+    def test_memo_draft_json(self):
+        result = self.run_cli(
+            "memo-draft",
+            "--recipe-run",
+            "examples/outputs/recipe_run.json",
+            "--thesis-dashboard-data",
+            "examples/outputs/thesis_dashboard_data.json",
+            "--report-card",
+            "examples/outputs/report_card.json",
+            "--factsheet-check",
+            "examples/outputs/factsheet_check.json",
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        data = json.loads(result.stdout)
+        self.assertEqual(data["schema_version"], "0.21")
+        self.assertEqual(data["document_type"], "investment_memo_packet")
+        self.assertEqual(data["product_terms"]["ticker"], "NDAQ3X")
+        self.assertIn("not investment advice", data["not_investment_advice"].lower())
+        self.assertTrue(data["open_checks"])
+        self.assertTrue(data["invalidation_triggers"])
+        self.assertFalse(data["provenance"]["live_market_data"])
+        self.assertFalse(data["provenance"]["shell_out"])
+
+    def test_memo_draft_markdown(self):
+        result = self.run_cli(
+            "memo-draft",
+            "--recipe-run",
+            "examples/outputs/recipe_run.json",
+            "--thesis-dashboard-data",
+            "examples/outputs/thesis_dashboard_data.json",
+            "--report-card",
+            "examples/outputs/report_card.json",
+            "--format",
+            "markdown",
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("# Investment Memo", result.stdout)
+        self.assertIn("## Invalidation Triggers", result.stdout)
+
+    def test_memo_review_json(self):
+        result = self.run_cli(
+            "memo-review",
+            "--memo",
+            "examples/outputs/investment_memo.json",
+            "--report-card",
+            "examples/outputs/report_card.json",
+            "--watchlist",
+            "examples/outputs/watchlist.json",
+            "--audit-trail",
+            "examples/outputs/audit_trail.json",
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        data = json.loads(result.stdout)
+        self.assertEqual(data["schema_version"], "0.21")
+        self.assertEqual(data["document_type"], "investment_memo_review")
+        self.assertTrue(data["checklist"])
+        self.assertTrue(data["next_actions"])
+        self.assertFalse(data["provenance"]["live_market_data"])
+        self.assertFalse(data["provenance"]["shell_out"])
+
+    def test_memo_review_markdown(self):
+        result = self.run_cli(
+            "memo-review",
+            "--memo",
+            "examples/outputs/investment_memo.json",
+            "--report-card",
+            "examples/outputs/report_card.json",
+            "--watchlist",
+            "examples/outputs/watchlist.json",
+            "--audit-trail",
+            "examples/outputs/audit_trail.json",
+            "--format",
+            "markdown",
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("# Investment Memo Review", result.stdout)
+        self.assertIn("## Changed Risks", result.stdout)
+
     def test_watchlist_build_markdown(self):
         result = self.run_cli(
             "watchlist-build",
@@ -427,6 +1006,9 @@ class CliTests(unittest.TestCase):
         self.assertIn("watchlist.json", sources)
         self.assertIn("package_audit.json", sources)
         self.assertIn("pretrade_plan.json", sources)
+        self.assertIn("report_card.json", sources)
+        self.assertIn("investment_memo.json", sources)
+        self.assertIn("investment_memo_review.json", sources)
         self.assertIn("not investment advice", data["not_investment_advice"].lower())
 
     def test_demo_story_markdown(self):
@@ -449,12 +1031,13 @@ class CliTests(unittest.TestCase):
         self.assertEqual(data["provenance"]["command"], "gallery-index")
         self.assertEqual(
             [stage["stage"] for stage in data["stages"]],
-            ["fixtures", "plans", "sizing", "stress", "thesis/watchlist", "audit/story", "dashboard"],
+            ["fixtures", "plans", "sizing", "stress", "thesis/watchlist", "audit/story", "dashboard", "validation"],
         )
         artifacts = [item for stage in data["stages"] for item in stage["artifacts"]]
         names = {item["name"] for item in artifacts}
         self.assertIn("pretrade_plan.json", names)
         self.assertIn("dashboard.html", names)
+        self.assertIn("artifact_validation.json", names)
         self.assertNotIn("gallery_index.json", names)
         pretrade = next(item for item in artifacts if item["name"] == "pretrade_plan.json")
         self.assertEqual(pretrade["document_type"], "pretrade_plan")
@@ -582,6 +1165,16 @@ class CliTests(unittest.TestCase):
         self.assertIn("examples/outputs/glossary.json", required_examples)
         self.assertIn("docs/factsheet-check.schema.json", required_schemas)
         self.assertIn("examples/outputs/factsheet_check.json", required_examples)
+        self.assertIn("docs/risk-profile.schema.json", required_schemas)
+        self.assertIn("examples/outputs/risk_profiles.json", required_examples)
+        self.assertIn("docs/report-card.schema.json", required_schemas)
+        self.assertIn("examples/outputs/report_card.json", required_examples)
+        self.assertIn("docs/investment-memo.schema.json", required_schemas)
+        self.assertIn("examples/outputs/investment_memo.json", required_examples)
+        self.assertIn("docs/schema-inventory.schema.json", required_schemas)
+        self.assertIn("examples/outputs/schema_inventory.json", required_examples)
+        self.assertIn("docs/artifact-validation.schema.json", required_schemas)
+        self.assertIn("examples/outputs/artifact_validation.json", required_examples)
         self.assertTrue(any(command["status"] == "not_run" for command in data["test_commands"]))
 
     def test_explain_term_json(self):
@@ -638,6 +1231,37 @@ class CliTests(unittest.TestCase):
         self.assertIn("# Package Audit", result.stdout)
         self.assertIn("version_consistency", result.stdout)
         self.assertIn("python -m unittest discover -s tests", result.stdout)
+
+    def test_schema_inventory_json(self):
+        result = self.run_cli("schema-inventory")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        data = json.loads(result.stdout)
+        self.assertEqual(data["schema_version"], "0.26")
+        self.assertEqual(data["document_type"], "schema_inventory")
+        schema_paths = {item["path"] for item in data["schemas"]}
+        self.assertIn("docs/pretrade-plan.schema.json", schema_paths)
+        self.assertIn("docs/artifact-validation.schema.json", schema_paths)
+        pretrade = next(item for item in data["schemas"] if item["document_type"] == "pretrade_plan")
+        self.assertIn("provenance", pretrade["required_top_level_fields"])
+        self.assertIn("examples/outputs/pretrade_plan.json", pretrade["examples"])
+        self.assertFalse(data["provenance"]["live_market_data"])
+        self.assertFalse(data["provenance"]["shell_out"])
+        self.assertFalse(data["provenance"]["private_context"])
+        self.assertFalse(data["provenance"]["broker_execution"])
+
+    def test_artifact_validate_json(self):
+        result = self.run_cli("artifact-validate", "examples/outputs/pretrade_plan.json", "examples/outputs/run_ledger.jsonl")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        data = json.loads(result.stdout)
+        self.assertEqual(data["schema_version"], "0.26")
+        self.assertEqual(data["document_type"], "artifact_validation")
+        self.assertEqual(data["summary"]["failed"], 0)
+        self.assertEqual(data["summary"]["artifacts"], 2)
+        self.assertTrue(data["summary"]["ready"])
+        self.assertFalse(data["provenance"]["live_market_data"])
+        self.assertFalse(data["provenance"]["shell_out"])
+        self.assertFalse(data["provenance"]["private_context"])
+        self.assertFalse(data["provenance"]["broker_execution"])
 
     def test_sync_local_skill_script(self):
         with tempfile.TemporaryDirectory() as tmp:

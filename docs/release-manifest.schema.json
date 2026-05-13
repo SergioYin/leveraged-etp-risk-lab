@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Release Manifest",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "document_type",
+    "version",
+    "inputs",
+    "git",
+    "public_artifact_inventory",
+    "validation_summary",
+    "release_readiness",
+    "agent_skill_path",
+    "local_skill_sync_recommendation",
+    "github_release_notes_draft",
+    "post_release_verification_checklist",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {"const": "0.29"},
+    "document_type": {"const": "release_manifest"},
+    "version": {"type": "string"},
+    "inputs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "path", "status", "document_type", "schema_version", "error"],
+        "properties": {
+          "name": {"type": "string"},
+          "path": {"type": "string"},
+          "status": {"enum": ["present", "missing", "invalid"]},
+          "document_type": {"anyOf": [{"type": "string"}, {"type": "null"}]},
+          "schema_version": {"anyOf": [{"type": "string"}, {"type": "null"}]},
+          "error": {"anyOf": [{"type": "string"}, {"type": "null"}]}
+        },
+        "additionalProperties": false
+      }
+    },
+    "git": {
+      "type": "object",
+      "required": ["available", "status", "commit", "short_commit", "branch", "dirty"],
+      "properties": {
+        "available": {"type": "boolean"},
+        "status": {"type": "string"},
+        "commit": {"anyOf": [{"type": "string"}, {"type": "null"}]},
+        "short_commit": {"anyOf": [{"type": "string"}, {"type": "null"}]},
+        "branch": {"anyOf": [{"type": "string"}, {"type": "null"}]},
+        "dirty": {"anyOf": [{"type": "boolean"}, {"type": "null"}]}
+      },
+      "additionalProperties": false
+    },
+    "public_artifact_inventory": {
+      "type": "object",
+      "required": ["source", "total_artifacts", "total_bytes", "stages"],
+      "properties": {
+        "source": {"type": "string"},
+        "total_artifacts": {"type": "integer"},
+        "total_bytes": {"type": "integer"},
+        "stages": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["stage", "artifact_count", "key_artifacts", "suggested_next_command"],
+            "properties": {
+              "stage": {"type": "string"},
+              "artifact_count": {"type": "integer"},
+              "key_artifacts": {"type": "array", "items": {"type": "string"}},
+              "suggested_next_command": {"type": "string"}
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "validation_summary": {"type": "object"},
+    "release_readiness": {"type": "object"},
+    "agent_skill_path": {"type": "string"},
+    "local_skill_sync_recommendation": {"type": "object"},
+    "github_release_notes_draft": {"type": "object"},
+    "post_release_verification_checklist": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "item", "status"],
+        "properties": {
+          "id": {"type": "string"},
+          "item": {"type": "string"},
+          "status": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["command", "input_dir", "live_market_data", "private_context", "workflow_files_read"],
+      "properties": {
+        "command": {"const": "release-manifest"},
+        "input_dir": {"type": "string"},
+        "live_market_data": {"const": false},
+        "private_context": {"const": false},
+        "workflow_files_read": {"const": false}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

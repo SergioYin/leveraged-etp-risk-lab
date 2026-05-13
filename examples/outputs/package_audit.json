@@ -37,6 +37,8 @@
           "docs/pretrade-plan.schema.json",
           "docs/position-size.schema.json",
           "docs/stress-matrix.schema.json",
+          "docs/sensitivity-grid.schema.json",
+          "docs/portfolio-sensitivity.schema.json",
           "docs/template-gallery.schema.json",
           "docs/regime-gallery.schema.json",
           "docs/compare-runs.schema.json",
@@ -44,6 +46,24 @@
           "docs/thesis-impact.schema.json",
           "docs/watchlist.schema.json",
           "docs/factsheet-check.schema.json",
+          "docs/risk-profile.schema.json",
+          "docs/recipe-run.schema.json",
+          "docs/report-card.schema.json",
+          "docs/thesis-dashboard-data.schema.json",
+          "docs/audit-trail.schema.json",
+          "docs/investment-memo.schema.json",
+          "docs/investment-memo-review.schema.json",
+          "docs/cycle-state.schema.json",
+          "docs/cycle-update.schema.json",
+          "docs/guardrail-policy.schema.json",
+          "docs/guardrail-check.schema.json",
+          "docs/order-ticket.schema.json",
+          "docs/order-review.schema.json",
+          "docs/asset-hub.schema.json",
+          "docs/schema-inventory.schema.json",
+          "docs/artifact-validation.schema.json",
+          "docs/release-manifest.schema.json",
+          "docs/docs-export.schema.json",
           "docs/package-audit.schema.json",
           "docs/glossary.schema.json",
           "docs/demo-story.schema.json",
@@ -69,6 +89,10 @@
           "examples/outputs/position_size.md",
           "examples/outputs/stress_matrix.json",
           "examples/outputs/stress_matrix.md",
+          "examples/outputs/sensitivity_grid.json",
+          "examples/outputs/sensitivity_grid.md",
+          "examples/outputs/portfolio_sensitivity.json",
+          "examples/outputs/portfolio_sensitivity.md",
           "examples/outputs/compare_runs.json",
           "examples/outputs/compare_runs.md",
           "examples/outputs/run_ledger.jsonl",
@@ -78,6 +102,43 @@
           "examples/outputs/watchlist.md",
           "examples/outputs/factsheet_check.json",
           "examples/outputs/factsheet_check.md",
+          "examples/outputs/risk_profiles.json",
+          "examples/outputs/risk_profiles.md",
+          "examples/outputs/recipe_run.json",
+          "examples/outputs/recipe_run.md",
+          "examples/outputs/report_card.json",
+          "examples/outputs/report_card.md",
+          "examples/outputs/thesis_dashboard_data.json",
+          "examples/outputs/thesis_dashboard_data.md",
+          "examples/outputs/investment_memo.json",
+          "examples/outputs/investment_memo.md",
+          "examples/outputs/audit_trail.json",
+          "examples/outputs/audit_trail.md",
+          "examples/outputs/investment_memo_review.json",
+          "examples/outputs/investment_memo_review.md",
+          "examples/outputs/cycle_state.json",
+          "examples/outputs/cycle_state.md",
+          "examples/outputs/cycle_update.json",
+          "examples/outputs/cycle_update.md",
+          "examples/outputs/guardrail_policy.json",
+          "examples/outputs/guardrail_policy.md",
+          "examples/outputs/guardrail_check.json",
+          "examples/outputs/guardrail_check.md",
+          "examples/outputs/order_ticket.json",
+          "examples/outputs/order_ticket.md",
+          "examples/outputs/order_review.json",
+          "examples/outputs/order_review.md",
+          "examples/outputs/asset_hub.json",
+          "examples/outputs/asset_hub.md",
+          "examples/outputs/schema_inventory.json",
+          "examples/outputs/schema_inventory.md",
+          "examples/outputs/artifact_validation.json",
+          "examples/outputs/artifact_validation.md",
+          "examples/outputs/release_manifest.json",
+          "examples/outputs/release_manifest.md",
+          "examples/outputs/docs_export.html",
+          "examples/outputs/docs_export.json",
+          "examples/outputs/docs_export.md",
           "examples/outputs/demo_story.json",
           "examples/outputs/demo_story.md",
           "examples/outputs/package_audit.json",
@@ -140,12 +201,12 @@
     {
       "category": "metadata",
       "evidence": {
-        "package_init": "0.15.0",
-        "pyproject": "0.15.0",
-        "runtime": "0.15.0"
+        "package_init": "0.29.0",
+        "pyproject": "0.29.0",
+        "runtime": "0.29.0"
       },
       "id": "version_consistency",
-      "message": "version fields agree at 0.15.0",
+      "message": "version fields agree at 0.29.0",
       "status": "pass"
     },
     {
@@ -201,6 +262,67 @@
               "python",
               "-m",
               "leveraged_etp_risk_lab",
+              "asset-hub",
+              "--format",
+              "json"
+            ],
+            "returncode": null,
+            "status": "not_run"
+          },
+          {
+            "command": [
+              "python",
+              "-m",
+              "leveraged_etp_risk_lab",
+              "schema-inventory",
+              "--format",
+              "json"
+            ],
+            "returncode": null,
+            "status": "not_run"
+          },
+          {
+            "command": [
+              "python",
+              "-m",
+              "leveraged_etp_risk_lab",
+              "artifact-validate",
+              "--format",
+              "json"
+            ],
+            "returncode": null,
+            "status": "not_run"
+          },
+          {
+            "command": [
+              "python",
+              "-m",
+              "leveraged_etp_risk_lab",
+              "release-manifest",
+              "--format",
+              "json",
+              "--no-git"
+            ],
+            "returncode": null,
+            "status": "not_run"
+          },
+          {
+            "command": [
+              "python",
+              "-m",
+              "leveraged_etp_risk_lab",
+              "docs-export",
+              "--format",
+              "json"
+            ],
+            "returncode": null,
+            "status": "not_run"
+          },
+          {
+            "command": [
+              "python",
+              "-m",
+              "leveraged_etp_risk_lab",
               "glossary-list",
               "--format",
               "json"
@@ -236,6 +358,282 @@
             ],
             "returncode": null,
             "status": "not_run"
+          },
+          {
+            "command": [
+              "python",
+              "-m",
+              "leveraged_etp_risk_lab",
+              "risk-profile",
+              "--format",
+              "json"
+            ],
+            "returncode": null,
+            "status": "not_run"
+          },
+          {
+            "command": [
+              "python",
+              "-m",
+              "leveraged_etp_risk_lab",
+              "recipe-run",
+              "--recipe",
+              "examples/fixtures/recipe_thesis_review.json",
+              "--format",
+              "json"
+            ],
+            "returncode": null,
+            "status": "not_run"
+          },
+          {
+            "command": [
+              "python",
+              "-m",
+              "leveraged_etp_risk_lab",
+              "report-card",
+              "--artifact",
+              "examples/outputs/pretrade_plan.json",
+              "--artifact",
+              "examples/outputs/position_size.json",
+              "--artifact",
+              "examples/outputs/stress_matrix.json",
+              "--format",
+              "json"
+            ],
+            "returncode": null,
+            "status": "not_run"
+          },
+          {
+            "command": [
+              "python",
+              "-m",
+              "leveraged_etp_risk_lab",
+              "sensitivity-grid",
+              "--product",
+              "examples/fixtures/leveraged_nasdaq_3x.json",
+              "--stop-loss",
+              "none,0.15",
+              "--take-profit",
+              "none,0.20",
+              "--format",
+              "json"
+            ],
+            "returncode": null,
+            "status": "not_run"
+          },
+          {
+            "command": [
+              "python",
+              "-m",
+              "leveraged_etp_risk_lab",
+              "portfolio-sensitivity",
+              "--manifest",
+              "examples/fixtures/portfolio_manifest.json",
+              "--stop-loss",
+              "none,0.15",
+              "--take-profit",
+              "none,0.20",
+              "--format",
+              "json"
+            ],
+            "returncode": null,
+            "status": "not_run"
+          },
+          {
+            "command": [
+              "python",
+              "-m",
+              "leveraged_etp_risk_lab",
+              "thesis-dashboard-data",
+              "--recipe-run",
+              "examples/outputs/recipe_run.json",
+              "--report-card",
+              "examples/outputs/report_card.json",
+              "--watchlist",
+              "examples/outputs/watchlist.json",
+              "--sensitivity-grid",
+              "examples/outputs/sensitivity_grid.json",
+              "--format",
+              "json"
+            ],
+            "returncode": null,
+            "status": "not_run"
+          },
+          {
+            "command": [
+              "python",
+              "-m",
+              "leveraged_etp_risk_lab",
+              "memo-draft",
+              "--recipe-run",
+              "examples/outputs/recipe_run.json",
+              "--thesis-dashboard-data",
+              "examples/outputs/thesis_dashboard_data.json",
+              "--report-card",
+              "examples/outputs/report_card.json",
+              "--factsheet-check",
+              "examples/outputs/factsheet_check.json",
+              "--format",
+              "json"
+            ],
+            "returncode": null,
+            "status": "not_run"
+          },
+          {
+            "command": [
+              "python",
+              "-m",
+              "leveraged_etp_risk_lab",
+              "memo-review",
+              "--memo",
+              "examples/outputs/investment_memo.json",
+              "--report-card",
+              "examples/outputs/report_card.json",
+              "--watchlist",
+              "examples/outputs/watchlist.json",
+              "--audit-trail",
+              "examples/outputs/audit_trail.json",
+              "--format",
+              "json"
+            ],
+            "returncode": null,
+            "status": "not_run"
+          },
+          {
+            "command": [
+              "python",
+              "-m",
+              "leveraged_etp_risk_lab",
+              "cycle-init",
+              "--memo",
+              "examples/outputs/investment_memo.json",
+              "--watchlist",
+              "examples/outputs/watchlist.json",
+              "--report-card",
+              "examples/outputs/report_card.json",
+              "--sensitivity-grid",
+              "examples/outputs/sensitivity_grid.json",
+              "--format",
+              "json"
+            ],
+            "returncode": null,
+            "status": "not_run"
+          },
+          {
+            "command": [
+              "python",
+              "-m",
+              "leveraged_etp_risk_lab",
+              "cycle-update",
+              "--cycle-state",
+              "examples/outputs/cycle_state.json",
+              "--report-card",
+              "examples/outputs/report_card.json",
+              "--watchlist",
+              "examples/outputs/watchlist.json",
+              "--audit-trail",
+              "examples/outputs/audit_trail.json",
+              "--format",
+              "json"
+            ],
+            "returncode": null,
+            "status": "not_run"
+          },
+          {
+            "command": [
+              "python",
+              "-m",
+              "leveraged_etp_risk_lab",
+              "guardrail-policy",
+              "--policy",
+              "default",
+              "--format",
+              "json"
+            ],
+            "returncode": null,
+            "status": "not_run"
+          },
+          {
+            "command": [
+              "python",
+              "-m",
+              "leveraged_etp_risk_lab",
+              "guardrail-check",
+              "--policy",
+              "examples/outputs/guardrail_policy.json",
+              "--portfolio-sensitivity",
+              "examples/outputs/portfolio_sensitivity.json",
+              "--position-size",
+              "examples/outputs/position_size.json",
+              "--investment-memo",
+              "examples/outputs/investment_memo.json",
+              "--cycle-update",
+              "examples/outputs/cycle_update.json",
+              "--format",
+              "json"
+            ],
+            "returncode": null,
+            "status": "not_run"
+          },
+          {
+            "command": [
+              "python",
+              "-m",
+              "leveraged_etp_risk_lab",
+              "order-ticket",
+              "--guardrail-check",
+              "examples/outputs/guardrail_check.json",
+              "--investment-memo",
+              "examples/outputs/investment_memo.json",
+              "--position-size",
+              "examples/outputs/position_size.json",
+              "--factsheet-check",
+              "examples/outputs/factsheet_check.json",
+              "--thesis-dashboard-data",
+              "examples/outputs/thesis_dashboard_data.json",
+              "--format",
+              "json"
+            ],
+            "returncode": null,
+            "status": "not_run"
+          },
+          {
+            "command": [
+              "python",
+              "-m",
+              "leveraged_etp_risk_lab",
+              "order-review",
+              "--order-ticket",
+              "examples/outputs/order_ticket.json",
+              "--guardrail-check",
+              "examples/outputs/guardrail_check.json",
+              "--cycle-update",
+              "examples/outputs/cycle_update.json",
+              "--audit-trail",
+              "examples/outputs/audit_trail.json",
+              "--format",
+              "json"
+            ],
+            "returncode": null,
+            "status": "not_run"
+          },
+          {
+            "command": [
+              "python",
+              "-m",
+              "leveraged_etp_risk_lab",
+              "audit-trail",
+              "--ledger",
+              "examples/outputs/run_ledger.jsonl",
+              "--artifact",
+              "examples/outputs/pretrade_plan.json",
+              "--artifact",
+              "examples/outputs/stress_matrix.json",
+              "--format",
+              "json"
+            ],
+            "returncode": null,
+            "status": "not_run"
           }
         ]
       },
@@ -248,7 +646,7 @@
   "package": {
     "dependencies": [],
     "name": "leveraged-etp-risk-lab",
-    "version": "0.15.0"
+    "version": "0.29.0"
   },
   "schema_version": "0.11",
   "summary": {
@@ -307,6 +705,67 @@
         "python",
         "-m",
         "leveraged_etp_risk_lab",
+        "asset-hub",
+        "--format",
+        "json"
+      ],
+      "returncode": null,
+      "status": "not_run"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "leveraged_etp_risk_lab",
+        "schema-inventory",
+        "--format",
+        "json"
+      ],
+      "returncode": null,
+      "status": "not_run"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "leveraged_etp_risk_lab",
+        "artifact-validate",
+        "--format",
+        "json"
+      ],
+      "returncode": null,
+      "status": "not_run"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "leveraged_etp_risk_lab",
+        "release-manifest",
+        "--format",
+        "json",
+        "--no-git"
+      ],
+      "returncode": null,
+      "status": "not_run"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "leveraged_etp_risk_lab",
+        "docs-export",
+        "--format",
+        "json"
+      ],
+      "returncode": null,
+      "status": "not_run"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "leveraged_etp_risk_lab",
         "glossary-list",
         "--format",
         "json"
@@ -337,6 +796,282 @@
         "examples/fixtures/leveraged_nasdaq_3x.json",
         "--factsheet-file",
         "examples/fixtures/factsheet_note.txt",
+        "--format",
+        "json"
+      ],
+      "returncode": null,
+      "status": "not_run"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "leveraged_etp_risk_lab",
+        "risk-profile",
+        "--format",
+        "json"
+      ],
+      "returncode": null,
+      "status": "not_run"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "leveraged_etp_risk_lab",
+        "recipe-run",
+        "--recipe",
+        "examples/fixtures/recipe_thesis_review.json",
+        "--format",
+        "json"
+      ],
+      "returncode": null,
+      "status": "not_run"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "leveraged_etp_risk_lab",
+        "report-card",
+        "--artifact",
+        "examples/outputs/pretrade_plan.json",
+        "--artifact",
+        "examples/outputs/position_size.json",
+        "--artifact",
+        "examples/outputs/stress_matrix.json",
+        "--format",
+        "json"
+      ],
+      "returncode": null,
+      "status": "not_run"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "leveraged_etp_risk_lab",
+        "sensitivity-grid",
+        "--product",
+        "examples/fixtures/leveraged_nasdaq_3x.json",
+        "--stop-loss",
+        "none,0.15",
+        "--take-profit",
+        "none,0.20",
+        "--format",
+        "json"
+      ],
+      "returncode": null,
+      "status": "not_run"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "leveraged_etp_risk_lab",
+        "portfolio-sensitivity",
+        "--manifest",
+        "examples/fixtures/portfolio_manifest.json",
+        "--stop-loss",
+        "none,0.15",
+        "--take-profit",
+        "none,0.20",
+        "--format",
+        "json"
+      ],
+      "returncode": null,
+      "status": "not_run"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "leveraged_etp_risk_lab",
+        "thesis-dashboard-data",
+        "--recipe-run",
+        "examples/outputs/recipe_run.json",
+        "--report-card",
+        "examples/outputs/report_card.json",
+        "--watchlist",
+        "examples/outputs/watchlist.json",
+        "--sensitivity-grid",
+        "examples/outputs/sensitivity_grid.json",
+        "--format",
+        "json"
+      ],
+      "returncode": null,
+      "status": "not_run"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "leveraged_etp_risk_lab",
+        "memo-draft",
+        "--recipe-run",
+        "examples/outputs/recipe_run.json",
+        "--thesis-dashboard-data",
+        "examples/outputs/thesis_dashboard_data.json",
+        "--report-card",
+        "examples/outputs/report_card.json",
+        "--factsheet-check",
+        "examples/outputs/factsheet_check.json",
+        "--format",
+        "json"
+      ],
+      "returncode": null,
+      "status": "not_run"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "leveraged_etp_risk_lab",
+        "memo-review",
+        "--memo",
+        "examples/outputs/investment_memo.json",
+        "--report-card",
+        "examples/outputs/report_card.json",
+        "--watchlist",
+        "examples/outputs/watchlist.json",
+        "--audit-trail",
+        "examples/outputs/audit_trail.json",
+        "--format",
+        "json"
+      ],
+      "returncode": null,
+      "status": "not_run"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "leveraged_etp_risk_lab",
+        "cycle-init",
+        "--memo",
+        "examples/outputs/investment_memo.json",
+        "--watchlist",
+        "examples/outputs/watchlist.json",
+        "--report-card",
+        "examples/outputs/report_card.json",
+        "--sensitivity-grid",
+        "examples/outputs/sensitivity_grid.json",
+        "--format",
+        "json"
+      ],
+      "returncode": null,
+      "status": "not_run"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "leveraged_etp_risk_lab",
+        "cycle-update",
+        "--cycle-state",
+        "examples/outputs/cycle_state.json",
+        "--report-card",
+        "examples/outputs/report_card.json",
+        "--watchlist",
+        "examples/outputs/watchlist.json",
+        "--audit-trail",
+        "examples/outputs/audit_trail.json",
+        "--format",
+        "json"
+      ],
+      "returncode": null,
+      "status": "not_run"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "leveraged_etp_risk_lab",
+        "guardrail-policy",
+        "--policy",
+        "default",
+        "--format",
+        "json"
+      ],
+      "returncode": null,
+      "status": "not_run"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "leveraged_etp_risk_lab",
+        "guardrail-check",
+        "--policy",
+        "examples/outputs/guardrail_policy.json",
+        "--portfolio-sensitivity",
+        "examples/outputs/portfolio_sensitivity.json",
+        "--position-size",
+        "examples/outputs/position_size.json",
+        "--investment-memo",
+        "examples/outputs/investment_memo.json",
+        "--cycle-update",
+        "examples/outputs/cycle_update.json",
+        "--format",
+        "json"
+      ],
+      "returncode": null,
+      "status": "not_run"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "leveraged_etp_risk_lab",
+        "order-ticket",
+        "--guardrail-check",
+        "examples/outputs/guardrail_check.json",
+        "--investment-memo",
+        "examples/outputs/investment_memo.json",
+        "--position-size",
+        "examples/outputs/position_size.json",
+        "--factsheet-check",
+        "examples/outputs/factsheet_check.json",
+        "--thesis-dashboard-data",
+        "examples/outputs/thesis_dashboard_data.json",
+        "--format",
+        "json"
+      ],
+      "returncode": null,
+      "status": "not_run"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "leveraged_etp_risk_lab",
+        "order-review",
+        "--order-ticket",
+        "examples/outputs/order_ticket.json",
+        "--guardrail-check",
+        "examples/outputs/guardrail_check.json",
+        "--cycle-update",
+        "examples/outputs/cycle_update.json",
+        "--audit-trail",
+        "examples/outputs/audit_trail.json",
+        "--format",
+        "json"
+      ],
+      "returncode": null,
+      "status": "not_run"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "leveraged_etp_risk_lab",
+        "audit-trail",
+        "--ledger",
+        "examples/outputs/run_ledger.jsonl",
+        "--artifact",
+        "examples/outputs/pretrade_plan.json",
+        "--artifact",
+        "examples/outputs/stress_matrix.json",
         "--format",
         "json"
       ],

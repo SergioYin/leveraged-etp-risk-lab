@@ -1,0 +1,162 @@
+{
+  "cards": {
+    "readiness": {
+      "artifact_count": 8,
+      "decision_ready": false,
+      "document_types": [
+        "factsheet_check",
+        "portfolio_sensitivity",
+        "position_size_plan",
+        "pretrade_plan",
+        "recipe_run",
+        "risk_profile_rules",
+        "sensitivity_grid",
+        "stress_matrix"
+      ],
+      "next_commands": [
+        "python -m leveraged_etp_risk_lab report-card --artifact examples/outputs/pretrade_plan.json --artifact examples/outputs/position_size.json --artifact examples/outputs/stress_matrix.json --artifact examples/outputs/factsheet_check.json --format markdown",
+        "python -m leveraged_etp_risk_lab package-audit --format markdown --run-tests"
+      ],
+      "strengths": 8,
+      "unresolved_checks": 10,
+      "warnings": 10
+    },
+    "recipe": {
+      "components": 8,
+      "product": "NDAQ3X",
+      "recommended_notional": 5000.0,
+      "scenario_days": 6,
+      "scenario_return_pct": 0.6088,
+      "watchlist_entries": 5
+    },
+    "sensitivity": {
+      "combinations": 27,
+      "max_stop_events": 4,
+      "worst_path_decay_vs_simple_multiple": -3.205395,
+      "worst_return_leverage": 3.0,
+      "worst_return_pct": -48.8504,
+      "worst_return_regime": "gap_down"
+    },
+    "watchlist": {
+      "summary": {
+        "critical": 1,
+        "entries": 8,
+        "high": 3,
+        "low": 0,
+        "medium": 4
+      },
+      "top_entries": [
+        {
+          "category": "regime_trigger",
+          "id": "regime_gap_down",
+          "severity": "critical",
+          "status": "triggered",
+          "title": "Gap Down stress trigger",
+          "trigger": "return -48.8504%; worst drawdown -52.5497%; path decay 5.694511; band events: day 1 stop_loss at NAV 74.49623"
+        },
+        {
+          "category": "claim",
+          "id": "claim_1",
+          "severity": "high",
+          "status": "challenged",
+          "title": "The modeled trade is a short-horizon tactical scenario for a generic daily-re...",
+          "trigger": "The modeled trade is a short-horizon tactical scenario for a generic daily-reset leveraged ETP. The thesis assumes the reference index can recover after recent volatility, but recognizes that choppy paths can create decay even when the underlying ends near flat."
+        },
+        {
+          "category": "regime_trigger",
+          "id": "regime_trend_down",
+          "severity": "high",
+          "status": "triggered",
+          "title": "Trend Down stress trigger",
+          "trigger": "return -19.8516%; worst drawdown -19.8516%; path decay 1.136554; band events: day 8 stop_loss at NAV 84.483822"
+        },
+        {
+          "category": "regime_trigger",
+          "id": "regime_volatility_cluster",
+          "severity": "high",
+          "status": "triggered",
+          "title": "Volatility Cluster stress trigger",
+          "trigger": "return -9.0937%; worst drawdown -16.3862%; path decay -3.205395; band events: day 7 stop_loss at NAV 83.613785"
+        },
+        {
+          "category": "claim",
+          "id": "claim_2",
+          "severity": "medium",
+          "status": "needs_review",
+          "title": "The plan should be rejected if the loss budget, stop band, liquidity review,...",
+          "trigger": "The plan should be rejected if the loss budget, stop band, liquidity review, or event-risk checklist cannot be accepted before entry."
+        },
+        {
+          "category": "regime_trigger",
+          "id": "regime_chop",
+          "severity": "medium",
+          "status": "triggered",
+          "title": "Chop stress trigger",
+          "trigger": "return -0.3186%; worst drawdown -6.5029%; path decay -1.429133"
+        },
+        {
+          "category": "regime_trigger",
+          "id": "regime_rebound",
+          "severity": "medium",
+          "status": "triggered",
+          "title": "Rebound stress trigger",
+          "trigger": "return 5.1886%; worst drawdown -12.5903%; path decay -1.385944"
+        },
+        {
+          "category": "regime_trigger",
+          "id": "regime_trend_up",
+          "severity": "medium",
+          "status": "triggered",
+          "title": "Trend Up stress trigger",
+          "trigger": "return 20.0961%; worst drawdown -0.6038%; path decay 0.994607; band events: day 12 take_profit at NAV 120.096051"
+        }
+      ]
+    }
+  },
+  "document_type": "thesis_dashboard_data",
+  "inputs": {
+    "recipe_run": "examples/outputs/recipe_run.json",
+    "report_card": "examples/outputs/report_card.json",
+    "sensitivity_grid": "examples/outputs/sensitivity_grid.json",
+    "watchlist": "examples/outputs/watchlist.json"
+  },
+  "not_investment_advice": "This dashboard packet is for scenario planning and education only. It is not investment advice, a recommendation, or a suitability determination.",
+  "provenance": {
+    "artifacts": [
+      "examples/outputs/recipe_run.json",
+      "examples/outputs/report_card.json",
+      "examples/outputs/watchlist.json",
+      "examples/outputs/sensitivity_grid.json"
+    ],
+    "command": "thesis-dashboard-data",
+    "live_market_data": false,
+    "shell_out": false
+  },
+  "schema_version": "0.20",
+  "summary": {
+    "critical_watchlist_entries": 1,
+    "decision_ready": false,
+    "high_watchlist_entries": 3,
+    "path_decay_vs_simple_multiple": -0.602755,
+    "product": "NDAQ3X",
+    "recommended_notional": 5000.0,
+    "scenario_return_pct": 0.6088,
+    "sensitivity_combinations": 27,
+    "watchlist_entries": 8,
+    "worst_grid_regime": "gap_down",
+    "worst_grid_return_pct": -48.8504
+  },
+  "warnings": [
+    "Daily reset leverage means multi-day returns can differ materially from the underlying return times leverage.",
+    "Scenario output is not investment advice and does not predict future returns.",
+    "Large daily moves can compound quickly and may create losses larger than a simple one-day estimate.",
+    "Fee drag is approximated as a constant daily deduction from the leveraged daily return.",
+    "A pretrade plan does not confirm liquidity, execution quality, tax treatment, or suitability.",
+    "Stop-loss and take-profit bands are planning levels, not guaranteed execution prices.",
+    "Recommended notional is a deterministic planning output, not a trade recommendation.",
+    "Share count is a placeholder because no live or execution price is modeled.",
+    "Stop-loss levels are planning inputs and do not guarantee execution at the modeled loss.",
+    "trend_up has 4 modeled warning(s).",
+    "Sensitivity rows summarize deterministic built-in regimes and do not model execution, liquidity, tax, or suitability."
+  ]
+}

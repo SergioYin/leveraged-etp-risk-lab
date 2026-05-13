@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Watch Cycle Update",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "document_type",
+    "not_investment_advice",
+    "state_id",
+    "inputs",
+    "summary",
+    "watch_items",
+    "hash_drift",
+    "status_transitions",
+    "next_review_actions",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {"const": "0.22"},
+    "document_type": {"const": "cycle_update"},
+    "not_investment_advice": {"type": "string"},
+    "state_id": {"type": "string"},
+    "inputs": {"type": "object"},
+    "summary": {"type": "object"},
+    "watch_items": {
+      "type": "object",
+      "required": ["added", "removed", "changed"],
+      "properties": {
+        "added": {"type": "array", "items": {"type": "object"}},
+        "removed": {"type": "array", "items": {"type": "object"}},
+        "changed": {"type": "array", "items": {"type": "object"}}
+      }
+    },
+    "hash_drift": {"type": "array", "items": {"type": "object"}},
+    "status_transitions": {"type": "array", "items": {"type": "object"}},
+    "next_review_actions": {"type": "array", "items": {"type": "string"}},
+    "provenance": {
+      "type": "object",
+      "required": ["command", "artifacts", "live_market_data", "shell_out"],
+      "properties": {
+        "command": {"const": "cycle-update"},
+        "artifacts": {"type": "array", "items": {"type": "string"}},
+        "live_market_data": {"const": false},
+        "shell_out": {"const": false}
+      }
+    }
+  }
+}

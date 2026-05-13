@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Order Review",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "document_type",
+    "not_investment_advice",
+    "inputs",
+    "summary",
+    "checklist",
+    "final_notes",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {"const": "0.24"},
+    "document_type": {"const": "order_review"},
+    "not_investment_advice": {"type": "string"},
+    "inputs": {"type": "object"},
+    "summary": {
+      "type": "object",
+      "required": ["status", "blocked", "review", "ready", "broker_execution"],
+      "properties": {
+        "status": {"enum": ["blocked", "review", "ready"]},
+        "blocked": {"type": "integer"},
+        "review": {"type": "integer"},
+        "ready": {"type": "integer"},
+        "broker_execution": {"const": false}
+      }
+    },
+    "checklist": {"type": "array", "items": {"type": "object"}},
+    "final_notes": {"type": "array", "items": {"type": "string"}},
+    "provenance": {
+      "type": "object",
+      "required": ["command", "artifacts", "live_market_data", "shell_out", "broker_execution"],
+      "properties": {
+        "command": {"const": "order-review"},
+        "artifacts": {"type": "array", "items": {"type": "string"}},
+        "live_market_data": {"const": false},
+        "shell_out": {"const": false},
+        "broker_execution": {"const": false}
+      }
+    }
+  }
+}

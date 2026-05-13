@@ -7,7 +7,8 @@ from pathlib import Path
 from typing import List, Optional
 
 from . import __version__
-from .engine import exposure_report, generate_scenario, position_size_plan, simulate, stress_matrix
+from .docs_export import docs_export, docs_export_html, docs_export_markdown
+from .engine import exposure_report, generate_scenario, portfolio_sensitivity, position_size_plan, sensitivity_grid, simulate, stress_matrix
 from .factsheet import factsheet_check, factsheet_check_markdown
 from .glossary import explain_term, glossary_packet, term_ids
 from .io import load_path, load_portfolio_manifest, load_product, write_path_csv, write_text
@@ -26,8 +27,10 @@ from .render import (
     load_demo_outputs,
     pretrade_plan_markdown,
     pretrade_plan_packet,
+    portfolio_sensitivity_markdown,
     position_size_markdown,
     regime_gallery_markdown,
+    sensitivity_grid_markdown,
     simulation_markdown,
     stress_matrix_markdown,
     template_gallery_markdown,
@@ -36,17 +39,45 @@ from .render import (
 )
 from .reports import (
     append_ledger,
+    asset_hub,
+    asset_hub_markdown,
+    audit_trail,
+    audit_trail_markdown,
     compare_reports,
     compare_reports_markdown,
+    cycle_init,
+    cycle_init_markdown,
+    cycle_update,
+    cycle_update_markdown,
     gallery_index,
     gallery_index_markdown,
+    guardrail_check,
+    guardrail_check_markdown,
+    guardrail_policy,
+    guardrail_policy_markdown,
     load_json_report,
+    memo_draft,
+    memo_draft_markdown,
+    memo_review,
+    memo_review_markdown,
+    order_review,
+    order_review_markdown,
+    order_ticket,
+    order_ticket_markdown,
+    report_card,
+    report_card_markdown,
+    thesis_dashboard_data,
+    thesis_dashboard_markdown,
     thesis_impact,
     thesis_impact_markdown,
     watchlist_build,
     watchlist_markdown,
 )
 from .regimes import regime_gallery, regime_ids, regime_path
+from .release import release_manifest, release_manifest_markdown
+from .recipe import recipe_run, recipe_run_markdown
+from .risk_profile import PROFILE_IDS, risk_profile_markdown, risk_profile_packet
+from .schema_validation import artifact_validate, artifact_validation_markdown, schema_inventory, schema_inventory_markdown
 from .templates import get_template, template_gallery, template_ids, template_product
 
 
@@ -68,6 +99,10 @@ def main(argv: Optional[List[str]] = None) -> int:
             return command_position_size(args)
         if args.command == "stress-matrix":
             return command_stress_matrix(args)
+        if args.command == "sensitivity-grid":
+            return command_sensitivity_grid(args)
+        if args.command == "portfolio-sensitivity":
+            return command_portfolio_sensitivity(args)
         if args.command == "compare-runs":
             return command_compare_runs(args)
         if args.command == "run-ledger":
@@ -78,6 +113,32 @@ def main(argv: Optional[List[str]] = None) -> int:
             return command_watchlist_build(args)
         if args.command == "factsheet-check":
             return command_factsheet_check(args)
+        if args.command == "risk-profile":
+            return command_risk_profile(args)
+        if args.command == "recipe-run":
+            return command_recipe_run(args)
+        if args.command == "report-card":
+            return command_report_card(args)
+        if args.command == "thesis-dashboard-data":
+            return command_thesis_dashboard_data(args)
+        if args.command == "audit-trail":
+            return command_audit_trail(args)
+        if args.command == "memo-draft":
+            return command_memo_draft(args)
+        if args.command == "memo-review":
+            return command_memo_review(args)
+        if args.command == "cycle-init":
+            return command_cycle_init(args)
+        if args.command == "cycle-update":
+            return command_cycle_update(args)
+        if args.command == "guardrail-policy":
+            return command_guardrail_policy(args)
+        if args.command == "guardrail-check":
+            return command_guardrail_check(args)
+        if args.command == "order-ticket":
+            return command_order_ticket(args)
+        if args.command == "order-review":
+            return command_order_review(args)
         if args.command == "static-dashboard":
             return command_static_dashboard(args)
         if args.command == "template-list":
@@ -94,8 +155,18 @@ def main(argv: Optional[List[str]] = None) -> int:
             return command_demo_story(args)
         if args.command == "gallery-index":
             return command_gallery_index(args)
+        if args.command == "asset-hub":
+            return command_asset_hub(args)
         if args.command == "package-audit":
             return command_package_audit(args)
+        if args.command == "schema-inventory":
+            return command_schema_inventory(args)
+        if args.command == "artifact-validate":
+            return command_artifact_validate(args)
+        if args.command == "release-manifest":
+            return command_release_manifest(args)
+        if args.command == "docs-export":
+            return command_docs_export(args)
         if args.command == "explain-term":
             return command_explain_term(args)
         if args.command == "glossary-list":
@@ -175,6 +246,53 @@ def build_parser() -> argparse.ArgumentParser:
     stress.add_argument("--format", choices=["json", "markdown"], default="json")
     stress.add_argument("--output", help="write output to a file instead of stdout")
 
+    sensitivity = sub.add_parser("sensitivity-grid", help="run built-in regimes across leverage and risk-band grids")
+    sensitivity.add_argument("--product", required=True, help="product JSON file")
+    sensitivity.add_argument("--regime", action="append", choices=regime_ids(), help="built-in regime id; repeatable")
+    sensitivity.add_argument("--initial-nav", type=float, default=100.0)
+    sensitivity.add_argument(
+        "--leverage-multiplier",
+        action="append",
+        help="leverage grid value such as 1, 2, 3, -2, or comma-separated values; default is 1,2,3 with product sign",
+    )
+    sensitivity.add_argument(
+        "--stop-loss",
+        action="append",
+        help="stop-loss grid decimal such as 0.10, or none; repeatable or comma-separated",
+    )
+    sensitivity.add_argument(
+        "--take-profit",
+        action="append",
+        help="take-profit grid decimal such as 0.25, or none; repeatable or comma-separated",
+    )
+    sensitivity.add_argument("--format", choices=["json", "markdown"], default="json")
+    sensitivity.add_argument("--output", help="write output to a file instead of stdout")
+
+    portfolio_sensitivity_parser = sub.add_parser(
+        "portfolio-sensitivity",
+        help="run sensitivity-grid style summaries for every manifest position and aggregate worst-case exposure",
+    )
+    portfolio_sensitivity_parser.add_argument("--manifest", required=True, help="portfolio manifest JSON file")
+    portfolio_sensitivity_parser.add_argument("--regime", action="append", choices=regime_ids(), help="built-in regime id; repeatable")
+    portfolio_sensitivity_parser.add_argument("--initial-nav", type=float, default=100.0)
+    portfolio_sensitivity_parser.add_argument(
+        "--leverage-multiplier",
+        action="append",
+        help="leverage grid value such as 1, 2, 3, -2, or comma-separated values; default is 1,2,3 with product sign",
+    )
+    portfolio_sensitivity_parser.add_argument(
+        "--stop-loss",
+        action="append",
+        help="stop-loss grid decimal such as 0.10, or none; repeatable or comma-separated",
+    )
+    portfolio_sensitivity_parser.add_argument(
+        "--take-profit",
+        action="append",
+        help="take-profit grid decimal such as 0.25, or none; repeatable or comma-separated",
+    )
+    portfolio_sensitivity_parser.add_argument("--format", choices=["json", "markdown"], default="json")
+    portfolio_sensitivity_parser.add_argument("--output", help="write output to a file instead of stdout")
+
     compare = sub.add_parser("compare-runs", help="compare two simulation, pretrade, or exposure JSON outputs")
     compare.add_argument("--base", required=True, help="base JSON output")
     compare.add_argument("--candidate", required=True, help="candidate JSON output")
@@ -202,6 +320,128 @@ def build_parser() -> argparse.ArgumentParser:
     factsheet.add_argument("--factsheet-file", help="plain-text factsheet note")
     factsheet.add_argument("--format", choices=["json", "markdown"], default="json")
     factsheet.add_argument("--output", help="write output to a file instead of stdout")
+
+    risk_profile = sub.add_parser("risk-profile", help="emit leveraged ETP risk-rule profile rules")
+    risk_profile.add_argument("--profile", choices=PROFILE_IDS, help="emit one profile instead of all profiles")
+    risk_profile.add_argument("--format", choices=["json", "markdown"], default="json")
+    risk_profile.add_argument("--output", help="write output to a file instead of stdout")
+
+    recipe = sub.add_parser("recipe-run", help="run a deterministic JSON workflow recipe without shelling out")
+    recipe.add_argument("--recipe", required=True, help="recipe JSON file")
+    recipe.add_argument("--format", choices=["json", "markdown"], default="json")
+    recipe.add_argument("--output", help="write output to a file instead of stdout")
+
+    card = sub.add_parser("report-card", help="summarize generated artifacts into a decision-readiness card")
+    card.add_argument("--artifact", action="append", required=True, help="generated JSON artifact to inspect; repeatable")
+    card.add_argument("--format", choices=["json", "markdown"], default="json")
+    card.add_argument("--output", help="write output to a file instead of stdout")
+
+    thesis_dashboard = sub.add_parser(
+        "thesis-dashboard-data",
+        help="merge recipe-run, report-card, watchlist, and sensitivity-grid outputs into a dashboard packet",
+    )
+    thesis_dashboard.add_argument("--recipe-run", required=True, help="recipe-run JSON output")
+    thesis_dashboard.add_argument("--report-card", required=True, help="report-card JSON output")
+    thesis_dashboard.add_argument("--watchlist", required=True, help="watchlist JSON output")
+    thesis_dashboard.add_argument("--sensitivity-grid", required=True, help="sensitivity-grid JSON output")
+    thesis_dashboard.add_argument("--format", choices=["json", "markdown"], default="json")
+    thesis_dashboard.add_argument("--output", help="write output to a file instead of stdout")
+
+    audit_trail_parser = sub.add_parser(
+        "audit-trail",
+        help="check run-ledger rows against artifact hashes and provenance metadata",
+    )
+    audit_trail_parser.add_argument("--ledger", required=True, help="run-ledger JSONL file")
+    audit_trail_parser.add_argument("--artifact", action="append", required=True, help="generated artifact to verify; repeatable")
+    audit_trail_parser.add_argument("--format", choices=["json", "markdown"], default="json")
+    audit_trail_parser.add_argument("--output", help="write output to a file instead of stdout")
+
+    memo_draft_parser = sub.add_parser(
+        "memo-draft",
+        help="compose recipe, dashboard, report-card, and optional factsheet outputs into an investment memo packet",
+    )
+    memo_draft_parser.add_argument("--recipe-run", required=True, help="recipe-run JSON output")
+    memo_draft_parser.add_argument("--thesis-dashboard-data", required=True, help="thesis-dashboard-data JSON output")
+    memo_draft_parser.add_argument("--report-card", required=True, help="report-card JSON output")
+    memo_draft_parser.add_argument("--factsheet-check", help="optional factsheet-check JSON output")
+    memo_draft_parser.add_argument("--format", choices=["json", "markdown"], default="json")
+    memo_draft_parser.add_argument("--output", help="write output to a file instead of stdout")
+
+    memo_review_parser = sub.add_parser(
+        "memo-review",
+        help="review a memo packet against latest report-card, watchlist, and audit-trail outputs",
+    )
+    memo_review_parser.add_argument("--memo", required=True, help="memo-draft JSON output")
+    memo_review_parser.add_argument("--report-card", required=True, help="latest report-card JSON output")
+    memo_review_parser.add_argument("--watchlist", required=True, help="latest watchlist JSON output")
+    memo_review_parser.add_argument("--audit-trail", required=True, help="latest audit-trail JSON output")
+    memo_review_parser.add_argument("--format", choices=["json", "markdown"], default="json")
+    memo_review_parser.add_argument("--output", help="write output to a file instead of stdout")
+
+    cycle_init_parser = sub.add_parser(
+        "cycle-init",
+        help="create a persistent watch cycle state from baseline memo, watchlist, report-card, and sensitivity-grid outputs",
+    )
+    cycle_init_parser.add_argument("--memo", required=True, help="investment memo JSON output")
+    cycle_init_parser.add_argument("--watchlist", required=True, help="watchlist JSON output")
+    cycle_init_parser.add_argument("--report-card", required=True, help="report-card JSON output")
+    cycle_init_parser.add_argument("--sensitivity-grid", required=True, help="sensitivity-grid JSON output")
+    cycle_init_parser.add_argument("--format", choices=["json", "markdown"], default="json")
+    cycle_init_parser.add_argument("--output", help="write output to a file instead of stdout")
+
+    cycle_update_parser = sub.add_parser(
+        "cycle-update",
+        help="compare a cycle state with latest report-card, watchlist, and audit-trail outputs",
+    )
+    cycle_update_parser.add_argument("--cycle-state", required=True, help="cycle_state JSON output")
+    cycle_update_parser.add_argument("--report-card", required=True, help="latest report-card JSON output")
+    cycle_update_parser.add_argument("--watchlist", required=True, help="latest watchlist JSON output")
+    cycle_update_parser.add_argument("--audit-trail", required=True, help="latest audit-trail JSON output")
+    cycle_update_parser.add_argument("--format", choices=["json", "markdown"], default="json")
+    cycle_update_parser.add_argument("--output", help="write output to a file instead of stdout")
+
+    guardrail_policy_parser = sub.add_parser(
+        "guardrail-policy",
+        help="emit a deterministic allocation guardrail policy",
+    )
+    guardrail_policy_parser.add_argument("--policy", choices=["default", "conservative", "aggressive"], default="default")
+    guardrail_policy_parser.add_argument("--format", choices=["json", "markdown"], default="json")
+    guardrail_policy_parser.add_argument("--output", help="write output to a file instead of stdout")
+
+    guardrail_check_parser = sub.add_parser(
+        "guardrail-check",
+        help="check allocation artifacts against a guardrail policy JSON",
+    )
+    guardrail_check_parser.add_argument("--policy", required=True, help="guardrail-policy JSON output")
+    guardrail_check_parser.add_argument("--portfolio-sensitivity", required=True, help="portfolio-sensitivity JSON output")
+    guardrail_check_parser.add_argument("--position-size", required=True, help="position-size JSON output")
+    guardrail_check_parser.add_argument("--investment-memo", required=True, help="investment-memo JSON output")
+    guardrail_check_parser.add_argument("--cycle-update", required=True, help="cycle-update JSON output")
+    guardrail_check_parser.add_argument("--format", choices=["json", "markdown"], default="json")
+    guardrail_check_parser.add_argument("--output", help="write output to a file instead of stdout")
+
+    order_ticket_parser = sub.add_parser(
+        "order-ticket",
+        help="compose a placeholder-only pre-order ticket from reviewed artifacts",
+    )
+    order_ticket_parser.add_argument("--guardrail-check", required=True, help="guardrail-check JSON output")
+    order_ticket_parser.add_argument("--investment-memo", required=True, help="investment-memo JSON output")
+    order_ticket_parser.add_argument("--position-size", required=True, help="position-size JSON output")
+    order_ticket_parser.add_argument("--factsheet-check", required=True, help="factsheet-check JSON output")
+    order_ticket_parser.add_argument("--thesis-dashboard-data", help="optional thesis-dashboard-data JSON output")
+    order_ticket_parser.add_argument("--format", choices=["json", "markdown"], default="json")
+    order_ticket_parser.add_argument("--output", help="write output to a file instead of stdout")
+
+    order_review_parser = sub.add_parser(
+        "order-review",
+        help="review an order ticket against guardrail, cycle, and audit artifacts without broker execution",
+    )
+    order_review_parser.add_argument("--order-ticket", required=True, help="order-ticket JSON output")
+    order_review_parser.add_argument("--guardrail-check", required=True, help="guardrail-check JSON output")
+    order_review_parser.add_argument("--cycle-update", required=True, help="cycle-update JSON output")
+    order_review_parser.add_argument("--audit-trail", required=True, help="audit-trail JSON output")
+    order_review_parser.add_argument("--format", choices=["json", "markdown"], default="json")
+    order_review_parser.add_argument("--output", help="write output to a file instead of stdout")
 
     dashboard = sub.add_parser("static-dashboard", help="render a self-contained no-JS HTML risk dashboard")
     dashboard_source = dashboard.add_mutually_exclusive_group(required=True)
@@ -240,10 +480,37 @@ def build_parser() -> argparse.ArgumentParser:
     gallery.add_argument("--format", choices=["json", "markdown"], default="markdown")
     gallery.add_argument("--output", help="write output to a file instead of stdout")
 
+    hub = sub.add_parser("asset-hub", help="emit a GitHub-facing public asset hub from checked demo artifacts")
+    hub.add_argument("--input-dir", default="examples/outputs", help="directory containing demo output artifacts")
+    hub.add_argument("--format", choices=["json", "markdown"], default="markdown")
+    hub.add_argument("--output", help="write output to a file instead of stdout")
+
     audit = sub.add_parser("package-audit", help="emit a package readiness checklist")
     audit.add_argument("--format", choices=["json", "markdown"], default="json")
     audit.add_argument("--run-tests", action="store_true", help="run listed test commands while auditing")
     audit.add_argument("--output", help="write output to a file instead of stdout")
+
+    inventory = sub.add_parser("schema-inventory", help="list local JSON schemas and matching example artifacts")
+    inventory.add_argument("--examples-dir", default="examples/outputs", help="directory containing example JSON outputs")
+    inventory.add_argument("--format", choices=["json", "markdown"], default="json")
+    inventory.add_argument("--output", help="write output to a file instead of stdout")
+
+    artifact_validation = sub.add_parser("artifact-validate", help="validate JSON artifacts against local lightweight schemas")
+    artifact_validation.add_argument("path", nargs="*", help="JSON or JSONL artifact paths; defaults to examples/outputs")
+    artifact_validation.add_argument("--format", choices=["json", "markdown"], default="json")
+    artifact_validation.add_argument("--output", help="write output to a file instead of stdout")
+
+    manifest = sub.add_parser("release-manifest", help="emit a release manifest from public local artifacts")
+    manifest.add_argument("--input-dir", default="examples/outputs", help="directory containing release source artifacts")
+    manifest.add_argument("--format", choices=["json", "markdown"], default="json")
+    manifest.add_argument("--no-git", action="store_true", help="skip optional git metadata collection")
+    manifest.add_argument("--output", help="write output to a file instead of stdout")
+
+    docs = sub.add_parser("docs-export", help="emit one self-contained no-JS static HTML documentation page")
+    docs.add_argument("--input-dir", default="examples/outputs", help="directory containing release and demo artifacts")
+    docs.add_argument("--title", default="Leveraged ETP Risk Lab Documentation")
+    docs.add_argument("--format", choices=["html", "json", "markdown"], default="html")
+    docs.add_argument("--output", help="write output to a file instead of stdout")
 
     explain = sub.add_parser("explain-term", help="explain a built-in leveraged product glossary term")
     explain.add_argument("term", choices=term_ids(), help="built-in glossary term id")
@@ -399,6 +666,34 @@ def command_stress_matrix(args: argparse.Namespace) -> int:
     return emit(text, args.output)
 
 
+def command_sensitivity_grid(args: argparse.Namespace) -> int:
+    result = sensitivity_grid(
+        product=load_product(args.product),
+        leverage_multipliers=_parse_float_grid(args.leverage_multiplier, "leverage-multiplier"),
+        stop_losses=_parse_optional_float_grid(args.stop_loss, "stop-loss"),
+        take_profits=_parse_optional_float_grid(args.take_profit, "take-profit"),
+        selected_regimes=args.regime,
+        initial_nav=args.initial_nav,
+        product_path=args.product,
+    )
+    text = to_json(result) if args.format == "json" else sensitivity_grid_markdown(result)
+    return emit(text, args.output)
+
+
+def command_portfolio_sensitivity(args: argparse.Namespace) -> int:
+    result = portfolio_sensitivity(
+        manifest=load_portfolio_manifest(args.manifest),
+        manifest_path=args.manifest,
+        leverage_multipliers=_parse_float_grid(args.leverage_multiplier, "leverage-multiplier"),
+        stop_losses=_parse_optional_float_grid(args.stop_loss, "stop-loss"),
+        take_profits=_parse_optional_float_grid(args.take_profit, "take-profit"),
+        selected_regimes=args.regime,
+        initial_nav=args.initial_nav,
+    )
+    text = to_json(result) if args.format == "json" else portfolio_sensitivity_markdown(result)
+    return emit(text, args.output)
+
+
 def command_run_ledger(args: argparse.Namespace) -> int:
     result = append_ledger(args.ledger, args.artifact)
     sys.stdout.write(to_json(result))
@@ -420,6 +715,96 @@ def command_watchlist_build(args: argparse.Namespace) -> int:
 def command_factsheet_check(args: argparse.Namespace) -> int:
     result = factsheet_check(args.product, args.factsheet_file)
     text = to_json(result) if args.format == "json" else factsheet_check_markdown(result)
+    return emit(text, args.output)
+
+
+def command_risk_profile(args: argparse.Namespace) -> int:
+    result = risk_profile_packet(args.profile)
+    text = to_json(result) if args.format == "json" else risk_profile_markdown(result)
+    return emit(text, args.output)
+
+
+def command_recipe_run(args: argparse.Namespace) -> int:
+    result = recipe_run(args.recipe)
+    text = to_json(result) if args.format == "json" else recipe_run_markdown(result)
+    return emit(text, args.output)
+
+
+def command_report_card(args: argparse.Namespace) -> int:
+    result = report_card(args.artifact)
+    text = to_json(result) if args.format == "json" else report_card_markdown(result)
+    return emit(text, args.output)
+
+
+def command_thesis_dashboard_data(args: argparse.Namespace) -> int:
+    result = thesis_dashboard_data(args.recipe_run, args.report_card, args.watchlist, args.sensitivity_grid)
+    text = to_json(result) if args.format == "json" else thesis_dashboard_markdown(result)
+    return emit(text, args.output)
+
+
+def command_audit_trail(args: argparse.Namespace) -> int:
+    result = audit_trail(args.ledger, args.artifact)
+    text = to_json(result) if args.format == "json" else audit_trail_markdown(result)
+    return emit(text, args.output)
+
+
+def command_memo_draft(args: argparse.Namespace) -> int:
+    result = memo_draft(args.recipe_run, args.thesis_dashboard_data, args.report_card, args.factsheet_check)
+    text = to_json(result) if args.format == "json" else memo_draft_markdown(result)
+    return emit(text, args.output)
+
+
+def command_memo_review(args: argparse.Namespace) -> int:
+    result = memo_review(args.memo, args.report_card, args.watchlist, args.audit_trail)
+    text = to_json(result) if args.format == "json" else memo_review_markdown(result)
+    return emit(text, args.output)
+
+
+def command_cycle_init(args: argparse.Namespace) -> int:
+    result = cycle_init(args.memo, args.watchlist, args.report_card, args.sensitivity_grid)
+    text = to_json(result) if args.format == "json" else cycle_init_markdown(result)
+    return emit(text, args.output)
+
+
+def command_cycle_update(args: argparse.Namespace) -> int:
+    result = cycle_update(args.cycle_state, args.report_card, args.watchlist, args.audit_trail)
+    text = to_json(result) if args.format == "json" else cycle_update_markdown(result)
+    return emit(text, args.output)
+
+
+def command_guardrail_policy(args: argparse.Namespace) -> int:
+    result = guardrail_policy(args.policy)
+    text = to_json(result) if args.format == "json" else guardrail_policy_markdown(result)
+    return emit(text, args.output)
+
+
+def command_guardrail_check(args: argparse.Namespace) -> int:
+    result = guardrail_check(
+        args.policy,
+        args.portfolio_sensitivity,
+        args.position_size,
+        args.investment_memo,
+        args.cycle_update,
+    )
+    text = to_json(result) if args.format == "json" else guardrail_check_markdown(result)
+    return emit(text, args.output)
+
+
+def command_order_ticket(args: argparse.Namespace) -> int:
+    result = order_ticket(
+        args.guardrail_check,
+        args.investment_memo,
+        args.position_size,
+        args.factsheet_check,
+        args.thesis_dashboard_data,
+    )
+    text = to_json(result) if args.format == "json" else order_ticket_markdown(result)
+    return emit(text, args.output)
+
+
+def command_order_review(args: argparse.Namespace) -> int:
+    result = order_review(args.order_ticket, args.guardrail_check, args.cycle_update, args.audit_trail)
+    text = to_json(result) if args.format == "json" else order_review_markdown(result)
     return emit(text, args.output)
 
 
@@ -574,6 +959,54 @@ def command_demo_bundle(args: argparse.Namespace) -> int:
             output=str(root / "stress_matrix.md"),
         )
     )
+    command_sensitivity_grid(
+        argparse.Namespace(
+            product=str(examples / "leveraged_nasdaq_3x.json"),
+            regime=None,
+            initial_nav=100.0,
+            leverage_multiplier=None,
+            stop_loss=["none", "0.15", "0.25"],
+            take_profit=["none", "0.20", "0.35"],
+            format="json",
+            output=str(root / "sensitivity_grid.json"),
+        )
+    )
+    command_sensitivity_grid(
+        argparse.Namespace(
+            product=str(examples / "leveraged_nasdaq_3x.json"),
+            regime=None,
+            initial_nav=100.0,
+            leverage_multiplier=None,
+            stop_loss=["none", "0.15", "0.25"],
+            take_profit=["none", "0.20", "0.35"],
+            format="markdown",
+            output=str(root / "sensitivity_grid.md"),
+        )
+    )
+    command_portfolio_sensitivity(
+        argparse.Namespace(
+            manifest=str(manifest),
+            regime=None,
+            initial_nav=100.0,
+            leverage_multiplier=None,
+            stop_loss=["none", "0.15", "0.25"],
+            take_profit=["none", "0.20", "0.35"],
+            format="json",
+            output=str(root / "portfolio_sensitivity.json"),
+        )
+    )
+    command_portfolio_sensitivity(
+        argparse.Namespace(
+            manifest=str(manifest),
+            regime=None,
+            initial_nav=100.0,
+            leverage_multiplier=None,
+            stop_loss=["none", "0.15", "0.25"],
+            take_profit=["none", "0.20", "0.35"],
+            format="markdown",
+            output=str(root / "portfolio_sensitivity.md"),
+        )
+    )
     command_static_dashboard(
         argparse.Namespace(
             input_dir=None,
@@ -585,18 +1018,6 @@ def command_demo_bundle(args: argparse.Namespace) -> int:
     ledger_path = root / "run_ledger.jsonl"
     if ledger_path.exists():
         ledger_path.unlink()
-    append_ledger(
-        str(ledger_path),
-        [
-            str(root / "leveraged_nasdaq_3x.json"),
-            str(root / "single_stock_2x.json"),
-            str(root / "portfolio_exposure.json"),
-            str(root / "pretrade_plan.json"),
-            str(root / "position_size.json"),
-            str(root / "stress_matrix.json"),
-            str(root / "compare_runs.json"),
-        ],
-    )
     impact = thesis_impact(
         str(examples / "thesis_note.md"),
         [str(root / "pretrade_plan.json"), str(root / "compare_runs.json"), str(root / "portfolio_exposure.json")],
@@ -609,18 +1030,177 @@ def command_demo_bundle(args: argparse.Namespace) -> int:
     factsheet = factsheet_check(str(examples / "leveraged_nasdaq_3x.json"), str(examples / "factsheet_note.txt"))
     write_text(root / "factsheet_check.json", to_json(factsheet))
     write_text(root / "factsheet_check.md", factsheet_check_markdown(factsheet))
+    profiles = risk_profile_packet()
+    write_text(root / "risk_profiles.json", to_json(profiles))
+    write_text(root / "risk_profiles.md", risk_profile_markdown(profiles))
+    recipe = recipe_run(str(examples / "recipe_thesis_review.json"))
+    write_text(root / "recipe_run.json", to_json(recipe))
+    write_text(root / "recipe_run.md", recipe_run_markdown(recipe))
+    card = report_card(
+        [
+            str(root / "pretrade_plan.json"),
+            str(root / "position_size.json"),
+            str(root / "stress_matrix.json"),
+            str(root / "sensitivity_grid.json"),
+            str(root / "portfolio_sensitivity.json"),
+            str(root / "factsheet_check.json"),
+            str(root / "risk_profiles.json"),
+            str(root / "recipe_run.json"),
+        ]
+    )
+    write_text(root / "report_card.json", to_json(card))
+    write_text(root / "report_card.md", report_card_markdown(card))
+    dashboard_packet = thesis_dashboard_data(
+        str(root / "recipe_run.json"),
+        str(root / "report_card.json"),
+        str(root / "watchlist.json"),
+        str(root / "sensitivity_grid.json"),
+    )
+    write_text(root / "thesis_dashboard_data.json", to_json(dashboard_packet))
+    write_text(root / "thesis_dashboard_data.md", thesis_dashboard_markdown(dashboard_packet))
+    memo = memo_draft(
+        str(root / "recipe_run.json"),
+        str(root / "thesis_dashboard_data.json"),
+        str(root / "report_card.json"),
+        str(root / "factsheet_check.json"),
+    )
+    write_text(root / "investment_memo.json", to_json(memo))
+    write_text(root / "investment_memo.md", memo_draft_markdown(memo))
+    cycle_state = cycle_init(
+        str(root / "investment_memo.json"),
+        str(root / "watchlist.json"),
+        str(root / "report_card.json"),
+        str(root / "sensitivity_grid.json"),
+    )
+    write_text(root / "cycle_state.json", to_json(cycle_state))
+    write_text(root / "cycle_state.md", cycle_init_markdown(cycle_state))
     glossary = glossary_packet()
     write_text(root / "glossary.json", to_json(glossary))
     write_text(root / "glossary.md", glossary_markdown(glossary))
-    audit = package_audit(__version__)
-    write_text(root / "package_audit.json", to_json(audit))
-    write_text(root / "package_audit.md", package_audit_markdown(audit))
-    story = demo_story_packet(root)
-    write_text(root / "demo_story.json", to_json(story))
-    write_text(root / "demo_story.md", demo_story_markdown(story))
-    index = gallery_index(str(root))
-    write_text(root / "gallery_index.json", to_json(index))
-    write_text(root / "gallery_index.md", gallery_index_markdown(index))
+    ledger_artifacts = [
+        str(root / "leveraged_nasdaq_3x.json"),
+        str(root / "single_stock_2x.json"),
+        str(root / "portfolio_exposure.json"),
+        str(root / "pretrade_plan.json"),
+        str(root / "position_size.json"),
+        str(root / "stress_matrix.json"),
+        str(root / "sensitivity_grid.json"),
+        str(root / "portfolio_sensitivity.json"),
+        str(root / "compare_runs.json"),
+        str(root / "thesis_impact.json"),
+        str(root / "watchlist.json"),
+        str(root / "factsheet_check.json"),
+        str(root / "risk_profiles.json"),
+        str(root / "recipe_run.json"),
+        str(root / "report_card.json"),
+        str(root / "thesis_dashboard_data.json"),
+        str(root / "investment_memo.json"),
+        str(root / "cycle_state.json"),
+    ]
+    append_ledger(str(ledger_path), ledger_artifacts)
+    trail = audit_trail(str(ledger_path), ledger_artifacts)
+    write_text(root / "audit_trail.json", to_json(trail))
+    write_text(root / "audit_trail.md", audit_trail_markdown(trail))
+    memo_review_packet = memo_review(
+        str(root / "investment_memo.json"),
+        str(root / "report_card.json"),
+        str(root / "watchlist.json"),
+        str(root / "audit_trail.json"),
+    )
+    write_text(root / "investment_memo_review.json", to_json(memo_review_packet))
+    write_text(root / "investment_memo_review.md", memo_review_markdown(memo_review_packet))
+    cycle_update_packet = cycle_update(
+        str(root / "cycle_state.json"),
+        str(root / "report_card.json"),
+        str(root / "watchlist.json"),
+        str(root / "audit_trail.json"),
+    )
+    write_text(root / "cycle_update.json", to_json(cycle_update_packet))
+    write_text(root / "cycle_update.md", cycle_update_markdown(cycle_update_packet))
+    policy = guardrail_policy("default")
+    write_text(root / "guardrail_policy.json", to_json(policy))
+    write_text(root / "guardrail_policy.md", guardrail_policy_markdown(policy))
+    guardrail = guardrail_check(
+        str(root / "guardrail_policy.json"),
+        str(root / "portfolio_sensitivity.json"),
+        str(root / "position_size.json"),
+        str(root / "investment_memo.json"),
+        str(root / "cycle_update.json"),
+    )
+    write_text(root / "guardrail_check.json", to_json(guardrail))
+    write_text(root / "guardrail_check.md", guardrail_check_markdown(guardrail))
+    ticket = order_ticket(
+        str(root / "guardrail_check.json"),
+        str(root / "investment_memo.json"),
+        str(root / "position_size.json"),
+        str(root / "factsheet_check.json"),
+        str(root / "thesis_dashboard_data.json"),
+    )
+    write_text(root / "order_ticket.json", to_json(ticket))
+    write_text(root / "order_ticket.md", order_ticket_markdown(ticket))
+    review = order_review(
+        str(root / "order_ticket.json"),
+        str(root / "guardrail_check.json"),
+        str(root / "cycle_update.json"),
+        str(root / "audit_trail.json"),
+    )
+    write_text(root / "order_review.json", to_json(review))
+    write_text(root / "order_review.md", order_review_markdown(review))
+    release_surface = [
+        root / "package_audit.json",
+        root / "package_audit.md",
+        root / "demo_story.json",
+        root / "demo_story.md",
+        root / "gallery_index.json",
+        root / "gallery_index.md",
+        root / "asset_hub.json",
+        root / "asset_hub.md",
+        root / "schema_inventory.json",
+        root / "schema_inventory.md",
+        root / "artifact_validation.json",
+        root / "artifact_validation.md",
+        root / "release_manifest.json",
+        root / "release_manifest.md",
+        root / "docs_export.json",
+        root / "docs_export.md",
+        root / "docs_export.html",
+    ]
+    previous_snapshot = None
+    release_surface_converged = False
+    for _ in range(8):
+        audit = package_audit(__version__)
+        write_text(root / "package_audit.json", to_json(audit))
+        write_text(root / "package_audit.md", package_audit_markdown(audit))
+        story = demo_story_packet(root)
+        write_text(root / "demo_story.json", to_json(story))
+        write_text(root / "demo_story.md", demo_story_markdown(story))
+        index = gallery_index(str(root))
+        write_text(root / "gallery_index.json", to_json(index))
+        write_text(root / "gallery_index.md", gallery_index_markdown(index))
+        hub = asset_hub(str(root), __version__)
+        write_text(root / "asset_hub.json", to_json(hub))
+        write_text(root / "asset_hub.md", asset_hub_markdown(hub))
+        inventory = schema_inventory(examples_dir=root)
+        write_text(root / "schema_inventory.json", to_json(inventory))
+        write_text(root / "schema_inventory.md", schema_inventory_markdown(inventory))
+        validation_paths = [str(path) for path in sorted(root.glob("*.json"))] + [str(path) for path in sorted(root.glob("*.jsonl"))]
+        validation = artifact_validate(validation_paths)
+        write_text(root / "artifact_validation.json", to_json(validation))
+        write_text(root / "artifact_validation.md", artifact_validation_markdown(validation))
+        manifest = release_manifest(str(root), __version__, include_git=False)
+        write_text(root / "release_manifest.json", to_json(manifest))
+        write_text(root / "release_manifest.md", release_manifest_markdown(manifest))
+        docs_packet = docs_export(str(root))
+        write_text(root / "docs_export.json", to_json(docs_packet))
+        write_text(root / "docs_export.md", docs_export_markdown(docs_packet))
+        write_text(root / "docs_export.html", docs_export_html(docs_packet))
+        snapshot = {path.name: path.read_text(encoding="utf-8") for path in release_surface if path.exists()}
+        if snapshot == previous_snapshot:
+            release_surface_converged = True
+            break
+        previous_snapshot = snapshot
+    if not release_surface_converged:
+        raise RuntimeError("release artifact generation did not converge")
     sys.stdout.write(f"wrote demo bundle to {root}\n")
     return 0
 
@@ -637,9 +1217,44 @@ def command_gallery_index(args: argparse.Namespace) -> int:
     return emit(text, args.output)
 
 
+def command_asset_hub(args: argparse.Namespace) -> int:
+    result = asset_hub(args.input_dir, __version__)
+    text = to_json(result) if args.format == "json" else asset_hub_markdown(result)
+    return emit(text, args.output)
+
+
 def command_package_audit(args: argparse.Namespace) -> int:
     result = package_audit(__version__, run_tests=args.run_tests)
     text = to_json(result) if args.format == "json" else package_audit_markdown(result)
+    return emit(text, args.output)
+
+
+def command_schema_inventory(args: argparse.Namespace) -> int:
+    result = schema_inventory(examples_dir=Path(args.examples_dir))
+    text = to_json(result) if args.format == "json" else schema_inventory_markdown(result)
+    return emit(text, args.output)
+
+
+def command_artifact_validate(args: argparse.Namespace) -> int:
+    result = artifact_validate(args.path or None)
+    text = to_json(result) if args.format == "json" else artifact_validation_markdown(result)
+    return emit(text, args.output)
+
+
+def command_release_manifest(args: argparse.Namespace) -> int:
+    result = release_manifest(args.input_dir, __version__, include_git=not args.no_git)
+    text = to_json(result) if args.format == "json" else release_manifest_markdown(result)
+    return emit(text, args.output)
+
+
+def command_docs_export(args: argparse.Namespace) -> int:
+    result = docs_export(args.input_dir, args.title)
+    if args.format == "json":
+        text = to_json(result)
+    elif args.format == "markdown":
+        text = docs_export_markdown(result)
+    else:
+        text = docs_export_html(result)
     return emit(text, args.output)
 
 
@@ -678,3 +1293,30 @@ def _load_thesis(thesis_file: Optional[str], thesis_text: Optional[str]) -> str:
     if thesis_text:
         parts.append(thesis_text.strip())
     return "\n\n".join(part for part in parts if part)
+
+
+def _parse_float_grid(values: Optional[List[str]], label: str) -> Optional[List[float]]:
+    parsed = _parse_optional_float_grid(values, label)
+    if parsed is None:
+        return None
+    if any(value is None for value in parsed):
+        raise ValueError(f"--{label} does not accept none")
+    return [float(value) for value in parsed if value is not None]
+
+
+def _parse_optional_float_grid(values: Optional[List[str]], label: str) -> Optional[List[Optional[float]]]:
+    if not values:
+        return None
+    parsed: List[Optional[float]] = []
+    for raw in values:
+        for part in raw.split(","):
+            item = part.strip()
+            if not item:
+                continue
+            if item.lower() in {"none", "null", "na", "n/a"}:
+                parsed.append(None)
+            else:
+                parsed.append(float(item))
+    if not parsed:
+        raise ValueError(f"--{label} grid must contain at least one value")
+    return parsed

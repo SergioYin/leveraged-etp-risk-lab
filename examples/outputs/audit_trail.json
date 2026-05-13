@@ -1,0 +1,552 @@
+{
+  "artifacts": [
+    {
+      "artifact_name": "leveraged_nasdaq_3x.json",
+      "bytes": 2782,
+      "document_type": "simulation_output",
+      "path": "examples/outputs/leveraged_nasdaq_3x.json",
+      "schema_version": "0.2",
+      "sha256": "fec4c6c6c83dc18d76579831a83f024506a2983ffdfb0c9f7a2c305561dda48a"
+    },
+    {
+      "artifact_name": "single_stock_2x.json",
+      "bytes": 2539,
+      "document_type": "simulation_output",
+      "path": "examples/outputs/single_stock_2x.json",
+      "schema_version": "0.2",
+      "sha256": "8d87b4439e5ce51026b9cc5139f4860460f033a32ffcbe7f033a9a8f78f90a9f"
+    },
+    {
+      "artifact_name": "portfolio_exposure.json",
+      "bytes": 3097,
+      "document_type": "exposure_report",
+      "path": "examples/outputs/portfolio_exposure.json",
+      "schema_version": "0.2",
+      "sha256": "150da78ee800a99d6373059d1d99a2883499c3d8ad50f621c0c2e6d676dbc9d7"
+    },
+    {
+      "artifact_name": "pretrade_plan.json",
+      "bytes": 3460,
+      "document_type": "pretrade_plan",
+      "path": "examples/outputs/pretrade_plan.json",
+      "schema_version": "0.3",
+      "sha256": "3632930e9b4f6c91c35158bbd19e41f7ea5f98be90fdfda747512cf6702a30f6"
+    },
+    {
+      "artifact_name": "position_size.json",
+      "bytes": 2630,
+      "document_type": "position_size_plan",
+      "path": "examples/outputs/position_size.json",
+      "schema_version": "0.8",
+      "sha256": "e858c5ccc946ab87c7b926859fca2cb863013cda3b48b7af3e8085ab379bf940"
+    },
+    {
+      "artifact_name": "stress_matrix.json",
+      "bytes": 3894,
+      "document_type": "stress_matrix",
+      "path": "examples/outputs/stress_matrix.json",
+      "schema_version": "0.9",
+      "sha256": "a53e51a4e83cd511dd25b4180b099ad4a70ab36742838b5db260520502d31c3f"
+    },
+    {
+      "artifact_name": "sensitivity_grid.json",
+      "bytes": 75105,
+      "document_type": "sensitivity_grid",
+      "path": "examples/outputs/sensitivity_grid.json",
+      "schema_version": "0.19",
+      "sha256": "37c2e08ee361260a79c744df8f5d373ab6cee9ec07cf3f97e2cb081270757f0d"
+    },
+    {
+      "artifact_name": "portfolio_sensitivity.json",
+      "bytes": 31150,
+      "document_type": "portfolio_sensitivity",
+      "path": "examples/outputs/portfolio_sensitivity.json",
+      "schema_version": "0.20",
+      "sha256": "f87f726abab68709f90de09c75570888b96604d981882b1ebd06ac0f51454f07"
+    },
+    {
+      "artifact_name": "compare_runs.json",
+      "bytes": 961,
+      "document_type": "run_comparison",
+      "path": "examples/outputs/compare_runs.json",
+      "schema_version": "0.5",
+      "sha256": "245621f9ace03d0bc48244e2b87348afb99db14185b2541a6b757e7cbe77de32"
+    },
+    {
+      "artifact_name": "thesis_impact.json",
+      "bytes": 8001,
+      "document_type": "thesis_impact",
+      "path": "examples/outputs/thesis_impact.json",
+      "schema_version": "0.6",
+      "sha256": "e613582700fe07fd67f4b7f4ea8da670f8df14d5ade8f8cf91371e5f0d9c196e"
+    },
+    {
+      "artifact_name": "watchlist.json",
+      "bytes": 15069,
+      "document_type": "watchlist",
+      "path": "examples/outputs/watchlist.json",
+      "schema_version": "0.10",
+      "sha256": "31eb2d3ed67f894ef362ed078845d4db489e3270eebf312aa39951a5d9134aa4"
+    },
+    {
+      "artifact_name": "factsheet_check.json",
+      "bytes": 3534,
+      "document_type": "factsheet_check",
+      "path": "examples/outputs/factsheet_check.json",
+      "schema_version": "0.15",
+      "sha256": "c976a948cbf84ebb77b52da2c386004c58d0b3b6a4e41c0744c2da39cd41561b"
+    },
+    {
+      "artifact_name": "risk_profiles.json",
+      "bytes": 6498,
+      "document_type": "risk_profile_rules",
+      "path": "examples/outputs/risk_profiles.json",
+      "schema_version": "0.16",
+      "sha256": "37cde78aac231af73dfb2c99ebca4bb9f081b41d2cba0bc0e58b8a112a2cb159"
+    },
+    {
+      "artifact_name": "recipe_run.json",
+      "bytes": 40281,
+      "document_type": "recipe_run",
+      "path": "examples/outputs/recipe_run.json",
+      "schema_version": "0.17",
+      "sha256": "2d5289be5544204534798993011bfc21c3b719d6decba21f318928bf917590a4"
+    },
+    {
+      "artifact_name": "report_card.json",
+      "bytes": 16254,
+      "document_type": "report_card",
+      "path": "examples/outputs/report_card.json",
+      "schema_version": "0.18",
+      "sha256": "77e2de589d7bcc779073c6e99affc7d5cee32c524ab2374a02dd1a2b76ce7a76"
+    },
+    {
+      "artifact_name": "thesis_dashboard_data.json",
+      "bytes": 6625,
+      "document_type": "thesis_dashboard_data",
+      "path": "examples/outputs/thesis_dashboard_data.json",
+      "schema_version": "0.20",
+      "sha256": "a411d032e5d4e8fcf7a71902d403526d40e6c81783c387577574179424c3e196"
+    },
+    {
+      "artifact_name": "investment_memo.json",
+      "bytes": 10963,
+      "document_type": "investment_memo_packet",
+      "path": "examples/outputs/investment_memo.json",
+      "schema_version": "0.21",
+      "sha256": "e65fdac470f187a1b38ecc8c67b034364fcbb86f98193f09f35e01767be0dbf7"
+    },
+    {
+      "artifact_name": "cycle_state.json",
+      "bytes": 9527,
+      "document_type": "cycle_state",
+      "path": "examples/outputs/cycle_state.json",
+      "schema_version": "0.22",
+      "sha256": "eb3a5bc6220f183a2275438a9150630221e3fe1a85deacd5ac358d89f57d625f"
+    }
+  ],
+  "checklist": [
+    {
+      "artifact_name": "leveraged_nasdaq_3x.json",
+      "bytes_match_ledger": true,
+      "document_type": "simulation_output",
+      "hash_matches_ledger": true,
+      "ledger_present": true,
+      "schema_version": "0.2",
+      "sha256": "fec4c6c6c83dc18d76579831a83f024506a2983ffdfb0c9f7a2c305561dda48a",
+      "status": "pass"
+    },
+    {
+      "artifact_name": "single_stock_2x.json",
+      "bytes_match_ledger": true,
+      "document_type": "simulation_output",
+      "hash_matches_ledger": true,
+      "ledger_present": true,
+      "schema_version": "0.2",
+      "sha256": "8d87b4439e5ce51026b9cc5139f4860460f033a32ffcbe7f033a9a8f78f90a9f",
+      "status": "pass"
+    },
+    {
+      "artifact_name": "portfolio_exposure.json",
+      "bytes_match_ledger": true,
+      "document_type": "exposure_report",
+      "hash_matches_ledger": true,
+      "ledger_present": true,
+      "schema_version": "0.2",
+      "sha256": "150da78ee800a99d6373059d1d99a2883499c3d8ad50f621c0c2e6d676dbc9d7",
+      "status": "pass"
+    },
+    {
+      "artifact_name": "pretrade_plan.json",
+      "bytes_match_ledger": true,
+      "document_type": "pretrade_plan",
+      "hash_matches_ledger": true,
+      "ledger_present": true,
+      "schema_version": "0.3",
+      "sha256": "3632930e9b4f6c91c35158bbd19e41f7ea5f98be90fdfda747512cf6702a30f6",
+      "status": "pass"
+    },
+    {
+      "artifact_name": "position_size.json",
+      "bytes_match_ledger": true,
+      "document_type": "position_size_plan",
+      "hash_matches_ledger": true,
+      "ledger_present": true,
+      "schema_version": "0.8",
+      "sha256": "e858c5ccc946ab87c7b926859fca2cb863013cda3b48b7af3e8085ab379bf940",
+      "status": "pass"
+    },
+    {
+      "artifact_name": "stress_matrix.json",
+      "bytes_match_ledger": true,
+      "document_type": "stress_matrix",
+      "hash_matches_ledger": true,
+      "ledger_present": true,
+      "schema_version": "0.9",
+      "sha256": "a53e51a4e83cd511dd25b4180b099ad4a70ab36742838b5db260520502d31c3f",
+      "status": "pass"
+    },
+    {
+      "artifact_name": "sensitivity_grid.json",
+      "bytes_match_ledger": true,
+      "document_type": "sensitivity_grid",
+      "hash_matches_ledger": true,
+      "ledger_present": true,
+      "schema_version": "0.19",
+      "sha256": "37c2e08ee361260a79c744df8f5d373ab6cee9ec07cf3f97e2cb081270757f0d",
+      "status": "pass"
+    },
+    {
+      "artifact_name": "portfolio_sensitivity.json",
+      "bytes_match_ledger": true,
+      "document_type": "portfolio_sensitivity",
+      "hash_matches_ledger": true,
+      "ledger_present": true,
+      "schema_version": "0.20",
+      "sha256": "f87f726abab68709f90de09c75570888b96604d981882b1ebd06ac0f51454f07",
+      "status": "pass"
+    },
+    {
+      "artifact_name": "compare_runs.json",
+      "bytes_match_ledger": true,
+      "document_type": "run_comparison",
+      "hash_matches_ledger": true,
+      "ledger_present": true,
+      "schema_version": "0.5",
+      "sha256": "245621f9ace03d0bc48244e2b87348afb99db14185b2541a6b757e7cbe77de32",
+      "status": "pass"
+    },
+    {
+      "artifact_name": "thesis_impact.json",
+      "bytes_match_ledger": true,
+      "document_type": "thesis_impact",
+      "hash_matches_ledger": true,
+      "ledger_present": true,
+      "schema_version": "0.6",
+      "sha256": "e613582700fe07fd67f4b7f4ea8da670f8df14d5ade8f8cf91371e5f0d9c196e",
+      "status": "pass"
+    },
+    {
+      "artifact_name": "watchlist.json",
+      "bytes_match_ledger": true,
+      "document_type": "watchlist",
+      "hash_matches_ledger": true,
+      "ledger_present": true,
+      "schema_version": "0.10",
+      "sha256": "31eb2d3ed67f894ef362ed078845d4db489e3270eebf312aa39951a5d9134aa4",
+      "status": "pass"
+    },
+    {
+      "artifact_name": "factsheet_check.json",
+      "bytes_match_ledger": true,
+      "document_type": "factsheet_check",
+      "hash_matches_ledger": true,
+      "ledger_present": true,
+      "schema_version": "0.15",
+      "sha256": "c976a948cbf84ebb77b52da2c386004c58d0b3b6a4e41c0744c2da39cd41561b",
+      "status": "pass"
+    },
+    {
+      "artifact_name": "risk_profiles.json",
+      "bytes_match_ledger": true,
+      "document_type": "risk_profile_rules",
+      "hash_matches_ledger": true,
+      "ledger_present": true,
+      "schema_version": "0.16",
+      "sha256": "37cde78aac231af73dfb2c99ebca4bb9f081b41d2cba0bc0e58b8a112a2cb159",
+      "status": "pass"
+    },
+    {
+      "artifact_name": "recipe_run.json",
+      "bytes_match_ledger": true,
+      "document_type": "recipe_run",
+      "hash_matches_ledger": true,
+      "ledger_present": true,
+      "schema_version": "0.17",
+      "sha256": "2d5289be5544204534798993011bfc21c3b719d6decba21f318928bf917590a4",
+      "status": "pass"
+    },
+    {
+      "artifact_name": "report_card.json",
+      "bytes_match_ledger": true,
+      "document_type": "report_card",
+      "hash_matches_ledger": true,
+      "ledger_present": true,
+      "schema_version": "0.18",
+      "sha256": "77e2de589d7bcc779073c6e99affc7d5cee32c524ab2374a02dd1a2b76ce7a76",
+      "status": "pass"
+    },
+    {
+      "artifact_name": "thesis_dashboard_data.json",
+      "bytes_match_ledger": true,
+      "document_type": "thesis_dashboard_data",
+      "hash_matches_ledger": true,
+      "ledger_present": true,
+      "schema_version": "0.20",
+      "sha256": "a411d032e5d4e8fcf7a71902d403526d40e6c81783c387577574179424c3e196",
+      "status": "pass"
+    },
+    {
+      "artifact_name": "investment_memo.json",
+      "bytes_match_ledger": true,
+      "document_type": "investment_memo_packet",
+      "hash_matches_ledger": true,
+      "ledger_present": true,
+      "schema_version": "0.21",
+      "sha256": "e65fdac470f187a1b38ecc8c67b034364fcbb86f98193f09f35e01767be0dbf7",
+      "status": "pass"
+    },
+    {
+      "artifact_name": "cycle_state.json",
+      "bytes_match_ledger": true,
+      "document_type": "cycle_state",
+      "hash_matches_ledger": true,
+      "ledger_present": true,
+      "schema_version": "0.22",
+      "sha256": "eb3a5bc6220f183a2275438a9150630221e3fe1a85deacd5ac358d89f57d625f",
+      "status": "pass"
+    }
+  ],
+  "document_type": "audit_trail",
+  "inputs": {
+    "artifacts": [
+      "examples/outputs/leveraged_nasdaq_3x.json",
+      "examples/outputs/single_stock_2x.json",
+      "examples/outputs/portfolio_exposure.json",
+      "examples/outputs/pretrade_plan.json",
+      "examples/outputs/position_size.json",
+      "examples/outputs/stress_matrix.json",
+      "examples/outputs/sensitivity_grid.json",
+      "examples/outputs/portfolio_sensitivity.json",
+      "examples/outputs/compare_runs.json",
+      "examples/outputs/thesis_impact.json",
+      "examples/outputs/watchlist.json",
+      "examples/outputs/factsheet_check.json",
+      "examples/outputs/risk_profiles.json",
+      "examples/outputs/recipe_run.json",
+      "examples/outputs/report_card.json",
+      "examples/outputs/thesis_dashboard_data.json",
+      "examples/outputs/investment_memo.json",
+      "examples/outputs/cycle_state.json"
+    ],
+    "ledger": "examples/outputs/run_ledger.jsonl"
+  },
+  "ledger_rows": [
+    {
+      "artifact_name": "leveraged_nasdaq_3x.json",
+      "artifact_schema_version": "0.2",
+      "artifact_type": "simulation_output",
+      "bytes": 2782,
+      "document_type": "run_ledger_entry",
+      "schema_version": "0.5",
+      "sha256": "fec4c6c6c83dc18d76579831a83f024506a2983ffdfb0c9f7a2c305561dda48a"
+    },
+    {
+      "artifact_name": "single_stock_2x.json",
+      "artifact_schema_version": "0.2",
+      "artifact_type": "simulation_output",
+      "bytes": 2539,
+      "document_type": "run_ledger_entry",
+      "schema_version": "0.5",
+      "sha256": "8d87b4439e5ce51026b9cc5139f4860460f033a32ffcbe7f033a9a8f78f90a9f"
+    },
+    {
+      "artifact_name": "portfolio_exposure.json",
+      "artifact_schema_version": "0.2",
+      "artifact_type": "exposure_report",
+      "bytes": 3097,
+      "document_type": "run_ledger_entry",
+      "schema_version": "0.5",
+      "sha256": "150da78ee800a99d6373059d1d99a2883499c3d8ad50f621c0c2e6d676dbc9d7"
+    },
+    {
+      "artifact_name": "pretrade_plan.json",
+      "artifact_schema_version": "0.3",
+      "artifact_type": "pretrade_plan",
+      "bytes": 3460,
+      "document_type": "run_ledger_entry",
+      "schema_version": "0.5",
+      "sha256": "3632930e9b4f6c91c35158bbd19e41f7ea5f98be90fdfda747512cf6702a30f6"
+    },
+    {
+      "artifact_name": "position_size.json",
+      "artifact_schema_version": "0.8",
+      "artifact_type": "position_size_plan",
+      "bytes": 2630,
+      "document_type": "run_ledger_entry",
+      "schema_version": "0.5",
+      "sha256": "e858c5ccc946ab87c7b926859fca2cb863013cda3b48b7af3e8085ab379bf940"
+    },
+    {
+      "artifact_name": "stress_matrix.json",
+      "artifact_schema_version": "0.9",
+      "artifact_type": "stress_matrix",
+      "bytes": 3894,
+      "document_type": "run_ledger_entry",
+      "schema_version": "0.5",
+      "sha256": "a53e51a4e83cd511dd25b4180b099ad4a70ab36742838b5db260520502d31c3f"
+    },
+    {
+      "artifact_name": "sensitivity_grid.json",
+      "artifact_schema_version": "0.19",
+      "artifact_type": "sensitivity_grid",
+      "bytes": 75105,
+      "document_type": "run_ledger_entry",
+      "schema_version": "0.5",
+      "sha256": "37c2e08ee361260a79c744df8f5d373ab6cee9ec07cf3f97e2cb081270757f0d"
+    },
+    {
+      "artifact_name": "portfolio_sensitivity.json",
+      "artifact_schema_version": "0.20",
+      "artifact_type": "portfolio_sensitivity",
+      "bytes": 31150,
+      "document_type": "run_ledger_entry",
+      "schema_version": "0.5",
+      "sha256": "f87f726abab68709f90de09c75570888b96604d981882b1ebd06ac0f51454f07"
+    },
+    {
+      "artifact_name": "compare_runs.json",
+      "artifact_schema_version": "0.5",
+      "artifact_type": "run_comparison",
+      "bytes": 961,
+      "document_type": "run_ledger_entry",
+      "schema_version": "0.5",
+      "sha256": "245621f9ace03d0bc48244e2b87348afb99db14185b2541a6b757e7cbe77de32"
+    },
+    {
+      "artifact_name": "thesis_impact.json",
+      "artifact_schema_version": "0.6",
+      "artifact_type": "thesis_impact",
+      "bytes": 8001,
+      "document_type": "run_ledger_entry",
+      "schema_version": "0.5",
+      "sha256": "e613582700fe07fd67f4b7f4ea8da670f8df14d5ade8f8cf91371e5f0d9c196e"
+    },
+    {
+      "artifact_name": "watchlist.json",
+      "artifact_schema_version": "0.10",
+      "artifact_type": "watchlist",
+      "bytes": 15069,
+      "document_type": "run_ledger_entry",
+      "schema_version": "0.5",
+      "sha256": "31eb2d3ed67f894ef362ed078845d4db489e3270eebf312aa39951a5d9134aa4"
+    },
+    {
+      "artifact_name": "factsheet_check.json",
+      "artifact_schema_version": "0.15",
+      "artifact_type": "factsheet_check",
+      "bytes": 3534,
+      "document_type": "run_ledger_entry",
+      "schema_version": "0.5",
+      "sha256": "c976a948cbf84ebb77b52da2c386004c58d0b3b6a4e41c0744c2da39cd41561b"
+    },
+    {
+      "artifact_name": "risk_profiles.json",
+      "artifact_schema_version": "0.16",
+      "artifact_type": "risk_profile_rules",
+      "bytes": 6498,
+      "document_type": "run_ledger_entry",
+      "schema_version": "0.5",
+      "sha256": "37cde78aac231af73dfb2c99ebca4bb9f081b41d2cba0bc0e58b8a112a2cb159"
+    },
+    {
+      "artifact_name": "recipe_run.json",
+      "artifact_schema_version": "0.17",
+      "artifact_type": "recipe_run",
+      "bytes": 40281,
+      "document_type": "run_ledger_entry",
+      "schema_version": "0.5",
+      "sha256": "2d5289be5544204534798993011bfc21c3b719d6decba21f318928bf917590a4"
+    },
+    {
+      "artifact_name": "report_card.json",
+      "artifact_schema_version": "0.18",
+      "artifact_type": "report_card",
+      "bytes": 16254,
+      "document_type": "run_ledger_entry",
+      "schema_version": "0.5",
+      "sha256": "77e2de589d7bcc779073c6e99affc7d5cee32c524ab2374a02dd1a2b76ce7a76"
+    },
+    {
+      "artifact_name": "thesis_dashboard_data.json",
+      "artifact_schema_version": "0.20",
+      "artifact_type": "thesis_dashboard_data",
+      "bytes": 6625,
+      "document_type": "run_ledger_entry",
+      "schema_version": "0.5",
+      "sha256": "a411d032e5d4e8fcf7a71902d403526d40e6c81783c387577574179424c3e196"
+    },
+    {
+      "artifact_name": "investment_memo.json",
+      "artifact_schema_version": "0.21",
+      "artifact_type": "investment_memo_packet",
+      "bytes": 10963,
+      "document_type": "run_ledger_entry",
+      "schema_version": "0.5",
+      "sha256": "e65fdac470f187a1b38ecc8c67b034364fcbb86f98193f09f35e01767be0dbf7"
+    },
+    {
+      "artifact_name": "cycle_state.json",
+      "artifact_schema_version": "0.22",
+      "artifact_type": "cycle_state",
+      "bytes": 9527,
+      "document_type": "run_ledger_entry",
+      "schema_version": "0.5",
+      "sha256": "eb3a5bc6220f183a2275438a9150630221e3fe1a85deacd5ac358d89f57d625f"
+    }
+  ],
+  "provenance": {
+    "artifacts": [
+      "examples/outputs/leveraged_nasdaq_3x.json",
+      "examples/outputs/single_stock_2x.json",
+      "examples/outputs/portfolio_exposure.json",
+      "examples/outputs/pretrade_plan.json",
+      "examples/outputs/position_size.json",
+      "examples/outputs/stress_matrix.json",
+      "examples/outputs/sensitivity_grid.json",
+      "examples/outputs/portfolio_sensitivity.json",
+      "examples/outputs/compare_runs.json",
+      "examples/outputs/thesis_impact.json",
+      "examples/outputs/watchlist.json",
+      "examples/outputs/factsheet_check.json",
+      "examples/outputs/risk_profiles.json",
+      "examples/outputs/recipe_run.json",
+      "examples/outputs/report_card.json",
+      "examples/outputs/thesis_dashboard_data.json",
+      "examples/outputs/investment_memo.json",
+      "examples/outputs/cycle_state.json"
+    ],
+    "command": "audit-trail",
+    "ledger": "examples/outputs/run_ledger.jsonl",
+    "live_market_data": false,
+    "shell_out": false
+  },
+  "schema_version": "0.20",
+  "summary": {
+    "artifacts": 18,
+    "deterministic": true,
+    "ledger_rows": 18,
+    "passed": 18,
+    "review": 0
+  }
+}

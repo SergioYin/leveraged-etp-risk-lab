@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Leveraged ETP scenario path CSV",
+  "type": "object",
+  "description": "CSV rows require day,label,underlying_return columns.",
+  "required": ["day", "underlying_return"],
+  "properties": {
+    "day": {"type": "integer", "minimum": 1},
+    "label": {"type": "string"},
+    "underlying_return": {"type": "number"}
+  }
+}

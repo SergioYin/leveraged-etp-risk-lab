@@ -1,0 +1,7 @@
+day,label,underlying_return
+1,Up impulse,0.025
+2,Sharp giveback,-0.022
+3,Relief bounce,0.018
+4,Distribution day,-0.017
+5,Small rally,0.011
+6,Fade,-0.010

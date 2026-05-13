@@ -1,0 +1,86 @@
+{
+  "band_events": [],
+  "inputs": {
+    "days": 5,
+    "initial_nav": 100.0,
+    "stop_loss_pct": 25.0,
+    "take_profit_pct": 30.0
+  },
+  "path": [
+    {
+      "daily_levered_return_pct": -17.0046,
+      "day": 1,
+      "etp_nav": 82.995437,
+      "label": "Earnings gap",
+      "path_decay": -0.004563,
+      "simple_multiple_nav": 83.0,
+      "underlying_index": 91.5,
+      "underlying_return_pct": -8.5
+    },
+    {
+      "daily_levered_return_pct": -6.4046,
+      "day": 2,
+      "etp_nav": 77.679941,
+      "label": "Follow-through selloff",
+      "path_decay": 0.535941,
+      "simple_multiple_nav": 77.144,
+      "underlying_index": 88.572,
+      "underlying_return_pct": -3.2
+    },
+    {
+      "daily_levered_return_pct": 8.1954,
+      "day": 3,
+      "etp_nav": 84.046151,
+      "label": "Short-cover bounce",
+      "path_decay": -0.360753,
+      "simple_multiple_nav": 84.406904,
+      "underlying_index": 92.203452,
+      "underlying_return_pct": 4.1
+    },
+    {
+      "daily_levered_return_pct": -5.2046,
+      "day": 4,
+      "etp_nav": 79.671916,
+      "label": "Analyst downgrade",
+      "path_decay": 0.059592,
+      "simple_multiple_nav": 79.612324,
+      "underlying_index": 89.806162,
+      "underlying_return_pct": -2.6
+    },
+    {
+      "daily_levered_return_pct": 6.9954,
+      "day": 5,
+      "etp_nav": 85.245314,
+      "label": "Partial recovery",
+      "path_decay": -0.653442,
+      "simple_multiple_nav": 85.898756,
+      "underlying_index": 92.949378,
+      "underlying_return_pct": 3.5
+    }
+  ],
+  "product": {
+    "annual_fee_pct": 1.15,
+    "currency": "USD",
+    "leverage": 2.0,
+    "name": "Generic 2x Single-Stock Daily Reset ETP",
+    "reset_frequency": "daily",
+    "ticker": "STK2X",
+    "underlying": "Single-stock reference share"
+  },
+  "schema_version": "0.1",
+  "summary": {
+    "ending_etp_nav": 85.245314,
+    "ending_underlying_index": 92.949378,
+    "estimated_fee_drag_nav_points": 0.022817,
+    "etp_return_pct": -14.7547,
+    "path_decay_vs_simple_multiple": -0.653442,
+    "simple_multiple_return_pct": -14.1012,
+    "underlying_return_pct": -7.0506
+  },
+  "warnings": [
+    "Daily reset leverage means multi-day returns can differ materially from the underlying return times leverage.",
+    "Scenario output is not investment advice and does not predict future returns.",
+    "Large daily moves can compound quickly and may create losses larger than a simple one-day estimate.",
+    "Fee drag is approximated as a constant daily deduction from the leveraged daily return."
+  ]
+}

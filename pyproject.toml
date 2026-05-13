@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "leveraged-etp-risk-lab"
+version = "0.1.0"
+description = "Zero-dependency CLI for daily-reset leveraged ETF/ETP risk planning"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [{name = "leveraged-etp-risk-lab contributors"}]
+dependencies = []
+
+[project.scripts]
+leveraged-etp-risk-lab = "leveraged_etp_risk_lab.cli:main"
+
+[tool.setuptools]
+packages = ["leveraged_etp_risk_lab"]

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Leveraged ETP simulation output",
+  "type": "object",
+  "required": ["schema_version", "product", "inputs", "summary", "band_events", "warnings", "path"],
+  "properties": {
+    "schema_version": {"const": "0.1"},
+    "product": {"type": "object"},
+    "inputs": {"type": "object"},
+    "summary": {"type": "object"},
+    "band_events": {"type": "array"},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "path": {"type": "array"}
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "name": "Generic 2x Single-Stock Daily Reset ETP",
+  "ticker": "STK2X",
+  "underlying": "Single-stock reference share",
+  "leverage": 2,
+  "annual_fee": 0.0115,
+  "currency": "USD",
+  "reset_frequency": "daily",
+  "notes": "Generic educational fixture, not a listed product."
+}

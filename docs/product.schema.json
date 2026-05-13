@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Leveraged ETP product terms",
+  "type": "object",
+  "required": ["name", "ticker", "underlying", "leverage", "annual_fee"],
+  "properties": {
+    "name": {"type": "string"},
+    "ticker": {"type": "string"},
+    "underlying": {"type": "string"},
+    "leverage": {"type": "number"},
+    "annual_fee": {"type": "number", "minimum": 0},
+    "currency": {"type": "string", "default": "USD"},
+    "reset_frequency": {"type": "string", "default": "daily"},
+    "notes": {"type": "string"}
+  },
+  "additionalProperties": false
+}

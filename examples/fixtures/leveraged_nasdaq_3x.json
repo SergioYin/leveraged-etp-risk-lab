@@ -1,0 +1,10 @@
+{
+  "name": "Generic 3x Nasdaq Daily Reset ETP",
+  "ticker": "NDAQ3X",
+  "underlying": "Nasdaq-100 reference index",
+  "leverage": 3,
+  "annual_fee": 0.0095,
+  "currency": "USD",
+  "reset_frequency": "daily",
+  "notes": "Generic educational fixture, not a listed product."
+}

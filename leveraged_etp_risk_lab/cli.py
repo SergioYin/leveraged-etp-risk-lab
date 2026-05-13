@@ -10,7 +10,19 @@ from . import __version__
 from .engine import exposure_report, generate_scenario, simulate
 from .io import load_path, load_portfolio_manifest, load_product, write_path_csv, write_text
 from .models import RiskBand, SimulationConfig
-from .render import checklist_json, checklist_markdown, exposure_markdown, simulation_markdown, to_json, version_report
+from .render import (
+    checklist_json,
+    checklist_markdown,
+    dashboard_html,
+    default_pretrade_assumptions,
+    exposure_markdown,
+    load_demo_outputs,
+    pretrade_plan_markdown,
+    pretrade_plan_packet,
+    simulation_markdown,
+    to_json,
+    version_report,
+)
 
 
 def main(argv: Optional[List[str]] = None) -> int:
@@ -25,6 +37,10 @@ def main(argv: Optional[List[str]] = None) -> int:
             return command_generate_scenario(args)
         if args.command == "exposure-report":
             return command_exposure_report(args)
+        if args.command == "pretrade-plan":
+            return command_pretrade_plan(args)
+        if args.command == "static-dashboard":
+            return command_static_dashboard(args)
         if args.command == "demo-bundle":
             return command_demo_bundle(args)
         if args.command == "selfcheck":
@@ -68,6 +84,26 @@ def build_parser() -> argparse.ArgumentParser:
     exposure.add_argument("--format", choices=["json", "markdown"], default="json")
     exposure.add_argument("--output", help="write output to a file instead of stdout")
 
+    plan = sub.add_parser("pretrade-plan", help="build a Markdown or JSON pretrade decision packet")
+    plan.add_argument("--product", required=True, help="product JSON file")
+    plan.add_argument("--path", required=True, help="scenario path CSV file")
+    plan.add_argument("--thesis-file", help="Markdown/plain-text thesis note")
+    plan.add_argument("--thesis-text", help="inline thesis text")
+    plan.add_argument("--max-loss-budget", type=float, required=True, help="user-defined maximum loss budget")
+    plan.add_argument("--initial-nav", type=float, default=100.0)
+    plan.add_argument("--stop-loss", type=float, default=None, help="decimal stop-loss threshold, e.g. 0.15")
+    plan.add_argument("--take-profit", type=float, default=None, help="decimal take-profit threshold, e.g. 0.20")
+    plan.add_argument("--checklist-profile", choices=["default", "active-trader", "risk-review"], default="risk-review")
+    plan.add_argument("--format", choices=["json", "markdown"], default="markdown")
+    plan.add_argument("--output", help="write output to a file instead of stdout")
+
+    dashboard = sub.add_parser("static-dashboard", help="render a self-contained no-JS HTML risk dashboard")
+    dashboard_source = dashboard.add_mutually_exclusive_group(required=True)
+    dashboard_source.add_argument("--input-dir", help="directory containing demo output JSON files")
+    dashboard_source.add_argument("--manifest", help="portfolio manifest JSON file")
+    dashboard.add_argument("--title", default="Leveraged ETP Risk Dashboard")
+    dashboard.add_argument("--output", required=True, help="HTML output path")
+
     demo = sub.add_parser("demo-bundle", help="generate deterministic demo outputs")
     demo.add_argument("--output-dir", default="examples/outputs")
 
@@ -107,6 +143,51 @@ def command_exposure_report(args: argparse.Namespace) -> int:
     return emit(text, args.output)
 
 
+def command_pretrade_plan(args: argparse.Namespace) -> int:
+    if args.max_loss_budget <= 0:
+        raise ValueError("--max-loss-budget must be positive")
+    thesis = _load_thesis(args.thesis_file, args.thesis_text)
+    result = simulate(
+        SimulationConfig(
+            product=load_product(args.product),
+            path=load_path(args.path),
+            initial_nav=args.initial_nav,
+            risk_band=RiskBand(stop_loss=args.stop_loss, take_profit=args.take_profit),
+        )
+    )
+    packet = pretrade_plan_packet(
+        simulation=result,
+        thesis=thesis,
+        max_loss_budget=args.max_loss_budget,
+        checklist_profile=args.checklist_profile,
+        assumptions=default_pretrade_assumptions(),
+        provenance={
+            "command": "pretrade-plan",
+            "product": args.product,
+            "path": args.path,
+            "thesis_file": args.thesis_file or "",
+            "max_loss_budget": args.max_loss_budget,
+            "initial_nav": args.initial_nav,
+            "stop_loss": args.stop_loss,
+            "take_profit": args.take_profit,
+            "checklist_profile": args.checklist_profile,
+        },
+    )
+    text = to_json(packet) if args.format == "json" else pretrade_plan_markdown(packet)
+    return emit(text, args.output)
+
+
+def command_static_dashboard(args: argparse.Namespace) -> int:
+    if args.manifest:
+        data = exposure_report(load_portfolio_manifest(args.manifest), args.manifest)
+        provenance = {"command": "static-dashboard", "source": "portfolio_manifest", "manifest": args.manifest}
+    else:
+        data = load_demo_outputs(Path(args.input_dir))
+        provenance = {"command": "static-dashboard", "source": "demo_outputs", "input_dir": args.input_dir}
+    text = dashboard_html(data, args.title, provenance)
+    return emit(text, args.output)
+
+
 def command_demo_bundle(args: argparse.Namespace) -> int:
     root = Path(args.output_dir)
     examples = Path("examples/fixtures")
@@ -134,6 +215,44 @@ def command_demo_bundle(args: argparse.Namespace) -> int:
         write_text(root / "portfolio_exposure.json", to_json(result))
         write_text(root / "portfolio_exposure.md", exposure_markdown(result))
     write_text(root / "checklist.md", checklist_markdown("risk-review"))
+    command_pretrade_plan(
+        argparse.Namespace(
+            product=str(examples / "leveraged_nasdaq_3x.json"),
+            path=str(examples / "nasdaq_chop_path.csv"),
+            thesis_file=str(examples / "thesis_note.md"),
+            thesis_text=None,
+            max_loss_budget=750.0,
+            initial_nav=100.0,
+            stop_loss=0.15,
+            take_profit=0.20,
+            checklist_profile="risk-review",
+            format="json",
+            output=str(root / "pretrade_plan.json"),
+        )
+    )
+    command_pretrade_plan(
+        argparse.Namespace(
+            product=str(examples / "leveraged_nasdaq_3x.json"),
+            path=str(examples / "nasdaq_chop_path.csv"),
+            thesis_file=str(examples / "thesis_note.md"),
+            thesis_text=None,
+            max_loss_budget=750.0,
+            initial_nav=100.0,
+            stop_loss=0.15,
+            take_profit=0.20,
+            checklist_profile="risk-review",
+            format="markdown",
+            output=str(root / "pretrade_plan.md"),
+        )
+    )
+    command_static_dashboard(
+        argparse.Namespace(
+            input_dir=None,
+            manifest=str(manifest),
+            title="Leveraged ETP Risk Dashboard",
+            output=str(root / "dashboard.html"),
+        )
+    )
     sys.stdout.write(f"wrote demo bundle to {root}\n")
     return 0
 
@@ -152,3 +271,12 @@ def emit(text: str, output: Optional[str]) -> int:
     else:
         sys.stdout.write(text)
     return 0
+
+
+def _load_thesis(thesis_file: Optional[str], thesis_text: Optional[str]) -> str:
+    parts = []
+    if thesis_file:
+        parts.append(Path(thesis_file).read_text(encoding="utf-8").strip())
+    if thesis_text:
+        parts.append(thesis_text.strip())
+    return "\n\n".join(part for part in parts if part)

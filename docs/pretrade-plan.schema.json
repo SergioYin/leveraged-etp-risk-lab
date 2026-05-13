@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Leveraged ETP Risk Lab Pretrade Plan Packet",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "document_type",
+    "not_investment_advice",
+    "product",
+    "scenario",
+    "risk_bands",
+    "budget",
+    "thesis",
+    "assumptions",
+    "checklist",
+    "warnings",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {"const": "0.3"},
+    "document_type": {"const": "pretrade_plan"},
+    "not_investment_advice": {"type": "string"},
+    "product": {"type": "object"},
+    "scenario": {"type": "object"},
+    "risk_bands": {"type": "object"},
+    "budget": {
+      "type": "object",
+      "required": ["max_loss_budget", "currency"],
+      "properties": {
+        "max_loss_budget": {"type": "number", "exclusiveMinimum": 0},
+        "currency": {"type": "string"}
+      }
+    },
+    "thesis": {"type": "string"},
+    "assumptions": {"type": "array", "items": {"type": "string"}},
+    "checklist": {"type": "object"},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "provenance": {"type": "object"}
+  }
+}

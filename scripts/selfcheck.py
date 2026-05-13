@@ -47,7 +47,12 @@ def check_required_files() -> List[str]:
         "examples/fixtures/leveraged_nasdaq_3x.json",
         "examples/fixtures/single_stock_2x.json",
         "examples/fixtures/portfolio_manifest.json",
+        "examples/fixtures/thesis_note.md",
+        "examples/outputs/pretrade_plan.json",
+        "examples/outputs/pretrade_plan.md",
+        "examples/outputs/dashboard.html",
         "docs/schema.md",
+        "docs/pretrade-plan.schema.json",
         "scripts/selfcheck.py",
         "skills/agent/leveraged-etp-risk-lab/SKILL.md",
     ]
@@ -95,7 +100,7 @@ def check_no_runtime_dependencies() -> List[str]:
                 imported.update(alias.name.split(".")[0] for alias in node.names)
             elif isinstance(node, ast.ImportFrom) and node.module and node.level == 0:
                 imported.add(node.module.split(".")[0])
-    allowed = {"__future__", "argparse", "csv", "dataclasses", "json", "pathlib", "subprocess", "sys", "typing"}
+    allowed = {"__future__", "argparse", "csv", "dataclasses", "html", "json", "pathlib", "subprocess", "sys", "typing"}
     extras = sorted(name for name in imported if name not in allowed and name != "leveraged_etp_risk_lab")
     return [f"unexpected runtime import: {name}" for name in extras]
 
@@ -126,6 +131,20 @@ def check_cli_smoke() -> List[str]:
             "--manifest",
             "examples/fixtures/portfolio_manifest.json",
         ],
+        [
+            sys.executable,
+            "-m",
+            "leveraged_etp_risk_lab",
+            "pretrade-plan",
+            "--product",
+            "examples/fixtures/leveraged_nasdaq_3x.json",
+            "--path",
+            "examples/fixtures/nasdaq_chop_path.csv",
+            "--thesis-file",
+            "examples/fixtures/thesis_note.md",
+            "--max-loss-budget",
+            "750",
+        ],
     ]
     failures = []
     for command in commands:
@@ -154,6 +173,25 @@ def check_cli_smoke() -> List[str]:
         )
         if result.returncode:
             failures.append(f"generate-scenario smoke failed:\n{result.stderr}")
+        result = subprocess.run(
+            [
+                sys.executable,
+                "-m",
+                "leveraged_etp_risk_lab",
+                "static-dashboard",
+                "--manifest",
+                "examples/fixtures/portfolio_manifest.json",
+                "--output",
+                str(Path(tmp) / "dashboard.html"),
+            ],
+            cwd=ROOT,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            check=False,
+        )
+        if result.returncode:
+            failures.append(f"static-dashboard smoke failed:\n{result.stderr}")
     return failures
 
 

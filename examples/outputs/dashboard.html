@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leveraged ETP Risk Dashboard</title>
+<style>
+body{margin:0;font-family:Arial,Helvetica,sans-serif;color:#182026;background:#f6f7f4;line-height:1.45}
+header{background:#15332f;color:#fff;padding:28px 32px}
+main{max-width:1120px;margin:0 auto;padding:28px 20px 44px}
+h1,h2{margin:0 0 12px} h1{font-size:30px} h2{font-size:20px;margin-top:28px}
+.meta{color:#d7e7df}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+.card{background:#fff;border:1px solid #d7ddd6;border-radius:8px;padding:14px}
+.label{font-size:12px;color:#5d6a66;text-transform:uppercase}.value{font-size:23px;font-weight:700;margin-top:6px}
+table{width:100%;border-collapse:collapse;background:#fff;border:1px solid #d7ddd6;border-radius:8px;overflow:hidden}
+th,td{text-align:left;padding:10px;border-bottom:1px solid #e6eae5;font-size:14px}th{background:#e8eee8}
+.warn{background:#fff4d6;border-left:4px solid #b57900;padding:10px 12px;margin:8px 0}
+.provenance{background:#fff;border:1px solid #d7ddd6;border-radius:8px;padding:14px}
+</style>
+</head>
+<body>
+<header>
+<h1>Leveraged ETP Risk Dashboard</h1>
+<div class="meta">Generic Leveraged ETP Portfolio · USD · No JavaScript</div>
+</header>
+<main>
+<section class="cards">
+<div class="card"><div class="label">Starting Value</div><div class="value">10000.0</div></div><div class="card"><div class="label">Ending Value</div><div class="value">9446.34026</div></div><div class="card"><div class="label">Return</div><div class="value">-5.5366%</div></div><div class="card"><div class="label">Weighted Exposure</div><div class="value">2.6x</div></div><div class="card"><div class="label">Worst Drawdown</div><div class="value">-8.6896%</div></div>
+</section>
+<h2>Positions</h2>
+<table><thead><tr><th>ID</th><th>Ticker</th><th>Product</th><th>Notional</th><th>Leverage</th><th>Ending Value</th><th>Return</th><th>Stop</th><th>Take</th></tr></thead><tbody><tr><td>nasdaq_tactical</td><td>NDAQ3X</td><td>Generic 3x Nasdaq Daily Reset ETP</td><td>6000.0</td><td>3.0x</td><td>6036.5277</td><td>0.6088%</td><td>15.0%</td><td>20.0%</td></tr><tr><td>single_stock_satellite</td><td>STK2X</td><td>Generic 2x Single-Stock Daily Reset ETP</td><td>4000.0</td><td>2.0x</td><td>3409.81256</td><td>-14.7547%</td><td>20.0%</td><td>30.0%</td></tr></tbody></table>
+<h2>Band Events</h2>
+<div class="warn">single_stock_satellite day 2: stop_loss at NAV 77.679941</div>
+<h2>Warnings</h2>
+<div class="warn">Portfolio aggregation is scenario-based and does not model tax, borrow, spread, liquidity, or intraday stop execution.</div><div class="warn">Weighted exposure uses starting notional weights and product daily leverage factors.</div><div class="warn">Daily reset leverage means multi-day returns can differ materially from the underlying return times leverage.</div><div class="warn">Scenario output is not investment advice and does not predict future returns.</div><div class="warn">Large daily moves can compound quickly and may create losses larger than a simple one-day estimate.</div><div class="warn">Fee drag is approximated as a constant daily deduction from the leveraged daily return.</div>
+<h2>Command Provenance</h2>
+<div class="provenance">
+<p><strong>command:</strong> static-dashboard</p><p><strong>manifest:</strong> examples/fixtures/portfolio_manifest.json</p><p><strong>source:</strong> portfolio_manifest</p>
+</div>
+</main>
+</body>
+</html>

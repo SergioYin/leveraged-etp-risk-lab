@@ -38,6 +38,19 @@ python -m leveraged_etp_risk_lab exposure-report \
   --manifest examples/fixtures/portfolio_manifest.json \
   --format markdown
 
+python -m leveraged_etp_risk_lab pretrade-plan \
+  --product examples/fixtures/leveraged_nasdaq_3x.json \
+  --path examples/fixtures/nasdaq_chop_path.csv \
+  --thesis-file examples/fixtures/thesis_note.md \
+  --max-loss-budget 750 \
+  --stop-loss 0.15 \
+  --take-profit 0.20 \
+  --format markdown
+
+python -m leveraged_etp_risk_lab static-dashboard \
+  --manifest examples/fixtures/portfolio_manifest.json \
+  --output examples/outputs/dashboard.html
+
 python -m leveraged_etp_risk_lab checklist --profile active-trader
 python -m leveraged_etp_risk_lab demo-bundle --output-dir demo-output
 python -m leveraged_etp_risk_lab selfcheck
@@ -53,8 +66,13 @@ Fixtures are in `examples/fixtures/`:
 - `nasdaq_chop_path.csv`: alternating up/down path that shows volatility decay.
 - `single_stock_gap_path.csv`: path with a gap and partial recovery.
 - `portfolio_manifest.json`: two-position portfolio fixture for exposure aggregation.
+- `thesis_note.md`: generic thesis note fixture for pretrade plan examples.
 
 Generated path kinds are `trend`, `chop`, `crash`, and `rebound`. They are deterministic and use the same `day,label,underlying_return` CSV shape as checked-in path fixtures.
+
+The `pretrade-plan` command combines product terms, a scenario path, optional thesis text, stop/take bands, a user-supplied maximum loss budget, assumptions, warnings, and a checklist into a Markdown or JSON decision packet. It always includes explicit not-investment-advice language.
+
+The `static-dashboard` command writes a self-contained no-JavaScript HTML dashboard from either a portfolio manifest or demo output JSON files. It includes summary cards, positions, warnings, band events, and command provenance.
 
 Deterministic sample outputs can be regenerated with:
 
@@ -71,6 +89,7 @@ Schema notes live in `docs/schema.md`. Machine-readable draft schemas are provid
 - `docs/portfolio-manifest.schema.json`
 - `docs/simulation-output.schema.json`
 - `docs/exposure-report.schema.json`
+- `docs/pretrade-plan.schema.json`
 
 ## Roadmap
 

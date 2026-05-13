@@ -48,12 +48,58 @@ def check_required_files() -> List[str]:
         "examples/fixtures/single_stock_2x.json",
         "examples/fixtures/portfolio_manifest.json",
         "examples/fixtures/thesis_note.md",
+        "examples/fixtures/factsheet_note.txt",
         "examples/outputs/pretrade_plan.json",
         "examples/outputs/pretrade_plan.md",
+        "examples/outputs/position_size.json",
+        "examples/outputs/position_size.md",
+        "examples/outputs/stress_matrix.json",
+        "examples/outputs/stress_matrix.md",
+        "examples/outputs/compare_runs.json",
+        "examples/outputs/compare_runs.md",
+        "examples/outputs/run_ledger.jsonl",
+        "examples/outputs/thesis_impact.json",
+        "examples/outputs/thesis_impact.md",
+        "examples/outputs/watchlist.json",
+        "examples/outputs/watchlist.md",
+        "examples/outputs/factsheet_check.json",
+        "examples/outputs/factsheet_check.md",
+        "examples/outputs/demo_story.json",
+        "examples/outputs/demo_story.md",
+        "examples/outputs/package_audit.json",
+        "examples/outputs/package_audit.md",
+        "examples/outputs/glossary.json",
+        "examples/outputs/glossary.md",
+        "examples/outputs/gallery_index.json",
+        "examples/outputs/gallery_index.md",
         "examples/outputs/dashboard.html",
+        "examples/outputs/template_gallery.json",
+        "examples/outputs/template_gallery.md",
+        "examples/outputs/regime_gallery.json",
+        "examples/outputs/regime_gallery.md",
+        "examples/outputs/regime_trend_up.csv",
+        "examples/outputs/regime_trend_down.csv",
+        "examples/outputs/regime_chop.csv",
+        "examples/outputs/regime_gap_down.csv",
+        "examples/outputs/regime_rebound.csv",
+        "examples/outputs/regime_volatility_cluster.csv",
         "docs/schema.md",
         "docs/pretrade-plan.schema.json",
+        "docs/position-size.schema.json",
+        "docs/stress-matrix.schema.json",
+        "docs/template-gallery.schema.json",
+        "docs/regime-gallery.schema.json",
+        "docs/compare-runs.schema.json",
+        "docs/run-ledger.schema.json",
+        "docs/thesis-impact.schema.json",
+        "docs/watchlist.schema.json",
+        "docs/factsheet-check.schema.json",
+        "docs/package-audit.schema.json",
+        "docs/glossary.schema.json",
+        "docs/demo-story.schema.json",
+        "docs/gallery-index.schema.json",
         "scripts/selfcheck.py",
+        "scripts/sync_local_skill.py",
         "skills/agent/leveraged-etp-risk-lab/SKILL.md",
     ]
     return [f"missing required file: {path}" for path in required if not (ROOT / path).exists()]
@@ -100,7 +146,7 @@ def check_no_runtime_dependencies() -> List[str]:
                 imported.update(alias.name.split(".")[0] for alias in node.names)
             elif isinstance(node, ast.ImportFrom) and node.module and node.level == 0:
                 imported.add(node.module.split(".")[0])
-    allowed = {"__future__", "argparse", "csv", "dataclasses", "html", "json", "pathlib", "subprocess", "sys", "typing"}
+    allowed = {"__future__", "argparse", "csv", "dataclasses", "hashlib", "html", "json", "pathlib", "re", "subprocess", "sys", "typing"}
     extras = sorted(name for name in imported if name not in allowed and name != "leveraged_etp_risk_lab")
     return [f"unexpected runtime import: {name}" for name in extras]
 
@@ -144,6 +190,79 @@ def check_cli_smoke() -> List[str]:
             "examples/fixtures/thesis_note.md",
             "--max-loss-budget",
             "750",
+        ],
+        [
+            sys.executable,
+            "-m",
+            "leveraged_etp_risk_lab",
+            "compare-runs",
+            "--base",
+            "examples/outputs/leveraged_nasdaq_3x.json",
+            "--candidate",
+            "examples/outputs/single_stock_2x.json",
+        ],
+        [
+            sys.executable,
+            "-m",
+            "leveraged_etp_risk_lab",
+            "position-size",
+            "--pretrade-plan",
+            "examples/outputs/pretrade_plan.json",
+            "--account-value",
+            "50000",
+            "--max-loss-budget",
+            "750",
+        ],
+        [
+            sys.executable,
+            "-m",
+            "leveraged_etp_risk_lab",
+            "thesis-impact",
+            "--thesis-file",
+            "examples/fixtures/thesis_note.md",
+            "--artifact",
+            "examples/outputs/pretrade_plan.json",
+            "--artifact",
+            "examples/outputs/portfolio_exposure.json",
+        ],
+        [
+            sys.executable,
+            "-m",
+            "leveraged_etp_risk_lab",
+            "stress-matrix",
+            "--product",
+            "examples/fixtures/leveraged_nasdaq_3x.json",
+            "--regime",
+            "trend_down",
+            "--stop-loss",
+            "0.15",
+        ],
+        [
+            sys.executable,
+            "-m",
+            "leveraged_etp_risk_lab",
+            "watchlist-build",
+            "--thesis-impact",
+            "examples/outputs/thesis_impact.json",
+            "--stress-matrix",
+            "examples/outputs/stress_matrix.json",
+        ],
+        [sys.executable, "-m", "leveraged_etp_risk_lab", "template-list"],
+        [sys.executable, "-m", "leveraged_etp_risk_lab", "regime-list"],
+        [sys.executable, "-m", "leveraged_etp_risk_lab", "demo-story", "--input-dir", "examples/outputs"],
+        [sys.executable, "-m", "leveraged_etp_risk_lab", "gallery-index", "--input-dir", "examples/outputs"],
+        [sys.executable, "-m", "leveraged_etp_risk_lab", "package-audit"],
+        [sys.executable, "-m", "leveraged_etp_risk_lab", "glossary-list"],
+        [sys.executable, "-m", "leveraged_etp_risk_lab", "explain-term", "daily_reset"],
+        [
+            sys.executable,
+            "-m",
+            "leveraged_etp_risk_lab",
+            "factsheet-check",
+            "--product",
+            "examples/fixtures/leveraged_nasdaq_3x.json",
+            "--factsheet-file",
+            "examples/fixtures/factsheet_note.txt",
         ],
     ]
     failures = []
@@ -192,6 +311,82 @@ def check_cli_smoke() -> List[str]:
         )
         if result.returncode:
             failures.append(f"static-dashboard smoke failed:\n{result.stderr}")
+        result = subprocess.run(
+            [
+                sys.executable,
+                "-m",
+                "leveraged_etp_risk_lab",
+                "template-export",
+                "--template",
+                "generic-2x-single-stock",
+                "--output",
+                str(Path(tmp) / "single_stock_template.json"),
+            ],
+            cwd=ROOT,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            check=False,
+        )
+        if result.returncode:
+            failures.append(f"template-export smoke failed:\n{result.stderr}")
+        result = subprocess.run(
+            [
+                sys.executable,
+                "-m",
+                "leveraged_etp_risk_lab",
+                "regime-export",
+                "--regime",
+                "volatility_cluster",
+                "--days",
+                "4",
+                "--output",
+                str(Path(tmp) / "volatility_cluster.csv"),
+            ],
+            cwd=ROOT,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            check=False,
+        )
+        if result.returncode:
+            failures.append(f"regime-export smoke failed:\n{result.stderr}")
+        result = subprocess.run(
+            [
+                sys.executable,
+                "-m",
+                "leveraged_etp_risk_lab",
+                "run-ledger",
+                "--ledger",
+                str(Path(tmp) / "ledger.jsonl"),
+                "--artifact",
+                "examples/outputs/leveraged_nasdaq_3x.json",
+            ],
+            cwd=ROOT,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            check=False,
+        )
+        if result.returncode:
+            failures.append(f"run-ledger smoke failed:\n{result.stderr}")
+        result = subprocess.run(
+            [
+                sys.executable,
+                "scripts/sync_local_skill.py",
+                "--target-dir",
+                str(Path(tmp) / "local-skill"),
+            ],
+            cwd=ROOT,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            check=False,
+        )
+        if result.returncode:
+            failures.append(f"sync-local-skill smoke failed:\n{result.stderr}")
+        elif not (Path(tmp) / "local-skill" / "SKILL.md").exists():
+            failures.append("sync-local-skill smoke did not write SKILL.md")
     return failures
 
 

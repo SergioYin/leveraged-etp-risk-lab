@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Leveraged ETP run ledger entry",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "document_type",
+    "artifact_name",
+    "artifact_type",
+    "artifact_schema_version",
+    "bytes",
+    "sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": "0.5"},
+    "document_type": {"const": "run_ledger_entry"},
+    "artifact_name": {"type": "string"},
+    "artifact_type": {"type": "string"},
+    "artifact_schema_version": {"type": ["string", "null"]},
+    "bytes": {"type": "integer", "minimum": 0},
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}

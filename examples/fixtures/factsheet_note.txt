@@ -1,0 +1,9 @@
+Issuer: Generic Education Issuer.
+Exchange: Example Exchange.
+The product seeks a daily objective of 3x the Nasdaq-100 reference index before fees and expenses.
+Daily reset wording: exposure resets daily and multi-day returns can differ from a simple multiple.
+Fee: annual management fee is shown in the product JSON.
+Currency: USD.
+Liquidity/spread placeholder: verify current bid-ask spread, depth, and average daily volume before use.
+iNAV: review the public intraday indicative value field or ticker before use.
+Premium/discount: review issuer premium/discount history before use.

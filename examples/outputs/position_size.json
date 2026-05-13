@@ -1,0 +1,63 @@
+{
+  "checklist": [
+    "Confirm account value and loss budget before using the notional figure.",
+    "Convert notional to shares with the intended execution price outside this model.",
+    "Check liquidity, spreads, trading halts, and gap risk before relying on a stop.",
+    "Compare exposure multiple with portfolio concentration and leverage limits.",
+    "Record that this output is for scenario planning and is not investment advice."
+  ],
+  "document_type": "position_size_plan",
+  "inputs": {
+    "account_value": 50000.0,
+    "currency": "USD",
+    "loss_basis": "stop_loss",
+    "max_loss_budget": 750.0,
+    "risk_budget_pct": 1.5,
+    "stop_loss_pct": 15.0
+  },
+  "not_investment_advice": "This position sizing planner is for scenario planning and education only. It is not investment advice, a recommendation, or a suitability determination.",
+  "product": {
+    "annual_fee_pct": 0.95,
+    "currency": "USD",
+    "leverage": 3.0,
+    "name": "Generic 3x Nasdaq Daily Reset ETP",
+    "reset_frequency": "daily",
+    "ticker": "NDAQ3X",
+    "underlying": "Nasdaq-100 reference index"
+  },
+  "provenance": {
+    "account_value": 50000.0,
+    "command": "position-size",
+    "max_loss_budget": null,
+    "path": "examples/fixtures/nasdaq_chop_path.csv",
+    "product": "examples/fixtures/leveraged_nasdaq_3x.json",
+    "risk_budget_pct": 0.015,
+    "source": "product_path",
+    "stop_loss": 0.15
+  },
+  "recommendation": {
+    "exposure_multiple": 0.3,
+    "max_shares": null,
+    "max_shares_placeholder": "Divide recommended_notional by the intended execution price; no live price is modeled.",
+    "modeled_loss_at_stop": 750.0,
+    "modeled_loss_pct_of_account": 1.5,
+    "recommended_notional": 5000.0
+  },
+  "scenario": {
+    "days": 6,
+    "ending_etp_nav": 100.608795,
+    "etp_return_pct": 0.6088,
+    "path_decay_vs_simple_multiple": -0.602755,
+    "underlying_return_pct": 0.4038
+  },
+  "schema_version": "0.8",
+  "warnings": [
+    "Daily reset leverage means multi-day returns can differ materially from the underlying return times leverage.",
+    "Scenario output is not investment advice and does not predict future returns.",
+    "Large daily moves can compound quickly and may create losses larger than a simple one-day estimate.",
+    "Fee drag is approximated as a constant daily deduction from the leveraged daily return.",
+    "Recommended notional is a deterministic planning output, not a trade recommendation.",
+    "Share count is a placeholder because no live or execution price is modeled.",
+    "Stop-loss levels are planning inputs and do not guarantee execution at the modeled loss."
+  ]
+}

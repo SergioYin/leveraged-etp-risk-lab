@@ -1,0 +1,128 @@
+{
+  "checks": [
+    {
+      "evidence": {
+        "source": "factsheet_text",
+        "value": "Generic Education Issuer."
+      },
+      "field": "issuer",
+      "label": "Issuer",
+      "message": "Issuer mentioned in factsheet text.",
+      "status": "pass"
+    },
+    {
+      "evidence": {
+        "source": "factsheet_text",
+        "value": "Example Exchange."
+      },
+      "field": "exchange",
+      "label": "Exchange",
+      "message": "Exchange mentioned in factsheet text.",
+      "status": "pass"
+    },
+    {
+      "evidence": {
+        "source": "product_json",
+        "value": "Nasdaq-100 reference index"
+      },
+      "field": "underlying",
+      "label": "Underlying",
+      "message": "Underlying found in product JSON.",
+      "status": "pass"
+    },
+    {
+      "evidence": {
+        "source": "product_json",
+        "value": 3
+      },
+      "field": "leverage_factor",
+      "label": "Leverage factor",
+      "message": "Leverage factor found in product JSON.",
+      "status": "pass"
+    },
+    {
+      "evidence": {
+        "source": "product_json",
+        "value": "reset_frequency=daily"
+      },
+      "field": "daily_reset",
+      "label": "Daily reset wording",
+      "message": "Product reset frequency is daily.",
+      "status": "pass"
+    },
+    {
+      "evidence": {
+        "source": "product_json",
+        "value": 0.0095
+      },
+      "field": "fee",
+      "label": "Fee",
+      "message": "Fee found in product JSON.",
+      "status": "pass"
+    },
+    {
+      "evidence": {
+        "source": "product_json",
+        "value": "USD"
+      },
+      "field": "currency",
+      "label": "Currency",
+      "message": "Currency found in product JSON.",
+      "status": "pass"
+    },
+    {
+      "evidence": {
+        "source": "factsheet_text",
+        "value": "placeholder: verify current liquidity and bid-ask spread before use"
+      },
+      "field": "liquidity_spread",
+      "label": "Liquidity/spread placeholder",
+      "message": "Factsheet text includes liquidity or spread language, but no live market data is fetched.",
+      "status": "review"
+    },
+    {
+      "evidence": {
+        "source": "factsheet_text",
+        "value": "review the public intraday indicative value field or ticker before use."
+      },
+      "field": "inav",
+      "label": "iNAV field",
+      "message": "iNAV field mentioned in factsheet text.",
+      "status": "pass"
+    },
+    {
+      "evidence": {
+        "source": "factsheet_text",
+        "value": "review issuer premium/discount history before use."
+      },
+      "field": "premium_discount",
+      "label": "Premium/discount field",
+      "message": "Premium/discount field mentioned in factsheet text.",
+      "status": "pass"
+    }
+  ],
+  "document_type": "factsheet_check",
+  "inputs": {
+    "factsheet_file": "examples/fixtures/factsheet_note.txt",
+    "product": "examples/fixtures/leveraged_nasdaq_3x.json"
+  },
+  "missing_fields": [],
+  "not_investment_advice": "This factsheet checklist is for educational product-term review only. It is not investment advice, a recommendation, or a suitability determination.",
+  "product": {
+    "name": "Generic 3x Nasdaq Daily Reset ETP",
+    "ticker": "NDAQ3X"
+  },
+  "provenance": {
+    "command": "factsheet-check",
+    "factsheet_file": "examples/fixtures/factsheet_note.txt",
+    "product": "examples/fixtures/leveraged_nasdaq_3x.json"
+  },
+  "schema_version": "0.15",
+  "summary": {
+    "checks": 10,
+    "missing": 0,
+    "passed": 9,
+    "ready_for_review": true,
+    "review": 1
+  }
+}

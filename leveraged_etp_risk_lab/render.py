@@ -5,6 +5,8 @@ import json
 from pathlib import Path
 from typing import Any, Dict, Iterable, List
 
+DEMO_STORY_SCHEMA_VERSION = "0.12"
+
 
 def to_json(data: Dict[str, Any]) -> str:
     return json.dumps(data, indent=2, sort_keys=True) + "\n"
@@ -177,6 +179,106 @@ def pretrade_plan_markdown(data: Dict[str, Any]) -> str:
     return "\n".join(lines) + "\n"
 
 
+def position_size_markdown(data: Dict[str, Any]) -> str:
+    product = data["product"]
+    inputs = data["inputs"]
+    recommendation = data["recommendation"]
+    scenario = data["scenario"]
+    lines: List[str] = [
+        f"# Position Size Plan: {product['ticker']}",
+        "",
+        f"**Not investment advice:** {data['not_investment_advice']}",
+        "",
+        "## Product",
+        "",
+        f"- Product: {product['name']}",
+        f"- Underlying: {product['underlying']}",
+        f"- Daily leverage: {product['leverage']}x",
+        f"- Currency: {inputs['currency']}",
+        "",
+        "## Budget",
+        "",
+        f"- Account value: {inputs['account_value']} {inputs['currency']}",
+        f"- Maximum loss budget: {inputs['max_loss_budget']} {inputs['currency']}",
+        f"- Risk budget: {inputs['risk_budget_pct']}%",
+        f"- Stop-loss: {_display_pct(inputs['stop_loss_pct'])}",
+        f"- Loss basis: {inputs['loss_basis']}",
+        "",
+        "## Recommendation",
+        "",
+        f"- Recommended notional: {recommendation['recommended_notional']} {inputs['currency']}",
+        "- Max shares: n/a",
+        f"- Max shares placeholder: {recommendation['max_shares_placeholder']}",
+        f"- Modeled loss at stop: {recommendation['modeled_loss_at_stop']} {inputs['currency']}",
+        f"- Modeled loss as account percent: {recommendation['modeled_loss_pct_of_account']}%",
+        f"- Exposure multiple: {recommendation['exposure_multiple']}x",
+        "",
+        "## Scenario",
+        "",
+        f"- Scenario days: {scenario['days']}",
+        f"- Ending ETP NAV: {scenario['ending_etp_nav']}",
+        f"- ETP return: {scenario['etp_return_pct']}%",
+        f"- Underlying return: {scenario['underlying_return_pct']}%",
+        f"- Path decay vs simple multiple: {scenario['path_decay_vs_simple_multiple']}",
+        "",
+        "## Checklist",
+        "",
+    ]
+    lines.extend(f"- [ ] {item}" for item in data["checklist"])
+    lines.extend(["", "## Warnings", ""])
+    lines.extend(f"- {item}" for item in data["warnings"])
+    lines.extend(["", "## Command Provenance", ""])
+    for key in sorted(data["provenance"]):
+        lines.append(f"- {key}: {data['provenance'][key]}")
+    return "\n".join(lines) + "\n"
+
+
+def stress_matrix_markdown(data: Dict[str, Any]) -> str:
+    product = data["product"]
+    inputs = data["inputs"]
+    lines: List[str] = [
+        f"# Stress Matrix: {product['ticker']}",
+        "",
+        f"**Not investment advice:** {data['not_investment_advice']}",
+        "",
+        f"- Product: {product['name']}",
+        f"- Underlying: {product['underlying']}",
+        f"- Daily leverage: {product['leverage']}x",
+        f"- Initial NAV: {inputs['initial_nav']}",
+        f"- Stop-loss: {_display_pct(inputs['stop_loss_pct'])}",
+        f"- Take-profit: {_display_pct(inputs['take_profit_pct'])}",
+        "",
+        "## Matrix",
+        "",
+        _table_with_headers(
+            data["rows"],
+            [
+                "regime",
+                "name",
+                "days",
+                "underlying_return_pct",
+                "return_pct",
+                "path_decay_vs_simple_multiple",
+                "worst_drawdown_pct",
+                "stop_events",
+                "warnings_count",
+            ],
+        ),
+        "",
+        "## Stop Events",
+        "",
+    ]
+    for row in data["rows"]:
+        labels = row["stop_event_labels"] or ["None"]
+        lines.append(f"- {row['regime']}: {', '.join(labels)}")
+    lines.extend(["", "## Warnings", ""])
+    lines.extend(f"- {item}" for item in data["warnings"])
+    lines.extend(["", "## Command Provenance", ""])
+    for key in sorted(data["provenance"]):
+        lines.append(f"- {key}: {data['provenance'][key]}")
+    return "\n".join(lines) + "\n"
+
+
 def checklist_markdown(profile: str) -> str:
     items = checklist_items(profile)
     lines = [f"# Leveraged ETP Risk Checklist: {profile}", ""]
@@ -186,6 +288,305 @@ def checklist_markdown(profile: str) -> str:
 
 def checklist_json(profile: str) -> str:
     return to_json({"schema_version": "0.2", "profile": profile, "items": checklist_items(profile)})
+
+
+def template_gallery_markdown(data: Dict[str, Any]) -> str:
+    lines: List[str] = [
+        "# Product Template Gallery",
+        "",
+        f"- Schema version: {data['schema_version']}",
+        f"- Templates: {len(data['templates'])}",
+        "",
+    ]
+    for template in data["templates"]:
+        lines.extend(
+            [
+                f"## {template['id']}",
+                "",
+                f"- Name: {template['name']}",
+                f"- Ticker: {template['ticker']}",
+                f"- Underlying: {template['underlying']}",
+                f"- Leverage: {template['leverage']}x daily reset",
+                f"- Annual fee: {round(float(template['annual_fee']) * 100.0, 4)}%",
+                f"- Currency: {template['currency']}",
+                "",
+                "### Risk Notes",
+                "",
+            ]
+        )
+        lines.extend(f"- {item}" for item in template["risk_notes"])
+        lines.extend(["", "### Use Cases", ""])
+        lines.extend(f"- {item}" for item in template["use_cases"])
+        lines.append("")
+    return "\n".join(lines) + "\n"
+
+
+def regime_gallery_markdown(data: Dict[str, Any]) -> str:
+    lines: List[str] = [
+        "# Market Regime Gallery",
+        "",
+        f"- Schema version: {data['schema_version']}",
+        f"- Regimes: {len(data['regimes'])}",
+        "",
+    ]
+    for regime in data["regimes"]:
+        lines.extend(
+            [
+                f"## {regime['id']}",
+                "",
+                f"- Name: {regime['name']}",
+                f"- Description: {regime['description']}",
+                f"- Default days: {regime['default_days']}",
+                f"- Tags: {', '.join(regime['tags'])}",
+                "",
+                "### Sample Path",
+                "",
+                _table_with_headers(regime["sample_path"], ["day", "label", "underlying_return"]),
+                "",
+                "### Risk Notes",
+                "",
+            ]
+        )
+        lines.extend(f"- {item}" for item in regime["risk_notes"])
+        lines.extend(["", "### Use Cases", ""])
+        lines.extend(f"- {item}" for item in regime["use_cases"])
+        lines.append("")
+    return "\n".join(lines) + "\n"
+
+
+def glossary_markdown(data: Dict[str, Any]) -> str:
+    lines: List[str] = [
+        "# Leveraged Product Glossary",
+        "",
+        f"**Not investment advice:** {data['not_investment_advice']}",
+        "",
+        f"- Schema version: {data['schema_version']}",
+        f"- Terms: {data['summary']['terms']}",
+        "",
+    ]
+    for term in data["terms"]:
+        lines.extend(
+            [
+                f"## {term['id']}",
+                "",
+                f"- Term: {term['term']}",
+                f"- Plain language: {term['plain_language']}",
+                f"- Why it matters: {term['why_it_matters']}",
+                f"- Example: {term['example']}",
+                f"- Related terms: {', '.join(term['related_terms'])}",
+                "",
+            ]
+        )
+    return "\n".join(lines) + "\n"
+
+
+def glossary_term_markdown(data: Dict[str, Any]) -> str:
+    term = data["term"]
+    lines = [
+        f"# {term['term']}",
+        "",
+        f"**Not investment advice:** {data['not_investment_advice']}",
+        "",
+        f"- Term id: {term['id']}",
+        f"- Plain language: {term['plain_language']}",
+        f"- Why it matters: {term['why_it_matters']}",
+        f"- Example: {term['example']}",
+        f"- Related terms: {', '.join(term['related_terms'])}",
+        "",
+        "## Provenance",
+        "",
+    ]
+    for key in sorted(data["provenance"]):
+        lines.append(f"- {key}: {data['provenance'][key]}")
+    return "\n".join(lines) + "\n"
+
+
+def demo_story_packet(input_dir: Path) -> Dict[str, Any]:
+    artifacts = {
+        "stress_matrix": input_dir / "stress_matrix.json",
+        "watchlist": input_dir / "watchlist.json",
+        "package_audit": input_dir / "package_audit.json",
+        "pretrade_plan": input_dir / "pretrade_plan.json",
+    }
+    data = {name: _load_required_json(path) for name, path in artifacts.items()}
+    _require_document_type(data["stress_matrix"], "stress_matrix", artifacts["stress_matrix"])
+    _require_document_type(data["watchlist"], "watchlist", artifacts["watchlist"])
+    _require_document_type(data["package_audit"], "package_audit", artifacts["package_audit"])
+    _require_document_type(data["pretrade_plan"], "pretrade_plan", artifacts["pretrade_plan"])
+
+    stress = data["stress_matrix"]
+    watchlist = data["watchlist"]
+    audit = data["package_audit"]
+    plan = data["pretrade_plan"]
+    product = plan["product"]
+    scenario = plan["scenario"]
+    worst_row = _lowest_row(stress.get("rows", []), "return_pct")
+    highest_drawdown = _lowest_row(stress.get("rows", []), "worst_drawdown_pct")
+    critical_entries = _entries_by_severity(watchlist, "critical")
+    high_entries = _entries_by_severity(watchlist, "high")
+    audit_summary = audit.get("summary", {})
+    sections = {
+        "problem": (
+            "Daily-reset leveraged ETPs can diverge from a simple leverage multiple over multi-day paths. "
+            "The public demo shows a generic product, deterministic paths, explicit risk bands, and review "
+            "artifacts without using live prices or private context."
+        ),
+        "workflow": [
+            "Start from generic product and path fixtures.",
+            "Build a pretrade plan with thesis text, stop/take bands, a loss budget, and checklist items.",
+            "Run the same product across built-in market regimes with stress-matrix.",
+            "Convert thesis and regime results into a watchlist of review triggers.",
+            "Run package-audit to confirm public sharing hygiene, schemas, examples, and zero dependencies.",
+        ],
+        "commands": [
+            {
+                "name": "pretrade-plan",
+                "command": (
+                    "python -m leveraged_etp_risk_lab pretrade-plan --product "
+                    "examples/fixtures/leveraged_nasdaq_3x.json --path examples/fixtures/nasdaq_chop_path.csv "
+                    "--thesis-file examples/fixtures/thesis_note.md --max-loss-budget 750 "
+                    "--stop-loss 0.15 --take-profit 0.20 --format markdown"
+                ),
+            },
+            {
+                "name": "stress-matrix",
+                "command": (
+                    "python -m leveraged_etp_risk_lab stress-matrix --product "
+                    "examples/fixtures/leveraged_nasdaq_3x.json --stop-loss 0.15 --take-profit 0.20 "
+                    "--format markdown"
+                ),
+            },
+            {
+                "name": "watchlist-build",
+                "command": (
+                    "python -m leveraged_etp_risk_lab watchlist-build --thesis-impact "
+                    "examples/outputs/thesis_impact.json --stress-matrix examples/outputs/stress_matrix.json "
+                    "--format markdown"
+                ),
+            },
+            {
+                "name": "package-audit",
+                "command": "python -m leveraged_etp_risk_lab package-audit --format markdown",
+            },
+            {
+                "name": "demo-story",
+                "command": "python -m leveraged_etp_risk_lab demo-story --input-dir examples/outputs --format markdown",
+            },
+        ],
+        "key_outputs": [
+            {
+                "source": "pretrade_plan.json",
+                "summary": (
+                    f"{product['ticker']} modeled over {scenario['days']} days returns "
+                    f"{scenario['etp_return_pct']}% with path decay {scenario['path_decay_vs_simple_multiple']}."
+                ),
+                "metrics": {
+                    "ticker": product["ticker"],
+                    "leverage": product["leverage"],
+                    "etp_return_pct": scenario["etp_return_pct"],
+                    "underlying_return_pct": scenario["underlying_return_pct"],
+                    "path_decay_vs_simple_multiple": scenario["path_decay_vs_simple_multiple"],
+                    "max_loss_budget": plan["budget"]["max_loss_budget"],
+                },
+            },
+            {
+                "source": "stress_matrix.json",
+                "summary": (
+                    f"{len(stress.get('rows', []))} regimes modeled; weakest return is "
+                    f"{_row_label(worst_row)} at {_row_value(worst_row, 'return_pct')}%."
+                ),
+                "metrics": {
+                    "regimes": len(stress.get("rows", [])),
+                    "weakest_return_regime": _row_label(worst_row),
+                    "weakest_return_pct": _row_value(worst_row, "return_pct"),
+                    "largest_drawdown_regime": _row_label(highest_drawdown),
+                    "largest_drawdown_pct": _row_value(highest_drawdown, "worst_drawdown_pct"),
+                },
+            },
+            {
+                "source": "watchlist.json",
+                "summary": (
+                    f"{watchlist.get('summary', {}).get('entries', 0)} watchlist entries, "
+                    f"{len(critical_entries)} critical and {len(high_entries)} high severity."
+                ),
+                "metrics": {
+                    "entries": watchlist.get("summary", {}).get("entries", 0),
+                    "critical": len(critical_entries),
+                    "high": len(high_entries),
+                    "top_triggers": [entry["title"] for entry in (critical_entries + high_entries)[:3]],
+                },
+            },
+            {
+                "source": "package_audit.json",
+                "summary": (
+                    f"Package audit ready={audit_summary.get('ready')} with "
+                    f"{audit_summary.get('passed', 0)} passed and {audit_summary.get('failed', 0)} failed checks."
+                ),
+                "metrics": {
+                    "ready": audit_summary.get("ready"),
+                    "checks": audit_summary.get("checks"),
+                    "passed": audit_summary.get("passed"),
+                    "failed": audit_summary.get("failed"),
+                    "dependencies": audit.get("package", {}).get("dependencies", []),
+                },
+            },
+        ],
+        "safety_caveats": _unique_text(
+            [
+                plan["not_investment_advice"],
+                "The demo uses deterministic fixtures, not forecasts or live market data.",
+                "Stop-loss and take-profit bands are planning levels, not guaranteed execution prices.",
+                "Position sizing and watchlist severity are review aids, not recommendations.",
+                "The package intentionally avoids workflow files, secrets, live prices, and private context.",
+            ]
+            + [str(item) for item in stress.get("warnings", [])[:2]]
+        ),
+        "next_extension_ideas": [
+            "Add more generic regime paths for rate-shock, overnight-gap, and prolonged-chop cases.",
+            "Add optional user-supplied execution-price columns while keeping the core package dependency-free.",
+            "Add a static public gallery page that links the JSON, Markdown, dashboard, and demo-story artifacts.",
+            "Extend package-audit with schema example coverage checks for each public output type.",
+        ],
+    }
+    return {
+        "schema_version": DEMO_STORY_SCHEMA_VERSION,
+        "document_type": "demo_story",
+        "not_investment_advice": plan["not_investment_advice"],
+        "inputs": {name: _display_path(path) for name, path in artifacts.items()},
+        "sections": sections,
+        "provenance": {"command": "demo-story", "input_dir": _display_path(input_dir)},
+    }
+
+
+def demo_story_markdown(data: Dict[str, Any]) -> str:
+    sections = data["sections"]
+    lines = [
+        "# Public Demo Story",
+        "",
+        f"**Not investment advice:** {data['not_investment_advice']}",
+        "",
+        "## Problem",
+        "",
+        sections["problem"],
+        "",
+        "## Workflow",
+        "",
+    ]
+    lines.extend(f"- {item}" for item in sections["workflow"])
+    lines.extend(["", "## Commands", ""])
+    for item in sections["commands"]:
+        lines.extend([f"### {item['name']}", "", "```bash", item["command"], "```", ""])
+    lines.extend(["## Key Outputs", ""])
+    for item in sections["key_outputs"]:
+        lines.append(f"- **{item['source']}:** {item['summary']}")
+    lines.extend(["", "## Safety Caveats", ""])
+    lines.extend(f"- {item}" for item in sections["safety_caveats"])
+    lines.extend(["", "## Next Extension Ideas", ""])
+    lines.extend(f"- {item}" for item in sections["next_extension_ideas"])
+    lines.extend(["", "## Provenance", ""])
+    for key in sorted(data["provenance"]):
+        lines.append(f"- {key}: {data['provenance'][key]}")
+    return "\n".join(lines) + "\n"
 
 
 def checklist_items(profile: str) -> List[str]:
@@ -213,13 +614,29 @@ def version_report(version: str) -> str:
             "python": ">=3.9",
             "dependencies": [],
             "commands": [
+                "explain-term",
+                "glossary-list",
                 "simulate",
                 "generate-scenario",
                 "exposure-report",
                 "pretrade-plan",
+                "position-size",
+                "stress-matrix",
+                "compare-runs",
+                "run-ledger",
+                "thesis-impact",
+                "watchlist-build",
+                "factsheet-check",
                 "static-dashboard",
+                "template-list",
+                "template-export",
+                "regime-list",
+                "regime-export",
                 "checklist",
                 "demo-bundle",
+                "demo-story",
+                "gallery-index",
+                "package-audit",
                 "selfcheck",
                 "version-report",
             ],
@@ -368,6 +785,46 @@ def load_demo_outputs(input_dir: Path) -> Dict[str, Any]:
         "warnings": [],
         "simulations": simulations,
     }
+
+
+def _load_required_json(path: Path) -> Dict[str, Any]:
+    if not path.exists():
+        raise FileNotFoundError(path)
+    data = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(data, dict):
+        raise ValueError(f"{path} is not a JSON object")
+    return data
+
+
+def _require_document_type(data: Dict[str, Any], expected: str, path: Path) -> None:
+    if data.get("document_type") != expected:
+        raise ValueError(f"{path} must be a {expected} JSON output")
+
+
+def _lowest_row(rows: List[Dict[str, Any]], key: str) -> Dict[str, Any]:
+    numeric = [row for row in rows if isinstance(row.get(key), (int, float))]
+    if not numeric:
+        return {}
+    return min(numeric, key=lambda row: row[key])
+
+
+def _row_label(row: Dict[str, Any]) -> str:
+    return str(row.get("regime") or row.get("name") or "n/a")
+
+
+def _row_value(row: Dict[str, Any], key: str) -> Any:
+    return row.get(key) if row else None
+
+
+def _entries_by_severity(data: Dict[str, Any], severity: str) -> List[Dict[str, Any]]:
+    return [entry for entry in data.get("entries", []) if entry.get("severity") == severity]
+
+
+def _display_path(path: Path) -> str:
+    text = path.as_posix()
+    if text.startswith("/"):
+        return path.name
+    return text
 
 
 def default_pretrade_assumptions() -> List[str]:

@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Package Audit",
+  "type": "object",
+  "required": ["schema_version", "document_type", "package", "summary", "checks", "test_commands"],
+  "properties": {
+    "schema_version": {"const": "0.11"},
+    "document_type": {"const": "package_audit"},
+    "package": {
+      "type": "object",
+      "required": ["name", "version", "dependencies"],
+      "properties": {
+        "name": {"type": "string"},
+        "version": {"type": "string"},
+        "dependencies": {
+          "type": "array",
+          "items": {"type": "string"}
+        }
+      },
+      "additionalProperties": false
+    },
+    "summary": {
+      "type": "object",
+      "required": ["ready", "checks", "passed", "failed"],
+      "properties": {
+        "ready": {"type": "boolean"},
+        "checks": {"type": "integer"},
+        "passed": {"type": "integer"},
+        "failed": {"type": "integer"}
+      },
+      "additionalProperties": false
+    },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "category", "status", "message", "evidence"],
+        "properties": {
+          "id": {"type": "string"},
+          "category": {"type": "string"},
+          "status": {"enum": ["pass", "fail"]},
+          "message": {"type": "string"},
+          "evidence": {"type": "object"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "test_commands": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["command", "status", "returncode"],
+        "properties": {
+          "command": {
+            "type": "array",
+            "items": {"type": "string"}
+          },
+          "status": {"enum": ["not_run", "pass", "fail"]},
+          "returncode": {
+            "anyOf": [
+              {"type": "integer"},
+              {"type": "null"}
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

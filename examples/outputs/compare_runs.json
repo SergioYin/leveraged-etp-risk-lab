@@ -1,0 +1,40 @@
+{
+  "base": {
+    "document_type": "simulation_output",
+    "label": "NDAQ3X",
+    "metrics": {
+      "path_decay_vs_simple_multiple": -0.602755,
+      "return_pct": 0.6088,
+      "weighted_exposure": null
+    },
+    "schema_version": "0.2",
+    "warnings_count": 4
+  },
+  "candidate": {
+    "document_type": "simulation_output",
+    "label": "STK2X",
+    "metrics": {
+      "path_decay_vs_simple_multiple": -0.653442,
+      "return_pct": -14.7547,
+      "weighted_exposure": null
+    },
+    "schema_version": "0.2",
+    "warnings_count": 4
+  },
+  "deltas": {
+    "path_decay_vs_simple_multiple": -0.050687,
+    "return_pct": -15.3635,
+    "warnings": {
+      "added": [],
+      "removed": [],
+      "unchanged_count": 4
+    },
+    "weighted_exposure": null
+  },
+  "document_type": "run_comparison",
+  "inputs": {
+    "base": "examples/outputs/leveraged_nasdaq_3x.json",
+    "candidate": "examples/outputs/single_stock_2x.json"
+  },
+  "schema_version": "0.5"
+}

@@ -1,0 +1,90 @@
+{
+  "document_type": "template_gallery",
+  "schema_version": "0.4",
+  "templates": [
+    {
+      "annual_fee": 0.0095,
+      "currency": "USD",
+      "id": "generic-2x-long-equity",
+      "leverage": 2,
+      "name": "Generic 2x Long Equity Daily Reset ETP",
+      "notes": "Generic educational template, not a listed product.",
+      "reset_frequency": "daily",
+      "risk_notes": [
+        "Daily 2x compounding can diverge from twice the multi-day underlying return.",
+        "Equity drawdowns can compound quickly when exposure is reset each day.",
+        "Fee drag, spreads, liquidity, taxes, and tracking error are not modeled in the product file."
+      ],
+      "ticker": "EQTY2X",
+      "underlying": "Broad equity reference basket",
+      "use_cases": [
+        "Broad-market bullish scenario planning.",
+        "Comparing trend and chop paths before sizing a short holding-period trade.",
+        "Educational examples where a moderate long leverage factor is needed."
+      ]
+    },
+    {
+      "annual_fee": 0.0095,
+      "currency": "USD",
+      "id": "generic-3x-long-index",
+      "leverage": 3,
+      "name": "Generic 3x Long Index Daily Reset ETP",
+      "notes": "Generic educational template, not a listed product.",
+      "reset_frequency": "daily",
+      "risk_notes": [
+        "3x exposure magnifies daily gains and losses and can produce large path-dependent decay.",
+        "A one-day index loss near one third can drive modeled NAV toward zero before safeguards.",
+        "Best modeled with explicit stop-loss and take-profit bands because losses accelerate."
+      ],
+      "ticker": "IDX3X",
+      "underlying": "Large-cap equity index reference",
+      "use_cases": [
+        "High-conviction index trend stress tests.",
+        "Volatility decay demonstrations in alternating up/down paths.",
+        "Portfolio exposure aggregation with a high-beta long position."
+      ]
+    },
+    {
+      "annual_fee": 0.0105,
+      "currency": "USD",
+      "id": "generic--2x-inverse-index",
+      "leverage": -2,
+      "name": "Generic -2x Inverse Index Daily Reset ETP",
+      "notes": "Generic educational template, not a listed product.",
+      "reset_frequency": "daily",
+      "risk_notes": [
+        "Inverse daily reset products can lose value in rising markets and in volatile sideways markets.",
+        "Multi-day inverse returns are path dependent and should not be treated as a simple hedge ratio.",
+        "Short-lived hedging assumptions can fail if the underlying rebounds sharply."
+      ],
+      "ticker": "INV2X",
+      "underlying": "Large-cap equity index reference",
+      "use_cases": [
+        "Generic bearish index scenario planning.",
+        "Hedge-ratio education for daily reset inverse exposure.",
+        "Stress testing rebound risk after a market selloff."
+      ]
+    },
+    {
+      "annual_fee": 0.0115,
+      "currency": "USD",
+      "id": "generic-2x-single-stock",
+      "leverage": 2,
+      "name": "Generic 2x Single-Stock Daily Reset ETP",
+      "notes": "Generic educational template, not a listed product.",
+      "reset_frequency": "daily",
+      "risk_notes": [
+        "Single-stock gaps, earnings, halts, and idiosyncratic news can dominate modeled daily paths.",
+        "2x daily reset exposure can compound losses rapidly when the reference share gaps lower.",
+        "Scenario output does not model issuer call features, liquidity, spreads, taxes, or suitability."
+      ],
+      "ticker": "STK2X",
+      "underlying": "Single-stock reference share",
+      "use_cases": [
+        "Single-name event-risk stress testing.",
+        "Gap-down and partial-recovery path examples.",
+        "Educational comparison against broad-index leveraged products."
+      ]
+    }
+  ]
+}

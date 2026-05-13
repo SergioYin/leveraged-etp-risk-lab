@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Leveraged ETP run comparison output",
+  "type": "object",
+  "required": ["schema_version", "document_type", "inputs", "base", "candidate", "deltas"],
+  "properties": {
+    "schema_version": {"const": "0.5"},
+    "document_type": {"const": "run_comparison"},
+    "inputs": {
+      "type": "object",
+      "required": ["base", "candidate"],
+      "properties": {
+        "base": {"type": "string"},
+        "candidate": {"type": "string"}
+      }
+    },
+    "base": {"$ref": "#/$defs/side"},
+    "candidate": {"$ref": "#/$defs/side"},
+    "deltas": {
+      "type": "object",
+      "required": ["return_pct", "path_decay_vs_simple_multiple", "weighted_exposure", "warnings"],
+      "properties": {
+        "return_pct": {"type": ["number", "null"]},
+        "path_decay_vs_simple_multiple": {"type": ["number", "null"]},
+        "weighted_exposure": {"type": ["number", "null"]},
+        "warnings": {
+          "type": "object",
+          "required": ["added", "removed", "unchanged_count"],
+          "properties": {
+            "added": {"type": "array", "items": {"type": "string"}},
+            "removed": {"type": "array", "items": {"type": "string"}},
+            "unchanged_count": {"type": "integer"}
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "side": {
+      "type": "object",
+      "required": ["document_type", "schema_version", "label", "metrics", "warnings_count"],
+      "properties": {
+        "document_type": {"type": "string"},
+        "schema_version": {"type": ["string", "null"]},
+        "label": {"type": "string"},
+        "metrics": {
+          "type": "object",
+          "required": ["return_pct", "path_decay_vs_simple_multiple", "weighted_exposure"],
+          "properties": {
+            "return_pct": {"type": ["number", "null"]},
+            "path_decay_vs_simple_multiple": {"type": ["number", "null"]},
+            "weighted_exposure": {"type": ["number", "null"]}
+          }
+        },
+        "warnings_count": {"type": "integer"}
+      }
+    }
+  }
+}

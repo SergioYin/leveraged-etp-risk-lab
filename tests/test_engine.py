@@ -1,6 +1,6 @@
 import unittest
 
-from leveraged_etp_risk_lab.engine import exposure_report, generate_scenario, simulate
+from leveraged_etp_risk_lab.engine import exposure_report, generate_scenario, simulate, stress_matrix
 from leveraged_etp_risk_lab.io import load_path, load_portfolio_manifest, load_product
 from leveraged_etp_risk_lab.models import RiskBand, SimulationConfig
 
@@ -41,6 +41,16 @@ class EngineTests(unittest.TestCase):
         self.assertEqual(result["summary"]["weighted_exposure"], 2.6)
         self.assertTrue(result["stop_events"])
         self.assertEqual(result["stop_events"][0]["position_id"], "single_stock_satellite")
+
+    def test_stress_matrix_runs_selected_regimes(self):
+        product = load_product("examples/fixtures/leveraged_nasdaq_3x.json")
+        result = stress_matrix(product, ["trend_down", "chop"], 100.0, RiskBand(stop_loss=0.15), "product.json")
+
+        self.assertEqual(result["schema_version"], "0.9")
+        self.assertEqual(result["document_type"], "stress_matrix")
+        self.assertEqual([row["regime"] for row in result["rows"]], ["trend_down", "chop"])
+        self.assertIn("worst_drawdown_pct", result["rows"][0])
+        self.assertIn("warnings_count", result["rows"][0])
 
 
 if __name__ == "__main__":

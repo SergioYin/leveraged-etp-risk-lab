@@ -1,0 +1,187 @@
+{
+  "action_checklist": [
+    "Record whether the observed artifact metrics support, challenge, or leave the claim unresolved.",
+    "Compare the thesis return expectation with modeled ETP and underlying returns.",
+    "Review path decay versus the simple multiple before relying on multi-day leverage.",
+    "Check aggregate exposure and concentration against portfolio limits.",
+    "Confirm loss budget and stop band are acceptable before entry.",
+    "Complete a liquidity and execution-quality review outside this model.",
+    "Check event risk before treating the scenario as actionable."
+  ],
+  "artifacts": [
+    {
+      "document_type": "pretrade_plan",
+      "label": "NDAQ3X",
+      "metrics": {
+        "path_decay_vs_simple_multiple": -0.602755,
+        "return_pct": 0.6088,
+        "weighted_exposure": null
+      },
+      "path": "examples/outputs/pretrade_plan.json",
+      "schema_version": "0.3",
+      "warnings_count": 6
+    },
+    {
+      "document_type": "run_comparison",
+      "label": "run_comparison",
+      "metrics": {
+        "path_decay_vs_simple_multiple": null,
+        "return_pct": null,
+        "weighted_exposure": null
+      },
+      "path": "examples/outputs/compare_runs.json",
+      "schema_version": "0.5",
+      "warnings_count": 0
+    },
+    {
+      "document_type": "exposure_report",
+      "label": "Generic Leveraged ETP Portfolio",
+      "metrics": {
+        "path_decay_vs_simple_multiple": null,
+        "return_pct": -5.5366,
+        "weighted_exposure": 2.6
+      },
+      "path": "examples/outputs/portfolio_exposure.json",
+      "schema_version": "0.2",
+      "warnings_count": 6
+    }
+  ],
+  "claim_mappings": [
+    {
+      "checklist": [
+        "Record whether the observed artifact metrics support, challenge, or leave the claim unresolved.",
+        "Compare the thesis return expectation with modeled ETP and underlying returns.",
+        "Review path decay versus the simple multiple before relying on multi-day leverage.",
+        "Check aggregate exposure and concentration against portfolio limits."
+      ],
+      "claim": "The modeled trade is a short-horizon tactical scenario for a generic daily-reset leveraged ETP. The thesis assumes the reference index can recover after recent volatility, but recognizes that choppy paths can create decay even when the underlying ends near flat.",
+      "claim_id": "claim_1",
+      "observed_metrics": [
+        {
+          "artifact": "examples/outputs/pretrade_plan.json",
+          "interpretation": "observed return metric",
+          "label": "NDAQ3X",
+          "metric": "return_pct",
+          "value": 0.6088
+        },
+        {
+          "artifact": "examples/outputs/pretrade_plan.json",
+          "interpretation": "shows modeled path decay",
+          "label": "NDAQ3X",
+          "metric": "path_decay_vs_simple_multiple",
+          "value": -0.602755
+        },
+        {
+          "artifact": "examples/outputs/portfolio_exposure.json",
+          "interpretation": "challenges positive-return claim",
+          "label": "Generic Leveraged ETP Portfolio",
+          "metric": "return_pct",
+          "value": -5.5366
+        },
+        {
+          "artifact": "examples/outputs/portfolio_exposure.json",
+          "interpretation": "shows elevated leveraged exposure",
+          "label": "Generic Leveraged ETP Portfolio",
+          "metric": "weighted_exposure",
+          "value": 2.6
+        }
+      ],
+      "status": "challenged",
+      "warnings": [
+        "Daily reset leverage means multi-day returns can differ materially from the underlying return times leverage.",
+        "Scenario output is not investment advice and does not predict future returns.",
+        "Fee drag is approximated as a constant daily deduction from the leveraged daily return.",
+        "Weighted exposure uses starting notional weights and product daily leverage factors."
+      ]
+    },
+    {
+      "checklist": [
+        "Record whether the observed artifact metrics support, challenge, or leave the claim unresolved.",
+        "Confirm loss budget and stop band are acceptable before entry.",
+        "Complete a liquidity and execution-quality review outside this model.",
+        "Check event risk before treating the scenario as actionable."
+      ],
+      "claim": "The plan should be rejected if the loss budget, stop band, liquidity review, or event-risk checklist cannot be accepted before entry.",
+      "claim_id": "claim_2",
+      "observed_metrics": [
+        {
+          "artifact": "examples/outputs/pretrade_plan.json",
+          "interpretation": "observed return metric",
+          "label": "NDAQ3X",
+          "metric": "return_pct",
+          "value": 0.6088
+        },
+        {
+          "artifact": "examples/outputs/pretrade_plan.json",
+          "interpretation": "shows modeled path decay",
+          "label": "NDAQ3X",
+          "metric": "path_decay_vs_simple_multiple",
+          "value": -0.602755
+        },
+        {
+          "artifact": "examples/outputs/portfolio_exposure.json",
+          "interpretation": "confirms downside scenario is present",
+          "label": "Generic Leveraged ETP Portfolio",
+          "metric": "return_pct",
+          "value": -5.5366
+        },
+        {
+          "artifact": "examples/outputs/portfolio_exposure.json",
+          "interpretation": "shows elevated leveraged exposure",
+          "label": "Generic Leveraged ETP Portfolio",
+          "metric": "weighted_exposure",
+          "value": 2.6
+        }
+      ],
+      "status": "needs_review",
+      "warnings": [
+        "Large daily moves can compound quickly and may create losses larger than a simple one-day estimate.",
+        "A pretrade plan does not confirm liquidity, execution quality, tax treatment, or suitability.",
+        "Stop-loss and take-profit bands are planning levels, not guaranteed execution prices.",
+        "Portfolio aggregation is scenario-based and does not model tax, borrow, spread, liquidity, or intraday stop execution."
+      ]
+    }
+  ],
+  "document_type": "thesis_impact",
+  "inputs": {
+    "artifacts": [
+      "examples/outputs/pretrade_plan.json",
+      "examples/outputs/compare_runs.json",
+      "examples/outputs/portfolio_exposure.json"
+    ],
+    "thesis_file": "examples/fixtures/thesis_note.md"
+  },
+  "provenance": {
+    "artifacts": [
+      "examples/outputs/pretrade_plan.json",
+      "examples/outputs/compare_runs.json",
+      "examples/outputs/portfolio_exposure.json"
+    ],
+    "command": "thesis-impact",
+    "thesis_file": "examples/fixtures/thesis_note.md"
+  },
+  "schema_version": "0.6",
+  "thesis": {
+    "claim_count": 2,
+    "claims": [
+      {
+        "id": "claim_1",
+        "text": "The modeled trade is a short-horizon tactical scenario for a generic daily-reset leveraged ETP. The thesis assumes the reference index can recover after recent volatility, but recognizes that choppy paths can create decay even when the underlying ends near flat."
+      },
+      {
+        "id": "claim_2",
+        "text": "The plan should be rejected if the loss budget, stop band, liquidity review, or event-risk checklist cannot be accepted before entry."
+      }
+    ]
+  },
+  "warnings": [
+    "Daily reset leverage means multi-day returns can differ materially from the underlying return times leverage.",
+    "Scenario output is not investment advice and does not predict future returns.",
+    "Large daily moves can compound quickly and may create losses larger than a simple one-day estimate.",
+    "Fee drag is approximated as a constant daily deduction from the leveraged daily return.",
+    "A pretrade plan does not confirm liquidity, execution quality, tax treatment, or suitability.",
+    "Stop-loss and take-profit bands are planning levels, not guaranteed execution prices.",
+    "Portfolio aggregation is scenario-based and does not model tax, borrow, spread, liquidity, or intraday stop execution.",
+    "Weighted exposure uses starting notional weights and product daily leverage factors."
+  ]
+}

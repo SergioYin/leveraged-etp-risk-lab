@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Leveraged ETP Risk Lab Public Demo Story",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "document_type",
+    "not_investment_advice",
+    "inputs",
+    "sections",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {"const": "0.12"},
+    "document_type": {"const": "demo_story"},
+    "not_investment_advice": {"type": "string"},
+    "inputs": {
+      "type": "object",
+      "required": ["stress_matrix", "watchlist", "package_audit", "pretrade_plan"],
+      "properties": {
+        "stress_matrix": {"type": "string"},
+        "watchlist": {"type": "string"},
+        "package_audit": {"type": "string"},
+        "pretrade_plan": {"type": "string"}
+      }
+    },
+    "sections": {
+      "type": "object",
+      "required": [
+        "problem",
+        "workflow",
+        "commands",
+        "key_outputs",
+        "safety_caveats",
+        "next_extension_ideas"
+      ],
+      "properties": {
+        "problem": {"type": "string"},
+        "workflow": {"type": "array", "items": {"type": "string"}},
+        "commands": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "command"],
+            "properties": {
+              "name": {"type": "string"},
+              "command": {"type": "string"}
+            }
+          }
+        },
+        "key_outputs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["source", "summary", "metrics"],
+            "properties": {
+              "source": {"type": "string"},
+              "summary": {"type": "string"},
+              "metrics": {"type": "object"}
+            }
+          }
+        },
+        "safety_caveats": {"type": "array", "items": {"type": "string"}},
+        "next_extension_ideas": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["command", "input_dir"],
+      "properties": {
+        "command": {"const": "demo-story"},
+        "input_dir": {"type": "string"}
+      }
+    }
+  }
+}

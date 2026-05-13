@@ -1,0 +1,347 @@
+{
+  "checks": [
+    {
+      "category": "documentation",
+      "evidence": {
+        "missing": [],
+        "required": [
+          "README.md"
+        ]
+      },
+      "id": "readme",
+      "message": "all required files present",
+      "status": "pass"
+    },
+    {
+      "category": "metadata",
+      "evidence": {
+        "missing": [],
+        "required": [
+          "LICENSE"
+        ]
+      },
+      "id": "license",
+      "message": "all required files present",
+      "status": "pass"
+    },
+    {
+      "category": "schemas",
+      "evidence": {
+        "missing": [],
+        "required": [
+          "docs/product.schema.json",
+          "docs/path.schema.json",
+          "docs/portfolio-manifest.schema.json",
+          "docs/simulation-output.schema.json",
+          "docs/exposure-report.schema.json",
+          "docs/pretrade-plan.schema.json",
+          "docs/position-size.schema.json",
+          "docs/stress-matrix.schema.json",
+          "docs/template-gallery.schema.json",
+          "docs/regime-gallery.schema.json",
+          "docs/compare-runs.schema.json",
+          "docs/run-ledger.schema.json",
+          "docs/thesis-impact.schema.json",
+          "docs/watchlist.schema.json",
+          "docs/factsheet-check.schema.json",
+          "docs/package-audit.schema.json",
+          "docs/glossary.schema.json",
+          "docs/demo-story.schema.json",
+          "docs/gallery-index.schema.json"
+        ]
+      },
+      "id": "schemas",
+      "message": "all required files present",
+      "status": "pass"
+    },
+    {
+      "category": "examples",
+      "evidence": {
+        "missing": [],
+        "required": [
+          "examples/outputs/leveraged_nasdaq_3x.json",
+          "examples/outputs/leveraged_nasdaq_3x.md",
+          "examples/outputs/portfolio_exposure.json",
+          "examples/outputs/portfolio_exposure.md",
+          "examples/outputs/pretrade_plan.json",
+          "examples/outputs/pretrade_plan.md",
+          "examples/outputs/position_size.json",
+          "examples/outputs/position_size.md",
+          "examples/outputs/stress_matrix.json",
+          "examples/outputs/stress_matrix.md",
+          "examples/outputs/compare_runs.json",
+          "examples/outputs/compare_runs.md",
+          "examples/outputs/run_ledger.jsonl",
+          "examples/outputs/thesis_impact.json",
+          "examples/outputs/thesis_impact.md",
+          "examples/outputs/watchlist.json",
+          "examples/outputs/watchlist.md",
+          "examples/outputs/factsheet_check.json",
+          "examples/outputs/factsheet_check.md",
+          "examples/outputs/demo_story.json",
+          "examples/outputs/demo_story.md",
+          "examples/outputs/package_audit.json",
+          "examples/outputs/package_audit.md",
+          "examples/outputs/glossary.json",
+          "examples/outputs/glossary.md",
+          "examples/outputs/gallery_index.json",
+          "examples/outputs/gallery_index.md",
+          "examples/outputs/template_gallery.json",
+          "examples/outputs/template_gallery.md",
+          "examples/outputs/regime_gallery.json",
+          "examples/outputs/regime_gallery.md",
+          "examples/outputs/dashboard.html"
+        ]
+      },
+      "id": "examples",
+      "message": "all required files present",
+      "status": "pass"
+    },
+    {
+      "category": "skills",
+      "evidence": {
+        "missing": [],
+        "required": [
+          "skills/agent/leveraged-etp-risk-lab/SKILL.md"
+        ]
+      },
+      "id": "skill_file",
+      "message": "all required files present",
+      "status": "pass"
+    },
+    {
+      "category": "hygiene",
+      "evidence": {
+        "files": []
+      },
+      "id": "no_workflows",
+      "message": "no workflow files found",
+      "status": "pass"
+    },
+    {
+      "category": "hygiene",
+      "evidence": {
+        "files": [],
+        "truncated": false
+      },
+      "id": "no_private_terms",
+      "message": "no private terms, local paths, or secret-like values found",
+      "status": "pass"
+    },
+    {
+      "category": "metadata",
+      "evidence": {
+        "expected": "dependencies = []"
+      },
+      "id": "zero_dependencies",
+      "message": "runtime dependency list is empty",
+      "status": "pass"
+    },
+    {
+      "category": "metadata",
+      "evidence": {
+        "package_init": "0.15.0",
+        "pyproject": "0.15.0",
+        "runtime": "0.15.0"
+      },
+      "id": "version_consistency",
+      "message": "version fields agree at 0.15.0",
+      "status": "pass"
+    },
+    {
+      "category": "validation",
+      "evidence": {
+        "commands": [
+          {
+            "command": [
+              "python",
+              "-m",
+              "unittest",
+              "discover",
+              "-s",
+              "tests"
+            ],
+            "returncode": null,
+            "status": "not_run"
+          },
+          {
+            "command": [
+              "python",
+              "scripts/selfcheck.py"
+            ],
+            "returncode": null,
+            "status": "not_run"
+          },
+          {
+            "command": [
+              "python",
+              "-m",
+              "leveraged_etp_risk_lab",
+              "package-audit",
+              "--format",
+              "json"
+            ],
+            "returncode": null,
+            "status": "not_run"
+          },
+          {
+            "command": [
+              "python",
+              "-m",
+              "leveraged_etp_risk_lab",
+              "gallery-index",
+              "--format",
+              "json"
+            ],
+            "returncode": null,
+            "status": "not_run"
+          },
+          {
+            "command": [
+              "python",
+              "-m",
+              "leveraged_etp_risk_lab",
+              "glossary-list",
+              "--format",
+              "json"
+            ],
+            "returncode": null,
+            "status": "not_run"
+          },
+          {
+            "command": [
+              "python",
+              "-m",
+              "leveraged_etp_risk_lab",
+              "explain-term",
+              "daily_reset",
+              "--format",
+              "json"
+            ],
+            "returncode": null,
+            "status": "not_run"
+          },
+          {
+            "command": [
+              "python",
+              "-m",
+              "leveraged_etp_risk_lab",
+              "factsheet-check",
+              "--product",
+              "examples/fixtures/leveraged_nasdaq_3x.json",
+              "--factsheet-file",
+              "examples/fixtures/factsheet_note.txt",
+              "--format",
+              "json"
+            ],
+            "returncode": null,
+            "status": "not_run"
+          }
+        ]
+      },
+      "id": "test_commands",
+      "message": "test commands listed",
+      "status": "pass"
+    }
+  ],
+  "document_type": "package_audit",
+  "package": {
+    "dependencies": [],
+    "name": "leveraged-etp-risk-lab",
+    "version": "0.15.0"
+  },
+  "schema_version": "0.11",
+  "summary": {
+    "checks": 10,
+    "failed": 0,
+    "passed": 10,
+    "ready": true
+  },
+  "test_commands": [
+    {
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests"
+      ],
+      "returncode": null,
+      "status": "not_run"
+    },
+    {
+      "command": [
+        "python",
+        "scripts/selfcheck.py"
+      ],
+      "returncode": null,
+      "status": "not_run"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "leveraged_etp_risk_lab",
+        "package-audit",
+        "--format",
+        "json"
+      ],
+      "returncode": null,
+      "status": "not_run"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "leveraged_etp_risk_lab",
+        "gallery-index",
+        "--format",
+        "json"
+      ],
+      "returncode": null,
+      "status": "not_run"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "leveraged_etp_risk_lab",
+        "glossary-list",
+        "--format",
+        "json"
+      ],
+      "returncode": null,
+      "status": "not_run"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "leveraged_etp_risk_lab",
+        "explain-term",
+        "daily_reset",
+        "--format",
+        "json"
+      ],
+      "returncode": null,
+      "status": "not_run"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "leveraged_etp_risk_lab",
+        "factsheet-check",
+        "--product",
+        "examples/fixtures/leveraged_nasdaq_3x.json",
+        "--factsheet-file",
+        "examples/fixtures/factsheet_note.txt",
+        "--format",
+        "json"
+      ],
+      "returncode": null,
+      "status": "not_run"
+    }
+  ]
+}

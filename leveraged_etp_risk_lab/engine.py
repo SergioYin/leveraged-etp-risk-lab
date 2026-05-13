@@ -8,6 +8,8 @@ from .models import PortfolioManifest, ScenarioDay, SimulationConfig
 
 
 TRADING_DAYS = 252
+POSITION_SIZE_SCHEMA_VERSION = "0.8"
+STRESS_MATRIX_SCHEMA_VERSION = "0.9"
 
 
 def pct(value: float) -> float:
@@ -206,6 +208,159 @@ def exposure_report(manifest: PortfolioManifest, manifest_path: str) -> Dict[str
     }
 
 
+def stress_matrix(
+    product: Any,
+    selected_regimes: Optional[List[str]],
+    initial_nav: float,
+    risk_band: RiskBand,
+    product_path: str,
+) -> Dict[str, Any]:
+    from .regimes import get_regime, regime_ids, regime_path
+
+    if initial_nav <= 0:
+        raise ValueError("--initial-nav must be positive")
+    regime_selection = selected_regimes or regime_ids()
+    rows: List[Dict[str, Any]] = []
+    warning_pool: List[str] = []
+    for regime_id in regime_selection:
+        regime = get_regime(regime_id)
+        result = simulate(SimulationConfig(product, regime_path(regime_id), initial_nav, risk_band))
+        warnings = [str(item) for item in result["warnings"]]
+        warning_pool.extend(warnings)
+        band_events = list(result["band_events"])
+        rows.append(
+            {
+                "regime": regime_id,
+                "name": regime["name"],
+                "days": result["inputs"]["days"],
+                "underlying_return_pct": result["summary"]["underlying_return_pct"],
+                "return_pct": result["summary"]["etp_return_pct"],
+                "etp_return_pct": result["summary"]["etp_return_pct"],
+                "path_decay_vs_simple_multiple": result["summary"]["path_decay_vs_simple_multiple"],
+                "worst_drawdown_pct": pct(_nav_worst_drawdown(result["path"], initial_nav)),
+                "stop_events": len(band_events),
+                "stop_event_labels": [_band_event_label(event) for event in band_events],
+                "warnings_count": len(warnings),
+            }
+        )
+    return {
+        "schema_version": STRESS_MATRIX_SCHEMA_VERSION,
+        "document_type": "stress_matrix",
+        "not_investment_advice": (
+            "This stress matrix is for scenario planning and education only. "
+            "It is not investment advice, a recommendation, or a suitability determination."
+        ),
+        "product": {
+            "name": product.name,
+            "ticker": product.ticker,
+            "underlying": product.underlying,
+            "leverage": product.leverage,
+            "annual_fee_pct": pct(product.annual_fee),
+            "currency": product.currency,
+            "reset_frequency": product.reset_frequency,
+        },
+        "inputs": {
+            "product": product_path,
+            "initial_nav": money(initial_nav),
+            "regimes": list(regime_selection),
+            "stop_loss_pct": _optional_pct(risk_band.stop_loss),
+            "take_profit_pct": _optional_pct(risk_band.take_profit),
+        },
+        "rows": rows,
+        "warnings": _unique(warning_pool),
+        "provenance": {
+            "command": "stress-matrix",
+            "product": product_path,
+            "regimes": list(regime_selection),
+            "initial_nav": initial_nav,
+            "stop_loss": risk_band.stop_loss,
+            "take_profit": risk_band.take_profit,
+        },
+    }
+
+
+def position_size_plan(
+    simulation: Dict[str, Any],
+    account_value: float,
+    max_loss_budget: float,
+    stop_loss: Optional[float],
+    source: Dict[str, Any],
+) -> Dict[str, Any]:
+    if account_value <= 0:
+        raise ValueError("--account-value must be positive")
+    if max_loss_budget <= 0:
+        raise ValueError("loss budget must be positive")
+    if max_loss_budget > account_value:
+        raise ValueError("loss budget must not exceed account value")
+
+    effective_stop = stop_loss
+    if effective_stop is None:
+        effective_stop = _pct_to_decimal(simulation.get("inputs", {}).get("stop_loss_pct"))
+    if effective_stop is None:
+        effective_stop = _pct_to_decimal(simulation.get("risk_bands", {}).get("stop_loss_pct"))
+    if effective_stop is not None and not 0 < effective_stop < 1:
+        raise ValueError("--stop-loss must be a decimal between 0 and 1")
+
+    loss_rate, loss_basis = _position_loss_rate(simulation, effective_stop)
+    if loss_rate <= 0:
+        raise ValueError("modeled loss is zero; provide --stop-loss or use a loss-making scenario")
+
+    product = simulation["product"]
+    recommended_notional = max_loss_budget / loss_rate
+    modeled_loss = recommended_notional * loss_rate
+    exposure_multiple = recommended_notional * float(product["leverage"]) / account_value
+    currency = str(product.get("currency", "USD"))
+    return {
+        "schema_version": POSITION_SIZE_SCHEMA_VERSION,
+        "document_type": "position_size_plan",
+        "not_investment_advice": (
+            "This position sizing planner is for scenario planning and education only. "
+            "It is not investment advice, a recommendation, or a suitability determination."
+        ),
+        "product": product,
+        "inputs": {
+            "account_value": money(account_value),
+            "max_loss_budget": money(max_loss_budget),
+            "risk_budget_pct": pct(max_loss_budget / account_value),
+            "stop_loss_pct": _optional_pct(effective_stop),
+            "loss_basis": loss_basis,
+            "currency": currency,
+        },
+        "recommendation": {
+            "recommended_notional": money(recommended_notional),
+            "max_shares": None,
+            "max_shares_placeholder": "Divide recommended_notional by the intended execution price; no live price is modeled.",
+            "modeled_loss_at_stop": money(modeled_loss),
+            "modeled_loss_pct_of_account": pct(modeled_loss / account_value),
+            "exposure_multiple": money(exposure_multiple),
+        },
+        "scenario": _position_scenario_summary(simulation),
+        "checklist": position_size_checklist(loss_basis),
+        "warnings": _unique(
+            list(simulation.get("warnings", []))
+            + [
+                "Recommended notional is a deterministic planning output, not a trade recommendation.",
+                "Share count is a placeholder because no live or execution price is modeled.",
+                "Stop-loss levels are planning inputs and do not guarantee execution at the modeled loss.",
+            ]
+        ),
+        "provenance": source,
+    }
+
+
+def position_size_checklist(loss_basis: str) -> List[str]:
+    items = [
+        "Confirm account value and loss budget before using the notional figure.",
+        "Convert notional to shares with the intended execution price outside this model.",
+        "Check liquidity, spreads, trading halts, and gap risk before relying on a stop.",
+        "Compare exposure multiple with portfolio concentration and leverage limits.",
+        "Record that this output is for scenario planning and is not investment advice.",
+    ]
+    if loss_basis != "stop_loss":
+        items.append("Add an explicit stop-loss if the scenario loss is only a rough sizing proxy.")
+    return items
+
+
 def build_warnings(config: SimulationConfig) -> List[str]:
     product = config.product
     warnings = [
@@ -242,6 +397,23 @@ def _worst_drawdown(portfolio_path: Dict[int, float], starting_value: float) -> 
         if drawdown < worst:
             worst = drawdown
     return worst
+
+
+def _nav_worst_drawdown(path: List[Dict[str, Any]], initial_nav: float) -> float:
+    peak = initial_nav
+    worst = 0.0
+    for row in path:
+        value = float(row["etp_nav"])
+        if value > peak:
+            peak = value
+        drawdown = value / peak - 1
+        if drawdown < worst:
+            worst = drawdown
+    return worst
+
+
+def _band_event_label(event: Dict[str, Any]) -> str:
+    return f"day {event['day']} {event['event']} at NAV {event['nav']}"
 
 
 def _aggregate_position_paths(position_results: List[Dict[str, Any]], starting_value: float) -> Dict[int, float]:
@@ -287,3 +459,49 @@ def _optional_pct(value: Optional[float]) -> Optional[float]:
     if value is None:
         return None
     return pct(value)
+
+
+def _pct_to_decimal(value: Any) -> Optional[float]:
+    if value is None:
+        return None
+    return float(value) / 100.0
+
+
+def _position_loss_rate(simulation: Dict[str, Any], stop_loss: Optional[float]) -> tuple[float, str]:
+    if stop_loss is not None:
+        return stop_loss, "stop_loss"
+    path = simulation.get("path")
+    initial_nav = float(simulation.get("inputs", {}).get("initial_nav", 100.0))
+    if isinstance(path, list) and path:
+        lowest_nav = min(float(row["etp_nav"]) for row in path)
+        return max(0.0, 1 - lowest_nav / initial_nav), "scenario_worst_modeled_nav"
+    scenario = simulation.get("scenario", {})
+    etp_return_pct = scenario.get("etp_return_pct")
+    if etp_return_pct is not None:
+        return max(0.0, -float(etp_return_pct) / 100.0), "pretrade_scenario_return"
+    summary = simulation.get("summary", {})
+    etp_return_pct = summary.get("etp_return_pct")
+    if etp_return_pct is not None:
+        return max(0.0, -float(etp_return_pct) / 100.0), "scenario_return"
+    return 0.0, "unknown"
+
+
+def _position_scenario_summary(simulation: Dict[str, Any]) -> Dict[str, Any]:
+    if "scenario" in simulation:
+        scenario = simulation["scenario"]
+        return {
+            "days": scenario.get("days"),
+            "ending_etp_nav": scenario.get("ending_etp_nav"),
+            "etp_return_pct": scenario.get("etp_return_pct"),
+            "underlying_return_pct": scenario.get("underlying_return_pct"),
+            "path_decay_vs_simple_multiple": scenario.get("path_decay_vs_simple_multiple"),
+        }
+    summary = simulation.get("summary", {})
+    inputs = simulation.get("inputs", {})
+    return {
+        "days": inputs.get("days"),
+        "ending_etp_nav": summary.get("ending_etp_nav"),
+        "etp_return_pct": summary.get("etp_return_pct"),
+        "underlying_return_pct": summary.get("underlying_return_pct"),
+        "path_decay_vs_simple_multiple": summary.get("path_decay_vs_simple_multiple"),
+    }

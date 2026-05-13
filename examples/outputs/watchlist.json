@@ -1,0 +1,380 @@
+{
+  "document_type": "watchlist",
+  "entries": [
+    {
+      "category": "regime_trigger",
+      "id": "regime_gap_down",
+      "metrics": {
+        "path_decay_vs_simple_multiple": 5.694511,
+        "regime": "gap_down",
+        "return_pct": -48.8504,
+        "stop_events": 1,
+        "warnings_count": 4,
+        "worst_drawdown_pct": -52.5497
+      },
+      "next_review_questions": [
+        "Would the thesis still be acceptable under the gap_down regime?",
+        "What pre-defined action follows if this regime starts to resemble the current market path?",
+        "Are modeled stop or take-profit band events acceptable after accounting for execution and gap risk?",
+        "Is the loss budget still valid under this modeled return?"
+      ],
+      "severity": "critical",
+      "source_artifacts": [
+        {
+          "artifact": "examples/outputs/stress_matrix.json",
+          "detail": "stress row gap_down",
+          "document_type": "stress_matrix",
+          "schema_version": "0.9"
+        }
+      ],
+      "status": "triggered",
+      "title": "Gap Down stress trigger",
+      "trigger": "return -48.8504%; worst drawdown -52.5497%; path decay 5.694511; band events: day 1 stop_loss at NAV 74.49623",
+      "warnings": [
+        "4 stress-matrix warning(s) observed for this regime."
+      ]
+    },
+    {
+      "category": "claim",
+      "id": "claim_1",
+      "metrics": [
+        {
+          "artifact": "examples/outputs/pretrade_plan.json",
+          "interpretation": "observed return metric",
+          "metric": "return_pct",
+          "value": 0.6088
+        },
+        {
+          "artifact": "examples/outputs/pretrade_plan.json",
+          "interpretation": "shows modeled path decay",
+          "metric": "path_decay_vs_simple_multiple",
+          "value": -0.602755
+        },
+        {
+          "artifact": "examples/outputs/portfolio_exposure.json",
+          "interpretation": "challenges positive-return claim",
+          "metric": "return_pct",
+          "value": -5.5366
+        },
+        {
+          "artifact": "examples/outputs/portfolio_exposure.json",
+          "interpretation": "shows elevated leveraged exposure",
+          "metric": "weighted_exposure",
+          "value": 2.6
+        }
+      ],
+      "next_review_questions": [
+        "What evidence would change the status of claim_1 from challenged?",
+        "Which observed metrics are most relevant to the claim, and are any expected metrics missing?",
+        "Record whether the observed artifact metrics support, challenge, or leave the claim unresolved.",
+        "Compare the thesis return expectation with modeled ETP and underlying returns.",
+        "Review path decay versus the simple multiple before relying on multi-day leverage.",
+        "Which warning would invalidate the thesis if it appears in live review?"
+      ],
+      "severity": "high",
+      "source_artifacts": [
+        {
+          "artifact": "examples/outputs/thesis_impact.json",
+          "detail": "claim mapping claim_1",
+          "document_type": "thesis_impact",
+          "schema_version": "0.6"
+        },
+        {
+          "artifact": "examples/outputs/pretrade_plan.json",
+          "detail": "return_pct for claim_1",
+          "document_type": "observed_metric_source",
+          "schema_version": null
+        },
+        {
+          "artifact": "examples/outputs/pretrade_plan.json",
+          "detail": "path_decay_vs_simple_multiple for claim_1",
+          "document_type": "observed_metric_source",
+          "schema_version": null
+        },
+        {
+          "artifact": "examples/outputs/portfolio_exposure.json",
+          "detail": "return_pct for claim_1",
+          "document_type": "observed_metric_source",
+          "schema_version": null
+        },
+        {
+          "artifact": "examples/outputs/portfolio_exposure.json",
+          "detail": "weighted_exposure for claim_1",
+          "document_type": "observed_metric_source",
+          "schema_version": null
+        }
+      ],
+      "status": "challenged",
+      "title": "The modeled trade is a short-horizon tactical scenario for a generic daily-re...",
+      "trigger": "The modeled trade is a short-horizon tactical scenario for a generic daily-reset leveraged ETP. The thesis assumes the reference index can recover after recent volatility, but recognizes that choppy paths can create decay even when the underlying ends near flat.",
+      "warnings": [
+        "Daily reset leverage means multi-day returns can differ materially from the underlying return times leverage.",
+        "Scenario output is not investment advice and does not predict future returns.",
+        "Fee drag is approximated as a constant daily deduction from the leveraged daily return.",
+        "Weighted exposure uses starting notional weights and product daily leverage factors."
+      ]
+    },
+    {
+      "category": "regime_trigger",
+      "id": "regime_trend_down",
+      "metrics": {
+        "path_decay_vs_simple_multiple": 1.136554,
+        "regime": "trend_down",
+        "return_pct": -19.8516,
+        "stop_events": 1,
+        "warnings_count": 4,
+        "worst_drawdown_pct": -19.8516
+      },
+      "next_review_questions": [
+        "Would the thesis still be acceptable under the trend_down regime?",
+        "What pre-defined action follows if this regime starts to resemble the current market path?",
+        "Are modeled stop or take-profit band events acceptable after accounting for execution and gap risk?",
+        "Is the loss budget still valid under this modeled return?"
+      ],
+      "severity": "high",
+      "source_artifacts": [
+        {
+          "artifact": "examples/outputs/stress_matrix.json",
+          "detail": "stress row trend_down",
+          "document_type": "stress_matrix",
+          "schema_version": "0.9"
+        }
+      ],
+      "status": "triggered",
+      "title": "Trend Down stress trigger",
+      "trigger": "return -19.8516%; worst drawdown -19.8516%; path decay 1.136554; band events: day 8 stop_loss at NAV 84.483822",
+      "warnings": [
+        "4 stress-matrix warning(s) observed for this regime."
+      ]
+    },
+    {
+      "category": "regime_trigger",
+      "id": "regime_volatility_cluster",
+      "metrics": {
+        "path_decay_vs_simple_multiple": -3.205395,
+        "regime": "volatility_cluster",
+        "return_pct": -9.0937,
+        "stop_events": 1,
+        "warnings_count": 4,
+        "worst_drawdown_pct": -16.3862
+      },
+      "next_review_questions": [
+        "Would the thesis still be acceptable under the volatility_cluster regime?",
+        "What pre-defined action follows if this regime starts to resemble the current market path?",
+        "Are modeled stop or take-profit band events acceptable after accounting for execution and gap risk?",
+        "Does modeled path decay weaken the expected holding-period thesis?",
+        "Is the loss budget still valid under this modeled return?"
+      ],
+      "severity": "high",
+      "source_artifacts": [
+        {
+          "artifact": "examples/outputs/stress_matrix.json",
+          "detail": "stress row volatility_cluster",
+          "document_type": "stress_matrix",
+          "schema_version": "0.9"
+        }
+      ],
+      "status": "triggered",
+      "title": "Volatility Cluster stress trigger",
+      "trigger": "return -9.0937%; worst drawdown -16.3862%; path decay -3.205395; band events: day 7 stop_loss at NAV 83.613785",
+      "warnings": [
+        "4 stress-matrix warning(s) observed for this regime."
+      ]
+    },
+    {
+      "category": "claim",
+      "id": "claim_2",
+      "metrics": [
+        {
+          "artifact": "examples/outputs/pretrade_plan.json",
+          "interpretation": "observed return metric",
+          "metric": "return_pct",
+          "value": 0.6088
+        },
+        {
+          "artifact": "examples/outputs/pretrade_plan.json",
+          "interpretation": "shows modeled path decay",
+          "metric": "path_decay_vs_simple_multiple",
+          "value": -0.602755
+        },
+        {
+          "artifact": "examples/outputs/portfolio_exposure.json",
+          "interpretation": "confirms downside scenario is present",
+          "metric": "return_pct",
+          "value": -5.5366
+        },
+        {
+          "artifact": "examples/outputs/portfolio_exposure.json",
+          "interpretation": "shows elevated leveraged exposure",
+          "metric": "weighted_exposure",
+          "value": 2.6
+        }
+      ],
+      "next_review_questions": [
+        "What evidence would change the status of claim_2 from needs_review?",
+        "Which observed metrics are most relevant to the claim, and are any expected metrics missing?",
+        "Record whether the observed artifact metrics support, challenge, or leave the claim unresolved.",
+        "Confirm loss budget and stop band are acceptable before entry.",
+        "Complete a liquidity and execution-quality review outside this model.",
+        "Which warning would invalidate the thesis if it appears in live review?"
+      ],
+      "severity": "medium",
+      "source_artifacts": [
+        {
+          "artifact": "examples/outputs/thesis_impact.json",
+          "detail": "claim mapping claim_2",
+          "document_type": "thesis_impact",
+          "schema_version": "0.6"
+        },
+        {
+          "artifact": "examples/outputs/pretrade_plan.json",
+          "detail": "return_pct for claim_2",
+          "document_type": "observed_metric_source",
+          "schema_version": null
+        },
+        {
+          "artifact": "examples/outputs/pretrade_plan.json",
+          "detail": "path_decay_vs_simple_multiple for claim_2",
+          "document_type": "observed_metric_source",
+          "schema_version": null
+        },
+        {
+          "artifact": "examples/outputs/portfolio_exposure.json",
+          "detail": "return_pct for claim_2",
+          "document_type": "observed_metric_source",
+          "schema_version": null
+        },
+        {
+          "artifact": "examples/outputs/portfolio_exposure.json",
+          "detail": "weighted_exposure for claim_2",
+          "document_type": "observed_metric_source",
+          "schema_version": null
+        }
+      ],
+      "status": "needs_review",
+      "title": "The plan should be rejected if the loss budget, stop band, liquidity review,...",
+      "trigger": "The plan should be rejected if the loss budget, stop band, liquidity review, or event-risk checklist cannot be accepted before entry.",
+      "warnings": [
+        "Large daily moves can compound quickly and may create losses larger than a simple one-day estimate.",
+        "A pretrade plan does not confirm liquidity, execution quality, tax treatment, or suitability.",
+        "Stop-loss and take-profit bands are planning levels, not guaranteed execution prices.",
+        "Portfolio aggregation is scenario-based and does not model tax, borrow, spread, liquidity, or intraday stop execution."
+      ]
+    },
+    {
+      "category": "regime_trigger",
+      "id": "regime_chop",
+      "metrics": {
+        "path_decay_vs_simple_multiple": -1.429133,
+        "regime": "chop",
+        "return_pct": -0.3186,
+        "stop_events": 0,
+        "warnings_count": 4,
+        "worst_drawdown_pct": -6.5029
+      },
+      "next_review_questions": [
+        "Would the thesis still be acceptable under the chop regime?",
+        "What pre-defined action follows if this regime starts to resemble the current market path?",
+        "Does modeled path decay weaken the expected holding-period thesis?",
+        "Is the loss budget still valid under this modeled return?"
+      ],
+      "severity": "medium",
+      "source_artifacts": [
+        {
+          "artifact": "examples/outputs/stress_matrix.json",
+          "detail": "stress row chop",
+          "document_type": "stress_matrix",
+          "schema_version": "0.9"
+        }
+      ],
+      "status": "triggered",
+      "title": "Chop stress trigger",
+      "trigger": "return -0.3186%; worst drawdown -6.5029%; path decay -1.429133",
+      "warnings": [
+        "4 stress-matrix warning(s) observed for this regime."
+      ]
+    },
+    {
+      "category": "regime_trigger",
+      "id": "regime_rebound",
+      "metrics": {
+        "path_decay_vs_simple_multiple": -1.385944,
+        "regime": "rebound",
+        "return_pct": 5.1886,
+        "stop_events": 0,
+        "warnings_count": 4,
+        "worst_drawdown_pct": -12.5903
+      },
+      "next_review_questions": [
+        "Would the thesis still be acceptable under the rebound regime?",
+        "What pre-defined action follows if this regime starts to resemble the current market path?",
+        "Does modeled path decay weaken the expected holding-period thesis?"
+      ],
+      "severity": "medium",
+      "source_artifacts": [
+        {
+          "artifact": "examples/outputs/stress_matrix.json",
+          "detail": "stress row rebound",
+          "document_type": "stress_matrix",
+          "schema_version": "0.9"
+        }
+      ],
+      "status": "triggered",
+      "title": "Rebound stress trigger",
+      "trigger": "return 5.1886%; worst drawdown -12.5903%; path decay -1.385944",
+      "warnings": [
+        "4 stress-matrix warning(s) observed for this regime."
+      ]
+    },
+    {
+      "category": "regime_trigger",
+      "id": "regime_trend_up",
+      "metrics": {
+        "path_decay_vs_simple_multiple": 0.994607,
+        "regime": "trend_up",
+        "return_pct": 20.0961,
+        "stop_events": 1,
+        "warnings_count": 4,
+        "worst_drawdown_pct": -0.6038
+      },
+      "next_review_questions": [
+        "Would the thesis still be acceptable under the trend_up regime?",
+        "What pre-defined action follows if this regime starts to resemble the current market path?",
+        "Are modeled stop or take-profit band events acceptable after accounting for execution and gap risk?"
+      ],
+      "severity": "medium",
+      "source_artifacts": [
+        {
+          "artifact": "examples/outputs/stress_matrix.json",
+          "detail": "stress row trend_up",
+          "document_type": "stress_matrix",
+          "schema_version": "0.9"
+        }
+      ],
+      "status": "triggered",
+      "title": "Trend Up stress trigger",
+      "trigger": "return 20.0961%; worst drawdown -0.6038%; path decay 0.994607; band events: day 12 take_profit at NAV 120.096051",
+      "warnings": [
+        "4 stress-matrix warning(s) observed for this regime."
+      ]
+    }
+  ],
+  "inputs": {
+    "stress_matrix": "examples/outputs/stress_matrix.json",
+    "thesis_impact": "examples/outputs/thesis_impact.json"
+  },
+  "not_investment_advice": "This watchlist is for scenario planning and education only. It is not investment advice, a recommendation, or a suitability determination.",
+  "provenance": {
+    "command": "watchlist-build",
+    "stress_matrix": "examples/outputs/stress_matrix.json",
+    "thesis_impact": "examples/outputs/thesis_impact.json"
+  },
+  "schema_version": "0.10",
+  "summary": {
+    "critical": 1,
+    "entries": 8,
+    "high": 3,
+    "low": 0,
+    "medium": 4
+  }
+}

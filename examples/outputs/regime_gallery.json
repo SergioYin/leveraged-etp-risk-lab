@@ -1,0 +1,292 @@
+{
+  "document_type": "regime_gallery",
+  "regimes": [
+    {
+      "default_days": 12,
+      "description": "Orderly rising market with shallow pauses and positive drift.",
+      "id": "trend_up",
+      "name": "Trend Up",
+      "risk_notes": [
+        "Leveraged long products may compound favorably, but late pullbacks can erase gains quickly.",
+        "Inverse products can lose value steadily even without a single large up day."
+      ],
+      "sample_path": [
+        {
+          "day": 1,
+          "label": "Opening bid",
+          "underlying_return": 0.006
+        },
+        {
+          "day": 2,
+          "label": "Orderly advance",
+          "underlying_return": 0.008
+        },
+        {
+          "day": 3,
+          "label": "Shallow pause",
+          "underlying_return": -0.002
+        },
+        {
+          "day": 4,
+          "label": "Breakout follow-through",
+          "underlying_return": 0.011
+        },
+        {
+          "day": 5,
+          "label": "Consolidation",
+          "underlying_return": 0.001
+        },
+        {
+          "day": 6,
+          "label": "Momentum close",
+          "underlying_return": 0.007
+        }
+      ],
+      "tags": [
+        "trend",
+        "bullish",
+        "low_chop"
+      ],
+      "use_cases": [
+        "Testing positive compounding in a persistent advance.",
+        "Comparing stop and take-profit bands after a favorable start."
+      ]
+    },
+    {
+      "default_days": 12,
+      "description": "Persistent selloff with brief relief rallies that fail.",
+      "id": "trend_down",
+      "name": "Trend Down",
+      "risk_notes": [
+        "Long leveraged products can compound losses faster than a simple multiple suggests.",
+        "Brief relief rallies can materially hurt inverse daily reset exposure sizing."
+      ],
+      "sample_path": [
+        {
+          "day": 1,
+          "label": "Risk-off open",
+          "underlying_return": -0.007
+        },
+        {
+          "day": 2,
+          "label": "Follow-through selling",
+          "underlying_return": -0.012
+        },
+        {
+          "day": 3,
+          "label": "Weak relief",
+          "underlying_return": 0.004
+        },
+        {
+          "day": 4,
+          "label": "Lower low",
+          "underlying_return": -0.015
+        },
+        {
+          "day": 5,
+          "label": "Failed bounce",
+          "underlying_return": 0.003
+        },
+        {
+          "day": 6,
+          "label": "De-risking close",
+          "underlying_return": -0.009
+        }
+      ],
+      "tags": [
+        "trend",
+        "bearish",
+        "drawdown"
+      ],
+      "use_cases": [
+        "Stress testing long leveraged drawdown paths.",
+        "Reviewing inverse product behavior during failed bounces."
+      ]
+    },
+    {
+      "default_days": 12,
+      "description": "Alternating up and down sessions with limited net direction.",
+      "id": "chop",
+      "name": "Chop",
+      "risk_notes": [
+        "Alternating returns can create path decay even when the underlying ends near flat.",
+        "Stop and take-profit bands may trigger repeatedly in both directions."
+      ],
+      "sample_path": [
+        {
+          "day": 1,
+          "label": "Risk-on swing",
+          "underlying_return": 0.022
+        },
+        {
+          "day": 2,
+          "label": "Risk-off swing",
+          "underlying_return": -0.021
+        },
+        {
+          "day": 3,
+          "label": "Relief bid",
+          "underlying_return": 0.018
+        },
+        {
+          "day": 4,
+          "label": "Fade",
+          "underlying_return": -0.017
+        }
+      ],
+      "tags": [
+        "sideways",
+        "volatility_decay",
+        "mean_reversion"
+      ],
+      "use_cases": [
+        "Demonstrating volatility decay from daily reset leverage.",
+        "Comparing trend assumptions against sideways whipsaw conditions."
+      ]
+    },
+    {
+      "default_days": 8,
+      "description": "Large downside gap followed by unstable trading and a partial attempt to stabilize.",
+      "id": "gap_down",
+      "name": "Gap Down",
+      "risk_notes": [
+        "Gap moves can bypass planning bands and create modeled losses before any exit is possible.",
+        "Single-name event risk can dominate management-fee or ordinary volatility assumptions."
+      ],
+      "sample_path": [
+        {
+          "day": 1,
+          "label": "Event gap lower",
+          "underlying_return": -0.085
+        },
+        {
+          "day": 2,
+          "label": "Forced selling",
+          "underlying_return": -0.032
+        },
+        {
+          "day": 3,
+          "label": "Volatile bounce",
+          "underlying_return": 0.026
+        },
+        {
+          "day": 4,
+          "label": "Second wave",
+          "underlying_return": -0.021
+        },
+        {
+          "day": 5,
+          "label": "Stabilization attempt",
+          "underlying_return": 0.012
+        }
+      ],
+      "tags": [
+        "gap",
+        "event_risk",
+        "single_stock"
+      ],
+      "use_cases": [
+        "Single-stock earnings or regulatory event stress tests.",
+        "Checking whether a loss budget survives a discontinuous first move."
+      ]
+    },
+    {
+      "default_days": 10,
+      "description": "Initial drawdown followed by stabilization and a sharp recovery attempt.",
+      "id": "rebound",
+      "name": "Rebound",
+      "risk_notes": [
+        "Losses early in the path reduce the NAV base that participates in a later rebound.",
+        "Inverse products can give back gains quickly if the recovery accelerates."
+      ],
+      "sample_path": [
+        {
+          "day": 1,
+          "label": "Capitulation",
+          "underlying_return": -0.032
+        },
+        {
+          "day": 2,
+          "label": "Base building",
+          "underlying_return": -0.011
+        },
+        {
+          "day": 3,
+          "label": "Stabilization",
+          "underlying_return": 0.009
+        },
+        {
+          "day": 4,
+          "label": "Short-cover rally",
+          "underlying_return": 0.027
+        },
+        {
+          "day": 5,
+          "label": "Follow-through",
+          "underlying_return": 0.019
+        }
+      ],
+      "tags": [
+        "reversal",
+        "recovery",
+        "short_covering"
+      ],
+      "use_cases": [
+        "Testing whether a leveraged position can recover after an early stop zone.",
+        "Reviewing inverse hedge exit rules after an initial selloff."
+      ]
+    },
+    {
+      "default_days": 12,
+      "description": "Sequence of large moves in both directions, modeling clustered high volatility.",
+      "id": "volatility_cluster",
+      "name": "Volatility Cluster",
+      "risk_notes": [
+        "Large alternating moves can produce material decay even if the final underlying move is modest.",
+        "Modeled NAV can become highly sensitive to the order of daily returns."
+      ],
+      "sample_path": [
+        {
+          "day": 1,
+          "label": "Volatility shock",
+          "underlying_return": -0.041
+        },
+        {
+          "day": 2,
+          "label": "Sharp relief",
+          "underlying_return": 0.036
+        },
+        {
+          "day": 3,
+          "label": "Renewed pressure",
+          "underlying_return": -0.029
+        },
+        {
+          "day": 4,
+          "label": "Fast squeeze",
+          "underlying_return": 0.033
+        },
+        {
+          "day": 5,
+          "label": "Liquidity fade",
+          "underlying_return": -0.024
+        },
+        {
+          "day": 6,
+          "label": "Wide-range close",
+          "underlying_return": 0.018
+        }
+      ],
+      "tags": [
+        "high_volatility",
+        "cluster",
+        "stress"
+      ],
+      "use_cases": [
+        "Stress testing path dependence during high-volatility regimes.",
+        "Comparing risk bands under clustered large-move conditions."
+      ]
+    }
+  ],
+  "schema_version": "0.7"
+}

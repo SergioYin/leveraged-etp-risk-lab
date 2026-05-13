@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Leveraged ETP Risk Lab Thesis Watchlist",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "document_type",
+    "not_investment_advice",
+    "inputs",
+    "summary",
+    "entries",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {"const": "0.10"},
+    "document_type": {"const": "watchlist"},
+    "not_investment_advice": {"type": "string"},
+    "inputs": {
+      "type": "object",
+      "required": ["thesis_impact", "stress_matrix"],
+      "properties": {
+        "thesis_impact": {"type": "string"},
+        "stress_matrix": {"type": "string"}
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": ["entries", "critical", "high", "medium", "low"],
+      "properties": {
+        "entries": {"type": "integer", "minimum": 0},
+        "critical": {"type": "integer", "minimum": 0},
+        "high": {"type": "integer", "minimum": 0},
+        "medium": {"type": "integer", "minimum": 0},
+        "low": {"type": "integer", "minimum": 0}
+      }
+    },
+    "entries": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/entry"}
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["command", "thesis_impact", "stress_matrix"],
+      "properties": {
+        "command": {"const": "watchlist-build"},
+        "thesis_impact": {"type": "string"},
+        "stress_matrix": {"type": "string"}
+      }
+    }
+  },
+  "$defs": {
+    "entry": {
+      "type": "object",
+      "required": [
+        "id",
+        "category",
+        "title",
+        "severity",
+        "status",
+        "trigger",
+        "metrics",
+        "warnings",
+        "next_review_questions",
+        "source_artifacts"
+      ],
+      "properties": {
+        "id": {"type": "string"},
+        "category": {"enum": ["claim", "regime_trigger"]},
+        "title": {"type": "string"},
+        "severity": {"enum": ["critical", "high", "medium", "low"]},
+        "status": {"type": "string"},
+        "trigger": {"type": "string"},
+        "metrics": {"type": ["object", "array"]},
+        "warnings": {"type": "array", "items": {"type": "string"}},
+        "next_review_questions": {"type": "array", "items": {"type": "string"}},
+        "source_artifacts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["artifact", "document_type", "schema_version", "detail"],
+            "properties": {
+              "artifact": {"type": "string"},
+              "document_type": {"type": "string"},
+              "schema_version": {"type": ["string", "null"]},
+              "detail": {"type": "string"}
+            }
+          }
+        }
+      }
+    }
+  }
+}

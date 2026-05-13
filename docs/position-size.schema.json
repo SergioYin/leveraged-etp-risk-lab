@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Leveraged ETP Risk Lab Position Size Plan",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "document_type",
+    "not_investment_advice",
+    "product",
+    "inputs",
+    "recommendation",
+    "scenario",
+    "checklist",
+    "warnings",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {"const": "0.8"},
+    "document_type": {"const": "position_size_plan"},
+    "not_investment_advice": {"type": "string"},
+    "product": {"type": "object"},
+    "inputs": {
+      "type": "object",
+      "required": ["account_value", "max_loss_budget", "risk_budget_pct", "stop_loss_pct", "loss_basis", "currency"],
+      "properties": {
+        "account_value": {"type": "number", "exclusiveMinimum": 0},
+        "max_loss_budget": {"type": "number", "exclusiveMinimum": 0},
+        "risk_budget_pct": {"type": "number", "exclusiveMinimum": 0},
+        "stop_loss_pct": {"type": ["number", "null"]},
+        "loss_basis": {"type": "string"},
+        "currency": {"type": "string"}
+      }
+    },
+    "recommendation": {
+      "type": "object",
+      "required": [
+        "recommended_notional",
+        "max_shares",
+        "max_shares_placeholder",
+        "modeled_loss_at_stop",
+        "modeled_loss_pct_of_account",
+        "exposure_multiple"
+      ],
+      "properties": {
+        "recommended_notional": {"type": "number", "exclusiveMinimum": 0},
+        "max_shares": {"type": "null"},
+        "max_shares_placeholder": {"type": "string"},
+        "modeled_loss_at_stop": {"type": "number", "minimum": 0},
+        "modeled_loss_pct_of_account": {"type": "number", "minimum": 0},
+        "exposure_multiple": {"type": "number"}
+      }
+    },
+    "scenario": {"type": "object"},
+    "checklist": {"type": "array", "items": {"type": "string"}},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "provenance": {"type": "object"}
+  }
+}

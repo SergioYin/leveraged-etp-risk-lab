@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Leveraged ETP thesis impact output",
+  "type": "object",
+  "required": ["schema_version", "document_type", "inputs", "thesis", "artifacts", "claim_mappings", "warnings", "action_checklist", "provenance"],
+  "properties": {
+    "schema_version": {"const": "0.6"},
+    "document_type": {"const": "thesis_impact"},
+    "inputs": {
+      "type": "object",
+      "required": ["thesis_file", "artifacts"],
+      "properties": {
+        "thesis_file": {"type": "string"},
+        "artifacts": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "thesis": {
+      "type": "object",
+      "required": ["claim_count", "claims"],
+      "properties": {
+        "claim_count": {"type": "integer"},
+        "claims": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "text"],
+            "properties": {
+              "id": {"type": "string"},
+              "text": {"type": "string"}
+            }
+          }
+        }
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/artifact"}
+    },
+    "claim_mappings": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/claim_mapping"}
+    },
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "action_checklist": {"type": "array", "items": {"type": "string"}},
+    "provenance": {
+      "type": "object",
+      "required": ["command", "thesis_file", "artifacts"],
+      "properties": {
+        "command": {"const": "thesis-impact"},
+        "thesis_file": {"type": "string"},
+        "artifacts": {"type": "array", "items": {"type": "string"}}
+      }
+    }
+  },
+  "$defs": {
+    "artifact": {
+      "type": "object",
+      "required": ["path", "document_type", "schema_version", "label", "metrics", "warnings_count"],
+      "properties": {
+        "path": {"type": "string"},
+        "document_type": {"type": "string"},
+        "schema_version": {"type": ["string", "null"]},
+        "label": {"type": "string"},
+        "metrics": {"$ref": "#/$defs/metrics"},
+        "warnings_count": {"type": "integer"}
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "required": ["return_pct", "path_decay_vs_simple_multiple", "weighted_exposure"],
+      "properties": {
+        "return_pct": {"type": ["number", "null"]},
+        "path_decay_vs_simple_multiple": {"type": ["number", "null"]},
+        "weighted_exposure": {"type": ["number", "null"]}
+      }
+    },
+    "claim_mapping": {
+      "type": "object",
+      "required": ["claim_id", "claim", "status", "observed_metrics", "warnings", "checklist"],
+      "properties": {
+        "claim_id": {"type": "string"},
+        "claim": {"type": "string"},
+        "status": {"enum": ["observed", "challenged", "needs_review"]},
+        "observed_metrics": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["artifact", "label", "metric", "value", "interpretation"],
+            "properties": {
+              "artifact": {"type": "string"},
+              "label": {"type": "string"},
+              "metric": {"type": "string"},
+              "value": {"type": "number"},
+              "interpretation": {"type": "string"}
+            }
+          }
+        },
+        "warnings": {"type": "array", "items": {"type": "string"}},
+        "checklist": {"type": "array", "items": {"type": "string"}}
+      }
+    }
+  }
+}

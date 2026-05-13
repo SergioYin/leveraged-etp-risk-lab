@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Leveraged ETP Risk Lab Public Gallery Index",
+  "type": "object",
+  "required": ["schema_version", "document_type", "input_dir", "summary", "stages", "provenance"],
+  "properties": {
+    "schema_version": {"const": "0.13"},
+    "document_type": {"const": "gallery_index"},
+    "input_dir": {"type": "string"},
+    "summary": {
+      "type": "object",
+      "required": ["stages", "artifacts", "bytes"],
+      "properties": {
+        "stages": {"type": "integer"},
+        "artifacts": {"type": "integer"},
+        "bytes": {"type": "integer"}
+      },
+      "additionalProperties": false
+    },
+    "stages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["stage", "artifact_count", "artifacts", "suggested_next_command"],
+        "properties": {
+          "stage": {
+            "enum": [
+              "fixtures",
+              "plans",
+              "sizing",
+              "stress",
+              "thesis/watchlist",
+              "audit/story",
+              "dashboard"
+            ]
+          },
+          "artifact_count": {"type": "integer"},
+          "suggested_next_command": {"type": "string"},
+          "artifacts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "name",
+                "path",
+                "stage",
+                "format",
+                "document_type",
+                "schema_version",
+                "bytes",
+                "suggested_next_command"
+              ],
+              "properties": {
+                "name": {"type": "string"},
+                "path": {"type": "string"},
+                "stage": {"type": "string"},
+                "format": {"type": "string"},
+                "document_type": {
+                  "anyOf": [
+                    {"type": "string"},
+                    {"type": "null"}
+                  ]
+                },
+                "schema_version": {
+                  "anyOf": [
+                    {"type": "string"},
+                    {"type": "null"}
+                  ]
+                },
+                "bytes": {"type": "integer"},
+                "suggested_next_command": {"type": "string"}
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["command", "input_dir"],
+      "properties": {
+        "command": {"const": "gallery-index"},
+        "input_dir": {"type": "string"}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

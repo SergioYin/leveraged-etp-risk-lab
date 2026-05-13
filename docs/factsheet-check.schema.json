@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Product Factsheet Checklist",
+  "type": "object",
+  "required": ["schema_version", "document_type", "not_investment_advice", "inputs", "product", "summary", "checks", "missing_fields", "provenance"],
+  "properties": {
+    "schema_version": {"const": "0.15"},
+    "document_type": {"const": "factsheet_check"},
+    "not_investment_advice": {"type": "string"},
+    "inputs": {
+      "type": "object",
+      "required": ["product", "factsheet_file"],
+      "properties": {
+        "product": {"type": "string"},
+        "factsheet_file": {"type": ["string", "null"]}
+      },
+      "additionalProperties": false
+    },
+    "product": {
+      "type": "object",
+      "required": ["name", "ticker"],
+      "properties": {
+        "name": {"type": ["string", "null"]},
+        "ticker": {"type": ["string", "null"]}
+      },
+      "additionalProperties": false
+    },
+    "summary": {
+      "type": "object",
+      "required": ["checks", "passed", "review", "missing", "ready_for_review"],
+      "properties": {
+        "checks": {"type": "integer"},
+        "passed": {"type": "integer"},
+        "review": {"type": "integer"},
+        "missing": {"type": "integer"},
+        "ready_for_review": {"type": "boolean"}
+      },
+      "additionalProperties": false
+    },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["field", "label", "status", "message", "evidence"],
+        "properties": {
+          "field": {"type": "string"},
+          "label": {"type": "string"},
+          "status": {"enum": ["pass", "review", "missing"]},
+          "message": {"type": "string"},
+          "evidence": {
+            "type": "object",
+            "required": ["source", "value"],
+            "properties": {
+              "source": {"type": ["string", "null"]},
+              "value": {
+                "anyOf": [
+                  {"type": "string"},
+                  {"type": "number"},
+                  {"type": "boolean"},
+                  {"type": "null"}
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "missing_fields": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["command", "product", "factsheet_file"],
+      "properties": {
+        "command": {"const": "factsheet-check"},
+        "product": {"type": "string"},
+        "factsheet_file": {"type": ["string", "null"]}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Leveraged ETP Risk Lab Stress Matrix",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "document_type",
+    "not_investment_advice",
+    "product",
+    "inputs",
+    "rows",
+    "warnings",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {"const": "0.9"},
+    "document_type": {"const": "stress_matrix"},
+    "not_investment_advice": {"type": "string"},
+    "product": {"type": "object"},
+    "inputs": {
+      "type": "object",
+      "required": ["product", "initial_nav", "regimes", "stop_loss_pct", "take_profit_pct"],
+      "properties": {
+        "product": {"type": "string"},
+        "initial_nav": {"type": "number", "exclusiveMinimum": 0},
+        "regimes": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "stop_loss_pct": {"type": ["number", "null"]},
+        "take_profit_pct": {"type": ["number", "null"]}
+      }
+    },
+    "rows": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "regime",
+          "name",
+          "days",
+          "underlying_return_pct",
+          "return_pct",
+          "etp_return_pct",
+          "path_decay_vs_simple_multiple",
+          "worst_drawdown_pct",
+          "stop_events",
+          "stop_event_labels",
+          "warnings_count"
+        ],
+        "properties": {
+          "regime": {"type": "string"},
+          "name": {"type": "string"},
+          "days": {"type": "integer", "minimum": 1},
+          "underlying_return_pct": {"type": "number"},
+          "return_pct": {"type": "number"},
+          "etp_return_pct": {"type": "number"},
+          "path_decay_vs_simple_multiple": {"type": "number"},
+          "worst_drawdown_pct": {"type": "number"},
+          "stop_events": {"type": "integer", "minimum": 0},
+          "stop_event_labels": {"type": "array", "items": {"type": "string"}},
+          "warnings_count": {"type": "integer", "minimum": 0}
+        },
+        "additionalProperties": false
+      }
+    },
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "provenance": {"type": "object"}
+  }
+}

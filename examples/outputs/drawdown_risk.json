@@ -1,0 +1,107 @@
+{
+  "case_id": "drawdown_risk",
+  "cold_user_evidence": {
+    "artifact_links": [
+      {
+        "label": "Drawdown risk JSON",
+        "path": "examples/outputs/drawdown_risk.json"
+      },
+      {
+        "label": "Drawdown risk Markdown",
+        "path": "examples/outputs/drawdown_risk.md"
+      },
+      {
+        "label": "Stress matrix source",
+        "path": "examples/outputs/stress_matrix.json"
+      },
+      {
+        "label": "Portfolio sensitivity source",
+        "path": "examples/outputs/portfolio_sensitivity.json"
+      }
+    ],
+    "exact_commands": [
+      {
+        "command": "python -m leveraged_etp_risk_lab demo-bundle --output-dir examples/outputs",
+        "purpose": "Regenerate the deterministic demo inputs used by the pack."
+      },
+      {
+        "command": "python -m leveraged_etp_risk_lab scenario-pack --input-dir examples/outputs --fixtures-dir examples/fixtures --output-dir examples/outputs --format markdown",
+        "purpose": "Regenerate the new-user scenario pack and case-study outputs."
+      },
+      {
+        "command": "python -m leveraged_etp_risk_lab artifact-validate examples/outputs/scenario_pack.json examples/outputs/daily_reset_path_decay.json examples/outputs/drawdown_risk.json examples/outputs/pretrade_guardrails.json --format markdown",
+        "purpose": "Validate the scenario-pack artifacts against local schemas."
+      },
+      {
+        "command": "python -m leveraged_etp_risk_lab portfolio-sensitivity --manifest examples/fixtures/portfolio_manifest.json --stop-loss none,0.15 --take-profit none,0.20 --format markdown",
+        "purpose": "Inspect the source artifact behind this case."
+      }
+    ],
+    "safety_boundaries": [
+      "Uses checked-in fixtures and generated local examples only.",
+      "Does not read live market data, private context, workflow files, environment variables, or command history.",
+      "Does not place trades, contact brokers, determine suitability, or recommend buying, selling, or holding any product.",
+      "Treats position sizing and guardrail outputs as educational review aids, not instructions."
+    ]
+  },
+  "cold_user_question": "Which deterministic regime hurts most, and what does that imply for a portfolio-level loss budget?",
+  "document_type": "scenario_case_study",
+  "focus_area": "drawdown_risk",
+  "guardrails": [
+    "Review aggregate modeled loss before adding exposure to an existing portfolio.",
+    "Treat stop events as review triggers because gap risk and execution quality are not modeled.",
+    "Use regime stress alongside, not instead of, thesis invalidation checks."
+  ],
+  "metrics": {
+    "aggregate_worst_case_loss_pct": 48.8518,
+    "aggregate_worst_case_modeled_loss": 4885.18,
+    "aggregate_worst_case_weighted_exposure": 3.0,
+    "manifest_positions": 2,
+    "portfolio_positions": 2,
+    "worst_regime": "gap_down",
+    "worst_regime_drawdown_pct": -52.5497,
+    "worst_regime_return_pct": -48.8504
+  },
+  "not_investment_advice": "This scenario pack is for scenario planning and education only. It is not investment advice, a recommendation, or a suitability determination.",
+  "plain_english_answer": "The stress matrix ranks built-in regimes by modeled return and drawdown, while portfolio sensitivity translates the weakest rows into aggregate modeled loss and weighted exposure.",
+  "provenance": {
+    "broker_execution": false,
+    "case_id": "drawdown_risk",
+    "command": "scenario-pack",
+    "live_market_data": false,
+    "private_context": false,
+    "shell_out": false,
+    "workflow_files_read": false
+  },
+  "schema_version": "0.30",
+  "source_artifacts": [
+    {
+      "bytes": 3894,
+      "kind": "json",
+      "path": "examples/outputs/stress_matrix.json",
+      "sha256": "a53e51a4e83cd511dd25b4180b099ad4a70ab36742838b5db260520502d31c3f"
+    },
+    {
+      "bytes": 31150,
+      "kind": "json",
+      "path": "examples/outputs/portfolio_sensitivity.json",
+      "sha256": "f87f726abab68709f90de09c75570888b96604d981882b1ebd06ac0f51454f07"
+    },
+    {
+      "bytes": 536,
+      "kind": "json",
+      "path": "examples/fixtures/portfolio_manifest.json",
+      "sha256": "be6ed3d6d32f4b14b713beb1e8b7576dc75ef9f301efbaf4f36ff744128dfbdf"
+    }
+  ],
+  "takeaways": [
+    "Worst return and worst drawdown can point to the same regime, but they are separate checks.",
+    "Portfolio sensitivity converts product-level stress into a budget-sized loss number.",
+    "Weighted exposure helps separate notional size from effective leveraged exposure."
+  ],
+  "title": "Drawdown Risk Under Regime Stress",
+  "warnings": [
+    "This case study uses deterministic local examples only.",
+    "It does not model live prices, spreads, liquidity, taxes, suitability, or broker execution."
+  ]
+}

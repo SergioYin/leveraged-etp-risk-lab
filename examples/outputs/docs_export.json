@@ -81,6 +81,11 @@
       "purpose": "Render the public walkthrough from checked demo artifacts."
     },
     {
+      "example": "python -m leveraged_etp_risk_lab scenario-pack --input-dir examples/outputs --fixtures-dir examples/fixtures --output-dir examples/outputs --format markdown",
+      "name": "scenario-pack",
+      "purpose": "Write new-user case-study packs for path decay, drawdowns, and guardrails."
+    },
+    {
       "example": "python -m leveraged_etp_risk_lab schema-inventory --format markdown",
       "name": "schema-inventory",
       "purpose": "List local schemas, required fields, matching examples, and public safety notes."
@@ -107,6 +112,20 @@
     }
   ],
   "document_type": "docs_export",
+  "integration_notes": [
+    {
+      "complement": "Scenario-pack outputs provide deterministic stress narratives and case-study metrics that can support a portfolio risk review as evidence for path decay, drawdown, and guardrail checks.",
+      "dependency_boundary": "No import, API call, shared storage, live-data feed, broker connection, or runtime dependency is required; another system can read or ignore these static files independently.",
+      "public_context": "Uses only checked-in fixtures and generated public examples; no private portfolio context is embedded.",
+      "target_system": "portfolio-risk-compass"
+    },
+    {
+      "complement": "Scenario-pack case studies can be attached to thesis records as reproducible evidence for thesis pressure tests, invalidation checks, and pretrade review notes.",
+      "dependency_boundary": "No dependency, ledger schema change, plugin, workflow read, command history read, or bidirectional sync is assumed; the notes are portable references, not a required integration.",
+      "public_context": "Keeps examples generic and educational, with no account, broker, suitability, or private thesis data.",
+      "target_system": "invest-thesis-ledger"
+    }
+  ],
   "local_artifact_links": [
     {
       "kind": "md",
@@ -340,12 +359,32 @@
     },
     {
       "kind": "json",
+      "path": "examples/outputs/daily_reset_path_decay.json",
+      "stage": "audit/story"
+    },
+    {
+      "kind": "md",
+      "path": "examples/outputs/daily_reset_path_decay.md",
+      "stage": "audit/story"
+    },
+    {
+      "kind": "json",
       "path": "examples/outputs/demo_story.json",
       "stage": "audit/story"
     },
     {
       "kind": "md",
       "path": "examples/outputs/demo_story.md",
+      "stage": "audit/story"
+    },
+    {
+      "kind": "json",
+      "path": "examples/outputs/drawdown_risk.json",
+      "stage": "audit/story"
+    },
+    {
+      "kind": "md",
+      "path": "examples/outputs/drawdown_risk.md",
       "stage": "audit/story"
     },
     {
@@ -366,6 +405,26 @@
     {
       "kind": "md",
       "path": "examples/outputs/package_audit.md",
+      "stage": "audit/story"
+    },
+    {
+      "kind": "json",
+      "path": "examples/outputs/pretrade_guardrails.json",
+      "stage": "audit/story"
+    },
+    {
+      "kind": "md",
+      "path": "examples/outputs/pretrade_guardrails.md",
+      "stage": "audit/story"
+    },
+    {
+      "kind": "json",
+      "path": "examples/outputs/scenario_pack.json",
+      "stage": "audit/story"
+    },
+    {
+      "kind": "md",
+      "path": "examples/outputs/scenario_pack.md",
       "stage": "audit/story"
     },
     {
@@ -516,12 +575,12 @@
   ],
   "markdown_artifacts": [
     {
-      "bytes": 4366,
+      "bytes": 5063,
       "path": "examples/outputs/artifact_validation.md",
       "title": "Artifact Validation"
     },
     {
-      "bytes": 11973,
+      "bytes": 12270,
       "path": "examples/outputs/asset_hub.md",
       "title": "leveraged-etp-risk-lab Public Asset Hub"
     },
@@ -551,9 +610,19 @@
       "title": "Watch Cycle Update"
     },
     {
-      "bytes": 9015,
+      "bytes": 3728,
+      "path": "examples/outputs/daily_reset_path_decay.md",
+      "title": "Daily Reset Path Decay"
+    },
+    {
+      "bytes": 9204,
       "path": "examples/outputs/demo_story.md",
       "title": "Public Demo Story"
+    },
+    {
+      "bytes": 3484,
+      "path": "examples/outputs/drawdown_risk.md",
+      "title": "Drawdown Risk Under Regime Stress"
     },
     {
       "bytes": 1174,
@@ -561,7 +630,7 @@
       "title": "Product Factsheet Checklist"
     },
     {
-      "bytes": 22312,
+      "bytes": 23971,
       "path": "examples/outputs/gallery_index.md",
       "title": "Public Gallery Index"
     },
@@ -606,7 +675,7 @@
       "title": "Pre-Order Ticket: NDAQ3X"
     },
     {
-      "bytes": 5371,
+      "bytes": 5540,
       "path": "examples/outputs/package_audit.md",
       "title": "Package Audit"
     },
@@ -626,6 +695,11 @@
       "title": "Position Size Plan: NDAQ3X"
     },
     {
+      "bytes": 3693,
+      "path": "examples/outputs/pretrade_guardrails.md",
+      "title": "Pretrade Guardrails Before An Order"
+    },
+    {
       "bytes": 3090,
       "path": "examples/outputs/pretrade_plan.md",
       "title": "Pretrade Plan: NDAQ3X"
@@ -641,7 +715,7 @@
       "title": "Market Regime Gallery"
     },
     {
-      "bytes": 4148,
+      "bytes": 4180,
       "path": "examples/outputs/release_manifest.md",
       "title": "Release Manifest"
     },
@@ -656,7 +730,12 @@
       "title": "Risk Rule Profiles"
     },
     {
-      "bytes": 11100,
+      "bytes": 4679,
+      "path": "examples/outputs/scenario_pack.md",
+      "title": "New User Scenario Pack"
+    },
+    {
+      "bytes": 12159,
       "path": "examples/outputs/schema_inventory.md",
       "title": "Schema Inventory"
     },
@@ -706,8 +785,8 @@
     "workflow_files_read": false
   },
   "release_notes": {
-    "markdown": "## v0.29.0\n\n### Highlights\n\n- Hardens deterministic release artifact generation for package audit, schema inventory, artifact validation, release manifest, and docs export.\n- Keeps docs export and release manifest schemas aligned for the final public v0.29 release surface.\n- Carries safety caveats, command map, release notes, and local artifact links from checked public artifacts.\n- Publishes 80 public demo artifacts across 8 gallery stages.\n- Tracks 39 local schemas and 37 validated artifacts.\n\n### Readiness\n\n- Release status: ready\n- Package audit ready: yes\n- Artifact validation ready: yes\n\n### Verification\n\n- `python -m unittest discover -s tests`\n- `python scripts/selfcheck.py`\n- `python -m leveraged_etp_risk_lab docs-export --input-dir examples/outputs --output examples/outputs/docs_export.html`\n- `python -m leveraged_etp_risk_lab package-audit --run-tests --format json`\n",
-    "title": "v0.29.0"
+    "markdown": "## v0.30.0\n\n### Highlights\n\n- Hardens deterministic release artifact generation for package audit, schema inventory, artifact validation, release manifest, and docs export.\n- Adds deterministic v0.30 scenario-pack case studies for new users comparing path decay, drawdown risk, and guardrails.\n- Carries safety caveats, command map, release notes, and local artifact links from checked public artifacts.\n- Publishes 88 public demo artifacts across 8 gallery stages.\n- Tracks 41 local schemas and 41 validated artifacts.\n\n### Readiness\n\n- Release status: ready\n- Package audit ready: yes\n- Artifact validation ready: yes\n\n### Verification\n\n- `python -m unittest discover -s tests`\n- `python scripts/selfcheck.py`\n- `python -m leveraged_etp_risk_lab docs-export --input-dir examples/outputs --output examples/outputs/docs_export.html`\n- `python -m leveraged_etp_risk_lab package-audit --run-tests --format json`\n",
+    "title": "v0.30.0"
   },
   "safety_caveats": [
     "This decision packet is for scenario planning and education only. It is not investment advice, a recommendation, or a suitability determination.",
@@ -733,7 +812,7 @@
     "It is not investment advice, a recommendation, broker instruction, or suitability determination.",
     "The export is static HTML with no JavaScript, no external assets, no live market data, no workflow reads, and no private context."
   ],
-  "schema_version": "0.29",
+  "schema_version": "0.30",
   "sources": [
     {
       "document_type": "asset_hub",
@@ -772,18 +851,26 @@
       "error": null,
       "name": "release_manifest",
       "path": "examples/outputs/release_manifest.json",
-      "schema_version": "0.29",
+      "schema_version": "0.30",
+      "status": "present"
+    },
+    {
+      "document_type": "scenario_pack",
+      "error": null,
+      "name": "scenario_pack",
+      "path": "examples/outputs/scenario_pack.json",
+      "schema_version": "0.30",
       "status": "present"
     }
   ],
   "summary": {
-    "commands": 21,
-    "local_links": 81,
-    "markdown_artifacts": 36,
+    "commands": 22,
+    "local_links": 89,
+    "markdown_artifacts": 40,
     "package_ready": true,
     "release_status": "ready",
-    "source_artifacts": 5,
-    "source_artifacts_present": 5
+    "source_artifacts": 6,
+    "source_artifacts_present": 6
   },
   "title": "Leveraged ETP Risk Lab Documentation"
 }

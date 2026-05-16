@@ -82,6 +82,11 @@
       "purpose": "Render the public walkthrough from checked demo artifacts."
     },
     {
+      "example": "python -m leveraged_etp_risk_lab scenario-pack --input-dir examples/outputs --fixtures-dir examples/fixtures --output-dir examples/outputs --format markdown",
+      "name": "scenario-pack",
+      "purpose": "Write new-user case-study packs for path decay, drawdowns, and guardrails."
+    },
+    {
       "example": "python -m leveraged_etp_risk_lab schema-inventory --format markdown",
       "name": "schema-inventory",
       "purpose": "List local schemas, required fields, matching examples, and public safety notes."
@@ -168,14 +173,14 @@
       "suggested_next_command": "python -m leveraged_etp_risk_lab demo-story --input-dir examples/outputs --format markdown"
     },
     {
-      "artifact_count": 10,
+      "artifact_count": 18,
       "key_artifacts": [
         "examples/outputs/asset_hub.json",
         "examples/outputs/asset_hub.md",
         "examples/outputs/audit_trail.json",
         "examples/outputs/audit_trail.md",
-        "examples/outputs/demo_story.json",
-        "examples/outputs/demo_story.md"
+        "examples/outputs/daily_reset_path_decay.json",
+        "examples/outputs/daily_reset_path_decay.md"
       ],
       "stage": "audit/story",
       "suggested_next_command": "python -m leveraged_etp_risk_lab static-dashboard --input-dir examples/outputs --output examples/outputs/dashboard.html"
@@ -225,12 +230,12 @@
     ],
     "name": "leveraged-etp-risk-lab",
     "proof_points": [
-      "80 checked demo artifacts indexed from examples/outputs.",
+      "88 checked demo artifacts indexed from examples/outputs.",
       "Package audit ready=True with 10 passed checks.",
       "No runtime dependencies, workflow files, private context, broker execution, or live market data."
     ],
     "tagline": "leveraged-etp-risk-lab is a zero-dependency Python CLI for planning daily-reset leveraged ETF/ETP risk scenarios. It models product terms, deterministic scenario paths, daily reset leverage, management-fee drag, path decay versus a simple multiple, stop-loss and take-profit bands, portfolio exposure aggregation, and plain-language warnings.",
-    "version": "0.29.0"
+    "version": "0.30.0"
   },
   "provenance": {
     "command": "asset-hub",
@@ -333,11 +338,11 @@
     },
     {
       "items": [
-        "Converge generated release artifacts deterministically before publishing examples.",
-        "Keep schema validation, docs export, package audit, selfcheck, README, and agent skill guidance aligned."
+        "Publish deterministic case studies for path decay, drawdown risk, and pretrade guardrails.",
+        "Keep scenario packs, schema validation, docs export, package audit, README, and agent skill guidance aligned."
       ],
-      "theme": "Final release hardening",
-      "version": "0.29.x"
+      "theme": "Scenario case-study packs",
+      "version": "0.30.x"
     }
   ],
   "safety_boundaries": [

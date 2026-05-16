@@ -1474,6 +1474,10 @@ def _gallery_stage(name: str) -> str:
         name.startswith("package_audit")
         or name.startswith("demo_story")
         or name.startswith("asset_hub")
+        or name.startswith("scenario_pack")
+        or name.startswith("daily_reset_path_decay")
+        or name.startswith("drawdown_risk")
+        or name.startswith("pretrade_guardrails")
         or name.startswith("factsheet_check")
         or name.startswith("audit_trail")
     ):
@@ -1733,11 +1737,11 @@ def asset_hub(input_dir: str, version: str, readme_path: str = "README.md") -> D
                 ],
             },
             {
-                "version": "0.29.x",
-                "theme": "Final release hardening",
+                "version": "0.30.x",
+                "theme": "Scenario case-study packs",
                 "items": [
-                    "Converge generated release artifacts deterministically before publishing examples.",
-                    "Keep schema validation, docs export, package audit, selfcheck, README, and agent skill guidance aligned.",
+                    "Publish deterministic case studies for path decay, drawdown risk, and pretrade guardrails.",
+                    "Keep scenario packs, schema validation, docs export, package audit, README, and agent skill guidance aligned.",
                 ],
             },
         ],
@@ -1834,6 +1838,7 @@ def _asset_hub_command_map(commands: List[Dict[str, Any]]) -> List[Dict[str, str
         "schema-inventory": "List local schemas, required fields, matching examples, and public safety notes.",
         "artifact-validate": "Validate example JSON artifacts against the local lightweight schema inventory.",
         "asset-hub": "Emit the GitHub-facing public asset hub.",
+        "scenario-pack": "Write new-user case-study packs for path decay, drawdowns, and guardrails.",
         "release-manifest": "Emit release readiness, public artifact inventory, and release notes.",
         "docs-export": "Render one self-contained static HTML documentation page from public artifacts.",
     }

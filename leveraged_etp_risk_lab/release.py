@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 
-RELEASE_MANIFEST_SCHEMA_VERSION = "0.29"
+RELEASE_MANIFEST_SCHEMA_VERSION = "0.30"
 ROOT = Path(__file__).resolve().parents[1]
 EXPECTED_INPUTS = {
     "asset_hub": "asset_hub.json",
@@ -262,7 +262,7 @@ def _github_release_notes(version: str, inventory: Dict[str, Any], validation: D
         "### Highlights",
         "",
         "- Hardens deterministic release artifact generation for package audit, schema inventory, artifact validation, release manifest, and docs export.",
-        "- Keeps docs export and release manifest schemas aligned for the final public v0.29 release surface.",
+        "- Adds deterministic v0.30 scenario-pack case studies for new users comparing path decay, drawdown risk, and guardrails.",
         "- Carries safety caveats, command map, release notes, and local artifact links from checked public artifacts.",
         f"- Publishes {inventory['total_artifacts']} public demo artifacts across {len(inventory['stages'])} gallery stages.",
         f"- Tracks {validation['schemas_indexed']} local schemas and {validation['artifacts_validated']} validated artifacts.",

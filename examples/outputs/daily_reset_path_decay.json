@@ -1,0 +1,125 @@
+{
+  "case_id": "daily_reset_path_decay",
+  "cold_user_evidence": {
+    "artifact_links": [
+      {
+        "label": "Daily reset path decay JSON",
+        "path": "examples/outputs/daily_reset_path_decay.json"
+      },
+      {
+        "label": "Daily reset path decay Markdown",
+        "path": "examples/outputs/daily_reset_path_decay.md"
+      },
+      {
+        "label": "NASDAQ simulation source",
+        "path": "examples/outputs/leveraged_nasdaq_3x.json"
+      },
+      {
+        "label": "Comparison source",
+        "path": "examples/outputs/compare_runs.json"
+      }
+    ],
+    "exact_commands": [
+      {
+        "command": "python -m leveraged_etp_risk_lab demo-bundle --output-dir examples/outputs",
+        "purpose": "Regenerate the deterministic demo inputs used by the pack."
+      },
+      {
+        "command": "python -m leveraged_etp_risk_lab scenario-pack --input-dir examples/outputs --fixtures-dir examples/fixtures --output-dir examples/outputs --format markdown",
+        "purpose": "Regenerate the new-user scenario pack and case-study outputs."
+      },
+      {
+        "command": "python -m leveraged_etp_risk_lab artifact-validate examples/outputs/scenario_pack.json examples/outputs/daily_reset_path_decay.json examples/outputs/drawdown_risk.json examples/outputs/pretrade_guardrails.json --format markdown",
+        "purpose": "Validate the scenario-pack artifacts against local schemas."
+      },
+      {
+        "command": "python -m leveraged_etp_risk_lab compare-runs --base examples/outputs/leveraged_nasdaq_3x.json --candidate examples/outputs/single_stock_2x.json --format markdown",
+        "purpose": "Inspect the source artifact behind this case."
+      }
+    ],
+    "safety_boundaries": [
+      "Uses checked-in fixtures and generated local examples only.",
+      "Does not read live market data, private context, workflow files, environment variables, or command history.",
+      "Does not place trades, contact brokers, determine suitability, or recommend buying, selling, or holding any product.",
+      "Treats position sizing and guardrail outputs as educational review aids, not instructions."
+    ]
+  },
+  "cold_user_question": "If the underlying ends close to flat after a choppy path, why can a 3x daily-reset product still lag a simple 3x multiple?",
+  "document_type": "scenario_case_study",
+  "focus_area": "daily_reset_path_decay",
+  "guardrails": [
+    "Limit holding period assumptions when daily swings dominate the thesis.",
+    "Run compare-runs before replacing one leveraged product or path with another.",
+    "Record path-decay tolerance in the pretrade plan before sizing the position."
+  ],
+  "metrics": {
+    "case_delta_path_decay_nav_points": -0.050687,
+    "nasdaq_etp_return_pct": 0.6088,
+    "nasdaq_fixture_days": 6,
+    "nasdaq_path_days": 6,
+    "nasdaq_path_decay_nav_points": -0.602755,
+    "nasdaq_simple_multiple_return_pct": 1.2115,
+    "nasdaq_underlying_return_pct": 0.4038,
+    "single_stock_path_decay_nav_points": -0.653442
+  },
+  "not_investment_advice": "This scenario pack is for scenario planning and education only. It is not investment advice, a recommendation, or a suitability determination.",
+  "plain_english_answer": "The example decomposes the modeled ending NAV against the simple multiple. The path-decay field shows the multi-day compounding gap created by alternating daily returns and fee drag.",
+  "provenance": {
+    "broker_execution": false,
+    "case_id": "daily_reset_path_decay",
+    "command": "scenario-pack",
+    "live_market_data": false,
+    "private_context": false,
+    "shell_out": false,
+    "workflow_files_read": false
+  },
+  "schema_version": "0.30",
+  "source_artifacts": [
+    {
+      "bytes": 2782,
+      "kind": "json",
+      "path": "examples/outputs/leveraged_nasdaq_3x.json",
+      "sha256": "fec4c6c6c83dc18d76579831a83f024506a2983ffdfb0c9f7a2c305561dda48a"
+    },
+    {
+      "bytes": 2539,
+      "kind": "json",
+      "path": "examples/outputs/single_stock_2x.json",
+      "sha256": "8d87b4439e5ce51026b9cc5139f4860460f033a32ffcbe7f033a9a8f78f90a9f"
+    },
+    {
+      "bytes": 961,
+      "kind": "json",
+      "path": "examples/outputs/compare_runs.json",
+      "sha256": "245621f9ace03d0bc48244e2b87348afb99db14185b2541a6b757e7cbe77de32"
+    },
+    {
+      "bytes": 275,
+      "kind": "json",
+      "path": "examples/fixtures/leveraged_nasdaq_3x.json",
+      "sha256": "a4f63ef24a1282198e65cda178946b42fdfa0182165607fe86bfd60f92e0cd8f"
+    },
+    {
+      "bytes": 282,
+      "kind": "json",
+      "path": "examples/fixtures/single_stock_2x.json",
+      "sha256": "fbcd054ad34a4b97b42c8bf9e3b3c4b180f16e49b193c928ae03eeeb07e3bbc2"
+    },
+    {
+      "bytes": 153,
+      "kind": "csv",
+      "path": "examples/fixtures/nasdaq_chop_path.csv",
+      "sha256": "9a3ebd3e2fd9bbfa7545d16570c36c3a039d530e435aa5939eddd513d156cf79"
+    }
+  ],
+  "takeaways": [
+    "Compare ending ETP return with the simple multiple before treating leverage as a linear multi-day exposure.",
+    "A choppy path can make the daily reset product worse than the simple multiple even when the underlying move looks modest.",
+    "The gap is expressed in NAV points so a new user can inspect it without live prices."
+  ],
+  "title": "Daily Reset Path Decay",
+  "warnings": [
+    "This case study uses deterministic local examples only.",
+    "It does not model live prices, spreads, liquidity, taxes, suitability, or broker execution."
+  ]
+}

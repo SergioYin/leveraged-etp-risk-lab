@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Scenario Case Study",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "document_type",
+    "not_investment_advice",
+    "case_id",
+    "title",
+    "focus_area",
+    "cold_user_question",
+    "plain_english_answer",
+    "metrics",
+    "takeaways",
+    "guardrails",
+    "cold_user_evidence",
+    "source_artifacts",
+    "warnings",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {"const": "0.30"},
+    "document_type": {"const": "scenario_case_study"},
+    "not_investment_advice": {"type": "string"},
+    "case_id": {"type": "string"},
+    "title": {"type": "string"},
+    "focus_area": {"type": "string"},
+    "cold_user_question": {"type": "string"},
+    "plain_english_answer": {"type": "string"},
+    "metrics": {"type": "object"},
+    "takeaways": {"type": "array", "items": {"type": "string"}},
+    "guardrails": {"type": "array", "items": {"type": "string"}},
+    "cold_user_evidence": {
+      "type": "object",
+      "required": ["exact_commands", "artifact_links", "safety_boundaries"],
+      "properties": {
+        "exact_commands": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["purpose", "command"],
+            "properties": {
+              "purpose": {"type": "string"},
+              "command": {"type": "string"}
+            }
+          }
+        },
+        "artifact_links": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["label", "path"],
+            "properties": {
+              "label": {"type": "string"},
+              "path": {"type": "string"}
+            }
+          }
+        },
+        "safety_boundaries": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "source_artifacts": {"type": "array", "items": {"type": "object"}},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "provenance": {
+      "type": "object",
+      "properties": {
+        "live_market_data": {"const": false},
+        "shell_out": {"const": false},
+        "private_context": {"const": false},
+        "broker_execution": {"const": false}
+      }
+    }
+  }
+}

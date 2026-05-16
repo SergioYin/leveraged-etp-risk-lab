@@ -62,6 +62,8 @@
           "docs/asset-hub.schema.json",
           "docs/schema-inventory.schema.json",
           "docs/artifact-validation.schema.json",
+          "docs/scenario-pack.schema.json",
+          "docs/scenario-case-study.schema.json",
           "docs/release-manifest.schema.json",
           "docs/docs-export.schema.json",
           "docs/package-audit.schema.json",
@@ -134,6 +136,14 @@
           "examples/outputs/schema_inventory.md",
           "examples/outputs/artifact_validation.json",
           "examples/outputs/artifact_validation.md",
+          "examples/outputs/scenario_pack.json",
+          "examples/outputs/scenario_pack.md",
+          "examples/outputs/daily_reset_path_decay.json",
+          "examples/outputs/daily_reset_path_decay.md",
+          "examples/outputs/drawdown_risk.json",
+          "examples/outputs/drawdown_risk.md",
+          "examples/outputs/pretrade_guardrails.json",
+          "examples/outputs/pretrade_guardrails.md",
           "examples/outputs/release_manifest.json",
           "examples/outputs/release_manifest.md",
           "examples/outputs/docs_export.html",
@@ -201,12 +211,12 @@
     {
       "category": "metadata",
       "evidence": {
-        "package_init": "0.29.0",
-        "pyproject": "0.29.0",
-        "runtime": "0.29.0"
+        "package_init": "0.30.0",
+        "pyproject": "0.30.0",
+        "runtime": "0.30.0"
       },
       "id": "version_consistency",
-      "message": "version fields agree at 0.29.0",
+      "message": "version fields agree at 0.30.0",
       "status": "pass"
     },
     {
@@ -287,6 +297,24 @@
               "-m",
               "leveraged_etp_risk_lab",
               "artifact-validate",
+              "--format",
+              "json"
+            ],
+            "returncode": null,
+            "status": "not_run"
+          },
+          {
+            "command": [
+              "python",
+              "-m",
+              "leveraged_etp_risk_lab",
+              "scenario-pack",
+              "--input-dir",
+              "examples/outputs",
+              "--fixtures-dir",
+              "examples/fixtures",
+              "--output-dir",
+              "examples/outputs",
               "--format",
               "json"
             ],
@@ -646,7 +674,7 @@
   "package": {
     "dependencies": [],
     "name": "leveraged-etp-risk-lab",
-    "version": "0.29.0"
+    "version": "0.30.0"
   },
   "schema_version": "0.11",
   "summary": {
@@ -730,6 +758,24 @@
         "-m",
         "leveraged_etp_risk_lab",
         "artifact-validate",
+        "--format",
+        "json"
+      ],
+      "returncode": null,
+      "status": "not_run"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "leveraged_etp_risk_lab",
+        "scenario-pack",
+        "--input-dir",
+        "examples/outputs",
+        "--fixtures-dir",
+        "examples/fixtures",
+        "--output-dir",
+        "examples/outputs",
         "--format",
         "json"
       ],

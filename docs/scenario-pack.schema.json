@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Scenario Pack",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "document_type",
+    "not_investment_advice",
+    "pack_id",
+    "title",
+    "summary",
+    "cases",
+    "integration_notes",
+    "cold_user_evidence",
+    "source_artifacts",
+    "warnings",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {"const": "0.30"},
+    "document_type": {"const": "scenario_pack"},
+    "not_investment_advice": {"type": "string"},
+    "pack_id": {"type": "string"},
+    "title": {"type": "string"},
+    "audience": {"type": "string"},
+    "summary": {
+      "type": "object",
+      "properties": {
+        "cases": {"type": "integer"},
+        "source_artifacts": {"type": "integer"},
+        "live_market_data": {"const": false},
+        "broker_execution": {"const": false}
+      }
+    },
+    "cases": {"type": "array", "items": {"type": "object"}},
+    "integration_notes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["target_system", "complement", "handoff_artifacts", "dependency_boundary", "public_context"],
+        "properties": {
+          "target_system": {"type": "string"},
+          "complement": {"type": "string"},
+          "handoff_artifacts": {"type": "array", "items": {"type": "string"}},
+          "dependency_boundary": {"type": "string"},
+          "public_context": {"type": "string"}
+        }
+      }
+    },
+    "cold_user_evidence": {
+      "type": "object",
+      "required": ["exact_commands", "artifact_links", "safety_boundaries"],
+      "properties": {
+        "exact_commands": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["purpose", "command"],
+            "properties": {
+              "purpose": {"type": "string"},
+              "command": {"type": "string"}
+            }
+          }
+        },
+        "artifact_links": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["label", "path"],
+            "properties": {
+              "label": {"type": "string"},
+              "path": {"type": "string"}
+            }
+          }
+        },
+        "safety_boundaries": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "source_artifacts": {"type": "array", "items": {"type": "object"}},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "provenance": {
+      "type": "object",
+      "properties": {
+        "live_market_data": {"const": false},
+        "shell_out": {"const": false},
+        "private_context": {"const": false},
+        "broker_execution": {"const": false}
+      }
+    }
+  }
+}

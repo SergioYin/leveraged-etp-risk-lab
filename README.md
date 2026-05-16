@@ -4,6 +4,8 @@
 
 This is not investment advice. The tool is for scenario analysis and education only; it does not forecast prices, recommend trades, or evaluate suitability.
 
+Public integration notes are included in the generated scenario pack. They explain how `scenario_pack.*` and case-study outputs can sit beside generic tools such as `portfolio-risk-compass` and `invest-thesis-ledger` as static reference artifacts, without imports, APIs, shared storage, workflow reads, live data, broker access, or private context.
+
 ## Install
 
 Run from a checkout:
@@ -184,6 +186,12 @@ python -m leveraged_etp_risk_lab asset-hub \
   --input-dir examples/outputs \
   --format markdown
 
+python -m leveraged_etp_risk_lab scenario-pack \
+  --input-dir examples/outputs \
+  --fixtures-dir examples/fixtures \
+  --output-dir examples/outputs \
+  --format markdown
+
 python -m leveraged_etp_risk_lab release-manifest \
   --input-dir examples/outputs \
   --format markdown
@@ -287,7 +295,7 @@ The `demo-story` command reads existing public demo outputs from an input direct
 
 The `gallery-index` command reads the public demo output directory and emits a self-contained JSON or Markdown index grouped by workflow stage: fixtures, plans, sizing, stress, thesis/watchlist, audit/story, dashboard, and validation. Each artifact row includes filename, format, detected document type and schema version when available, byte count, and a suggested next command. It records metadata only and skips the generated `gallery_index.*` files for deterministic regeneration.
 
-The `docs-export` command reads `release_manifest.json`, `asset_hub.json`, `demo_story.json`, `gallery_index.json`, `package_audit.json`, and sibling Markdown artifacts from the public output directory. It emits one self-contained static HTML documentation page by default, or JSON/Markdown with `--format`. The HTML uses inline CSS only and links to local artifact paths; it has no JavaScript, no external assets, no live data, no workflow reads, and no private context.
+The `docs-export` command reads `release_manifest.json`, `asset_hub.json`, `demo_story.json`, `gallery_index.json`, `package_audit.json`, `scenario_pack.json`, and sibling Markdown artifacts from the public output directory. It emits one self-contained static HTML documentation page by default, or JSON/Markdown with `--format`. The HTML uses inline CSS only and links to local artifact paths; it has no JavaScript, no external assets, no live data, no workflow reads, and no private context.
 
 The `static-dashboard` command writes a self-contained no-JavaScript HTML dashboard from either a portfolio manifest or demo output JSON files. It includes summary cards, positions, warnings, band events, and command provenance.
 
@@ -298,6 +306,8 @@ The `explain-term` command explains one built-in leveraged product glossary term
 The `glossary-list` command emits the full built-in glossary as JSON or Markdown. It is deterministic and does not read live market data, workflow files, private context, environment variables, or command history.
 
 The `package-audit` command emits a deterministic JSON or Markdown package-readiness checklist. It checks README and license presence, schema and example outputs, the checked-in agent skill file, absence of workflow files, public hygiene, zero dependencies, version consistency, schema inventory, artifact validation, and listed test commands. Pass `--run-tests` to execute the listed validation commands during the audit.
+
+The `scenario-pack` command writes a new-user evidence section into the pack and each case study. That section lists exact local commands, artifact links, and safety boundaries so a new user can reproduce the path-decay, drawdown, and pretrade-guardrail examples without live market data or broker execution. The pack also includes public integration notes for `portfolio-risk-compass` and `invest-thesis-ledger`, describing static artifact handoffs and explicitly avoiding runtime dependencies, schema coupling, private context, and bidirectional sync.
 
 The local skill sync helper copies the checked-in skill file into a local Codex skills directory:
 

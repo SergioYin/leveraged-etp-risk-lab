@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 
-DOCS_EXPORT_SCHEMA_VERSION = "0.29"
+DOCS_EXPORT_SCHEMA_VERSION = "0.30"
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE_JSON = {
     "release_manifest": "release_manifest.json",
@@ -14,6 +14,7 @@ SOURCE_JSON = {
     "demo_story": "demo_story.json",
     "gallery_index": "gallery_index.json",
     "package_audit": "package_audit.json",
+    "scenario_pack": "scenario_pack.json",
 }
 SKIP_MARKDOWN = {"docs_export.md"}
 
@@ -34,11 +35,13 @@ def docs_export(input_dir: str, title: str = "Leveraged ETP Risk Lab Documentati
     demo_story = present.get("demo_story") or {}
     gallery_index = present.get("gallery_index") or {}
     package_audit = present.get("package_audit") or {}
+    scenario_pack = present.get("scenario_pack") or {}
     markdown_artifacts = _markdown_artifacts(source_root, root)
     command_map = _command_map(asset_hub, demo_story)
     safety = _safety_caveats(asset_hub, demo_story)
     release_notes = _release_notes(release_manifest)
     local_links = _local_links(gallery_index, markdown_artifacts)
+    integration_notes = _integration_notes(scenario_pack)
     return {
         "schema_version": DOCS_EXPORT_SCHEMA_VERSION,
         "document_type": "docs_export",
@@ -55,6 +58,7 @@ def docs_export(input_dir: str, title: str = "Leveraged ETP Risk Lab Documentati
         "sources": _source_summary(sources),
         "safety_caveats": safety,
         "command_map": command_map,
+        "integration_notes": integration_notes,
         "release_notes": release_notes,
         "local_artifact_links": local_links,
         "markdown_artifacts": markdown_artifacts,
@@ -88,6 +92,9 @@ def docs_export_markdown(data: Dict[str, Any]) -> str:
     lines.extend(["", "## Command Map", "", "| Command | Purpose | Example |", "| --- | --- | --- |"])
     for item in data["command_map"]:
         lines.append(f"| `{item['name']}` | {_md_cell(item['purpose'])} | `{_md_cell(item['example'])}` |")
+    lines.extend(["", "## Integration Notes", "", "| System | Complement | Dependency Boundary |", "| --- | --- | --- |"])
+    for item in data["integration_notes"]:
+        lines.append(f"| `{item['target_system']}` | {_md_cell(item['complement'])} | {_md_cell(item['dependency_boundary'])} |")
     lines.extend(["", "## Release Notes", ""])
     if data["release_notes"]["markdown"]:
         lines.append(data["release_notes"]["markdown"].rstrip())
@@ -147,6 +154,13 @@ def docs_export_html(data: Dict[str, Any]) -> str:
     ]
     html_parts.extend(f"<li>{_e(item)}</li>" for item in data["safety_caveats"])
     html_parts.extend(["</ul></div></section>", "<section><h2>Command Map</h2>", _table_html(data["command_map"], ["name", "purpose", "example"]), "</section>"])
+    html_parts.extend(
+        [
+            "<section><h2>Integration Notes</h2>",
+            _table_html(data["integration_notes"], ["target_system", "complement", "dependency_boundary"]),
+            "</section>",
+        ]
+    )
     html_parts.extend(["<section><h2>Release Notes</h2>", f"<pre>{_e(release_markdown or 'No release notes source was available.')}</pre>", "</section>"])
     html_parts.extend(["<section><h2>Local Artifact Links</h2>", _artifact_links_html(data["local_artifact_links"]), "</section>"])
     html_parts.extend(["<section><h2>Markdown Artifacts</h2>", _table_html(data["markdown_artifacts"], ["path", "title", "bytes"]), "</section>"])
@@ -278,6 +292,24 @@ def _release_notes(release_manifest: Dict[str, Any]) -> Dict[str, str]:
         "title": str(notes.get("title") or ""),
         "markdown": str(notes.get("markdown") or ""),
     }
+
+
+def _integration_notes(scenario_pack: Dict[str, Any]) -> List[Dict[str, str]]:
+    rows: List[Dict[str, str]] = []
+    source = scenario_pack.get("integration_notes") if isinstance(scenario_pack, dict) else []
+    if isinstance(source, list):
+        for item in source:
+            if not isinstance(item, dict):
+                continue
+            rows.append(
+                {
+                    "target_system": str(item.get("target_system") or ""),
+                    "complement": str(item.get("complement") or ""),
+                    "dependency_boundary": str(item.get("dependency_boundary") or ""),
+                    "public_context": str(item.get("public_context") or ""),
+                }
+            )
+    return rows
 
 
 def _local_links(gallery_index: Dict[str, Any], markdown_artifacts: List[Dict[str, Any]]) -> List[Dict[str, Optional[str]]]:

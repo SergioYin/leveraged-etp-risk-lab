@@ -67,6 +67,19 @@
       "status": "pass"
     },
     {
+      "document_type": "scenario_case_study",
+      "issues": [],
+      "path": "examples/outputs/daily_reset_path_decay.json",
+      "provenance_flags": {
+        "broker_execution": false,
+        "live_market_data": false,
+        "private_context": false,
+        "shell_out": false
+      },
+      "schema_version": "0.30",
+      "status": "pass"
+    },
+    {
       "document_type": "demo_story",
       "issues": [],
       "path": "examples/outputs/demo_story.json",
@@ -82,7 +95,20 @@
         "live_market_data": false,
         "private_context": false
       },
-      "schema_version": "0.29",
+      "schema_version": "0.30",
+      "status": "pass"
+    },
+    {
+      "document_type": "scenario_case_study",
+      "issues": [],
+      "path": "examples/outputs/drawdown_risk.json",
+      "provenance_flags": {
+        "broker_execution": false,
+        "live_market_data": false,
+        "private_context": false,
+        "shell_out": false
+      },
+      "schema_version": "0.30",
       "status": "pass"
     },
     {
@@ -221,6 +247,19 @@
       "status": "pass"
     },
     {
+      "document_type": "scenario_case_study",
+      "issues": [],
+      "path": "examples/outputs/pretrade_guardrails.json",
+      "provenance_flags": {
+        "broker_execution": false,
+        "live_market_data": false,
+        "private_context": false,
+        "shell_out": false
+      },
+      "schema_version": "0.30",
+      "status": "pass"
+    },
+    {
       "document_type": "pretrade_plan",
       "issues": [],
       "path": "examples/outputs/pretrade_plan.json",
@@ -254,7 +293,7 @@
         "live_market_data": false,
         "private_context": false
       },
-      "schema_version": "0.29",
+      "schema_version": "0.30",
       "status": "pass"
     },
     {
@@ -274,6 +313,19 @@
       "path": "examples/outputs/risk_profiles.json",
       "provenance_flags": {},
       "schema_version": "0.16",
+      "status": "pass"
+    },
+    {
+      "document_type": "scenario_pack",
+      "issues": [],
+      "path": "examples/outputs/scenario_pack.json",
+      "provenance_flags": {
+        "broker_execution": false,
+        "live_market_data": false,
+        "private_context": false,
+        "shell_out": false
+      },
+      "schema_version": "0.30",
       "status": "pass"
     },
     {
@@ -371,9 +423,9 @@
   },
   "schema_version": "0.26",
   "summary": {
-    "artifacts": 37,
+    "artifacts": 41,
     "failed": 0,
-    "passed": 37,
+    "passed": 41,
     "ready": true
   }
 }

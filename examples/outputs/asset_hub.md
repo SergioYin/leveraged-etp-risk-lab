@@ -1,6 +1,6 @@
 # leveraged-etp-risk-lab Public Asset Hub
 
-**Version:** 0.29.0
+**Version:** 0.30.0
 
 **Not investment advice:** This decision packet is for scenario planning and education only. It is not investment advice, a recommendation, or a suitability determination.
 
@@ -14,7 +14,7 @@ leveraged-etp-risk-lab is a zero-dependency Python CLI for planning daily-reset 
 
 ### Proof Points
 
-- 80 checked demo artifacts indexed from examples/outputs.
+- 88 checked demo artifacts indexed from examples/outputs.
 - Package audit ready=True with 10 passed checks.
 - No runtime dependencies, workflow files, private context, broker execution, or live market data.
 
@@ -38,6 +38,7 @@ leveraged-etp-risk-lab is a zero-dependency Python CLI for planning daily-reset 
 | `order-ticket` | Create placeholder-only broker field and do-not-trade checklists. | `python -m leveraged_etp_risk_lab order-ticket --guardrail-check examples/outputs/guardrail_check.json --investment-memo examples/outputs/investment_memo.json --position-size examples/outputs/position_size.json --factsheet-check examples/outputs/factsheet_check.json --thesis-dashboard-data examples/outputs/thesis_dashboard_data.json --format markdown` |
 | `order-review` | Run a final educational order review without execution. | `python -m leveraged_etp_risk_lab order-review --order-ticket examples/outputs/order_ticket.json --guardrail-check examples/outputs/guardrail_check.json --cycle-update examples/outputs/cycle_update.json --audit-trail examples/outputs/audit_trail.json --format markdown` |
 | `demo-story` | Render the public walkthrough from checked demo artifacts. | `python -m leveraged_etp_risk_lab demo-story --input-dir examples/outputs --format markdown` |
+| `scenario-pack` | Write new-user case-study packs for path decay, drawdowns, and guardrails. | `python -m leveraged_etp_risk_lab scenario-pack --input-dir examples/outputs --fixtures-dir examples/fixtures --output-dir examples/outputs --format markdown` |
 | `schema-inventory` | List local schemas, required fields, matching examples, and public safety notes. | `python -m leveraged_etp_risk_lab schema-inventory --format markdown` |
 | `artifact-validate` | Validate example JSON artifacts against the local lightweight schema inventory. | `python -m leveraged_etp_risk_lab artifact-validate --format markdown` |
 | `release-manifest` | Emit release readiness, public artifact inventory, and release notes. | `python -m leveraged_etp_risk_lab release-manifest --input-dir examples/outputs --format markdown` |
@@ -53,7 +54,7 @@ leveraged-etp-risk-lab is a zero-dependency Python CLI for planning daily-reset 
 | sizing | 2 | examples/outputs/position_size.json, examples/outputs/position_size.md |
 | stress | 6 | examples/outputs/portfolio_sensitivity.json, examples/outputs/portfolio_sensitivity.md, examples/outputs/sensitivity_grid.json, examples/outputs/sensitivity_grid.md, examples/outputs/stress_matrix.json, examples/outputs/stress_matrix.md |
 | thesis/watchlist | 4 | examples/outputs/thesis_impact.json, examples/outputs/thesis_impact.md, examples/outputs/watchlist.json, examples/outputs/watchlist.md |
-| audit/story | 10 | examples/outputs/asset_hub.json, examples/outputs/asset_hub.md, examples/outputs/audit_trail.json, examples/outputs/audit_trail.md, examples/outputs/demo_story.json, examples/outputs/demo_story.md |
+| audit/story | 18 | examples/outputs/asset_hub.json, examples/outputs/asset_hub.md, examples/outputs/audit_trail.json, examples/outputs/audit_trail.md, examples/outputs/daily_reset_path_decay.json, examples/outputs/daily_reset_path_decay.md |
 | dashboard | 19 | examples/outputs/cycle_state.json, examples/outputs/cycle_state.md, examples/outputs/cycle_update.json, examples/outputs/cycle_update.md, examples/outputs/guardrail_check.json, examples/outputs/guardrail_check.md |
 | validation | 9 | examples/outputs/artifact_validation.json, examples/outputs/artifact_validation.md, examples/outputs/docs_export.html, examples/outputs/docs_export.json, examples/outputs/docs_export.md, examples/outputs/release_manifest.json |
 
@@ -115,10 +116,10 @@ leveraged-etp-risk-lab is a zero-dependency Python CLI for planning daily-reset 
 - Publish docs-export HTML alongside JSON and Markdown artifacts without JavaScript or external assets.
 - Keep command maps, release notes, safety caveats, and local artifact links sourced from checked outputs.
 
-### 0.29.x: Final release hardening
+### 0.30.x: Scenario case-study packs
 
-- Converge generated release artifacts deterministically before publishing examples.
-- Keep schema validation, docs export, package audit, selfcheck, README, and agent skill guidance aligned.
+- Publish deterministic case studies for path decay, drawdown risk, and pretrade guardrails.
+- Keep scenario packs, schema validation, docs export, package audit, README, and agent skill guidance aligned.
 
 ## Provenance
 

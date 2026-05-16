@@ -1,8 +1,8 @@
 # Schema Inventory
 
 - Schema version: 0.26
-- Schemas: 39
-- Matching examples: 39
+- Schemas: 41
+- Matching examples: 43
 
 | Schema | Document type | Version | Required fields | Matching examples | Safety notes |
 | --- | --- | --- | --- | --- | --- |
@@ -13,7 +13,7 @@
 | docs/cycle-state.schema.json | cycle_state | 0.22 | schema_version, document_type, not_investment_advice, state_id, inputs, summary, baseline_artifact_hashes, baseline_watch_items, baseline_risks, open_checks, review_cadence, provenance | examples/outputs/cycle_state.json | requires not_investment_advice; requires live_market_data: false; requires shell_out: false; requires provenance |
 | docs/cycle-update.schema.json | cycle_update | 0.22 | schema_version, document_type, not_investment_advice, state_id, inputs, summary, watch_items, hash_drift, status_transitions, next_review_actions, provenance | examples/outputs/cycle_update.json | requires not_investment_advice; requires live_market_data: false; requires shell_out: false; requires provenance |
 | docs/demo-story.schema.json | demo_story | 0.12 | schema_version, document_type, not_investment_advice, inputs, sections, provenance | examples/outputs/demo_story.json | requires not_investment_advice; requires provenance |
-| docs/docs-export.schema.json | docs_export | 0.29 | schema_version, document_type, title, summary, sources, safety_caveats, command_map, release_notes, local_artifact_links, markdown_artifacts, provenance | examples/outputs/docs_export.json | requires live_market_data: false; requires private_context: false; requires provenance |
+| docs/docs-export.schema.json | docs_export | 0.30 | schema_version, document_type, title, summary, sources, safety_caveats, command_map, integration_notes, release_notes, local_artifact_links, markdown_artifacts, provenance | examples/outputs/docs_export.json | requires live_market_data: false; requires private_context: false; requires provenance |
 | docs/exposure-report.schema.json | n/a | 0.2 | schema_version, portfolio, summary, positions, portfolio_path, stop_events, warnings | examples/outputs/portfolio_exposure.json | None |
 | docs/factsheet-check.schema.json | factsheet_check | 0.15 | schema_version, document_type, not_investment_advice, inputs, product, summary, checks, missing_fields, provenance | examples/outputs/factsheet_check.json | requires not_investment_advice; requires provenance |
 | docs/gallery-index.schema.json | gallery_index | 0.13 | schema_version, document_type, input_dir, summary, stages, provenance | examples/outputs/gallery_index.json | requires provenance |
@@ -33,10 +33,12 @@
 | docs/product.schema.json | n/a | n/a | name, ticker, underlying, leverage, annual_fee | None | None |
 | docs/recipe-run.schema.json | recipe_run | 0.17 | schema_version, document_type, inputs, summary, workflow, components, artifacts, provenance | examples/outputs/recipe_run.json | requires provenance |
 | docs/regime-gallery.schema.json | regime_gallery | 0.7 | schema_version, document_type, regimes | examples/outputs/regime_gallery.json | None |
-| docs/release-manifest.schema.json | release_manifest | 0.29 | schema_version, document_type, version, inputs, git, public_artifact_inventory, validation_summary, release_readiness, agent_skill_path, local_skill_sync_recommendation, github_release_notes_draft, post_release_verification_checklist, provenance | examples/outputs/release_manifest.json | requires live_market_data: false; requires private_context: false; requires provenance |
+| docs/release-manifest.schema.json | release_manifest | 0.30 | schema_version, document_type, version, inputs, git, public_artifact_inventory, validation_summary, release_readiness, agent_skill_path, local_skill_sync_recommendation, github_release_notes_draft, post_release_verification_checklist, provenance | examples/outputs/release_manifest.json | requires live_market_data: false; requires private_context: false; requires provenance |
 | docs/report-card.schema.json | report_card | 0.18 | schema_version, document_type, not_investment_advice, inputs, summary, artifact_cards, strengths, unresolved_checks, warnings, next_commands, provenance | examples/outputs/report_card.json | requires not_investment_advice; requires live_market_data: false; requires shell_out: false; requires provenance |
 | docs/risk-profile.schema.json | risk_profile_rules | 0.16 | schema_version, document_type, not_investment_advice, summary, profiles, provenance | examples/outputs/risk_profiles.json | requires not_investment_advice; requires provenance |
 | docs/run-ledger.schema.json | run_ledger_entry | 0.5 | schema_version, document_type, artifact_name, artifact_type, artifact_schema_version, bytes, sha256 | examples/outputs/run_ledger.jsonl | None |
+| docs/scenario-case-study.schema.json | scenario_case_study | 0.30 | schema_version, document_type, not_investment_advice, case_id, title, focus_area, cold_user_question, plain_english_answer, metrics, takeaways, guardrails, cold_user_evidence, source_artifacts, warnings, provenance | examples/outputs/daily_reset_path_decay.json, examples/outputs/drawdown_risk.json, examples/outputs/pretrade_guardrails.json | requires not_investment_advice; requires live_market_data: false; requires shell_out: false; requires private_context: false; requires broker_execution: false; requires provenance |
+| docs/scenario-pack.schema.json | scenario_pack | 0.30 | schema_version, document_type, not_investment_advice, pack_id, title, summary, cases, integration_notes, cold_user_evidence, source_artifacts, warnings, provenance | examples/outputs/scenario_pack.json | requires not_investment_advice; requires live_market_data: false; requires shell_out: false; requires private_context: false; requires broker_execution: false; requires provenance |
 | docs/schema-inventory.schema.json | schema_inventory | 0.26 | schema_version, document_type, summary, schemas, provenance | examples/outputs/schema_inventory.json | requires live_market_data: false; requires shell_out: false; requires private_context: false; requires broker_execution: false; requires provenance |
 | docs/sensitivity-grid.schema.json | sensitivity_grid | 0.19 | schema_version, document_type, not_investment_advice, product, inputs, summary, rows, cells, warnings, provenance | examples/outputs/sensitivity_grid.json | requires not_investment_advice; requires provenance |
 | docs/simulation-output.schema.json | n/a | 0.2 | schema_version, product, inputs, summary, band_events, warnings, path | examples/outputs/leveraged_nasdaq_3x.json, examples/outputs/single_stock_2x.json | None |

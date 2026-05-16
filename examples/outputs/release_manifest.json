@@ -10,8 +10,8 @@
     "status": "disabled"
   },
   "github_release_notes_draft": {
-    "markdown": "## v0.29.0\n\n### Highlights\n\n- Hardens deterministic release artifact generation for package audit, schema inventory, artifact validation, release manifest, and docs export.\n- Keeps docs export and release manifest schemas aligned for the final public v0.29 release surface.\n- Carries safety caveats, command map, release notes, and local artifact links from checked public artifacts.\n- Publishes 80 public demo artifacts across 8 gallery stages.\n- Tracks 39 local schemas and 37 validated artifacts.\n\n### Readiness\n\n- Release status: ready\n- Package audit ready: yes\n- Artifact validation ready: yes\n\n### Verification\n\n- `python -m unittest discover -s tests`\n- `python scripts/selfcheck.py`\n- `python -m leveraged_etp_risk_lab docs-export --input-dir examples/outputs --output examples/outputs/docs_export.html`\n- `python -m leveraged_etp_risk_lab package-audit --run-tests --format json`\n",
-    "title": "v0.29.0"
+    "markdown": "## v0.30.0\n\n### Highlights\n\n- Hardens deterministic release artifact generation for package audit, schema inventory, artifact validation, release manifest, and docs export.\n- Adds deterministic v0.30 scenario-pack case studies for new users comparing path decay, drawdown risk, and guardrails.\n- Carries safety caveats, command map, release notes, and local artifact links from checked public artifacts.\n- Publishes 88 public demo artifacts across 8 gallery stages.\n- Tracks 41 local schemas and 41 validated artifacts.\n\n### Readiness\n\n- Release status: ready\n- Package audit ready: yes\n- Artifact validation ready: yes\n\n### Verification\n\n- `python -m unittest discover -s tests`\n- `python scripts/selfcheck.py`\n- `python -m leveraged_etp_risk_lab docs-export --input-dir examples/outputs --output examples/outputs/docs_export.html`\n- `python -m leveraged_etp_risk_lab package-audit --run-tests --format json`\n",
+    "title": "v0.30.0"
   },
   "inputs": [
     {
@@ -72,7 +72,7 @@
   "post_release_verification_checklist": [
     {
       "id": "tag",
-      "item": "Confirm release tag v0.29.0 points at the intended commit.",
+      "item": "Confirm release tag v0.30.0 points at the intended commit.",
       "status": "todo"
     },
     {
@@ -163,13 +163,13 @@
         "suggested_next_command": "python -m leveraged_etp_risk_lab demo-story --input-dir examples/outputs --format markdown"
       },
       {
-        "artifact_count": 10,
+        "artifact_count": 18,
         "key_artifacts": [
           "examples/outputs/asset_hub.json",
           "examples/outputs/asset_hub.md",
           "examples/outputs/audit_trail.json",
           "examples/outputs/audit_trail.md",
-          "examples/outputs/demo_story.json"
+          "examples/outputs/daily_reset_path_decay.json"
         ],
         "stage": "audit/story",
         "suggested_next_command": "python -m leveraged_etp_risk_lab static-dashboard --input-dir examples/outputs --output examples/outputs/dashboard.html"
@@ -199,8 +199,8 @@
         "suggested_next_command": "python -m leveraged_etp_risk_lab artifact-validate --format markdown"
       }
     ],
-    "total_artifacts": 80,
-    "total_bytes": 617556
+    "total_artifacts": 88,
+    "total_bytes": 672844
   },
   "release_readiness": {
     "checks": [
@@ -237,17 +237,17 @@
     ],
     "status": "ready"
   },
-  "schema_version": "0.29",
+  "schema_version": "0.30",
   "validation_summary": {
     "artifact_validation_failed": 0,
     "artifact_validation_ready": true,
-    "artifacts_validated": 37,
+    "artifacts_validated": 41,
     "issues": 0,
     "package_checks": 10,
     "package_failed": 0,
     "package_ready": true,
-    "schema_examples": 39,
-    "schemas_indexed": 39
+    "schema_examples": 43,
+    "schemas_indexed": 41
   },
-  "version": "0.29.0"
+  "version": "0.30.0"
 }

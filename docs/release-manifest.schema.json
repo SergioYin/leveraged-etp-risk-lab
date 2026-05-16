@@ -18,7 +18,7 @@
     "provenance"
   ],
   "properties": {
-    "schema_version": {"const": "0.29"},
+    "schema_version": {"const": "0.30"},
     "document_type": {"const": "release_manifest"},
     "version": {"type": "string"},
     "inputs": {

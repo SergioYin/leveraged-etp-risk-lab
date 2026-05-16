@@ -1,6 +1,6 @@
 # Data Schema
 
-Simulation and exposure schemas are versioned as `0.2`. The user-facing pretrade plan packet is versioned as `0.3`. The product template gallery is versioned as `0.4`. Run comparison and run ledger metadata outputs are versioned as `0.5`. Thesis impact outputs are versioned as `0.6`. The market regime gallery is versioned as `0.7`. Position size plans are versioned as `0.8`. Stress matrix outputs are versioned as `0.9`. Thesis watchlist outputs are versioned as `0.10`. Package audit outputs are versioned as `0.11`. Public demo story outputs are versioned as `0.12`. Public gallery index outputs are versioned as `0.13`. Leveraged product glossary outputs are versioned as `0.14`. Product factsheet checklist outputs are versioned as `0.15`. Risk rule profile outputs are versioned as `0.16`. Recipe-run bundles are versioned as `0.17`. Decision-readiness report cards are versioned as `0.18`. Scenario sensitivity grids are versioned as `0.19`. Portfolio sensitivity, thesis dashboard data, and audit trail outputs are versioned as `0.20`. Investment memo and memo review outputs are versioned as `0.21`. Watch cycle state and update outputs are versioned as `0.22`. Allocation guardrail policy and check outputs are versioned as `0.23`. Order ticket and order review outputs are versioned as `0.24`. Public asset hub outputs are versioned as `0.25`. Schema inventory and artifact validation outputs are versioned as `0.26`. Release manifest and static docs export packets are versioned as `0.29`. Schemas are intentionally small enough to edit by hand.
+Simulation and exposure schemas are versioned as `0.2`. The user-facing pretrade plan packet is versioned as `0.3`. The product template gallery is versioned as `0.4`. Run comparison and run ledger metadata outputs are versioned as `0.5`. Thesis impact outputs are versioned as `0.6`. The market regime gallery is versioned as `0.7`. Position size plans are versioned as `0.8`. Stress matrix outputs are versioned as `0.9`. Thesis watchlist outputs are versioned as `0.10`. Package audit outputs are versioned as `0.11`. Public demo story outputs are versioned as `0.12`. Public gallery index outputs are versioned as `0.13`. Leveraged product glossary outputs are versioned as `0.14`. Product factsheet checklist outputs are versioned as `0.15`. Risk rule profile outputs are versioned as `0.16`. Recipe-run bundles are versioned as `0.17`. Decision-readiness report cards are versioned as `0.18`. Scenario sensitivity grids are versioned as `0.19`. Portfolio sensitivity, thesis dashboard data, and audit trail outputs are versioned as `0.20`. Investment memo and memo review outputs are versioned as `0.21`. Watch cycle state and update outputs are versioned as `0.22`. Allocation guardrail policy and check outputs are versioned as `0.23`. Order ticket and order review outputs are versioned as `0.24`. Public asset hub outputs are versioned as `0.25`. Schema inventory and artifact validation outputs are versioned as `0.26`. Scenario packs, scenario case studies, release manifests, and static docs export packets are versioned as `0.30`. Schemas are intentionally small enough to edit by hand.
 
 ## Product
 
@@ -630,13 +630,44 @@ Asset hub output contains:
 
 The Markdown format renders the same sections for a GitHub-facing public asset hub page.
 
+## Scenario Pack
+
+The `scenario-pack` command reads existing local example fixtures and generated reports, then writes Markdown and JSON case-study artifacts. It is designed for new users who need a deterministic walkthrough of daily-reset path decay, drawdown risk, and pretrade guardrails without live market data or broker execution.
+
+Scenario pack output contains:
+
+- `schema_version`: fixed as `0.30`.
+- `document_type`: fixed as `scenario_pack`.
+- `pack_id`: stable identifier for the new-user pack.
+- `summary`: case count, source artifact count, focus areas, and safety booleans.
+- `cases`: index rows for the generated case-study JSON and Markdown files.
+- `integration_notes`: generic public notes explaining how scenario-pack outputs can complement `portfolio-risk-compass` and `invest-thesis-ledger` as static handoff artifacts without runtime dependencies, private context, workflow reads, or bidirectional sync.
+- `cold_user_evidence`: exact reproducibility commands, local artifact links, and explicit safety boundaries.
+- `source_artifacts`: local paths, file kinds, sizes, and SHA-256 hashes.
+- `warnings`: public safety caveats.
+- `provenance`: command metadata, including `live_market_data: false`, `shell_out: false`, `private_context: false`, `broker_execution: false`, and `workflow_files_read: false`.
+
+Scenario case-study output contains:
+
+- `schema_version`: fixed as `0.30`.
+- `document_type`: fixed as `scenario_case_study`.
+- `case_id`: one of `daily_reset_path_decay`, `drawdown_risk`, or `pretrade_guardrails`.
+- `focus_area`: the new-user comparison theme.
+- `cold_user_question`: the user-facing question answered by the case.
+- `plain_english_answer`: concise explanation sourced from local artifacts.
+- `metrics`: deterministic metrics pulled from existing fixture/report outputs.
+- `takeaways`: short reading notes for the case.
+- `guardrails`: checks to perform before relying on the modeled output.
+- `cold_user_evidence`: exact commands, case-specific artifact links, and safety boundaries for new users.
+- `source_artifacts`, `warnings`, and `provenance`: local reproducibility and safety metadata.
+
 ## Release Manifest
 
 The `release-manifest` command reads public local release artifacts from an input directory, defaulting to `examples/outputs`. It looks for `asset_hub.json`, `package_audit.json`, `artifact_validation.json`, `schema_inventory.json`, `demo_story.json`, and `gallery_index.json`. Missing or invalid inputs are recorded in the manifest instead of failing the command. Optional git metadata is included when available; use `--no-git` for deterministic output without repository metadata.
 
 Release manifest output contains:
 
-- `schema_version`: fixed as `0.29`.
+- `schema_version`: fixed as `0.30`.
 - `document_type`: fixed as `release_manifest`.
 - `version`: package version intended for release.
 - `inputs`: status rows for each optional source artifact.
@@ -654,17 +685,18 @@ The command does not read workflow files, environment variables, command history
 
 ## Static Docs Export
 
-The `docs-export` command reads public release and demo artifacts from an input directory, defaulting to `examples/outputs`. It expects `release_manifest.json`, `asset_hub.json`, `demo_story.json`, `gallery_index.json`, and `package_audit.json`, then scans sibling Markdown artifacts. It emits a single self-contained static HTML page by default, or JSON/Markdown with `--format`. The HTML contains inline CSS only: no JavaScript, no external assets, no live data, no workflow files, and no private context.
+The `docs-export` command reads public release and demo artifacts from an input directory, defaulting to `examples/outputs`. It expects `release_manifest.json`, `asset_hub.json`, `demo_story.json`, `gallery_index.json`, `package_audit.json`, and `scenario_pack.json`, then scans sibling Markdown artifacts. It emits a single self-contained static HTML page by default, or JSON/Markdown with `--format`. The HTML contains inline CSS only: no JavaScript, no external assets, no live data, no workflow files, and no private context.
 
 Docs export JSON output contains:
 
-- `schema_version`: fixed as `0.29`.
+- `schema_version`: fixed as `0.30`.
 - `document_type`: fixed as `docs_export`.
 - `title`: export page title.
 - `summary`: source-artifact count, Markdown artifact count, command count, local-link count, release status, and package-readiness flag.
-- `sources`: status rows for the five JSON source artifacts.
+- `sources`: status rows for the six JSON source artifacts.
 - `safety_caveats`: deduplicated safety language from asset-hub and demo-story plus export-level caveats.
 - `command_map`: command names, purposes, and examples sourced from asset-hub or demo-story.
+- `integration_notes`: optional static handoff notes sourced from scenario-pack for companion-tool documentation.
 - `release_notes`: release notes draft sourced from release-manifest.
 - `local_artifact_links`: local artifact paths and stage/type metadata for generated examples.
 - `markdown_artifacts`: Markdown path, title, and byte metadata.

@@ -1,0 +1,210 @@
+{
+  "audience": "New users comparing daily-reset path decay, drawdown risk, and pretrade guardrails.",
+  "cases": [
+    {
+      "case_id": "daily_reset_path_decay",
+      "focus_area": "daily_reset_path_decay",
+      "json": "daily_reset_path_decay.json",
+      "markdown": "daily_reset_path_decay.md",
+      "primary_metric": "nasdaq_underlying_return_pct=0.4038",
+      "title": "Daily Reset Path Decay"
+    },
+    {
+      "case_id": "drawdown_risk",
+      "focus_area": "drawdown_risk",
+      "json": "drawdown_risk.json",
+      "markdown": "drawdown_risk.md",
+      "primary_metric": "worst_regime=gap_down",
+      "title": "Drawdown Risk Under Regime Stress"
+    },
+    {
+      "case_id": "pretrade_guardrails",
+      "focus_area": "pretrade_guardrails",
+      "json": "pretrade_guardrails.json",
+      "markdown": "pretrade_guardrails.md",
+      "primary_metric": "pretrade_loss_budget=750.0",
+      "title": "Pretrade Guardrails Before An Order"
+    }
+  ],
+  "cold_user_evidence": {
+    "artifact_links": [
+      {
+        "label": "Scenario pack JSON",
+        "path": "examples/outputs/scenario_pack.json"
+      },
+      {
+        "label": "Scenario pack Markdown",
+        "path": "examples/outputs/scenario_pack.md"
+      }
+    ],
+    "exact_commands": [
+      {
+        "command": "python -m leveraged_etp_risk_lab demo-bundle --output-dir examples/outputs",
+        "purpose": "Regenerate the deterministic demo inputs used by the pack."
+      },
+      {
+        "command": "python -m leveraged_etp_risk_lab scenario-pack --input-dir examples/outputs --fixtures-dir examples/fixtures --output-dir examples/outputs --format markdown",
+        "purpose": "Regenerate the new-user scenario pack and case-study outputs."
+      },
+      {
+        "command": "python -m leveraged_etp_risk_lab artifact-validate examples/outputs/scenario_pack.json examples/outputs/daily_reset_path_decay.json examples/outputs/drawdown_risk.json examples/outputs/pretrade_guardrails.json --format markdown",
+        "purpose": "Validate the scenario-pack artifacts against local schemas."
+      }
+    ],
+    "safety_boundaries": [
+      "Uses checked-in fixtures and generated local examples only.",
+      "Does not read live market data, private context, workflow files, environment variables, or command history.",
+      "Does not place trades, contact brokers, determine suitability, or recommend buying, selling, or holding any product.",
+      "Treats position sizing and guardrail outputs as educational review aids, not instructions."
+    ]
+  },
+  "document_type": "scenario_pack",
+  "integration_notes": [
+    {
+      "complement": "Scenario-pack outputs provide deterministic stress narratives and case-study metrics that can support a portfolio risk review as evidence for path decay, drawdown, and guardrail checks.",
+      "dependency_boundary": "No import, API call, shared storage, live-data feed, broker connection, or runtime dependency is required; another system can read or ignore these static files independently.",
+      "handoff_artifacts": [
+        "scenario_pack.json",
+        "daily_reset_path_decay.json",
+        "drawdown_risk.json",
+        "pretrade_guardrails.json"
+      ],
+      "public_context": "Uses only checked-in fixtures and generated public examples; no private portfolio context is embedded.",
+      "target_system": "portfolio-risk-compass"
+    },
+    {
+      "complement": "Scenario-pack case studies can be attached to thesis records as reproducible evidence for thesis pressure tests, invalidation checks, and pretrade review notes.",
+      "dependency_boundary": "No dependency, ledger schema change, plugin, workflow read, command history read, or bidirectional sync is assumed; the notes are portable references, not a required integration.",
+      "handoff_artifacts": [
+        "scenario_pack.md",
+        "daily_reset_path_decay.md",
+        "drawdown_risk.md",
+        "pretrade_guardrails.md"
+      ],
+      "public_context": "Keeps examples generic and educational, with no account, broker, suitability, or private thesis data.",
+      "target_system": "invest-thesis-ledger"
+    }
+  ],
+  "not_investment_advice": "This scenario pack is for scenario planning and education only. It is not investment advice, a recommendation, or a suitability determination.",
+  "pack_id": "v0.30-new-user-scenario-pack",
+  "provenance": {
+    "broker_execution": false,
+    "command": "scenario-pack",
+    "fixtures_dir": "examples/fixtures",
+    "input_dir": "examples/outputs",
+    "live_market_data": false,
+    "private_context": false,
+    "shell_out": false,
+    "workflow_files_read": false
+  },
+  "schema_version": "0.30",
+  "source_artifacts": [
+    {
+      "bytes": 2782,
+      "kind": "json",
+      "path": "examples/outputs/leveraged_nasdaq_3x.json",
+      "sha256": "fec4c6c6c83dc18d76579831a83f024506a2983ffdfb0c9f7a2c305561dda48a"
+    },
+    {
+      "bytes": 2539,
+      "kind": "json",
+      "path": "examples/outputs/single_stock_2x.json",
+      "sha256": "8d87b4439e5ce51026b9cc5139f4860460f033a32ffcbe7f033a9a8f78f90a9f"
+    },
+    {
+      "bytes": 3460,
+      "kind": "json",
+      "path": "examples/outputs/pretrade_plan.json",
+      "sha256": "3632930e9b4f6c91c35158bbd19e41f7ea5f98be90fdfda747512cf6702a30f6"
+    },
+    {
+      "bytes": 2630,
+      "kind": "json",
+      "path": "examples/outputs/position_size.json",
+      "sha256": "e858c5ccc946ab87c7b926859fca2cb863013cda3b48b7af3e8085ab379bf940"
+    },
+    {
+      "bytes": 3894,
+      "kind": "json",
+      "path": "examples/outputs/stress_matrix.json",
+      "sha256": "a53e51a4e83cd511dd25b4180b099ad4a70ab36742838b5db260520502d31c3f"
+    },
+    {
+      "bytes": 31150,
+      "kind": "json",
+      "path": "examples/outputs/portfolio_sensitivity.json",
+      "sha256": "f87f726abab68709f90de09c75570888b96604d981882b1ebd06ac0f51454f07"
+    },
+    {
+      "bytes": 5525,
+      "kind": "json",
+      "path": "examples/outputs/guardrail_check.json",
+      "sha256": "f3ffc62fe1af1941cbd60e5ae38801ad5ecfb8eaa86777f04a75cc301ab744ab"
+    },
+    {
+      "bytes": 2548,
+      "kind": "json",
+      "path": "examples/outputs/order_review.json",
+      "sha256": "63130d3e268e8171d890e745792848cfe9399fa97479bfee6505401e940eb4c7"
+    },
+    {
+      "bytes": 961,
+      "kind": "json",
+      "path": "examples/outputs/compare_runs.json",
+      "sha256": "245621f9ace03d0bc48244e2b87348afb99db14185b2541a6b757e7cbe77de32"
+    },
+    {
+      "bytes": 275,
+      "kind": "json",
+      "path": "examples/fixtures/leveraged_nasdaq_3x.json",
+      "sha256": "a4f63ef24a1282198e65cda178946b42fdfa0182165607fe86bfd60f92e0cd8f"
+    },
+    {
+      "bytes": 282,
+      "kind": "json",
+      "path": "examples/fixtures/single_stock_2x.json",
+      "sha256": "fbcd054ad34a4b97b42c8bf9e3b3c4b180f16e49b193c928ae03eeeb07e3bbc2"
+    },
+    {
+      "bytes": 153,
+      "kind": "csv",
+      "path": "examples/fixtures/nasdaq_chop_path.csv",
+      "sha256": "9a3ebd3e2fd9bbfa7545d16570c36c3a039d530e435aa5939eddd513d156cf79"
+    },
+    {
+      "bytes": 161,
+      "kind": "csv",
+      "path": "examples/fixtures/single_stock_gap_path.csv",
+      "sha256": "d01514fd8e06f8ce62e23fe0657e33e527a99b3354d5e9eff971d4005d50a838"
+    },
+    {
+      "bytes": 536,
+      "kind": "json",
+      "path": "examples/fixtures/portfolio_manifest.json",
+      "sha256": "be6ed3d6d32f4b14b713beb1e8b7576dc75ef9f301efbaf4f36ff744128dfbdf"
+    },
+    {
+      "bytes": 421,
+      "kind": "md",
+      "path": "examples/fixtures/thesis_note.md",
+      "sha256": "0cec7a6990f71726205f8e2ac9c507ce7782f252d4592e5092c1c4fdeb825b85"
+    }
+  ],
+  "summary": {
+    "broker_execution": false,
+    "cases": 3,
+    "focus_areas": [
+      "daily_reset_path_decay",
+      "drawdown_risk",
+      "pretrade_guardrails"
+    ],
+    "live_market_data": false,
+    "source_artifacts": 15
+  },
+  "title": "New User Scenario Pack",
+  "warnings": [
+    "Scenario packs are deterministic educational artifacts and do not recommend trades.",
+    "Daily reset, gap risk, liquidity, borrow, tax, and execution effects can differ from these local examples.",
+    "Pretrade guardrails are review gates, not suitability determinations or broker instructions."
+  ]
+}

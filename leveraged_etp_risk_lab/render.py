@@ -693,6 +693,13 @@ def demo_story_packet(input_dir: Path) -> Dict[str, Any]:
                 "command": "python -m leveraged_etp_risk_lab demo-story --input-dir examples/outputs --format markdown",
             },
             {
+                "name": "scenario-pack",
+                "command": (
+                    "python -m leveraged_etp_risk_lab scenario-pack --input-dir examples/outputs "
+                    "--fixtures-dir examples/fixtures --output-dir examples/outputs --format markdown"
+                ),
+            },
+            {
                 "name": "schema-inventory",
                 "command": "python -m leveraged_etp_risk_lab schema-inventory --format markdown",
             },
@@ -990,6 +997,7 @@ def version_report(version: str) -> str:
                 "demo-story",
                 "gallery-index",
                 "asset-hub",
+                "scenario-pack",
                 "package-audit",
                 "schema-inventory",
                 "artifact-validate",

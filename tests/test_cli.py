@@ -43,6 +43,7 @@ class CliTests(unittest.TestCase):
         self.assertIn("demo-story", data["commands"])
         self.assertIn("gallery-index", data["commands"])
         self.assertIn("asset-hub", data["commands"])
+        self.assertIn("scenario-pack", data["commands"])
         self.assertIn("package-audit", data["commands"])
         self.assertIn("schema-inventory", data["commands"])
         self.assertIn("artifact-validate", data["commands"])
@@ -134,6 +135,14 @@ class CliTests(unittest.TestCase):
             self.assertTrue((Path(tmp) / "gallery_index.md").exists())
             self.assertTrue((Path(tmp) / "asset_hub.json").exists())
             self.assertTrue((Path(tmp) / "asset_hub.md").exists())
+            self.assertTrue((Path(tmp) / "scenario_pack.json").exists())
+            self.assertTrue((Path(tmp) / "scenario_pack.md").exists())
+            self.assertTrue((Path(tmp) / "daily_reset_path_decay.json").exists())
+            self.assertTrue((Path(tmp) / "daily_reset_path_decay.md").exists())
+            self.assertTrue((Path(tmp) / "drawdown_risk.json").exists())
+            self.assertTrue((Path(tmp) / "drawdown_risk.md").exists())
+            self.assertTrue((Path(tmp) / "pretrade_guardrails.json").exists())
+            self.assertTrue((Path(tmp) / "pretrade_guardrails.md").exists())
             self.assertTrue((Path(tmp) / "schema_inventory.json").exists())
             self.assertTrue((Path(tmp) / "schema_inventory.md").exists())
             self.assertTrue((Path(tmp) / "artifact_validation.json").exists())
@@ -157,15 +166,74 @@ class CliTests(unittest.TestCase):
             release_manifest = json.loads((Path(tmp) / "release_manifest.json").read_text(encoding="utf-8"))
             docs_export = json.loads((Path(tmp) / "docs_export.json").read_text(encoding="utf-8"))
             self.assertTrue(package_audit["summary"]["ready"])
-            self.assertEqual(release_manifest["schema_version"], "0.29")
+            self.assertEqual(release_manifest["schema_version"], "0.30")
             self.assertEqual(release_manifest["release_readiness"]["status"], "ready")
-            self.assertEqual(docs_export["schema_version"], "0.29")
+            self.assertEqual(docs_export["schema_version"], "0.30")
+
+    def test_scenario_pack_writes_case_studies(self):
+        with tempfile.TemporaryDirectory() as demo_tmp, tempfile.TemporaryDirectory() as pack_tmp:
+            demo = self.run_cli("demo-bundle", "--output-dir", demo_tmp)
+            self.assertEqual(demo.returncode, 0, demo.stderr)
+            result = self.run_cli(
+                "scenario-pack",
+                "--input-dir",
+                demo_tmp,
+                "--fixtures-dir",
+                "examples/fixtures",
+                "--output-dir",
+                pack_tmp,
+                "--format",
+                "json",
+            )
+            self.assertEqual(result.returncode, 0, result.stderr)
+            data = json.loads(result.stdout)
+            self.assertEqual(data["schema_version"], "0.30")
+            self.assertEqual(data["document_type"], "scenario_pack")
+            self.assertEqual(data["summary"]["cases"], 3)
+            targets = {item["target_system"] for item in data["integration_notes"]}
+            self.assertEqual(targets, {"portfolio-risk-compass", "invest-thesis-ledger"})
+            self.assertTrue(all("dependency" in item["dependency_boundary"].lower() for item in data["integration_notes"]))
+            self.assertTrue(all("private" in item["public_context"].lower() for item in data["integration_notes"]))
+            self.assertFalse(data["provenance"]["live_market_data"])
+            self.assertFalse(data["provenance"]["workflow_files_read"])
+            evidence = data["cold_user_evidence"]
+            commands = [item["command"] for item in evidence["exact_commands"]]
+            self.assertIn(
+                "python -m leveraged_etp_risk_lab scenario-pack --input-dir examples/outputs --fixtures-dir examples/fixtures --output-dir examples/outputs --format markdown",
+                commands,
+            )
+            self.assertIn(
+                "examples/outputs/scenario_pack.md",
+                [item["path"] for item in evidence["artifact_links"]],
+            )
+            pack_markdown = (Path(pack_tmp) / "scenario_pack.md").read_text(encoding="utf-8")
+            self.assertIn("## Integration Notes", pack_markdown)
+            self.assertIn("portfolio-risk-compass", pack_markdown)
+            self.assertIn("invest-thesis-ledger", pack_markdown)
+            self.assertTrue(any("Does not place trades" in item for item in evidence["safety_boundaries"]))
+            self.assertTrue((Path(pack_tmp) / "scenario_pack.json").exists())
+            self.assertTrue((Path(pack_tmp) / "daily_reset_path_decay.md").exists())
+            case = json.loads((Path(pack_tmp) / "pretrade_guardrails.json").read_text(encoding="utf-8"))
+            self.assertEqual(case["document_type"], "scenario_case_study")
+            self.assertEqual(case["focus_area"], "pretrade_guardrails")
+            self.assertIn("guardrail_status", case["metrics"])
+            case_evidence = case["cold_user_evidence"]
+            self.assertTrue(
+                any("order-review" in item["command"] for item in case_evidence["exact_commands"])
+            )
+            self.assertIn(
+                "examples/outputs/pretrade_guardrails.md",
+                [item["path"] for item in case_evidence["artifact_links"]],
+            )
+            case_markdown = (Path(pack_tmp) / "pretrade_guardrails.md").read_text(encoding="utf-8")
+            self.assertIn("## New User Evidence", case_markdown)
+            self.assertIn("### Exact Commands", case_markdown)
 
     def test_release_manifest_json_and_missing_inputs(self):
         result = self.run_cli("release-manifest", "--no-git")
         self.assertEqual(result.returncode, 0, result.stderr)
         data = json.loads(result.stdout)
-        self.assertEqual(data["schema_version"], "0.29")
+        self.assertEqual(data["schema_version"], "0.30")
         self.assertEqual(data["document_type"], "release_manifest")
         self.assertEqual(data["version"], __version__)
         self.assertFalse(data["provenance"]["live_market_data"])
@@ -193,7 +261,7 @@ class CliTests(unittest.TestCase):
         json_result = self.run_cli("docs-export", "--format", "json")
         self.assertEqual(json_result.returncode, 0, json_result.stderr)
         data = json.loads(json_result.stdout)
-        self.assertEqual(data["schema_version"], "0.29")
+        self.assertEqual(data["schema_version"], "0.30")
         self.assertEqual(data["document_type"], "docs_export")
         self.assertFalse(data["provenance"]["live_market_data"])
         self.assertFalse(data["provenance"]["external_assets"])
@@ -201,11 +269,16 @@ class CliTests(unittest.TestCase):
         self.assertFalse(data["provenance"]["private_context"])
         self.assertFalse(data["provenance"]["workflow_files_read"])
         self.assertTrue(data["command_map"])
+        self.assertEqual(
+            {item["target_system"] for item in data["integration_notes"]},
+            {"portfolio-risk-compass", "invest-thesis-ledger"},
+        )
         self.assertTrue(data["markdown_artifacts"])
 
         markdown_result = self.run_cli("docs-export", "--format", "markdown")
         self.assertEqual(markdown_result.returncode, 0, markdown_result.stderr)
         self.assertIn("# Leveraged ETP Risk Lab Documentation", markdown_result.stdout)
+        self.assertIn("## Integration Notes", markdown_result.stdout)
         self.assertIn("## Release Notes", markdown_result.stdout)
 
     def test_schema_inventory_respects_custom_root_paths(self):
@@ -1175,6 +1248,11 @@ class CliTests(unittest.TestCase):
         self.assertIn("examples/outputs/schema_inventory.json", required_examples)
         self.assertIn("docs/artifact-validation.schema.json", required_schemas)
         self.assertIn("examples/outputs/artifact_validation.json", required_examples)
+        self.assertIn("docs/scenario-pack.schema.json", required_schemas)
+        self.assertIn("docs/scenario-case-study.schema.json", required_schemas)
+        self.assertIn("examples/outputs/scenario_pack.json", required_examples)
+        self.assertIn("examples/outputs/pretrade_guardrails.json", required_examples)
+        self.assertTrue(any("scenario-pack" in " ".join(command["command"]) for command in data["test_commands"]))
         self.assertTrue(any(command["status"] == "not_run" for command in data["test_commands"]))
 
     def test_explain_term_json(self):

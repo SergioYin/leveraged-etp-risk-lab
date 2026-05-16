@@ -2,7 +2,7 @@
 
 - Schema version: 0.26
 - Ready: yes
-- Artifacts: 37 passed, 0 failed
+- Artifacts: 41 passed, 0 failed
 
 | Artifact | Document type | Version | Status | Issues | Safety flags |
 | --- | --- | --- | --- | --- | --- |
@@ -12,8 +12,10 @@
 | examples/outputs/compare_runs.json | run_comparison | 0.5 | pass | None | None |
 | examples/outputs/cycle_state.json | cycle_state | 0.22 | pass | None | live_market_data=False, shell_out=False |
 | examples/outputs/cycle_update.json | cycle_update | 0.22 | pass | None | live_market_data=False, shell_out=False |
+| examples/outputs/daily_reset_path_decay.json | scenario_case_study | 0.30 | pass | None | live_market_data=False, shell_out=False, private_context=False, broker_execution=False |
 | examples/outputs/demo_story.json | demo_story | 0.12 | pass | None | None |
-| examples/outputs/docs_export.json | docs_export | 0.29 | pass | None | live_market_data=False, private_context=False |
+| examples/outputs/docs_export.json | docs_export | 0.30 | pass | None | live_market_data=False, private_context=False |
+| examples/outputs/drawdown_risk.json | scenario_case_study | 0.30 | pass | None | live_market_data=False, shell_out=False, private_context=False, broker_execution=False |
 | examples/outputs/factsheet_check.json | factsheet_check | 0.15 | pass | None | None |
 | examples/outputs/gallery_index.json | gallery_index | 0.13 | pass | None | None |
 | examples/outputs/glossary.json | glossary | 0.14 | pass | None | None |
@@ -28,12 +30,14 @@
 | examples/outputs/portfolio_exposure.json | exposure_report | 0.2 | pass | None | None |
 | examples/outputs/portfolio_sensitivity.json | portfolio_sensitivity | 0.20 | pass | None | live_market_data=False, shell_out=False |
 | examples/outputs/position_size.json | position_size_plan | 0.8 | pass | None | None |
+| examples/outputs/pretrade_guardrails.json | scenario_case_study | 0.30 | pass | None | live_market_data=False, shell_out=False, private_context=False, broker_execution=False |
 | examples/outputs/pretrade_plan.json | pretrade_plan | 0.3 | pass | None | None |
 | examples/outputs/recipe_run.json | recipe_run | 0.17 | pass | None | shell_out=False |
 | examples/outputs/regime_gallery.json | regime_gallery | 0.7 | pass | None | None |
-| examples/outputs/release_manifest.json | release_manifest | 0.29 | pass | None | live_market_data=False, private_context=False |
+| examples/outputs/release_manifest.json | release_manifest | 0.30 | pass | None | live_market_data=False, private_context=False |
 | examples/outputs/report_card.json | report_card | 0.18 | pass | None | live_market_data=False, shell_out=False |
 | examples/outputs/risk_profiles.json | risk_profile_rules | 0.16 | pass | None | None |
+| examples/outputs/scenario_pack.json | scenario_pack | 0.30 | pass | None | live_market_data=False, shell_out=False, private_context=False, broker_execution=False |
 | examples/outputs/schema_inventory.json | schema_inventory | 0.26 | pass | None | live_market_data=False, shell_out=False, private_context=False, broker_execution=False |
 | examples/outputs/sensitivity_grid.json | sensitivity_grid | 0.19 | pass | None | live_market_data=False, shell_out=False |
 | examples/outputs/single_stock_2x.json | simulation_output | 0.2 | pass | None | None |

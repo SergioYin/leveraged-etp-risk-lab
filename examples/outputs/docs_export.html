@@ -33,10 +33,10 @@ footer{margin-top:32px;border-top:1px solid #c7d2cc;padding-top:14px;color:#5261
 <p>Self-contained static documentation export for checked local artifacts. No JavaScript, external assets, live data, broker execution, workflows, or private context are required.</p>
 </header>
 <section><h2>Summary</h2><div class="grid">
-<div class="metric"><b>Sources</b><span>5/5</span></div>
-<div class="metric"><b>Markdown</b><span>36</span></div>
-<div class="metric"><b>Commands</b><span>21</span></div>
-<div class="metric"><b>Links</b><span>81</span></div>
+<div class="metric"><b>Sources</b><span>6/6</span></div>
+<div class="metric"><b>Markdown</b><span>40</span></div>
+<div class="metric"><b>Commands</b><span>22</span></div>
+<div class="metric"><b>Links</b><span>89</span></div>
 <div class="metric"><b>Release</b><span>ready</span></div>
 <div class="metric"><b>Package Ready</b><span>yes</span></div>
 </div></section>
@@ -151,6 +151,11 @@ footer{margin-top:32px;border-top:1px solid #c7d2cc;padding-top:14px;color:#5261
 <td>python -m leveraged_etp_risk_lab demo-story --input-dir examples/outputs --format markdown</td>
 </tr>
 <tr>
+<td>scenario-pack</td>
+<td>Write new-user case-study packs for path decay, drawdowns, and guardrails.</td>
+<td>python -m leveraged_etp_risk_lab scenario-pack --input-dir examples/outputs --fixtures-dir examples/fixtures --output-dir examples/outputs --format markdown</td>
+</tr>
+<tr>
 <td>schema-inventory</td>
 <td>List local schemas, required fields, matching examples, and public safety notes.</td>
 <td>python -m leveraged_etp_risk_lab schema-inventory --format markdown</td>
@@ -177,16 +182,34 @@ footer{margin-top:32px;border-top:1px solid #c7d2cc;padding-top:14px;color:#5261
 </tr>
 </tbody></table>
 </section>
+<section><h2>Integration Notes</h2>
+<table><thead><tr>
+<th>Target System</th>
+<th>Complement</th>
+<th>Dependency Boundary</th>
+</tr></thead><tbody>
+<tr>
+<td>portfolio-risk-compass</td>
+<td>Scenario-pack outputs provide deterministic stress narratives and case-study metrics that can support a portfolio risk review as evidence for path decay, drawdown, and guardrail checks.</td>
+<td>No import, API call, shared storage, live-data feed, broker connection, or runtime dependency is required; another system can read or ignore these static files independently.</td>
+</tr>
+<tr>
+<td>invest-thesis-ledger</td>
+<td>Scenario-pack case studies can be attached to thesis records as reproducible evidence for thesis pressure tests, invalidation checks, and pretrade review notes.</td>
+<td>No dependency, ledger schema change, plugin, workflow read, command history read, or bidirectional sync is assumed; the notes are portable references, not a required integration.</td>
+</tr>
+</tbody></table>
+</section>
 <section><h2>Release Notes</h2>
-<pre>## v0.29.0
+<pre>## v0.30.0
 
 ### Highlights
 
 - Hardens deterministic release artifact generation for package audit, schema inventory, artifact validation, release manifest, and docs export.
-- Keeps docs export and release manifest schemas aligned for the final public v0.29 release surface.
+- Adds deterministic v0.30 scenario-pack case studies for new users comparing path decay, drawdown risk, and guardrails.
 - Carries safety caveats, command map, release notes, and local artifact links from checked public artifacts.
-- Publishes 80 public demo artifacts across 8 gallery stages.
-- Tracks 39 local schemas and 37 validated artifacts.
+- Publishes 88 public demo artifacts across 8 gallery stages.
+- Tracks 41 local schemas and 41 validated artifacts.
 
 ### Readiness
 
@@ -249,12 +272,20 @@ footer{margin-top:32px;border-top:1px solid #c7d2cc;padding-top:14px;color:#5261
 <tr><td><a href="examples/outputs/asset_hub.md">examples/outputs/asset_hub.md</a></td><td>md</td><td>audit/story</td></tr>
 <tr><td><a href="examples/outputs/audit_trail.json">examples/outputs/audit_trail.json</a></td><td>json</td><td>audit/story</td></tr>
 <tr><td><a href="examples/outputs/audit_trail.md">examples/outputs/audit_trail.md</a></td><td>md</td><td>audit/story</td></tr>
+<tr><td><a href="examples/outputs/daily_reset_path_decay.json">examples/outputs/daily_reset_path_decay.json</a></td><td>json</td><td>audit/story</td></tr>
+<tr><td><a href="examples/outputs/daily_reset_path_decay.md">examples/outputs/daily_reset_path_decay.md</a></td><td>md</td><td>audit/story</td></tr>
 <tr><td><a href="examples/outputs/demo_story.json">examples/outputs/demo_story.json</a></td><td>json</td><td>audit/story</td></tr>
 <tr><td><a href="examples/outputs/demo_story.md">examples/outputs/demo_story.md</a></td><td>md</td><td>audit/story</td></tr>
+<tr><td><a href="examples/outputs/drawdown_risk.json">examples/outputs/drawdown_risk.json</a></td><td>json</td><td>audit/story</td></tr>
+<tr><td><a href="examples/outputs/drawdown_risk.md">examples/outputs/drawdown_risk.md</a></td><td>md</td><td>audit/story</td></tr>
 <tr><td><a href="examples/outputs/factsheet_check.json">examples/outputs/factsheet_check.json</a></td><td>json</td><td>audit/story</td></tr>
 <tr><td><a href="examples/outputs/factsheet_check.md">examples/outputs/factsheet_check.md</a></td><td>md</td><td>audit/story</td></tr>
 <tr><td><a href="examples/outputs/package_audit.json">examples/outputs/package_audit.json</a></td><td>json</td><td>audit/story</td></tr>
 <tr><td><a href="examples/outputs/package_audit.md">examples/outputs/package_audit.md</a></td><td>md</td><td>audit/story</td></tr>
+<tr><td><a href="examples/outputs/pretrade_guardrails.json">examples/outputs/pretrade_guardrails.json</a></td><td>json</td><td>audit/story</td></tr>
+<tr><td><a href="examples/outputs/pretrade_guardrails.md">examples/outputs/pretrade_guardrails.md</a></td><td>md</td><td>audit/story</td></tr>
+<tr><td><a href="examples/outputs/scenario_pack.json">examples/outputs/scenario_pack.json</a></td><td>json</td><td>audit/story</td></tr>
+<tr><td><a href="examples/outputs/scenario_pack.md">examples/outputs/scenario_pack.md</a></td><td>md</td><td>audit/story</td></tr>
 <tr><td><a href="examples/outputs/cycle_state.json">examples/outputs/cycle_state.json</a></td><td>json</td><td>dashboard</td></tr>
 <tr><td><a href="examples/outputs/cycle_state.md">examples/outputs/cycle_state.md</a></td><td>md</td><td>dashboard</td></tr>
 <tr><td><a href="examples/outputs/cycle_update.json">examples/outputs/cycle_update.json</a></td><td>json</td><td>dashboard</td></tr>
@@ -295,12 +326,12 @@ footer{margin-top:32px;border-top:1px solid #c7d2cc;padding-top:14px;color:#5261
 <tr>
 <td>examples/outputs/artifact_validation.md</td>
 <td>Artifact Validation</td>
-<td>4366</td>
+<td>5063</td>
 </tr>
 <tr>
 <td>examples/outputs/asset_hub.md</td>
 <td>leveraged-etp-risk-lab Public Asset Hub</td>
-<td>11973</td>
+<td>12270</td>
 </tr>
 <tr>
 <td>examples/outputs/audit_trail.md</td>
@@ -328,9 +359,19 @@ footer{margin-top:32px;border-top:1px solid #c7d2cc;padding-top:14px;color:#5261
 <td>1435</td>
 </tr>
 <tr>
+<td>examples/outputs/daily_reset_path_decay.md</td>
+<td>Daily Reset Path Decay</td>
+<td>3728</td>
+</tr>
+<tr>
 <td>examples/outputs/demo_story.md</td>
 <td>Public Demo Story</td>
-<td>9015</td>
+<td>9204</td>
+</tr>
+<tr>
+<td>examples/outputs/drawdown_risk.md</td>
+<td>Drawdown Risk Under Regime Stress</td>
+<td>3484</td>
 </tr>
 <tr>
 <td>examples/outputs/factsheet_check.md</td>
@@ -340,7 +381,7 @@ footer{margin-top:32px;border-top:1px solid #c7d2cc;padding-top:14px;color:#5261
 <tr>
 <td>examples/outputs/gallery_index.md</td>
 <td>Public Gallery Index</td>
-<td>22312</td>
+<td>23971</td>
 </tr>
 <tr>
 <td>examples/outputs/glossary.md</td>
@@ -385,7 +426,7 @@ footer{margin-top:32px;border-top:1px solid #c7d2cc;padding-top:14px;color:#5261
 <tr>
 <td>examples/outputs/package_audit.md</td>
 <td>Package Audit</td>
-<td>5371</td>
+<td>5540</td>
 </tr>
 <tr>
 <td>examples/outputs/portfolio_exposure.md</td>
@@ -401,6 +442,11 @@ footer{margin-top:32px;border-top:1px solid #c7d2cc;padding-top:14px;color:#5261
 <td>examples/outputs/position_size.md</td>
 <td>Position Size Plan: NDAQ3X</td>
 <td>2279</td>
+</tr>
+<tr>
+<td>examples/outputs/pretrade_guardrails.md</td>
+<td>Pretrade Guardrails Before An Order</td>
+<td>3693</td>
 </tr>
 <tr>
 <td>examples/outputs/pretrade_plan.md</td>
@@ -420,7 +466,7 @@ footer{margin-top:32px;border-top:1px solid #c7d2cc;padding-top:14px;color:#5261
 <tr>
 <td>examples/outputs/release_manifest.md</td>
 <td>Release Manifest</td>
-<td>4148</td>
+<td>4180</td>
 </tr>
 <tr>
 <td>examples/outputs/report_card.md</td>
@@ -433,9 +479,14 @@ footer{margin-top:32px;border-top:1px solid #c7d2cc;padding-top:14px;color:#5261
 <td>4978</td>
 </tr>
 <tr>
+<td>examples/outputs/scenario_pack.md</td>
+<td>New User Scenario Pack</td>
+<td>4679</td>
+</tr>
+<tr>
 <td>examples/outputs/schema_inventory.md</td>
 <td>Schema Inventory</td>
-<td>11100</td>
+<td>12159</td>
 </tr>
 <tr>
 <td>examples/outputs/sensitivity_grid.md</td>
@@ -515,7 +566,14 @@ footer{margin-top:32px;border-top:1px solid #c7d2cc;padding-top:14px;color:#5261
 <td>present</td>
 <td>examples/outputs/release_manifest.json</td>
 <td>release_manifest</td>
-<td>0.29</td>
+<td>0.30</td>
+</tr>
+<tr>
+<td>scenario_pack</td>
+<td>present</td>
+<td>examples/outputs/scenario_pack.json</td>
+<td>scenario_pack</td>
+<td>0.30</td>
 </tr>
 </tbody></table>
 </section>

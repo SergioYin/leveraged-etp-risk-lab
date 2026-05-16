@@ -78,6 +78,7 @@ from .release import release_manifest, release_manifest_markdown
 from .recipe import recipe_run, recipe_run_markdown
 from .risk_profile import PROFILE_IDS, risk_profile_markdown, risk_profile_packet
 from .schema_validation import artifact_validate, artifact_validation_markdown, schema_inventory, schema_inventory_markdown
+from .scenario_pack import scenario_pack_markdown, write_scenario_pack
 from .templates import get_template, template_gallery, template_ids, template_product
 
 
@@ -157,6 +158,8 @@ def main(argv: Optional[List[str]] = None) -> int:
             return command_gallery_index(args)
         if args.command == "asset-hub":
             return command_asset_hub(args)
+        if args.command == "scenario-pack":
+            return command_scenario_pack(args)
         if args.command == "package-audit":
             return command_package_audit(args)
         if args.command == "schema-inventory":
@@ -484,6 +487,16 @@ def build_parser() -> argparse.ArgumentParser:
     hub.add_argument("--input-dir", default="examples/outputs", help="directory containing demo output artifacts")
     hub.add_argument("--format", choices=["json", "markdown"], default="markdown")
     hub.add_argument("--output", help="write output to a file instead of stdout")
+
+    scenario_pack_parser = sub.add_parser(
+        "scenario-pack",
+        help="write deterministic Markdown and JSON case-study packs from local example fixtures and reports",
+    )
+    scenario_pack_parser.add_argument("--input-dir", default="examples/outputs", help="directory containing generated JSON reports")
+    scenario_pack_parser.add_argument("--fixtures-dir", default="examples/fixtures", help="directory containing example fixtures")
+    scenario_pack_parser.add_argument("--output-dir", default="examples/outputs", help="directory where scenario-pack artifacts are written")
+    scenario_pack_parser.add_argument("--format", choices=["json", "markdown"], default="markdown", help="stdout summary format")
+    scenario_pack_parser.add_argument("--output", help="write stdout summary to a file instead of stdout")
 
     audit = sub.add_parser("package-audit", help="emit a package readiness checklist")
     audit.add_argument("--format", choices=["json", "markdown"], default="json")
@@ -1146,6 +1159,7 @@ def command_demo_bundle(args: argparse.Namespace) -> int:
     )
     write_text(root / "order_review.json", to_json(review))
     write_text(root / "order_review.md", order_review_markdown(review))
+    write_scenario_pack(str(root), str(examples), str(root))
     release_surface = [
         root / "package_audit.json",
         root / "package_audit.md",
@@ -1164,6 +1178,14 @@ def command_demo_bundle(args: argparse.Namespace) -> int:
         root / "docs_export.json",
         root / "docs_export.md",
         root / "docs_export.html",
+        root / "scenario_pack.json",
+        root / "scenario_pack.md",
+        root / "daily_reset_path_decay.json",
+        root / "daily_reset_path_decay.md",
+        root / "drawdown_risk.json",
+        root / "drawdown_risk.md",
+        root / "pretrade_guardrails.json",
+        root / "pretrade_guardrails.md",
     ]
     previous_snapshot = None
     release_surface_converged = False
@@ -1220,6 +1242,13 @@ def command_gallery_index(args: argparse.Namespace) -> int:
 def command_asset_hub(args: argparse.Namespace) -> int:
     result = asset_hub(args.input_dir, __version__)
     text = to_json(result) if args.format == "json" else asset_hub_markdown(result)
+    return emit(text, args.output)
+
+
+def command_scenario_pack(args: argparse.Namespace) -> int:
+    result = write_scenario_pack(args.input_dir, args.fixtures_dir, args.output_dir)
+    result.pop("_cases", None)
+    text = to_json(result) if args.format == "json" else scenario_pack_markdown(result)
     return emit(text, args.output)
 
 

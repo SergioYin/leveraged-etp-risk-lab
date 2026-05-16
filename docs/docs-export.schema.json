@@ -10,13 +10,14 @@
     "sources",
     "safety_caveats",
     "command_map",
+    "integration_notes",
     "release_notes",
     "local_artifact_links",
     "markdown_artifacts",
     "provenance"
   ],
   "properties": {
-    "schema_version": {"const": "0.29"},
+    "schema_version": {"const": "0.30"},
     "document_type": {"const": "docs_export"},
     "title": {"type": "string"},
     "summary": {
@@ -67,6 +68,20 @@
           "name": {"type": "string"},
           "purpose": {"type": "string"},
           "example": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "integration_notes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["target_system", "complement", "dependency_boundary", "public_context"],
+        "properties": {
+          "target_system": {"type": "string"},
+          "complement": {"type": "string"},
+          "dependency_boundary": {"type": "string"},
+          "public_context": {"type": "string"}
         },
         "additionalProperties": false
       }

@@ -35,6 +35,7 @@ Use this skill when a user asks an agent to inspect, extend, validate, or explai
 - Build public asset hubs from checked-in package-audit, gallery-index, demo-story, order-review, guardrail-check, and cycle-update artifacts.
 - Build release manifests from checked-in public release artifacts with optional git metadata, release notes drafts, skill sync guidance, and post-release checks.
 - Export one self-contained static HTML documentation page from checked-in release, asset-hub, demo-story, gallery-index, package-audit, and Markdown artifacts.
+- Build new-user scenario packs with exact reproducibility commands, artifact links, and safety boundaries for path decay, drawdown risk, and pretrade guardrails.
 - Render static no-JavaScript dashboards from manifests or demo outputs.
 - List or export built-in generic product templates.
 - Audit package readiness for public sharing.
@@ -84,6 +85,7 @@ python -m leveraged_etp_risk_lab gallery-index --input-dir examples/outputs --fo
 python -m leveraged_etp_risk_lab asset-hub --input-dir examples/outputs --format markdown
 python -m leveraged_etp_risk_lab release-manifest --input-dir examples/outputs --format markdown
 python -m leveraged_etp_risk_lab docs-export --input-dir examples/outputs --output examples/outputs/docs_export.html
+python -m leveraged_etp_risk_lab scenario-pack --input-dir examples/outputs --fixtures-dir examples/fixtures --output-dir examples/outputs --format markdown
 python -m leveraged_etp_risk_lab static-dashboard --manifest examples/fixtures/portfolio_manifest.json --output examples/outputs/dashboard.html
 python -m leveraged_etp_risk_lab template-list --format markdown
 python -m leveraged_etp_risk_lab template-export --template generic-3x-long-index --output generic_index_3x.json
@@ -137,6 +139,7 @@ python -m unittest discover -s tests
 - Confirm asset hubs read checked package-audit, gallery-index, demo-story, order-review, guardrail-check, and cycle-update artifacts and render product positioning, command map, demo artifact map, readiness checklist, safety boundaries, agent skill path, release checklist, and three-version roadmap.
 - Confirm release manifests read asset-hub, package-audit, artifact-validation, schema-inventory, demo-story, gallery-index, and optional git metadata without failing when artifacts or git metadata are absent, and render public artifact inventory, validation summary, release readiness, agent skill path, local skill sync recommendation, GitHub release notes draft, and post-release verification checklist.
 - Confirm docs exports read release-manifest, asset-hub, demo-story, gallery-index, package-audit, and sibling Markdown artifacts and render one self-contained static HTML page with no JavaScript, no external assets, safety caveats, command map, release notes, local artifact links, and deterministic provenance.
+- Confirm scenario packs and case studies include `cold_user_evidence` with exact commands, local artifact links, safety boundaries, deterministic source artifacts, `live_market_data: false`, `shell_out: false`, `private_context: false`, and `broker_execution: false`.
 - Confirm demo-bundle converges generated release artifacts deterministically instead of relying on hand-duplicated regeneration steps.
 - Confirm static dashboards are self-contained HTML with no JavaScript.
 - Confirm `template-list` includes the four built-in generic templates and `template-export` writes product-schema JSON only.

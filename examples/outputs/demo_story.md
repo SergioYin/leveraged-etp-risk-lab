@@ -122,6 +122,12 @@ python -m leveraged_etp_risk_lab order-review --order-ticket examples/outputs/or
 python -m leveraged_etp_risk_lab demo-story --input-dir examples/outputs --format markdown
 ```
 
+### scenario-pack
+
+```bash
+python -m leveraged_etp_risk_lab scenario-pack --input-dir examples/outputs --fixtures-dir examples/fixtures --output-dir examples/outputs --format markdown
+```
+
 ### schema-inventory
 
 ```bash

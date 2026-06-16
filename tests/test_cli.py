@@ -44,6 +44,7 @@ class CliTests(unittest.TestCase):
         self.assertIn("gallery-index", data["commands"])
         self.assertIn("asset-hub", data["commands"])
         self.assertIn("scenario-pack", data["commands"])
+        self.assertIn("scenario-pack-reviewer-receipt", data["commands"])
         self.assertIn("package-audit", data["commands"])
         self.assertIn("schema-inventory", data["commands"])
         self.assertIn("artifact-validate", data["commands"])
@@ -143,6 +144,8 @@ class CliTests(unittest.TestCase):
             self.assertTrue((Path(tmp) / "drawdown_risk.md").exists())
             self.assertTrue((Path(tmp) / "pretrade_guardrails.json").exists())
             self.assertTrue((Path(tmp) / "pretrade_guardrails.md").exists())
+            self.assertTrue((Path(tmp) / "scenario_pack_reviewer_receipt.json").exists())
+            self.assertTrue((Path(tmp) / "scenario_pack_reviewer_receipt.md").exists())
             self.assertTrue((Path(tmp) / "schema_inventory.json").exists())
             self.assertTrue((Path(tmp) / "schema_inventory.md").exists())
             self.assertTrue((Path(tmp) / "artifact_validation.json").exists())
@@ -212,6 +215,7 @@ class CliTests(unittest.TestCase):
             self.assertIn("invest-thesis-ledger", pack_markdown)
             self.assertTrue(any("Does not place trades" in item for item in evidence["safety_boundaries"]))
             self.assertTrue((Path(pack_tmp) / "scenario_pack.json").exists())
+            self.assertTrue((Path(pack_tmp) / "scenario_pack_reviewer_receipt.json").exists())
             self.assertTrue((Path(pack_tmp) / "daily_reset_path_decay.md").exists())
             case = json.loads((Path(pack_tmp) / "pretrade_guardrails.json").read_text(encoding="utf-8"))
             self.assertEqual(case["document_type"], "scenario_case_study")
@@ -228,6 +232,60 @@ class CliTests(unittest.TestCase):
             case_markdown = (Path(pack_tmp) / "pretrade_guardrails.md").read_text(encoding="utf-8")
             self.assertIn("## New User Evidence", case_markdown)
             self.assertIn("### Exact Commands", case_markdown)
+
+    def test_scenario_pack_reviewer_receipt(self):
+        with tempfile.TemporaryDirectory() as demo_tmp, tempfile.TemporaryDirectory() as receipt_tmp:
+            demo = self.run_cli("demo-bundle", "--output-dir", demo_tmp)
+            self.assertEqual(demo.returncode, 0, demo.stderr)
+            result = self.run_cli(
+                "scenario-pack-reviewer-receipt",
+                "--input-dir",
+                demo_tmp,
+                "--fixtures-dir",
+                "examples/fixtures",
+                "--artifact-dir",
+                demo_tmp,
+                "--output-dir",
+                receipt_tmp,
+                "--format",
+                "json",
+            )
+            self.assertEqual(result.returncode, 0, result.stderr)
+            data = json.loads(result.stdout)
+            self.assertEqual(data["schema_version"], "0.30")
+            self.assertEqual(data["document_type"], "scenario_pack_reviewer_receipt")
+            self.assertEqual(data["summary"]["hash_algorithm"], "sha256")
+            self.assertFalse(data["summary"]["live_market_data"])
+            self.assertFalse(data["summary"]["broker_execution"])
+            self.assertFalse(data["summary"]["trading_enabled"])
+            self.assertFalse(data["summary"]["personalized_recommendations"])
+            self.assertEqual(data["summary"]["fixture_inputs"], 6)
+            self.assertEqual(data["summary"]["generated_artifacts"], 8)
+            self.assertTrue(all(len(item["sha256"]) == 64 for item in data["fixture_inputs"]))
+            artifact_paths = [item["path"] for item in data["generated_artifacts"]]
+            self.assertIn(f"{demo_tmp}/scenario_pack.json", artifact_paths)
+            self.assertIn("scenario-pack-reviewer-receipt", data["regeneration"]["receipt_command"])
+            self.assertIn("artifact-validate", data["regeneration"]["validation_command"])
+            boundaries = " ".join(data["safety_boundaries"]).lower()
+            self.assertIn("no live market data", boundaries)
+            self.assertIn("no broker", boundaries)
+            self.assertIn("no trading", boundaries)
+            self.assertIn("no personalized recommendation", boundaries)
+            receipt_markdown = (Path(receipt_tmp) / "scenario_pack_reviewer_receipt.md").read_text(encoding="utf-8")
+            self.assertIn("## Generated Artifacts", receipt_markdown)
+            self.assertIn("SHA-256", receipt_markdown)
+            validation = self.run_cli("artifact-validate", str(Path(receipt_tmp) / "scenario_pack_reviewer_receipt.json"))
+            self.assertEqual(validation.returncode, 0, validation.stderr)
+            validation_data = json.loads(validation.stdout)
+            self.assertTrue(validation_data["summary"]["ready"])
+            data["summary"]["trading_enabled"] = True
+            bad_receipt = Path(receipt_tmp) / "bad_scenario_pack_reviewer_receipt.json"
+            bad_receipt.write_text(json.dumps(data), encoding="utf-8")
+            bad_validation = self.run_cli("artifact-validate", str(bad_receipt))
+            self.assertEqual(bad_validation.returncode, 0, bad_validation.stderr)
+            bad_validation_data = json.loads(bad_validation.stdout)
+            self.assertFalse(bad_validation_data["summary"]["ready"])
+            self.assertIn("trading_enabled must be false", bad_validation_data["artifacts"][0]["issues"])
 
     def test_release_manifest_json_and_missing_inputs(self):
         result = self.run_cli("release-manifest", "--no-git")
@@ -1250,9 +1308,12 @@ class CliTests(unittest.TestCase):
         self.assertIn("examples/outputs/artifact_validation.json", required_examples)
         self.assertIn("docs/scenario-pack.schema.json", required_schemas)
         self.assertIn("docs/scenario-case-study.schema.json", required_schemas)
+        self.assertIn("docs/scenario-pack-reviewer-receipt.schema.json", required_schemas)
         self.assertIn("examples/outputs/scenario_pack.json", required_examples)
         self.assertIn("examples/outputs/pretrade_guardrails.json", required_examples)
+        self.assertIn("examples/outputs/scenario_pack_reviewer_receipt.json", required_examples)
         self.assertTrue(any("scenario-pack" in " ".join(command["command"]) for command in data["test_commands"]))
+        self.assertTrue(any("scenario-pack-reviewer-receipt" in " ".join(command["command"]) for command in data["test_commands"]))
         self.assertTrue(any(command["status"] == "not_run" for command in data["test_commands"]))
 
     def test_explain_term_json(self):

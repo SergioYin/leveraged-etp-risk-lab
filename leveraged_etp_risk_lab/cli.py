@@ -78,7 +78,7 @@ from .release import release_manifest, release_manifest_markdown
 from .recipe import recipe_run, recipe_run_markdown
 from .risk_profile import PROFILE_IDS, risk_profile_markdown, risk_profile_packet
 from .schema_validation import artifact_validate, artifact_validation_markdown, schema_inventory, schema_inventory_markdown
-from .scenario_pack import scenario_pack_markdown, write_scenario_pack
+from .scenario_pack import scenario_pack_markdown, scenario_pack_review_receipt_markdown, write_scenario_pack, write_scenario_pack_review_receipt
 from .templates import get_template, template_gallery, template_ids, template_product
 
 
@@ -160,6 +160,8 @@ def main(argv: Optional[List[str]] = None) -> int:
             return command_asset_hub(args)
         if args.command == "scenario-pack":
             return command_scenario_pack(args)
+        if args.command == "scenario-pack-reviewer-receipt":
+            return command_scenario_pack_reviewer_receipt(args)
         if args.command == "package-audit":
             return command_package_audit(args)
         if args.command == "schema-inventory":
@@ -497,6 +499,17 @@ def build_parser() -> argparse.ArgumentParser:
     scenario_pack_parser.add_argument("--output-dir", default="examples/outputs", help="directory where scenario-pack artifacts are written")
     scenario_pack_parser.add_argument("--format", choices=["json", "markdown"], default="markdown", help="stdout summary format")
     scenario_pack_parser.add_argument("--output", help="write stdout summary to a file instead of stdout")
+
+    receipt = sub.add_parser(
+        "scenario-pack-reviewer-receipt",
+        help="write a deterministic reviewer receipt for scenario-pack fixtures, hashes, and safety boundaries",
+    )
+    receipt.add_argument("--input-dir", default="examples/outputs", help="directory containing generated JSON report inputs")
+    receipt.add_argument("--fixtures-dir", default="examples/fixtures", help="directory containing example fixtures")
+    receipt.add_argument("--artifact-dir", default="examples/outputs", help="directory containing generated scenario-pack artifacts")
+    receipt.add_argument("--output-dir", default="examples/outputs", help="directory where reviewer receipt artifacts are written")
+    receipt.add_argument("--format", choices=["json", "markdown"], default="markdown", help="stdout summary format")
+    receipt.add_argument("--output", help="write stdout summary to a file instead of stdout")
 
     audit = sub.add_parser("package-audit", help="emit a package readiness checklist")
     audit.add_argument("--format", choices=["json", "markdown"], default="json")
@@ -1186,6 +1199,8 @@ def command_demo_bundle(args: argparse.Namespace) -> int:
         root / "drawdown_risk.md",
         root / "pretrade_guardrails.json",
         root / "pretrade_guardrails.md",
+        root / "scenario_pack_reviewer_receipt.json",
+        root / "scenario_pack_reviewer_receipt.md",
     ]
     previous_snapshot = None
     release_surface_converged = False
@@ -1249,6 +1264,12 @@ def command_scenario_pack(args: argparse.Namespace) -> int:
     result = write_scenario_pack(args.input_dir, args.fixtures_dir, args.output_dir)
     result.pop("_cases", None)
     text = to_json(result) if args.format == "json" else scenario_pack_markdown(result)
+    return emit(text, args.output)
+
+
+def command_scenario_pack_reviewer_receipt(args: argparse.Namespace) -> int:
+    result = write_scenario_pack_review_receipt(args.input_dir, args.fixtures_dir, args.artifact_dir, args.output_dir)
+    text = to_json(result) if args.format == "json" else scenario_pack_review_receipt_markdown(result)
     return emit(text, args.output)
 
 

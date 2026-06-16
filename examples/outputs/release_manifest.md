@@ -18,8 +18,8 @@
 
 ## Public Artifact Inventory
 
-- Total artifacts: 88
-- Total bytes: 672844
+- Total artifacts: 90
+- Total bytes: 690269
 
 | Stage | Artifacts | Key artifacts |
 | --- | ---: | --- |
@@ -28,7 +28,7 @@
 | sizing | 2 | examples/outputs/position_size.json, examples/outputs/position_size.md |
 | stress | 6 | examples/outputs/portfolio_sensitivity.json, examples/outputs/portfolio_sensitivity.md, examples/outputs/sensitivity_grid.json, examples/outputs/sensitivity_grid.md, examples/outputs/stress_matrix.json |
 | thesis/watchlist | 4 | examples/outputs/thesis_impact.json, examples/outputs/thesis_impact.md, examples/outputs/watchlist.json, examples/outputs/watchlist.md |
-| audit/story | 18 | examples/outputs/asset_hub.json, examples/outputs/asset_hub.md, examples/outputs/audit_trail.json, examples/outputs/audit_trail.md, examples/outputs/daily_reset_path_decay.json |
+| audit/story | 20 | examples/outputs/asset_hub.json, examples/outputs/asset_hub.md, examples/outputs/audit_trail.json, examples/outputs/audit_trail.md, examples/outputs/daily_reset_path_decay.json |
 | dashboard | 19 | examples/outputs/cycle_state.json, examples/outputs/cycle_state.md, examples/outputs/cycle_update.json, examples/outputs/cycle_update.md, examples/outputs/dashboard.html |
 | validation | 9 | examples/outputs/artifact_validation.json, examples/outputs/artifact_validation.md, examples/outputs/docs_export.html, examples/outputs/docs_export.json, examples/outputs/docs_export.md |
 
@@ -36,7 +36,7 @@
 
 - Package ready: yes
 - Artifact validation ready: yes
-- Schemas indexed: 41
+- Schemas indexed: 42
 - Validation issues: 0
 
 ## Release Readiness
@@ -56,8 +56,8 @@
 - Hardens deterministic release artifact generation for package audit, schema inventory, artifact validation, release manifest, and docs export.
 - Adds deterministic v0.30 scenario-pack case studies for new users comparing path decay, drawdown risk, and guardrails.
 - Carries safety caveats, command map, release notes, and local artifact links from checked public artifacts.
-- Publishes 88 public demo artifacts across 8 gallery stages.
-- Tracks 41 local schemas and 41 validated artifacts.
+- Publishes 90 public demo artifacts across 8 gallery stages.
+- Tracks 42 local schemas and 42 validated artifacts.
 
 ### Readiness
 

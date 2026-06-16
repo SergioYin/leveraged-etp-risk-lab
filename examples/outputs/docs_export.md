@@ -2,7 +2,7 @@
 
 - Schema version: 0.30
 - Source artifacts: 6/6 present
-- Markdown artifacts: 40
+- Markdown artifacts: 41
 - Release status: ready
 - Package ready: yes
 
@@ -74,8 +74,8 @@
 - Hardens deterministic release artifact generation for package audit, schema inventory, artifact validation, release manifest, and docs export.
 - Adds deterministic v0.30 scenario-pack case studies for new users comparing path decay, drawdown risk, and guardrails.
 - Carries safety caveats, command map, release notes, and local artifact links from checked public artifacts.
-- Publishes 88 public demo artifacts across 8 gallery stages.
-- Tracks 41 local schemas and 41 validated artifacts.
+- Publishes 90 public demo artifacts across 8 gallery stages.
+- Tracks 42 local schemas and 42 validated artifacts.
 
 ### Readiness
 
@@ -154,6 +154,8 @@
 | `examples/outputs/pretrade_guardrails.md` | md | audit/story |
 | `examples/outputs/scenario_pack.json` | json | audit/story |
 | `examples/outputs/scenario_pack.md` | md | audit/story |
+| `examples/outputs/scenario_pack_reviewer_receipt.json` | json | audit/story |
+| `examples/outputs/scenario_pack_reviewer_receipt.md` | md | audit/story |
 | `examples/outputs/cycle_state.json` | json | dashboard |
 | `examples/outputs/cycle_state.md` | md | dashboard |
 | `examples/outputs/cycle_update.json` | json | dashboard |
@@ -188,7 +190,7 @@
 
 | Artifact | Title | Bytes |
 | --- | --- | ---: |
-| `examples/outputs/artifact_validation.md` | Artifact Validation | 5063 |
+| `examples/outputs/artifact_validation.md` | Artifact Validation | 5263 |
 | `examples/outputs/asset_hub.md` | leveraged-etp-risk-lab Public Asset Hub | 12270 |
 | `examples/outputs/audit_trail.md` | Audit Trail | 3442 |
 | `examples/outputs/checklist.md` | Leveraged ETP Risk Checklist: risk-review | 718 |
@@ -199,7 +201,7 @@
 | `examples/outputs/demo_story.md` | Public Demo Story | 9204 |
 | `examples/outputs/drawdown_risk.md` | Drawdown Risk Under Regime Stress | 3484 |
 | `examples/outputs/factsheet_check.md` | Product Factsheet Checklist | 1174 |
-| `examples/outputs/gallery_index.md` | Public Gallery Index | 23971 |
+| `examples/outputs/gallery_index.md` | Public Gallery Index | 24437 |
 | `examples/outputs/glossary.md` | Leveraged Product Glossary | 5341 |
 | `examples/outputs/guardrail_check.md` | Allocation Guardrail Check | 2207 |
 | `examples/outputs/guardrail_policy.md` | Allocation Guardrail Policy: default | 961 |
@@ -208,7 +210,7 @@
 | `examples/outputs/leveraged_nasdaq_3x.md` | Simulation: NDAQ3X | 1426 |
 | `examples/outputs/order_review.md` | Final Educational Order Review | 1414 |
 | `examples/outputs/order_ticket.md` | Pre-Order Ticket: NDAQ3X | 3555 |
-| `examples/outputs/package_audit.md` | Package Audit | 5540 |
+| `examples/outputs/package_audit.md` | Package Audit | 5758 |
 | `examples/outputs/portfolio_exposure.md` | Exposure Report: Generic Leveraged ETP Portfolio | 1430 |
 | `examples/outputs/portfolio_sensitivity.md` | Portfolio Sensitivity: Generic Leveraged ETP Portfolio | 1870 |
 | `examples/outputs/position_size.md` | Position Size Plan: NDAQ3X | 2279 |
@@ -220,7 +222,8 @@
 | `examples/outputs/report_card.md` | Decision Readiness Report Card | 4259 |
 | `examples/outputs/risk_profiles.md` | Risk Rule Profiles | 4978 |
 | `examples/outputs/scenario_pack.md` | New User Scenario Pack | 4679 |
-| `examples/outputs/schema_inventory.md` | Schema Inventory | 12159 |
+| `examples/outputs/scenario_pack_reviewer_receipt.md` | Scenario Pack Reviewer Receipt | 5517 |
+| `examples/outputs/schema_inventory.md` | Schema Inventory | 12685 |
 | `examples/outputs/sensitivity_grid.md` | Sensitivity Grid: NDAQ3X | 3962 |
 | `examples/outputs/single_stock_2x.md` | Simulation: STK2X | 1372 |
 | `examples/outputs/stress_matrix.md` | Stress Matrix: NDAQ3X | 1957 |

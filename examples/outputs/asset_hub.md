@@ -14,7 +14,7 @@ leveraged-etp-risk-lab is a zero-dependency Python CLI for planning daily-reset 
 
 ### Proof Points
 
-- 88 checked demo artifacts indexed from examples/outputs.
+- 90 checked demo artifacts indexed from examples/outputs.
 - Package audit ready=True with 10 passed checks.
 - No runtime dependencies, workflow files, private context, broker execution, or live market data.
 
@@ -54,7 +54,7 @@ leveraged-etp-risk-lab is a zero-dependency Python CLI for planning daily-reset 
 | sizing | 2 | examples/outputs/position_size.json, examples/outputs/position_size.md |
 | stress | 6 | examples/outputs/portfolio_sensitivity.json, examples/outputs/portfolio_sensitivity.md, examples/outputs/sensitivity_grid.json, examples/outputs/sensitivity_grid.md, examples/outputs/stress_matrix.json, examples/outputs/stress_matrix.md |
 | thesis/watchlist | 4 | examples/outputs/thesis_impact.json, examples/outputs/thesis_impact.md, examples/outputs/watchlist.json, examples/outputs/watchlist.md |
-| audit/story | 18 | examples/outputs/asset_hub.json, examples/outputs/asset_hub.md, examples/outputs/audit_trail.json, examples/outputs/audit_trail.md, examples/outputs/daily_reset_path_decay.json, examples/outputs/daily_reset_path_decay.md |
+| audit/story | 20 | examples/outputs/asset_hub.json, examples/outputs/asset_hub.md, examples/outputs/audit_trail.json, examples/outputs/audit_trail.md, examples/outputs/daily_reset_path_decay.json, examples/outputs/daily_reset_path_decay.md |
 | dashboard | 19 | examples/outputs/cycle_state.json, examples/outputs/cycle_state.md, examples/outputs/cycle_update.json, examples/outputs/cycle_update.md, examples/outputs/guardrail_check.json, examples/outputs/guardrail_check.md |
 | validation | 9 | examples/outputs/artifact_validation.json, examples/outputs/artifact_validation.md, examples/outputs/docs_export.html, examples/outputs/docs_export.json, examples/outputs/docs_export.md, examples/outputs/release_manifest.json |
 

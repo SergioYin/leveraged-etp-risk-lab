@@ -192,6 +192,13 @@ python -m leveraged_etp_risk_lab scenario-pack \
   --output-dir examples/outputs \
   --format markdown
 
+python -m leveraged_etp_risk_lab scenario-pack-reviewer-receipt \
+  --input-dir examples/outputs \
+  --fixtures-dir examples/fixtures \
+  --artifact-dir examples/outputs \
+  --output-dir examples/outputs \
+  --format markdown
+
 python -m leveraged_etp_risk_lab release-manifest \
   --input-dir examples/outputs \
   --format markdown
@@ -308,6 +315,8 @@ The `glossary-list` command emits the full built-in glossary as JSON or Markdown
 The `package-audit` command emits a deterministic JSON or Markdown package-readiness checklist. It checks README and license presence, schema and example outputs, the checked-in agent skill file, absence of workflow files, public hygiene, zero dependencies, version consistency, schema inventory, artifact validation, and listed test commands. Pass `--run-tests` to execute the listed validation commands during the audit.
 
 The `scenario-pack` command writes a new-user evidence section into the pack and each case study. That section lists exact local commands, artifact links, and safety boundaries so a new user can reproduce the path-decay, drawdown, and pretrade-guardrail examples without live market data or broker execution. The pack also includes public integration notes for `portfolio-risk-compass` and `invest-thesis-ledger`, describing static artifact handoffs and explicitly avoiding runtime dependencies, schema coupling, private context, and bidirectional sync.
+
+The `scenario-pack-reviewer-receipt` command writes deterministic JSON and Markdown receipts for cold reviewers. The receipt lists scenario-pack fixture inputs, source inputs, generated artifact paths, SHA-256 hashes, exact regeneration and validation commands, and explicit boundaries for no live data, no broker/API/account/order access, no trading, no suitability determination, and no personalized recommendations.
 
 The local skill sync helper copies the checked-in skill file into a local Codex skills directory:
 

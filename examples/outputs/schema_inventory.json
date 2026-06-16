@@ -771,6 +771,40 @@
       "title": "Scenario Case Study"
     },
     {
+      "document_type": "scenario_pack_reviewer_receipt",
+      "examples": [
+        "examples/outputs/scenario_pack_reviewer_receipt.json"
+      ],
+      "path": "docs/scenario-pack-reviewer-receipt.schema.json",
+      "public_safety_notes": [
+        "requires not_investment_advice",
+        "requires live_market_data: false",
+        "requires shell_out: false",
+        "requires private_context: false",
+        "requires broker_execution: false",
+        "requires trading_enabled: false",
+        "requires personalized_recommendations: false",
+        "requires provenance"
+      ],
+      "required_top_level_fields": [
+        "schema_version",
+        "document_type",
+        "not_investment_advice",
+        "receipt_id",
+        "title",
+        "summary",
+        "fixture_inputs",
+        "source_inputs",
+        "generated_artifacts",
+        "reviewer_checks",
+        "regeneration",
+        "safety_boundaries",
+        "provenance"
+      ],
+      "schema_version": "0.30",
+      "title": "Scenario Pack Reviewer Receipt"
+    },
+    {
       "document_type": "scenario_pack",
       "examples": [
         "examples/outputs/scenario_pack.json"
@@ -979,13 +1013,15 @@
     }
   ],
   "summary": {
-    "examples": 43,
+    "examples": 44,
     "safety_flags": [
       "live_market_data",
       "shell_out",
       "private_context",
-      "broker_execution"
+      "broker_execution",
+      "trading_enabled",
+      "personalized_recommendations"
     ],
-    "schemas": 41
+    "schemas": 42
   }
 }

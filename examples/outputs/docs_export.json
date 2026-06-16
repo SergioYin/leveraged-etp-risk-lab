@@ -429,6 +429,16 @@
     },
     {
       "kind": "json",
+      "path": "examples/outputs/scenario_pack_reviewer_receipt.json",
+      "stage": "audit/story"
+    },
+    {
+      "kind": "md",
+      "path": "examples/outputs/scenario_pack_reviewer_receipt.md",
+      "stage": "audit/story"
+    },
+    {
+      "kind": "json",
       "path": "examples/outputs/cycle_state.json",
       "stage": "dashboard"
     },
@@ -575,7 +585,7 @@
   ],
   "markdown_artifacts": [
     {
-      "bytes": 5063,
+      "bytes": 5263,
       "path": "examples/outputs/artifact_validation.md",
       "title": "Artifact Validation"
     },
@@ -630,7 +640,7 @@
       "title": "Product Factsheet Checklist"
     },
     {
-      "bytes": 23971,
+      "bytes": 24437,
       "path": "examples/outputs/gallery_index.md",
       "title": "Public Gallery Index"
     },
@@ -675,7 +685,7 @@
       "title": "Pre-Order Ticket: NDAQ3X"
     },
     {
-      "bytes": 5540,
+      "bytes": 5758,
       "path": "examples/outputs/package_audit.md",
       "title": "Package Audit"
     },
@@ -735,7 +745,12 @@
       "title": "New User Scenario Pack"
     },
     {
-      "bytes": 12159,
+      "bytes": 5517,
+      "path": "examples/outputs/scenario_pack_reviewer_receipt.md",
+      "title": "Scenario Pack Reviewer Receipt"
+    },
+    {
+      "bytes": 12685,
       "path": "examples/outputs/schema_inventory.md",
       "title": "Schema Inventory"
     },
@@ -785,7 +800,7 @@
     "workflow_files_read": false
   },
   "release_notes": {
-    "markdown": "## v0.30.0\n\n### Highlights\n\n- Hardens deterministic release artifact generation for package audit, schema inventory, artifact validation, release manifest, and docs export.\n- Adds deterministic v0.30 scenario-pack case studies for new users comparing path decay, drawdown risk, and guardrails.\n- Carries safety caveats, command map, release notes, and local artifact links from checked public artifacts.\n- Publishes 88 public demo artifacts across 8 gallery stages.\n- Tracks 41 local schemas and 41 validated artifacts.\n\n### Readiness\n\n- Release status: ready\n- Package audit ready: yes\n- Artifact validation ready: yes\n\n### Verification\n\n- `python -m unittest discover -s tests`\n- `python scripts/selfcheck.py`\n- `python -m leveraged_etp_risk_lab docs-export --input-dir examples/outputs --output examples/outputs/docs_export.html`\n- `python -m leveraged_etp_risk_lab package-audit --run-tests --format json`\n",
+    "markdown": "## v0.30.0\n\n### Highlights\n\n- Hardens deterministic release artifact generation for package audit, schema inventory, artifact validation, release manifest, and docs export.\n- Adds deterministic v0.30 scenario-pack case studies for new users comparing path decay, drawdown risk, and guardrails.\n- Carries safety caveats, command map, release notes, and local artifact links from checked public artifacts.\n- Publishes 90 public demo artifacts across 8 gallery stages.\n- Tracks 42 local schemas and 42 validated artifacts.\n\n### Readiness\n\n- Release status: ready\n- Package audit ready: yes\n- Artifact validation ready: yes\n\n### Verification\n\n- `python -m unittest discover -s tests`\n- `python scripts/selfcheck.py`\n- `python -m leveraged_etp_risk_lab docs-export --input-dir examples/outputs --output examples/outputs/docs_export.html`\n- `python -m leveraged_etp_risk_lab package-audit --run-tests --format json`\n",
     "title": "v0.30.0"
   },
   "safety_caveats": [
@@ -865,8 +880,8 @@
   ],
   "summary": {
     "commands": 22,
-    "local_links": 89,
-    "markdown_artifacts": 40,
+    "local_links": 91,
+    "markdown_artifacts": 41,
     "package_ready": true,
     "release_status": "ready",
     "source_artifacts": 6,

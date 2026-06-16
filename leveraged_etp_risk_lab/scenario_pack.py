@@ -11,6 +11,7 @@ from .render import to_json
 
 SCENARIO_PACK_SCHEMA_VERSION = "0.30"
 SCENARIO_CASE_SCHEMA_VERSION = "0.30"
+SCENARIO_PACK_REVIEW_RECEIPT_SCHEMA_VERSION = "0.30"
 
 
 def scenario_pack(input_dir: str, fixtures_dir: str) -> Dict[str, Any]:
@@ -101,8 +102,19 @@ def write_scenario_pack(input_dir: str, fixtures_dir: str, output_dir: str) -> D
         case_id = str(case["case_id"])
         write_text(root / f"{case_id}.json", to_json(case))
         write_text(root / f"{case_id}.md", scenario_case_markdown(case))
+    receipt = scenario_pack_review_receipt(input_dir, fixtures_dir, output_dir)
+    write_text(root / "scenario_pack_reviewer_receipt.json", to_json(receipt))
+    write_text(root / "scenario_pack_reviewer_receipt.md", scenario_pack_review_receipt_markdown(receipt))
     packet["_cases"] = cases
     return packet
+
+
+def write_scenario_pack_review_receipt(input_dir: str, fixtures_dir: str, artifact_dir: str, output_dir: str) -> Dict[str, Any]:
+    receipt = scenario_pack_review_receipt(input_dir, fixtures_dir, artifact_dir)
+    root = Path(output_dir)
+    write_text(root / "scenario_pack_reviewer_receipt.json", to_json(receipt))
+    write_text(root / "scenario_pack_reviewer_receipt.md", scenario_pack_review_receipt_markdown(receipt))
+    return receipt
 
 
 def scenario_pack_markdown(data: Dict[str, Any]) -> str:
@@ -173,6 +185,137 @@ def scenario_case_markdown(data: Dict[str, Any]) -> str:
     lines.extend(f"- {item['path']} ({item['kind']})" for item in data["source_artifacts"])
     lines.extend(["", "## Warnings", ""])
     lines.extend(f"- {item}" for item in data["warnings"])
+    return "\n".join(lines) + "\n"
+
+
+def scenario_pack_review_receipt(input_dir: str, fixtures_dir: str, artifact_dir: str) -> Dict[str, Any]:
+    input_root = Path(input_dir)
+    fixture_root = Path(fixtures_dir)
+    artifact_root = Path(artifact_dir)
+    fixture_inputs = _source_artifacts(
+        [
+            fixture_root / "leveraged_nasdaq_3x.json",
+            fixture_root / "single_stock_2x.json",
+            fixture_root / "nasdaq_chop_path.csv",
+            fixture_root / "single_stock_gap_path.csv",
+            fixture_root / "portfolio_manifest.json",
+            fixture_root / "thesis_note.md",
+        ]
+    )
+    source_inputs = _source_artifacts(
+        [
+            input_root / "leveraged_nasdaq_3x.json",
+            input_root / "single_stock_2x.json",
+            input_root / "pretrade_plan.json",
+            input_root / "position_size.json",
+            input_root / "stress_matrix.json",
+            input_root / "portfolio_sensitivity.json",
+            input_root / "guardrail_check.json",
+            input_root / "order_review.json",
+            input_root / "compare_runs.json",
+        ]
+    )
+    generated_artifacts = _source_artifacts(
+        [
+            artifact_root / "scenario_pack.json",
+            artifact_root / "scenario_pack.md",
+            artifact_root / "daily_reset_path_decay.json",
+            artifact_root / "daily_reset_path_decay.md",
+            artifact_root / "drawdown_risk.json",
+            artifact_root / "drawdown_risk.md",
+            artifact_root / "pretrade_guardrails.json",
+            artifact_root / "pretrade_guardrails.md",
+        ]
+    )
+    return {
+        "schema_version": SCENARIO_PACK_REVIEW_RECEIPT_SCHEMA_VERSION,
+        "document_type": "scenario_pack_reviewer_receipt",
+        "not_investment_advice": _not_advice(),
+        "receipt_id": "v0.30-scenario-pack-reviewer-receipt",
+        "title": "Scenario Pack Reviewer Receipt",
+        "summary": {
+            "fixture_inputs": len(fixture_inputs),
+            "source_inputs": len(source_inputs),
+            "generated_artifacts": len(generated_artifacts),
+            "hash_algorithm": "sha256",
+            "live_market_data": False,
+            "broker_execution": False,
+            "trading_enabled": False,
+            "personalized_recommendations": False,
+        },
+        "fixture_inputs": fixture_inputs,
+        "source_inputs": source_inputs,
+        "generated_artifacts": generated_artifacts,
+        "reviewer_checks": [
+            "Confirm every fixture path is under examples/fixtures or the supplied fixtures directory.",
+            "Confirm every generated artifact path is under examples/outputs or the supplied artifact directory.",
+            "Compare SHA-256 hashes after regeneration before reviewing the scenario-pack narrative.",
+            "Verify safety boundaries remain false for live market data, broker execution, trading, and personalized recommendations.",
+        ],
+        "regeneration": {
+            "demo_bundle_command": "python -m leveraged_etp_risk_lab demo-bundle --output-dir examples/outputs",
+            "scenario_pack_command": "python -m leveraged_etp_risk_lab scenario-pack --input-dir examples/outputs --fixtures-dir examples/fixtures --output-dir examples/outputs --format markdown",
+            "receipt_command": "python -m leveraged_etp_risk_lab scenario-pack-reviewer-receipt --input-dir examples/outputs --fixtures-dir examples/fixtures --artifact-dir examples/outputs --output-dir examples/outputs --format markdown",
+            "validation_command": "python -m leveraged_etp_risk_lab artifact-validate examples/outputs/scenario_pack_reviewer_receipt.json examples/outputs/scenario_pack.json examples/outputs/daily_reset_path_decay.json examples/outputs/drawdown_risk.json examples/outputs/pretrade_guardrails.json --format markdown",
+        },
+        "safety_boundaries": [
+            "No live market data is fetched or required.",
+            "No broker, API, account, order, routing, staging, preview, or execution capability is used.",
+            "No trading instruction, no personalized recommendation, no suitability determination, and no investment advice is produced.",
+            "Receipt hashes cover deterministic local fixtures and generated artifacts only.",
+        ],
+        "provenance": {
+            "command": "scenario-pack-reviewer-receipt",
+            "input_dir": str(input_root),
+            "fixtures_dir": str(fixture_root),
+            "artifact_dir": str(artifact_root),
+            "live_market_data": False,
+            "shell_out": False,
+            "private_context": False,
+            "broker_execution": False,
+            "workflow_files_read": False,
+            "trading_enabled": False,
+            "personalized_recommendations": False,
+        },
+    }
+
+
+def scenario_pack_review_receipt_markdown(data: Dict[str, Any]) -> str:
+    summary = data["summary"]
+    lines = [
+        f"# {data['title']}",
+        "",
+        f"**Not investment advice:** {data['not_investment_advice']}",
+        "",
+        "## Summary",
+        "",
+        f"- Fixture inputs: {summary['fixture_inputs']}",
+        f"- Source inputs: {summary['source_inputs']}",
+        f"- Generated artifacts: {summary['generated_artifacts']}",
+        f"- Hash algorithm: {summary['hash_algorithm']}",
+        f"- Live market data: {summary['live_market_data']}",
+        f"- Broker execution: {summary['broker_execution']}",
+        f"- Trading enabled: {summary['trading_enabled']}",
+        f"- Personalized recommendations: {summary['personalized_recommendations']}",
+        "",
+        "## Regeneration",
+        "",
+    ]
+    for key in ["demo_bundle_command", "scenario_pack_command", "receipt_command", "validation_command"]:
+        lines.append(f"- {key}: `{data['regeneration'][key]}`")
+    lines.extend(["", "## Reviewer Checks", ""])
+    lines.extend(f"- {item}" for item in data["reviewer_checks"])
+    lines.extend(["", "## Fixture Inputs", "", "| Path | Kind | Bytes | SHA-256 |", "| --- | --- | ---: | --- |"])
+    lines.extend(_artifact_rows(data["fixture_inputs"]))
+    lines.extend(["", "## Source Inputs", "", "| Path | Kind | Bytes | SHA-256 |", "| --- | --- | ---: | --- |"])
+    lines.extend(_artifact_rows(data["source_inputs"]))
+    lines.extend(["", "## Generated Artifacts", "", "| Path | Kind | Bytes | SHA-256 |", "| --- | --- | ---: | --- |"])
+    lines.extend(_artifact_rows(data["generated_artifacts"]))
+    lines.extend(["", "## Safety Boundaries", ""])
+    lines.extend(f"- {item}" for item in data["safety_boundaries"])
+    lines.extend(["", "## Provenance", ""])
+    for key in sorted(data["provenance"]):
+        lines.append(f"- {key}: {data['provenance'][key]}")
     return "\n".join(lines) + "\n"
 
 
@@ -474,6 +617,10 @@ def _artifact_href(path: str) -> str:
     if path.startswith("examples/outputs/") or path.startswith("examples/fixtures/"):
         return artifact.name if path.startswith("examples/outputs/") else f"../fixtures/{artifact.name}"
     return path
+
+
+def _artifact_rows(items: Iterable[Dict[str, Any]]) -> List[str]:
+    return [f"| {item['path']} | {item['kind']} | {item['bytes']} | `{item['sha256']}` |" for item in items]
 
 
 def _fixture_summaries(root: Path) -> Dict[str, Any]:

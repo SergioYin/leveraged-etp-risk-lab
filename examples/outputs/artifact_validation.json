@@ -329,6 +329,21 @@
       "status": "pass"
     },
     {
+      "document_type": "scenario_pack_reviewer_receipt",
+      "issues": [],
+      "path": "examples/outputs/scenario_pack_reviewer_receipt.json",
+      "provenance_flags": {
+        "broker_execution": false,
+        "live_market_data": false,
+        "personalized_recommendations": false,
+        "private_context": false,
+        "shell_out": false,
+        "trading_enabled": false
+      },
+      "schema_version": "0.30",
+      "status": "pass"
+    },
+    {
       "document_type": "schema_inventory",
       "issues": [],
       "path": "examples/outputs/schema_inventory.json",
@@ -419,13 +434,13 @@
     "live_market_data": false,
     "private_context": false,
     "shell_out": false,
-    "source": "path_list"
+    "source": "examples/outputs"
   },
   "schema_version": "0.26",
   "summary": {
-    "artifacts": 41,
+    "artifacts": 42,
     "failed": 0,
-    "passed": 41,
+    "passed": 42,
     "ready": true
   }
 }

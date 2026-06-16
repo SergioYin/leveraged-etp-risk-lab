@@ -8,7 +8,14 @@ from typing import Any, Dict, Iterable, List, Optional
 SCHEMA_INVENTORY_VERSION = "0.26"
 ARTIFACT_VALIDATION_VERSION = "0.26"
 ROOT = Path(__file__).resolve().parents[1]
-SAFETY_FLAGS = ["live_market_data", "shell_out", "private_context", "broker_execution"]
+SAFETY_FLAGS = [
+    "live_market_data",
+    "shell_out",
+    "private_context",
+    "broker_execution",
+    "trading_enabled",
+    "personalized_recommendations",
+]
 
 
 def schema_inventory(root: Path = ROOT, examples_dir: Optional[Path] = None) -> Dict[str, Any]:

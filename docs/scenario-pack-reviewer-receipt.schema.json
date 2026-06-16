@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Scenario Pack Reviewer Receipt",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "document_type",
+    "not_investment_advice",
+    "receipt_id",
+    "title",
+    "summary",
+    "fixture_inputs",
+    "source_inputs",
+    "generated_artifacts",
+    "reviewer_checks",
+    "regeneration",
+    "safety_boundaries",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {"const": "0.30"},
+    "document_type": {"const": "scenario_pack_reviewer_receipt"},
+    "not_investment_advice": {"type": "string"},
+    "receipt_id": {"type": "string"},
+    "title": {"type": "string"},
+    "summary": {
+      "type": "object",
+      "properties": {
+        "fixture_inputs": {"type": "integer"},
+        "source_inputs": {"type": "integer"},
+        "generated_artifacts": {"type": "integer"},
+        "hash_algorithm": {"const": "sha256"},
+        "live_market_data": {"const": false},
+        "broker_execution": {"const": false},
+        "trading_enabled": {"const": false},
+        "personalized_recommendations": {"const": false}
+      }
+    },
+    "fixture_inputs": {"type": "array", "items": {"$ref": "#/$defs/artifact_ref"}},
+    "source_inputs": {"type": "array", "items": {"$ref": "#/$defs/artifact_ref"}},
+    "generated_artifacts": {"type": "array", "items": {"$ref": "#/$defs/artifact_ref"}},
+    "reviewer_checks": {"type": "array", "items": {"type": "string"}},
+    "regeneration": {
+      "type": "object",
+      "required": ["demo_bundle_command", "scenario_pack_command", "receipt_command", "validation_command"],
+      "properties": {
+        "demo_bundle_command": {"type": "string"},
+        "scenario_pack_command": {"type": "string"},
+        "receipt_command": {"type": "string"},
+        "validation_command": {"type": "string"}
+      }
+    },
+    "safety_boundaries": {"type": "array", "items": {"type": "string"}},
+    "provenance": {
+      "type": "object",
+      "properties": {
+        "live_market_data": {"const": false},
+        "shell_out": {"const": false},
+        "private_context": {"const": false},
+        "broker_execution": {"const": false},
+        "workflow_files_read": {"const": false},
+        "trading_enabled": {"const": false},
+        "personalized_recommendations": {"const": false}
+      }
+    }
+  },
+  "$defs": {
+    "artifact_ref": {
+      "type": "object",
+      "required": ["path", "kind", "bytes", "sha256"],
+      "properties": {
+        "path": {"type": "string"},
+        "kind": {"type": "string"},
+        "bytes": {"type": "integer", "minimum": 0},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    }
+  }
+}

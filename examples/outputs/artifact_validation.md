@@ -2,7 +2,7 @@
 
 - Schema version: 0.26
 - Ready: yes
-- Artifacts: 41 passed, 0 failed
+- Artifacts: 42 passed, 0 failed
 
 | Artifact | Document type | Version | Status | Issues | Safety flags |
 | --- | --- | --- | --- | --- | --- |
@@ -38,6 +38,7 @@
 | examples/outputs/report_card.json | report_card | 0.18 | pass | None | live_market_data=False, shell_out=False |
 | examples/outputs/risk_profiles.json | risk_profile_rules | 0.16 | pass | None | None |
 | examples/outputs/scenario_pack.json | scenario_pack | 0.30 | pass | None | live_market_data=False, shell_out=False, private_context=False, broker_execution=False |
+| examples/outputs/scenario_pack_reviewer_receipt.json | scenario_pack_reviewer_receipt | 0.30 | pass | None | live_market_data=False, shell_out=False, private_context=False, broker_execution=False, trading_enabled=False, personalized_recommendations=False |
 | examples/outputs/schema_inventory.json | schema_inventory | 0.26 | pass | None | live_market_data=False, shell_out=False, private_context=False, broker_execution=False |
 | examples/outputs/sensitivity_grid.json | sensitivity_grid | 0.19 | pass | None | live_market_data=False, shell_out=False |
 | examples/outputs/single_stock_2x.json | simulation_output | 0.2 | pass | None | None |
@@ -55,4 +56,4 @@
 - live_market_data: False
 - private_context: False
 - shell_out: False
-- source: path_list
+- source: examples/outputs

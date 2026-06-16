@@ -661,6 +661,24 @@ Scenario case-study output contains:
 - `cold_user_evidence`: exact commands, case-specific artifact links, and safety boundaries for new users.
 - `source_artifacts`, `warnings`, and `provenance`: local reproducibility and safety metadata.
 
+## Scenario Pack Reviewer Receipt
+
+The `scenario-pack-reviewer-receipt` command writes deterministic JSON and Markdown receipts for cold reviewers. It reads local fixture inputs, generated source inputs, and scenario-pack artifacts, then records paths, byte sizes, SHA-256 hashes, exact regeneration commands, validation commands, and explicit no-live-data/no-trading/no-advice boundaries.
+
+Scenario pack reviewer receipt output contains:
+
+- `schema_version`: fixed as `0.30`.
+- `document_type`: fixed as `scenario_pack_reviewer_receipt`.
+- `receipt_id`: stable receipt identifier.
+- `summary`: fixture input count, source input count, generated artifact count, hash algorithm, and false safety booleans.
+- `fixture_inputs`: checked fixture paths, file kinds, byte sizes, and SHA-256 hashes.
+- `source_inputs`: generated report inputs used by the scenario pack, with paths and hashes.
+- `generated_artifacts`: scenario-pack JSON and Markdown artifact paths and hashes.
+- `reviewer_checks`: concise cold-review steps for comparing paths, hashes, and boundaries.
+- `regeneration`: exact local demo-bundle, scenario-pack, receipt, and artifact-validation commands.
+- `safety_boundaries`: explicit no live market data, no broker/API/account/order access, no trading, no suitability, and no personalized recommendation notes.
+- `provenance`: command metadata, including `live_market_data: false`, `shell_out: false`, `private_context: false`, `broker_execution: false`, and `workflow_files_read: false`.
+
 ## Release Manifest
 
 The `release-manifest` command reads public local release artifacts from an input directory, defaulting to `examples/outputs`. It looks for `asset_hub.json`, `package_audit.json`, `artifact_validation.json`, `schema_inventory.json`, `demo_story.json`, and `gallery_index.json`. Missing or invalid inputs are recorded in the manifest instead of failing the command. Optional git metadata is included when available; use `--no-git` for deterministic output without repository metadata.

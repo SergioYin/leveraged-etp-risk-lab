@@ -32,6 +32,7 @@
 | `python -m leveraged_etp_risk_lab schema-inventory --format json` | not_run |
 | `python -m leveraged_etp_risk_lab artifact-validate --format json` | not_run |
 | `python -m leveraged_etp_risk_lab scenario-pack --input-dir examples/outputs --fixtures-dir examples/fixtures --output-dir examples/outputs --format json` | not_run |
+| `python -m leveraged_etp_risk_lab scenario-pack-reviewer-receipt --input-dir examples/outputs --fixtures-dir examples/fixtures --artifact-dir examples/outputs --output-dir examples/outputs --format json` | not_run |
 | `python -m leveraged_etp_risk_lab release-manifest --format json --no-git` | not_run |
 | `python -m leveraged_etp_risk_lab docs-export --format json` | not_run |
 | `python -m leveraged_etp_risk_lab glossary-list --format json` | not_run |

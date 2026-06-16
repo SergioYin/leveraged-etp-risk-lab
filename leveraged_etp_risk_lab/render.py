@@ -998,6 +998,7 @@ def version_report(version: str) -> str:
                 "gallery-index",
                 "asset-hub",
                 "scenario-pack",
+                "scenario-pack-reviewer-receipt",
                 "package-audit",
                 "schema-inventory",
                 "artifact-validate",

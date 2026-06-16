@@ -173,7 +173,7 @@
       "suggested_next_command": "python -m leveraged_etp_risk_lab demo-story --input-dir examples/outputs --format markdown"
     },
     {
-      "artifact_count": 18,
+      "artifact_count": 20,
       "key_artifacts": [
         "examples/outputs/asset_hub.json",
         "examples/outputs/asset_hub.md",
@@ -230,7 +230,7 @@
     ],
     "name": "leveraged-etp-risk-lab",
     "proof_points": [
-      "88 checked demo artifacts indexed from examples/outputs.",
+      "90 checked demo artifacts indexed from examples/outputs.",
       "Package audit ready=True with 10 passed checks.",
       "No runtime dependencies, workflow files, private context, broker execution, or live market data."
     ],

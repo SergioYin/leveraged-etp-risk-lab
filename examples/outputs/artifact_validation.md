@@ -2,7 +2,7 @@
 
 - Schema version: 0.26
 - Ready: yes
-- Artifacts: 43 passed, 0 failed
+- Artifacts: 44 passed, 0 failed
 
 | Artifact | Document type | Version | Status | Issues | Safety flags |
 | --- | --- | --- | --- | --- | --- |
@@ -32,6 +32,7 @@
 | examples/outputs/position_size.json | position_size_plan | 0.8 | pass | None | None |
 | examples/outputs/pretrade_guardrails.json | scenario_case_study | 0.30 | pass | None | live_market_data=False, shell_out=False, private_context=False, broker_execution=False |
 | examples/outputs/pretrade_plan.json | pretrade_plan | 0.3 | pass | None | None |
+| examples/outputs/product_family_walkthrough.json | product_family_walkthrough | 0.31 | pass | None | live_market_data=False, shell_out=False, private_context=False, broker_execution=False, trading_enabled=False, personalized_recommendations=False |
 | examples/outputs/product_snapshot_tqqq_case_study.json | product_snapshot_case_study | 0.31 | pass | None | live_market_data=False, shell_out=False, private_context=False, broker_execution=False, trading_enabled=False, personalized_recommendations=False |
 | examples/outputs/recipe_run.json | recipe_run | 0.17 | pass | None | shell_out=False |
 | examples/outputs/regime_gallery.json | regime_gallery | 0.7 | pass | None | None |

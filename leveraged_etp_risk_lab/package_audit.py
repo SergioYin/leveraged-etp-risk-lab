@@ -55,6 +55,7 @@ REQUIRED_SCHEMA_FILES = [
     "docs/package-audit.schema.json",
     "docs/glossary.schema.json",
     "docs/product-snapshot-case-study.schema.json",
+    "docs/product-family-walkthrough.schema.json",
     "docs/demo-story.schema.json",
     "docs/gallery-index.schema.json",
 ]
@@ -139,6 +140,8 @@ REQUIRED_EXAMPLE_OUTPUTS = [
     "examples/outputs/glossary.md",
     "examples/outputs/product_snapshot_tqqq_case_study.json",
     "examples/outputs/product_snapshot_tqqq_case_study.md",
+    "examples/outputs/product_family_walkthrough.json",
+    "examples/outputs/product_family_walkthrough.md",
     "examples/outputs/gallery_index.json",
     "examples/outputs/gallery_index.md",
     "examples/outputs/template_gallery.json",
@@ -190,6 +193,7 @@ TEST_COMMANDS = [
     ["python", "-m", "leveraged_etp_risk_lab", "release-manifest", "--format", "json", "--no-git"],
     ["python", "-m", "leveraged_etp_risk_lab", "docs-export", "--format", "json"],
     ["python", "-m", "leveraged_etp_risk_lab", "product-snapshot", "--format", "json"],
+    ["python", "-m", "leveraged_etp_risk_lab", "product-family-walkthrough", "--format", "json"],
     ["python", "-m", "leveraged_etp_risk_lab", "glossary-list", "--format", "json"],
     ["python", "-m", "leveraged_etp_risk_lab", "explain-term", "daily_reset", "--format", "json"],
     [

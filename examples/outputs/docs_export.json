@@ -164,6 +164,16 @@
     },
     {
       "kind": "json",
+      "path": "examples/outputs/product_family_walkthrough.json",
+      "stage": "fixtures"
+    },
+    {
+      "kind": "md",
+      "path": "examples/outputs/product_family_walkthrough.md",
+      "stage": "fixtures"
+    },
+    {
+      "kind": "json",
       "path": "examples/outputs/product_snapshot_tqqq_case_study.json",
       "stage": "fixtures"
     },
@@ -595,7 +605,7 @@
   ],
   "markdown_artifacts": [
     {
-      "bytes": 5580,
+      "bytes": 5831,
       "path": "examples/outputs/artifact_validation.md",
       "title": "Artifact Validation"
     },
@@ -650,7 +660,7 @@
       "title": "Product Factsheet Checklist"
     },
     {
-      "bytes": 25127,
+      "bytes": 25803,
       "path": "examples/outputs/gallery_index.md",
       "title": "Public Gallery Index"
     },
@@ -695,7 +705,7 @@
       "title": "Pre-Order Ticket: NDAQ3X"
     },
     {
-      "bytes": 5838,
+      "bytes": 5928,
       "path": "examples/outputs/package_audit.md",
       "title": "Package Audit"
     },
@@ -725,6 +735,11 @@
       "title": "Pretrade Plan: NDAQ3X"
     },
     {
+      "bytes": 3852,
+      "path": "examples/outputs/product_family_walkthrough.md",
+      "title": "Product Family Walkthrough"
+    },
+    {
       "bytes": 3332,
       "path": "examples/outputs/product_snapshot_tqqq_case_study.md",
       "title": "TQQQ Daily-Target Product Snapshot"
@@ -740,7 +755,7 @@
       "title": "Market Regime Gallery"
     },
     {
-      "bytes": 4180,
+      "bytes": 4204,
       "path": "examples/outputs/release_manifest.md",
       "title": "Release Manifest"
     },
@@ -765,7 +780,7 @@
       "title": "Scenario Pack Reviewer Receipt"
     },
     {
-      "bytes": 13341,
+      "bytes": 13946,
       "path": "examples/outputs/schema_inventory.md",
       "title": "Schema Inventory"
     },
@@ -815,8 +830,8 @@
     "workflow_files_read": false
   },
   "release_notes": {
-    "markdown": "## v0.30.0\n\n### Highlights\n\n- Hardens deterministic release artifact generation for package audit, schema inventory, artifact validation, release manifest, and docs export.\n- Adds deterministic v0.30 scenario-pack case studies for new users comparing path decay, drawdown risk, and guardrails.\n- Carries safety caveats, command map, release notes, and local artifact links from checked public artifacts.\n- Publishes 92 public demo artifacts across 8 gallery stages.\n- Tracks 43 local schemas and 43 validated artifacts.\n\n### Readiness\n\n- Release status: ready\n- Package audit ready: yes\n- Artifact validation ready: yes\n\n### Verification\n\n- `python -m unittest discover -s tests`\n- `python scripts/selfcheck.py`\n- `python -m leveraged_etp_risk_lab docs-export --input-dir examples/outputs --output examples/outputs/docs_export.html`\n- `python -m leveraged_etp_risk_lab package-audit --run-tests --format json`\n",
-    "title": "v0.30.0"
+    "markdown": "## v0.31.1\n\n### Highlights\n\n- Hardens deterministic release artifact generation for package audit, schema inventory, artifact validation, release manifest, and docs export.\n- Adds deterministic product-family walkthrough artifacts that connect product snapshots, scenario packs, reviewer receipts, and fixture hashes.\n- Carries safety caveats, command map, release notes, and local artifact links from checked public artifacts.\n- Publishes 94 public demo artifacts across 8 gallery stages.\n- Tracks 44 local schemas and 44 validated artifacts.\n\n### Readiness\n\n- Release status: ready\n- Package audit ready: yes\n- Artifact validation ready: yes\n\n### Verification\n\n- `python -m unittest discover -s tests`\n- `python scripts/selfcheck.py`\n- `python -m leveraged_etp_risk_lab docs-export --input-dir examples/outputs --output examples/outputs/docs_export.html`\n- `python -m leveraged_etp_risk_lab package-audit --run-tests --format json`\n",
+    "title": "v0.31.1"
   },
   "safety_caveats": [
     "This decision packet is for scenario planning and education only. It is not investment advice, a recommendation, or a suitability determination.",
@@ -895,8 +910,8 @@
   ],
   "summary": {
     "commands": 22,
-    "local_links": 93,
-    "markdown_artifacts": 42,
+    "local_links": 95,
+    "markdown_artifacts": 43,
     "package_ready": true,
     "release_status": "ready",
     "source_artifacts": 6,

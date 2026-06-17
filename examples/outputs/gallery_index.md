@@ -2,12 +2,12 @@
 
 - Schema version: 0.13
 - Input directory: examples/outputs
-- Artifacts: 92
-- Bytes: 704134
+- Artifacts: 94
+- Bytes: 719339
 
 ## fixtures
 
-- Artifacts: 23
+- Artifacts: 25
 - Suggested next command: `python -m leveraged_etp_risk_lab pretrade-plan --product examples/fixtures/leveraged_nasdaq_3x.json --path examples/fixtures/nasdaq_chop_path.csv --thesis-file examples/fixtures/thesis_note.md --max-loss-budget 750 --format markdown`
 
 | Artifact | Format | Document type | Schema version | Bytes | Suggested next command |
@@ -19,6 +19,8 @@
 | examples/outputs/leveraged_nasdaq_3x.md | md | simulation_output | 0.2 | 1426 | `python -m leveraged_etp_risk_lab pretrade-plan --product examples/fixtures/leveraged_nasdaq_3x.json --path examples/fixtures/nasdaq_chop_path.csv --thesis-file examples/fixtures/thesis_note.md --max-loss-budget 750 --format markdown` |
 | examples/outputs/portfolio_exposure.json | json | exposure_report | 0.2 | 3097 | `python -m leveraged_etp_risk_lab pretrade-plan --product examples/fixtures/leveraged_nasdaq_3x.json --path examples/fixtures/nasdaq_chop_path.csv --thesis-file examples/fixtures/thesis_note.md --max-loss-budget 750 --format markdown` |
 | examples/outputs/portfolio_exposure.md | md | exposure_report | 0.2 | 1430 | `python -m leveraged_etp_risk_lab pretrade-plan --product examples/fixtures/leveraged_nasdaq_3x.json --path examples/fixtures/nasdaq_chop_path.csv --thesis-file examples/fixtures/thesis_note.md --max-loss-budget 750 --format markdown` |
+| examples/outputs/product_family_walkthrough.json | json | product_family_walkthrough | 0.31 | 7009 | `python -m leveraged_etp_risk_lab pretrade-plan --product examples/fixtures/leveraged_nasdaq_3x.json --path examples/fixtures/nasdaq_chop_path.csv --thesis-file examples/fixtures/thesis_note.md --max-loss-budget 750 --format markdown` |
+| examples/outputs/product_family_walkthrough.md | md | product_family_walkthrough | 0.31 | 3852 | `python -m leveraged_etp_risk_lab pretrade-plan --product examples/fixtures/leveraged_nasdaq_3x.json --path examples/fixtures/nasdaq_chop_path.csv --thesis-file examples/fixtures/thesis_note.md --max-loss-budget 750 --format markdown` |
 | examples/outputs/product_snapshot_tqqq_case_study.json | json | product_snapshot_case_study | 0.31 | 4205 | `python -m leveraged_etp_risk_lab pretrade-plan --product examples/fixtures/leveraged_nasdaq_3x.json --path examples/fixtures/nasdaq_chop_path.csv --thesis-file examples/fixtures/thesis_note.md --max-loss-budget 750 --format markdown` |
 | examples/outputs/product_snapshot_tqqq_case_study.md | md | product_snapshot_case_study | 0.31 | 3332 | `python -m leveraged_etp_risk_lab pretrade-plan --product examples/fixtures/leveraged_nasdaq_3x.json --path examples/fixtures/nasdaq_chop_path.csv --thesis-file examples/fixtures/thesis_note.md --max-loss-budget 750 --format markdown` |
 | examples/outputs/regime_chop.csv | csv | n/a | n/a | 317 | `python -m leveraged_etp_risk_lab regime-export --regime volatility_cluster --output volatility_cluster_path.csv` |
@@ -108,8 +110,8 @@
 | examples/outputs/drawdown_risk.md | md | scenario_case_study | 0.30 | 3484 | `python -m leveraged_etp_risk_lab static-dashboard --input-dir examples/outputs --output examples/outputs/dashboard.html` |
 | examples/outputs/factsheet_check.json | json | factsheet_check | 0.15 | 3534 | `python -m leveraged_etp_risk_lab factsheet-check --product examples/fixtures/leveraged_nasdaq_3x.json --factsheet-file examples/fixtures/factsheet_note.txt --format markdown` |
 | examples/outputs/factsheet_check.md | md | factsheet_check | 0.15 | 1174 | `python -m leveraged_etp_risk_lab factsheet-check --product examples/fixtures/leveraged_nasdaq_3x.json --factsheet-file examples/fixtures/factsheet_note.txt --format markdown` |
-| examples/outputs/package_audit.json | json | package_audit | 0.11 | 32485 | `python -m leveraged_etp_risk_lab gallery-index --input-dir examples/outputs --format markdown` |
-| examples/outputs/package_audit.md | md | package_audit | 0.11 | 5838 | `python -m leveraged_etp_risk_lab gallery-index --input-dir examples/outputs --format markdown` |
+| examples/outputs/package_audit.json | json | package_audit | 0.11 | 33200 | `python -m leveraged_etp_risk_lab gallery-index --input-dir examples/outputs --format markdown` |
+| examples/outputs/package_audit.md | md | package_audit | 0.11 | 5928 | `python -m leveraged_etp_risk_lab gallery-index --input-dir examples/outputs --format markdown` |
 | examples/outputs/pretrade_guardrails.json | json | scenario_case_study | 0.30 | 5275 | `python -m leveraged_etp_risk_lab static-dashboard --input-dir examples/outputs --output examples/outputs/dashboard.html` |
 | examples/outputs/pretrade_guardrails.md | md | scenario_case_study | 0.30 | 3693 | `python -m leveraged_etp_risk_lab static-dashboard --input-dir examples/outputs --output examples/outputs/dashboard.html` |
 | examples/outputs/scenario_pack.json | json | scenario_pack | 0.30 | 8198 | `python -m leveraged_etp_risk_lab static-dashboard --input-dir examples/outputs --output examples/outputs/dashboard.html` |
@@ -151,15 +153,15 @@
 
 | Artifact | Format | Document type | Schema version | Bytes | Suggested next command |
 | --- | --- | --- | --- | --- | --- |
-| examples/outputs/artifact_validation.json | json | artifact_validation | 0.26 | 12158 | `python -m leveraged_etp_risk_lab artifact-validate --format markdown` |
-| examples/outputs/artifact_validation.md | md | artifact_validation | 0.26 | 5580 | `python -m leveraged_etp_risk_lab artifact-validate --format markdown` |
-| examples/outputs/docs_export.html | html | docs_export | 0.30 | 31512 | `python -m leveraged_etp_risk_lab docs-export --input-dir examples/outputs --output examples/outputs/docs_export.html` |
-| examples/outputs/docs_export.json | json | docs_export | 0.30 | 29595 | `python -m leveraged_etp_risk_lab docs-export --input-dir examples/outputs --output examples/outputs/docs_export.html` |
-| examples/outputs/docs_export.md | md | docs_export | 0.30 | 19161 | `python -m leveraged_etp_risk_lab docs-export --input-dir examples/outputs --output examples/outputs/docs_export.html` |
-| examples/outputs/release_manifest.json | json | release_manifest | 0.30 | 9297 | `python -m leveraged_etp_risk_lab release-manifest --input-dir examples/outputs --format markdown` |
-| examples/outputs/release_manifest.md | md | release_manifest | 0.30 | 4180 | `python -m leveraged_etp_risk_lab release-manifest --input-dir examples/outputs --format markdown` |
-| examples/outputs/schema_inventory.json | json | schema_inventory | 0.26 | 28446 | `python -m leveraged_etp_risk_lab artifact-validate --format markdown` |
-| examples/outputs/schema_inventory.md | md | schema_inventory | 0.26 | 13341 | `python -m leveraged_etp_risk_lab artifact-validate --format markdown` |
+| examples/outputs/artifact_validation.json | json | artifact_validation | 0.26 | 12614 | `python -m leveraged_etp_risk_lab artifact-validate --format markdown` |
+| examples/outputs/artifact_validation.md | md | artifact_validation | 0.26 | 5831 | `python -m leveraged_etp_risk_lab artifact-validate --format markdown` |
+| examples/outputs/docs_export.html | html | docs_export | 0.30 | 31967 | `python -m leveraged_etp_risk_lab docs-export --input-dir examples/outputs --output examples/outputs/docs_export.html` |
+| examples/outputs/docs_export.json | json | docs_export | 0.30 | 30011 | `python -m leveraged_etp_risk_lab docs-export --input-dir examples/outputs --output examples/outputs/docs_export.html` |
+| examples/outputs/docs_export.md | md | docs_export | 0.30 | 19416 | `python -m leveraged_etp_risk_lab docs-export --input-dir examples/outputs --output examples/outputs/docs_export.html` |
+| examples/outputs/release_manifest.json | json | release_manifest | 0.30 | 9321 | `python -m leveraged_etp_risk_lab release-manifest --input-dir examples/outputs --format markdown` |
+| examples/outputs/release_manifest.md | md | release_manifest | 0.30 | 4204 | `python -m leveraged_etp_risk_lab release-manifest --input-dir examples/outputs --format markdown` |
+| examples/outputs/schema_inventory.json | json | schema_inventory | 0.26 | 29499 | `python -m leveraged_etp_risk_lab artifact-validate --format markdown` |
+| examples/outputs/schema_inventory.md | md | schema_inventory | 0.26 | 13946 | `python -m leveraged_etp_risk_lab artifact-validate --format markdown` |
 
 ## Provenance
 

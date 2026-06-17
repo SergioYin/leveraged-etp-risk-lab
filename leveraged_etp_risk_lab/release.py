@@ -262,7 +262,7 @@ def _github_release_notes(version: str, inventory: Dict[str, Any], validation: D
         "### Highlights",
         "",
         "- Hardens deterministic release artifact generation for package audit, schema inventory, artifact validation, release manifest, and docs export.",
-        "- Adds deterministic v0.30 scenario-pack case studies for new users comparing path decay, drawdown risk, and guardrails.",
+        "- Adds deterministic product-family walkthrough artifacts that connect product snapshots, scenario packs, reviewer receipts, and fixture hashes.",
         "- Carries safety caveats, command map, release notes, and local artifact links from checked public artifacts.",
         f"- Publishes {inventory['total_artifacts']} public demo artifacts across {len(inventory['stages'])} gallery stages.",
         f"- Tracks {validation['schemas_indexed']} local schemas and {validation['artifacts_validated']} validated artifacts.",

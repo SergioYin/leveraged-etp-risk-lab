@@ -15,6 +15,7 @@ from .io import load_path, load_portfolio_manifest, load_product, write_path_csv
 from .models import RiskBand, SimulationConfig
 from .package_audit import package_audit, package_audit_markdown
 from .product_snapshot import product_snapshot_case_study, product_snapshot_markdown
+from .product_family import product_family_walkthrough, product_family_walkthrough_markdown
 from .render import (
     checklist_json,
     checklist_markdown,
@@ -167,6 +168,8 @@ def main(argv: Optional[List[str]] = None) -> int:
             return command_package_audit(args)
         if args.command == "product-snapshot":
             return command_product_snapshot(args)
+        if args.command == "product-family-walkthrough":
+            return command_product_family_walkthrough(args)
         if args.command == "schema-inventory":
             return command_schema_inventory(args)
         if args.command == "artifact-validate":
@@ -530,6 +533,15 @@ def build_parser() -> argparse.ArgumentParser:
     )
     product_snapshot.add_argument("--format", choices=["json", "markdown"], default="markdown")
     product_snapshot.add_argument("--output", help="write output to a file instead of stdout")
+
+    family = sub.add_parser(
+        "product-family-walkthrough",
+        help="emit a deterministic reviewer walkthrough connecting product snapshot and scenario-pack artifacts",
+    )
+    family.add_argument("--input-dir", default="examples/outputs", help="directory containing generated review artifacts")
+    family.add_argument("--fixtures-dir", default="examples/fixtures", help="directory containing example fixtures")
+    family.add_argument("--format", choices=["json", "markdown"], default="markdown")
+    family.add_argument("--output", help="write output to a file instead of stdout")
 
     inventory = sub.add_parser("schema-inventory", help="list local JSON schemas and matching example artifacts")
     inventory.add_argument("--examples-dir", default="examples/outputs", help="directory containing example JSON outputs")
@@ -1192,6 +1204,9 @@ def command_demo_bundle(args: argparse.Namespace) -> int:
     write_text(root / "order_review.json", to_json(review))
     write_text(root / "order_review.md", order_review_markdown(review))
     write_scenario_pack(str(root), str(examples), str(root))
+    family = product_family_walkthrough(str(root), str(examples))
+    write_text(root / "product_family_walkthrough.json", to_json(family))
+    write_text(root / "product_family_walkthrough.md", product_family_walkthrough_markdown(family))
     release_surface = [
         root / "package_audit.json",
         root / "package_audit.md",
@@ -1220,6 +1235,8 @@ def command_demo_bundle(args: argparse.Namespace) -> int:
         root / "pretrade_guardrails.md",
         root / "scenario_pack_reviewer_receipt.json",
         root / "scenario_pack_reviewer_receipt.md",
+        root / "product_family_walkthrough.json",
+        root / "product_family_walkthrough.md",
     ]
     previous_snapshot = None
     release_surface_converged = False
@@ -1301,6 +1318,12 @@ def command_package_audit(args: argparse.Namespace) -> int:
 def command_product_snapshot(args: argparse.Namespace) -> int:
     result = product_snapshot_case_study(args.fixture)
     text = to_json(result) if args.format == "json" else product_snapshot_markdown(result)
+    return emit(text, args.output)
+
+
+def command_product_family_walkthrough(args: argparse.Namespace) -> int:
+    result = product_family_walkthrough(args.input_dir, args.fixtures_dir)
+    text = to_json(result) if args.format == "json" else product_family_walkthrough_markdown(result)
     return emit(text, args.output)
 
 

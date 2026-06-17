@@ -695,6 +695,24 @@ Scenario pack reviewer receipt output contains:
 - `safety_boundaries`: explicit no live market data, no broker/API/account/order access, no trading, no suitability, and no personalized recommendation notes.
 - `provenance`: command metadata, including `live_market_data: false`, `shell_out: false`, `private_context: false`, `broker_execution: false`, and `workflow_files_read: false`.
 
+## Product Family Walkthrough
+
+The `product-family-walkthrough` command reads the product snapshot, scenario pack, scenario-pack reviewer receipt, and checked fixtures. It emits a deterministic reviewer walkthrough that compares artifact roles, fixture provenance, leveraged-ETF path-dependency caveats, and no-live-trading/no-advice boundaries.
+
+Product family walkthrough output contains:
+
+- `schema_version`: fixed as `0.31`.
+- `document_type`: fixed as `product_family_walkthrough`.
+- `walkthrough_id`: stable walkthrough identifier.
+- `summary`: product ticker, scenario-case count, receipt fixture count, source-artifact count, and false safety booleans.
+- `comparison`: reviewer-use notes for product snapshot, scenario pack, and reviewer receipt artifacts.
+- `fixture_provenance`: checked fixture paths, file kinds, byte sizes, and SHA-256 hashes.
+- `path_dependency_caveats`: daily-reset and path-decay caveats for cold reviewers.
+- `reviewer_steps`: exact local regeneration and validation commands.
+- `source_artifacts`: local artifact and fixture paths, file kinds, sizes, and SHA-256 hashes.
+- `safety_boundaries`: explicit no live market data, no broker/API/account/order access, no trading, no suitability, and no personalized recommendation notes.
+- `provenance`: command metadata, including `live_market_data: false`, `shell_out: false`, `private_context: false`, `broker_execution: false`, and `workflow_files_read: false`.
+
 ## Release Manifest
 
 The `release-manifest` command reads public local release artifacts from an input directory, defaulting to `examples/outputs`. It looks for `asset_hub.json`, `package_audit.json`, `artifact_validation.json`, `schema_inventory.json`, `demo_story.json`, and `gallery_index.json`. Missing or invalid inputs are recorded in the manifest instead of failing the command. Optional git metadata is included when available; use `--no-git` for deterministic output without repository metadata.

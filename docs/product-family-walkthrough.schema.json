@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Product Family Walkthrough",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "document_type",
+    "not_investment_advice",
+    "walkthrough_id",
+    "title",
+    "summary",
+    "comparison",
+    "fixture_provenance",
+    "path_dependency_caveats",
+    "reviewer_steps",
+    "source_artifacts",
+    "safety_boundaries",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {"const": "0.31"},
+    "document_type": {"const": "product_family_walkthrough"},
+    "not_investment_advice": {"type": "string"},
+    "walkthrough_id": {"type": "string"},
+    "title": {"type": "string"},
+    "summary": {
+      "type": "object",
+      "properties": {
+        "snapshot_product": {"type": "string"},
+        "scenario_cases": {"type": "integer"},
+        "fixture_inputs": {"type": "integer"},
+        "source_artifacts": {"type": "integer"},
+        "live_market_data": {"const": false},
+        "broker_execution": {"const": false},
+        "trading_enabled": {"const": false},
+        "personalized_recommendations": {"const": false}
+      }
+    },
+    "comparison": {"type": "array", "items": {"type": "object"}},
+    "fixture_provenance": {"type": "array", "items": {"$ref": "#/$defs/artifact_ref"}},
+    "path_dependency_caveats": {"type": "array", "items": {"type": "string"}},
+    "reviewer_steps": {"type": "array", "items": {"type": "object"}},
+    "source_artifacts": {"type": "array", "items": {"$ref": "#/$defs/artifact_ref"}},
+    "safety_boundaries": {"type": "array", "items": {"type": "string"}},
+    "provenance": {
+      "type": "object",
+      "properties": {
+        "live_market_data": {"const": false},
+        "shell_out": {"const": false},
+        "private_context": {"const": false},
+        "broker_execution": {"const": false},
+        "workflow_files_read": {"const": false},
+        "trading_enabled": {"const": false},
+        "personalized_recommendations": {"const": false}
+      }
+    }
+  },
+  "$defs": {
+    "artifact_ref": {
+      "type": "object",
+      "required": ["path", "kind", "bytes", "sha256"],
+      "properties": {
+        "path": {"type": "string"},
+        "kind": {"type": "string"},
+        "bytes": {"type": "integer", "minimum": 0},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    }
+  }
+}

@@ -318,6 +318,8 @@ The `scenario-pack` command writes a new-user evidence section into the pack and
 
 The `scenario-pack-reviewer-receipt` command writes deterministic JSON and Markdown receipts for cold reviewers. The receipt lists scenario-pack fixture inputs, source inputs, generated artifact paths, SHA-256 hashes, exact regeneration and validation commands, and explicit boundaries for no live data, no broker/API/account/order access, no trading, no suitability determination, and no personalized recommendations.
 
+The `product-family-walkthrough` command reads the existing product snapshot, scenario pack, reviewer receipt, and checked fixtures, then emits a compact reviewer walkthrough that compares what each artifact is for. It highlights fixture provenance hashes, daily-reset path-dependency caveats, and the same no-live-data/no-broker/no-trading/no-advice boundaries.
+
 The local skill sync helper copies the checked-in skill file into a local Codex skills directory:
 
 ```bash

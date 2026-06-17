@@ -8,7 +8,7 @@
   "schema_version": "0.13",
   "stages": [
     {
-      "artifact_count": 21,
+      "artifact_count": 23,
       "artifacts": [
         {
           "bytes": 718,
@@ -77,6 +77,26 @@
           "name": "portfolio_exposure.md",
           "path": "examples/outputs/portfolio_exposure.md",
           "schema_version": "0.2",
+          "stage": "fixtures",
+          "suggested_next_command": "python -m leveraged_etp_risk_lab pretrade-plan --product examples/fixtures/leveraged_nasdaq_3x.json --path examples/fixtures/nasdaq_chop_path.csv --thesis-file examples/fixtures/thesis_note.md --max-loss-budget 750 --format markdown"
+        },
+        {
+          "bytes": 4205,
+          "document_type": "product_snapshot_case_study",
+          "format": "json",
+          "name": "product_snapshot_tqqq_case_study.json",
+          "path": "examples/outputs/product_snapshot_tqqq_case_study.json",
+          "schema_version": "0.31",
+          "stage": "fixtures",
+          "suggested_next_command": "python -m leveraged_etp_risk_lab pretrade-plan --product examples/fixtures/leveraged_nasdaq_3x.json --path examples/fixtures/nasdaq_chop_path.csv --thesis-file examples/fixtures/thesis_note.md --max-loss-budget 750 --format markdown"
+        },
+        {
+          "bytes": 3332,
+          "document_type": "product_snapshot_case_study",
+          "format": "md",
+          "name": "product_snapshot_tqqq_case_study.md",
+          "path": "examples/outputs/product_snapshot_tqqq_case_study.md",
+          "schema_version": "0.31",
           "stage": "fixtures",
           "suggested_next_command": "python -m leveraged_etp_risk_lab pretrade-plan --product examples/fixtures/leveraged_nasdaq_3x.json --path examples/fixtures/nasdaq_chop_path.csv --thesis-file examples/fixtures/thesis_note.md --max-loss-budget 750 --format markdown"
         },
@@ -308,7 +328,7 @@
           "suggested_next_command": "python -m leveraged_etp_risk_lab report-card --artifact examples/outputs/pretrade_plan.json --artifact examples/outputs/position_size.json --artifact examples/outputs/stress_matrix.json --format markdown"
         },
         {
-          "bytes": 4813,
+          "bytes": 5110,
           "document_type": "run_ledger",
           "format": "jsonl",
           "name": "run_ledger.jsonl",
@@ -486,7 +506,7 @@
           "suggested_next_command": "python -m leveraged_etp_risk_lab asset-hub --input-dir examples/outputs --format markdown"
         },
         {
-          "bytes": 19322,
+          "bytes": 20508,
           "document_type": "audit_trail",
           "format": "json",
           "name": "audit_trail.json",
@@ -496,7 +516,7 @@
           "suggested_next_command": "python -m leveraged_etp_risk_lab audit-trail --ledger examples/outputs/run_ledger.jsonl --artifact examples/outputs/pretrade_plan.json --format markdown"
         },
         {
-          "bytes": 3442,
+          "bytes": 3660,
           "document_type": "audit_trail",
           "format": "md",
           "name": "audit_trail.md",
@@ -586,7 +606,7 @@
           "suggested_next_command": "python -m leveraged_etp_risk_lab factsheet-check --product examples/fixtures/leveraged_nasdaq_3x.json --factsheet-file examples/fixtures/factsheet_note.txt --format markdown"
         },
         {
-          "bytes": 31777,
+          "bytes": 32485,
           "document_type": "package_audit",
           "format": "json",
           "name": "package_audit.json",
@@ -596,7 +616,7 @@
           "suggested_next_command": "python -m leveraged_etp_risk_lab gallery-index --input-dir examples/outputs --format markdown"
         },
         {
-          "bytes": 5758,
+          "bytes": 5838,
           "document_type": "package_audit",
           "format": "md",
           "name": "package_audit.md",
@@ -870,7 +890,7 @@
       "artifact_count": 9,
       "artifacts": [
         {
-          "bytes": 11614,
+          "bytes": 12158,
           "document_type": "artifact_validation",
           "format": "json",
           "name": "artifact_validation.json",
@@ -880,7 +900,7 @@
           "suggested_next_command": "python -m leveraged_etp_risk_lab artifact-validate --format markdown"
         },
         {
-          "bytes": 5263,
+          "bytes": 5580,
           "document_type": "artifact_validation",
           "format": "md",
           "name": "artifact_validation.md",
@@ -890,7 +910,7 @@
           "suggested_next_command": "python -m leveraged_etp_risk_lab artifact-validate --format markdown"
         },
         {
-          "bytes": 31043,
+          "bytes": 31512,
           "document_type": "docs_export",
           "format": "html",
           "name": "docs_export.html",
@@ -900,7 +920,7 @@
           "suggested_next_command": "python -m leveraged_etp_risk_lab docs-export --input-dir examples/outputs --output examples/outputs/docs_export.html"
         },
         {
-          "bytes": 29177,
+          "bytes": 29595,
           "document_type": "docs_export",
           "format": "json",
           "name": "docs_export.json",
@@ -910,7 +930,7 @@
           "suggested_next_command": "python -m leveraged_etp_risk_lab docs-export --input-dir examples/outputs --output examples/outputs/docs_export.html"
         },
         {
-          "bytes": 18904,
+          "bytes": 19161,
           "document_type": "docs_export",
           "format": "md",
           "name": "docs_export.md",
@@ -940,7 +960,7 @@
           "suggested_next_command": "python -m leveraged_etp_risk_lab release-manifest --input-dir examples/outputs --format markdown"
         },
         {
-          "bytes": 27268,
+          "bytes": 28446,
           "document_type": "schema_inventory",
           "format": "json",
           "name": "schema_inventory.json",
@@ -950,7 +970,7 @@
           "suggested_next_command": "python -m leveraged_etp_risk_lab artifact-validate --format markdown"
         },
         {
-          "bytes": 12685,
+          "bytes": 13341,
           "document_type": "schema_inventory",
           "format": "md",
           "name": "schema_inventory.md",
@@ -965,8 +985,8 @@
     }
   ],
   "summary": {
-    "artifacts": 90,
-    "bytes": 690269,
+    "artifacts": 92,
+    "bytes": 704134,
     "stages": 8
   }
 }

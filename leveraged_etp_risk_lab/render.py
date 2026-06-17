@@ -1000,6 +1000,7 @@ def version_report(version: str) -> str:
                 "scenario-pack",
                 "scenario-pack-reviewer-receipt",
                 "package-audit",
+                "product-snapshot",
                 "schema-inventory",
                 "artifact-validate",
                 "release-manifest",

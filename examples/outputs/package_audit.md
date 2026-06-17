@@ -35,6 +35,7 @@
 | `python -m leveraged_etp_risk_lab scenario-pack-reviewer-receipt --input-dir examples/outputs --fixtures-dir examples/fixtures --artifact-dir examples/outputs --output-dir examples/outputs --format json` | not_run |
 | `python -m leveraged_etp_risk_lab release-manifest --format json --no-git` | not_run |
 | `python -m leveraged_etp_risk_lab docs-export --format json` | not_run |
+| `python -m leveraged_etp_risk_lab product-snapshot --format json` | not_run |
 | `python -m leveraged_etp_risk_lab glossary-list --format json` | not_run |
 | `python -m leveraged_etp_risk_lab explain-term daily_reset --format json` | not_run |
 | `python -m leveraged_etp_risk_lab factsheet-check --product examples/fixtures/leveraged_nasdaq_3x.json --factsheet-file examples/fixtures/factsheet_note.txt --format json` | not_run |

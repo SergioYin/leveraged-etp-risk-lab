@@ -14,6 +14,7 @@ from .glossary import explain_term, glossary_packet, term_ids
 from .io import load_path, load_portfolio_manifest, load_product, write_path_csv, write_text
 from .models import RiskBand, SimulationConfig
 from .package_audit import package_audit, package_audit_markdown
+from .product_snapshot import product_snapshot_case_study, product_snapshot_markdown
 from .render import (
     checklist_json,
     checklist_markdown,
@@ -164,6 +165,8 @@ def main(argv: Optional[List[str]] = None) -> int:
             return command_scenario_pack_reviewer_receipt(args)
         if args.command == "package-audit":
             return command_package_audit(args)
+        if args.command == "product-snapshot":
+            return command_product_snapshot(args)
         if args.command == "schema-inventory":
             return command_schema_inventory(args)
         if args.command == "artifact-validate":
@@ -515,6 +518,18 @@ def build_parser() -> argparse.ArgumentParser:
     audit.add_argument("--format", choices=["json", "markdown"], default="json")
     audit.add_argument("--run-tests", action="store_true", help="run listed test commands while auditing")
     audit.add_argument("--output", help="write output to a file instead of stdout")
+
+    product_snapshot = sub.add_parser(
+        "product-snapshot",
+        help="emit a static source-attributed product snapshot and reviewer case study",
+    )
+    product_snapshot.add_argument(
+        "--fixture",
+        default="examples/fixtures/product_snapshot_tqqq_case_study.json",
+        help="static product snapshot fixture JSON file",
+    )
+    product_snapshot.add_argument("--format", choices=["json", "markdown"], default="markdown")
+    product_snapshot.add_argument("--output", help="write output to a file instead of stdout")
 
     inventory = sub.add_parser("schema-inventory", help="list local JSON schemas and matching example artifacts")
     inventory.add_argument("--examples-dir", default="examples/outputs", help="directory containing example JSON outputs")
@@ -1103,6 +1118,9 @@ def command_demo_bundle(args: argparse.Namespace) -> int:
     glossary = glossary_packet()
     write_text(root / "glossary.json", to_json(glossary))
     write_text(root / "glossary.md", glossary_markdown(glossary))
+    snapshot = product_snapshot_case_study(str(examples / "product_snapshot_tqqq_case_study.json"))
+    write_text(root / "product_snapshot_tqqq_case_study.json", to_json(snapshot))
+    write_text(root / "product_snapshot_tqqq_case_study.md", product_snapshot_markdown(snapshot))
     ledger_artifacts = [
         str(root / "leveraged_nasdaq_3x.json"),
         str(root / "single_stock_2x.json"),
@@ -1122,6 +1140,7 @@ def command_demo_bundle(args: argparse.Namespace) -> int:
         str(root / "thesis_dashboard_data.json"),
         str(root / "investment_memo.json"),
         str(root / "cycle_state.json"),
+        str(root / "product_snapshot_tqqq_case_study.json"),
     ]
     append_ledger(str(ledger_path), ledger_artifacts)
     trail = audit_trail(str(ledger_path), ledger_artifacts)
@@ -1276,6 +1295,12 @@ def command_scenario_pack_reviewer_receipt(args: argparse.Namespace) -> int:
 def command_package_audit(args: argparse.Namespace) -> int:
     result = package_audit(__version__, run_tests=args.run_tests)
     text = to_json(result) if args.format == "json" else package_audit_markdown(result)
+    return emit(text, args.output)
+
+
+def command_product_snapshot(args: argparse.Namespace) -> int:
+    result = product_snapshot_case_study(args.fixture)
+    text = to_json(result) if args.format == "json" else product_snapshot_markdown(result)
     return emit(text, args.output)
 
 

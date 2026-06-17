@@ -1,8 +1,8 @@
 # Schema Inventory
 
 - Schema version: 0.26
-- Schemas: 42
-- Matching examples: 44
+- Schemas: 43
+- Matching examples: 45
 
 | Schema | Document type | Version | Required fields | Matching examples | Safety notes |
 | --- | --- | --- | --- | --- | --- |
@@ -30,6 +30,7 @@
 | docs/portfolio-sensitivity.schema.json | portfolio_sensitivity | 0.20 | schema_version, document_type, not_investment_advice, portfolio, inputs, summary, positions, warnings, provenance | examples/outputs/portfolio_sensitivity.json | requires not_investment_advice; requires live_market_data: false; requires shell_out: false; requires provenance |
 | docs/position-size.schema.json | position_size_plan | 0.8 | schema_version, document_type, not_investment_advice, product, inputs, recommendation, scenario, checklist, warnings, provenance | examples/outputs/position_size.json | requires not_investment_advice; requires provenance |
 | docs/pretrade-plan.schema.json | pretrade_plan | 0.3 | schema_version, document_type, not_investment_advice, product, scenario, risk_bands, budget, thesis, assumptions, checklist, warnings, provenance | examples/outputs/pretrade_plan.json | requires not_investment_advice; requires provenance |
+| docs/product-snapshot-case-study.schema.json | product_snapshot_case_study | 0.31 | schema_version, document_type, snapshot_id, title, snapshot_date, not_investment_advice, product, case_study, source_attribution, reviewer_demo_path, warnings, provenance | examples/outputs/product_snapshot_tqqq_case_study.json | requires not_investment_advice; requires live_market_data: false; requires shell_out: false; requires private_context: false; requires broker_execution: false; requires trading_enabled: false; requires personalized_recommendations: false; requires provenance |
 | docs/product.schema.json | n/a | n/a | name, ticker, underlying, leverage, annual_fee | None | None |
 | docs/recipe-run.schema.json | recipe_run | 0.17 | schema_version, document_type, inputs, summary, workflow, components, artifacts, provenance | examples/outputs/recipe_run.json | requires provenance |
 | docs/regime-gallery.schema.json | regime_gallery | 0.7 | schema_version, document_type, regimes | examples/outputs/regime_gallery.json | None |

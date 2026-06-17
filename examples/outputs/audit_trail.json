@@ -143,6 +143,14 @@
       "path": "examples/outputs/cycle_state.json",
       "schema_version": "0.22",
       "sha256": "eb3a5bc6220f183a2275438a9150630221e3fe1a85deacd5ac358d89f57d625f"
+    },
+    {
+      "artifact_name": "product_snapshot_tqqq_case_study.json",
+      "bytes": 4205,
+      "document_type": "product_snapshot_case_study",
+      "path": "examples/outputs/product_snapshot_tqqq_case_study.json",
+      "schema_version": "0.31",
+      "sha256": "3c4c1635cd73116630f93f2962f3d25c9ad62579160e233e71251bb9a59d14ef"
     }
   ],
   "checklist": [
@@ -325,6 +333,16 @@
       "schema_version": "0.22",
       "sha256": "eb3a5bc6220f183a2275438a9150630221e3fe1a85deacd5ac358d89f57d625f",
       "status": "pass"
+    },
+    {
+      "artifact_name": "product_snapshot_tqqq_case_study.json",
+      "bytes_match_ledger": true,
+      "document_type": "product_snapshot_case_study",
+      "hash_matches_ledger": true,
+      "ledger_present": true,
+      "schema_version": "0.31",
+      "sha256": "3c4c1635cd73116630f93f2962f3d25c9ad62579160e233e71251bb9a59d14ef",
+      "status": "pass"
     }
   ],
   "document_type": "audit_trail",
@@ -347,7 +365,8 @@
       "examples/outputs/report_card.json",
       "examples/outputs/thesis_dashboard_data.json",
       "examples/outputs/investment_memo.json",
-      "examples/outputs/cycle_state.json"
+      "examples/outputs/cycle_state.json",
+      "examples/outputs/product_snapshot_tqqq_case_study.json"
     ],
     "ledger": "examples/outputs/run_ledger.jsonl"
   },
@@ -513,6 +532,15 @@
       "document_type": "run_ledger_entry",
       "schema_version": "0.5",
       "sha256": "eb3a5bc6220f183a2275438a9150630221e3fe1a85deacd5ac358d89f57d625f"
+    },
+    {
+      "artifact_name": "product_snapshot_tqqq_case_study.json",
+      "artifact_schema_version": "0.31",
+      "artifact_type": "product_snapshot_case_study",
+      "bytes": 4205,
+      "document_type": "run_ledger_entry",
+      "schema_version": "0.5",
+      "sha256": "3c4c1635cd73116630f93f2962f3d25c9ad62579160e233e71251bb9a59d14ef"
     }
   ],
   "provenance": {
@@ -534,7 +562,8 @@
       "examples/outputs/report_card.json",
       "examples/outputs/thesis_dashboard_data.json",
       "examples/outputs/investment_memo.json",
-      "examples/outputs/cycle_state.json"
+      "examples/outputs/cycle_state.json",
+      "examples/outputs/product_snapshot_tqqq_case_study.json"
     ],
     "command": "audit-trail",
     "ledger": "examples/outputs/run_ledger.jsonl",
@@ -543,10 +572,10 @@
   },
   "schema_version": "0.20",
   "summary": {
-    "artifacts": 18,
+    "artifacts": 19,
     "deterministic": true,
-    "ledger_rows": 18,
-    "passed": 18,
+    "ledger_rows": 19,
+    "passed": 19,
     "review": 0
   }
 }

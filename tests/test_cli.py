@@ -46,6 +46,7 @@ class CliTests(unittest.TestCase):
         self.assertIn("scenario-pack", data["commands"])
         self.assertIn("scenario-pack-reviewer-receipt", data["commands"])
         self.assertIn("package-audit", data["commands"])
+        self.assertIn("product-snapshot", data["commands"])
         self.assertIn("schema-inventory", data["commands"])
         self.assertIn("artifact-validate", data["commands"])
         self.assertIn("release-manifest", data["commands"])
@@ -165,6 +166,8 @@ class CliTests(unittest.TestCase):
             self.assertTrue((Path(tmp) / "package_audit.md").exists())
             self.assertTrue((Path(tmp) / "glossary.json").exists())
             self.assertTrue((Path(tmp) / "glossary.md").exists())
+            self.assertTrue((Path(tmp) / "product_snapshot_tqqq_case_study.json").exists())
+            self.assertTrue((Path(tmp) / "product_snapshot_tqqq_case_study.md").exists())
             package_audit = json.loads((Path(tmp) / "package_audit.json").read_text(encoding="utf-8"))
             release_manifest = json.loads((Path(tmp) / "release_manifest.json").read_text(encoding="utf-8"))
             docs_export = json.loads((Path(tmp) / "docs_export.json").read_text(encoding="utf-8"))
@@ -172,6 +175,20 @@ class CliTests(unittest.TestCase):
             self.assertEqual(release_manifest["schema_version"], "0.30")
             self.assertEqual(release_manifest["release_readiness"]["status"], "ready")
             self.assertEqual(docs_export["schema_version"], "0.30")
+
+    def test_product_snapshot_case_study(self):
+        result = self.run_cli("product-snapshot", "--format", "json")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        data = json.loads(result.stdout)
+        self.assertEqual(data["schema_version"], "0.31")
+        self.assertEqual(data["document_type"], "product_snapshot_case_study")
+        self.assertEqual(data["product"]["ticker"], "TQQQ")
+        self.assertFalse(data["provenance"]["live_market_data"])
+        self.assertFalse(data["provenance"]["broker_execution"])
+        self.assertFalse(data["provenance"]["personalized_recommendations"])
+        self.assertGreaterEqual(len(data["source_attribution"]), 3)
+        commands = [item["command"] for item in data["reviewer_demo_path"]]
+        self.assertTrue(any("artifact-validate" in item for item in commands))
 
     def test_scenario_pack_writes_case_studies(self):
         with tempfile.TemporaryDirectory() as demo_tmp, tempfile.TemporaryDirectory() as pack_tmp:

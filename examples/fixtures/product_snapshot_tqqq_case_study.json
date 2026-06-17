@@ -1,0 +1,65 @@
+{
+  "snapshot_id": "tqqq-daily-target-source-snapshot",
+  "title": "TQQQ Daily-Target Product Snapshot",
+  "snapshot_date": "2026-06-17",
+  "not_investment_advice": "This static product snapshot is for scenario planning and education only. It is not investment advice, a recommendation, or a suitability determination.",
+  "product": {
+    "name": "ProShares UltraPro QQQ",
+    "ticker": "TQQQ",
+    "issuer": "ProShares",
+    "underlying": "Nasdaq-100 Index",
+    "daily_target": "Three times the daily performance of the Nasdaq-100 Index before fees and expenses.",
+    "reset_frequency": "daily",
+    "expense_ratio_note": "The fixture does not assert a current fee. Review the current prospectus before using real product terms.",
+    "public_listing_note": "Included as a source-attributed case study fixture, not as a tradable recommendation."
+  },
+  "case_study": {
+    "reviewer_question": "What should a reviewer check before using a 3x daily Nasdaq-100 product in a multi-day scenario demo?",
+    "plain_english_answer": "Confirm that the product target is daily, then compare the modeled multi-day path with a simple three-times index move so path dependency is visible.",
+    "demo_fixture": "examples/fixtures/leveraged_nasdaq_3x.json",
+    "learning_points": [
+      "A daily target is not the same as a guaranteed multi-day multiple.",
+      "Volatile or alternating paths can make compounded returns diverge from a simple multiple.",
+      "A public reviewer can reproduce the local demo without live prices, broker access, or personalized advice."
+    ]
+  },
+  "source_attribution": [
+    {
+      "name": "SEC Investor.gov leveraged and inverse ETF bulletin",
+      "url": "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-alerts/sec",
+      "claim_summary": "Leveraged and inverse ETFs commonly reset daily, and longer-period results can differ significantly from the stated multiple, especially in volatile markets.",
+      "source_accessed": "2026-06-17"
+    },
+    {
+      "name": "FINRA Non-Traditional ETFs FAQ",
+      "url": "https://www.finra.org/rules-guidance/key-topics/etf/non-traditional-etf-faq",
+      "claim_summary": "FINRA explains that daily reset and compounding can make longer-horizon results differ from a leveraged or inverse fund's objective.",
+      "source_accessed": "2026-06-17"
+    },
+    {
+      "name": "ProShares UltraPro QQQ product page",
+      "url": "https://www.proshares.com/our-etfs/leveraged-and-inverse/tqqq",
+      "claim_summary": "The issuer describes TQQQ as seeking daily investment results, before fees and expenses, corresponding to three times the daily performance of the Nasdaq-100 Index.",
+      "source_accessed": "2026-06-17"
+    }
+  ],
+  "reviewer_demo_path": [
+    {
+      "purpose": "Emit the source-attributed product snapshot as Markdown.",
+      "command": "python -m leveraged_etp_risk_lab product-snapshot --fixture examples/fixtures/product_snapshot_tqqq_case_study.json --format markdown"
+    },
+    {
+      "purpose": "Regenerate the deterministic local demo bundle including the snapshot artifact.",
+      "command": "python -m leveraged_etp_risk_lab demo-bundle --output-dir examples/outputs"
+    },
+    {
+      "purpose": "Validate the snapshot artifact against local lightweight schemas.",
+      "command": "python -m leveraged_etp_risk_lab artifact-validate examples/outputs/product_snapshot_tqqq_case_study.json --format markdown"
+    }
+  ],
+  "warnings": [
+    "This fixture is static and does not fetch live holdings, prices, assets, spreads, or fees.",
+    "The included ticker is used as an educational case study only.",
+    "Real-world use requires current issuer documents, tax review, liquidity review, and suitability review outside this package."
+  ]
+}

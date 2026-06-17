@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Product Snapshot Case Study",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "document_type",
+    "snapshot_id",
+    "title",
+    "snapshot_date",
+    "not_investment_advice",
+    "product",
+    "case_study",
+    "source_attribution",
+    "reviewer_demo_path",
+    "warnings",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {"const": "0.31"},
+    "document_type": {"const": "product_snapshot_case_study"},
+    "snapshot_id": {"type": "string"},
+    "title": {"type": "string"},
+    "snapshot_date": {"type": "string"},
+    "not_investment_advice": {"type": "string"},
+    "product": {"type": "object"},
+    "case_study": {"type": "object"},
+    "source_attribution": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "url", "claim_summary", "source_accessed"],
+        "properties": {
+          "name": {"type": "string"},
+          "url": {"type": "string"},
+          "claim_summary": {"type": "string"},
+          "source_accessed": {"type": "string"}
+        }
+      }
+    },
+    "reviewer_demo_path": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["purpose", "command"],
+        "properties": {
+          "purpose": {"type": "string"},
+          "command": {"type": "string"}
+        }
+      }
+    },
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "provenance": {
+      "type": "object",
+      "required": [
+        "command",
+        "fixture",
+        "live_market_data",
+        "shell_out",
+        "private_context",
+        "broker_execution",
+        "trading_enabled",
+        "personalized_recommendations"
+      ],
+      "properties": {
+        "command": {"const": "product-snapshot"},
+        "fixture": {"type": "string"},
+        "live_market_data": {"const": false},
+        "shell_out": {"const": false},
+        "private_context": {"const": false},
+        "broker_execution": {"const": false},
+        "trading_enabled": {"const": false},
+        "personalized_recommendations": {"const": false}
+      }
+    }
+  }
+}

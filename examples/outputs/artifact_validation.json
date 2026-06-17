@@ -268,6 +268,21 @@
       "status": "pass"
     },
     {
+      "document_type": "product_snapshot_case_study",
+      "issues": [],
+      "path": "examples/outputs/product_snapshot_tqqq_case_study.json",
+      "provenance_flags": {
+        "broker_execution": false,
+        "live_market_data": false,
+        "personalized_recommendations": false,
+        "private_context": false,
+        "shell_out": false,
+        "trading_enabled": false
+      },
+      "schema_version": "0.31",
+      "status": "pass"
+    },
+    {
       "document_type": "recipe_run",
       "issues": [],
       "path": "examples/outputs/recipe_run.json",
@@ -434,13 +449,13 @@
     "live_market_data": false,
     "private_context": false,
     "shell_out": false,
-    "source": "examples/outputs"
+    "source": "path_list"
   },
   "schema_version": "0.26",
   "summary": {
-    "artifacts": 42,
+    "artifacts": 43,
     "failed": 0,
-    "passed": 42,
+    "passed": 43,
     "ready": true
   }
 }

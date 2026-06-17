@@ -114,7 +114,7 @@
   ],
   "demo_artifact_map": [
     {
-      "artifact_count": 21,
+      "artifact_count": 23,
       "key_artifacts": [
         "examples/outputs/glossary.json",
         "examples/outputs/glossary.md",
@@ -230,7 +230,7 @@
     ],
     "name": "leveraged-etp-risk-lab",
     "proof_points": [
-      "90 checked demo artifacts indexed from examples/outputs.",
+      "92 checked demo artifacts indexed from examples/outputs.",
       "Package audit ready=True with 10 passed checks.",
       "No runtime dependencies, workflow files, private context, broker execution, or live market data."
     ],

@@ -1,0 +1,77 @@
+{
+  "case_study": {
+    "demo_fixture": "examples/fixtures/leveraged_nasdaq_3x.json",
+    "learning_points": [
+      "A daily target is not the same as a guaranteed multi-day multiple.",
+      "Volatile or alternating paths can make compounded returns diverge from a simple multiple.",
+      "A public reviewer can reproduce the local demo without live prices, broker access, or personalized advice."
+    ],
+    "plain_english_answer": "Confirm that the product target is daily, then compare the modeled multi-day path with a simple three-times index move so path dependency is visible.",
+    "reviewer_question": "What should a reviewer check before using a 3x daily Nasdaq-100 product in a multi-day scenario demo?"
+  },
+  "document_type": "product_snapshot_case_study",
+  "not_investment_advice": "This static product snapshot is for scenario planning and education only. It is not investment advice, a recommendation, or a suitability determination.",
+  "product": {
+    "daily_target": "Three times the daily performance of the Nasdaq-100 Index before fees and expenses.",
+    "expense_ratio_note": "The fixture does not assert a current fee. Review the current prospectus before using real product terms.",
+    "issuer": "ProShares",
+    "name": "ProShares UltraPro QQQ",
+    "public_listing_note": "Included as a source-attributed case study fixture, not as a tradable recommendation.",
+    "reset_frequency": "daily",
+    "ticker": "TQQQ",
+    "underlying": "Nasdaq-100 Index"
+  },
+  "provenance": {
+    "broker_execution": false,
+    "command": "product-snapshot",
+    "fixture": "examples/fixtures/product_snapshot_tqqq_case_study.json",
+    "live_market_data": false,
+    "personalized_recommendations": false,
+    "private_context": false,
+    "shell_out": false,
+    "trading_enabled": false
+  },
+  "reviewer_demo_path": [
+    {
+      "command": "python -m leveraged_etp_risk_lab product-snapshot --fixture examples/fixtures/product_snapshot_tqqq_case_study.json --format markdown",
+      "purpose": "Emit the source-attributed product snapshot as Markdown."
+    },
+    {
+      "command": "python -m leveraged_etp_risk_lab demo-bundle --output-dir examples/outputs",
+      "purpose": "Regenerate the deterministic local demo bundle including the snapshot artifact."
+    },
+    {
+      "command": "python -m leveraged_etp_risk_lab artifact-validate examples/outputs/product_snapshot_tqqq_case_study.json --format markdown",
+      "purpose": "Validate the snapshot artifact against local lightweight schemas."
+    }
+  ],
+  "schema_version": "0.31",
+  "snapshot_date": "2026-06-17",
+  "snapshot_id": "tqqq-daily-target-source-snapshot",
+  "source_attribution": [
+    {
+      "claim_summary": "Leveraged and inverse ETFs commonly reset daily, and longer-period results can differ significantly from the stated multiple, especially in volatile markets.",
+      "name": "SEC Investor.gov leveraged and inverse ETF bulletin",
+      "source_accessed": "2026-06-17",
+      "url": "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-alerts/sec"
+    },
+    {
+      "claim_summary": "FINRA explains that daily reset and compounding can make longer-horizon results differ from a leveraged or inverse fund's objective.",
+      "name": "FINRA Non-Traditional ETFs FAQ",
+      "source_accessed": "2026-06-17",
+      "url": "https://www.finra.org/rules-guidance/key-topics/etf/non-traditional-etf-faq"
+    },
+    {
+      "claim_summary": "The issuer describes TQQQ as seeking daily investment results, before fees and expenses, corresponding to three times the daily performance of the Nasdaq-100 Index.",
+      "name": "ProShares UltraPro QQQ product page",
+      "source_accessed": "2026-06-17",
+      "url": "https://www.proshares.com/our-etfs/leveraged-and-inverse/tqqq"
+    }
+  ],
+  "title": "TQQQ Daily-Target Product Snapshot",
+  "warnings": [
+    "This fixture is static and does not fetch live holdings, prices, assets, spreads, or fees.",
+    "The included ticker is used as an educational case study only.",
+    "Real-world use requires current issuer documents, tax review, liquidity review, and suitability review outside this package."
+  ]
+}

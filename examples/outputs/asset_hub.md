@@ -14,7 +14,7 @@ leveraged-etp-risk-lab is a zero-dependency Python CLI for planning daily-reset 
 
 ### Proof Points
 
-- 90 checked demo artifacts indexed from examples/outputs.
+- 92 checked demo artifacts indexed from examples/outputs.
 - Package audit ready=True with 10 passed checks.
 - No runtime dependencies, workflow files, private context, broker execution, or live market data.
 
@@ -49,7 +49,7 @@ leveraged-etp-risk-lab is a zero-dependency Python CLI for planning daily-reset 
 
 | Stage | Artifacts | Key artifacts |
 | --- | --- | --- |
-| fixtures | 21 | examples/outputs/glossary.json, examples/outputs/glossary.md, examples/outputs/leveraged_nasdaq_3x.json, examples/outputs/leveraged_nasdaq_3x.md, examples/outputs/portfolio_exposure.json, examples/outputs/portfolio_exposure.md |
+| fixtures | 23 | examples/outputs/glossary.json, examples/outputs/glossary.md, examples/outputs/leveraged_nasdaq_3x.json, examples/outputs/leveraged_nasdaq_3x.md, examples/outputs/portfolio_exposure.json, examples/outputs/portfolio_exposure.md |
 | plans | 9 | examples/outputs/compare_runs.json, examples/outputs/compare_runs.md, examples/outputs/pretrade_plan.json, examples/outputs/pretrade_plan.md, examples/outputs/recipe_run.json, examples/outputs/recipe_run.md |
 | sizing | 2 | examples/outputs/position_size.json, examples/outputs/position_size.md |
 | stress | 6 | examples/outputs/portfolio_sensitivity.json, examples/outputs/portfolio_sensitivity.md, examples/outputs/sensitivity_grid.json, examples/outputs/sensitivity_grid.md, examples/outputs/stress_matrix.json, examples/outputs/stress_matrix.md |

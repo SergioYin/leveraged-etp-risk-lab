@@ -18,12 +18,12 @@
 
 ## Public Artifact Inventory
 
-- Total artifacts: 90
-- Total bytes: 690269
+- Total artifacts: 92
+- Total bytes: 704134
 
 | Stage | Artifacts | Key artifacts |
 | --- | ---: | --- |
-| fixtures | 21 | examples/outputs/checklist.md, examples/outputs/glossary.json, examples/outputs/glossary.md, examples/outputs/leveraged_nasdaq_3x.json, examples/outputs/leveraged_nasdaq_3x.md |
+| fixtures | 23 | examples/outputs/checklist.md, examples/outputs/glossary.json, examples/outputs/glossary.md, examples/outputs/leveraged_nasdaq_3x.json, examples/outputs/leveraged_nasdaq_3x.md |
 | plans | 9 | examples/outputs/compare_runs.json, examples/outputs/compare_runs.md, examples/outputs/pretrade_plan.json, examples/outputs/pretrade_plan.md, examples/outputs/recipe_run.json |
 | sizing | 2 | examples/outputs/position_size.json, examples/outputs/position_size.md |
 | stress | 6 | examples/outputs/portfolio_sensitivity.json, examples/outputs/portfolio_sensitivity.md, examples/outputs/sensitivity_grid.json, examples/outputs/sensitivity_grid.md, examples/outputs/stress_matrix.json |
@@ -36,7 +36,7 @@
 
 - Package ready: yes
 - Artifact validation ready: yes
-- Schemas indexed: 42
+- Schemas indexed: 43
 - Validation issues: 0
 
 ## Release Readiness
@@ -56,8 +56,8 @@
 - Hardens deterministic release artifact generation for package audit, schema inventory, artifact validation, release manifest, and docs export.
 - Adds deterministic v0.30 scenario-pack case studies for new users comparing path decay, drawdown risk, and guardrails.
 - Carries safety caveats, command map, release notes, and local artifact links from checked public artifacts.
-- Publishes 90 public demo artifacts across 8 gallery stages.
-- Tracks 42 local schemas and 42 validated artifacts.
+- Publishes 92 public demo artifacts across 8 gallery stages.
+- Tracks 43 local schemas and 43 validated artifacts.
 
 ### Readiness
 

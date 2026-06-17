@@ -1,6 +1,6 @@
 # Data Schema
 
-Simulation and exposure schemas are versioned as `0.2`. The user-facing pretrade plan packet is versioned as `0.3`. The product template gallery is versioned as `0.4`. Run comparison and run ledger metadata outputs are versioned as `0.5`. Thesis impact outputs are versioned as `0.6`. The market regime gallery is versioned as `0.7`. Position size plans are versioned as `0.8`. Stress matrix outputs are versioned as `0.9`. Thesis watchlist outputs are versioned as `0.10`. Package audit outputs are versioned as `0.11`. Public demo story outputs are versioned as `0.12`. Public gallery index outputs are versioned as `0.13`. Leveraged product glossary outputs are versioned as `0.14`. Product factsheet checklist outputs are versioned as `0.15`. Risk rule profile outputs are versioned as `0.16`. Recipe-run bundles are versioned as `0.17`. Decision-readiness report cards are versioned as `0.18`. Scenario sensitivity grids are versioned as `0.19`. Portfolio sensitivity, thesis dashboard data, and audit trail outputs are versioned as `0.20`. Investment memo and memo review outputs are versioned as `0.21`. Watch cycle state and update outputs are versioned as `0.22`. Allocation guardrail policy and check outputs are versioned as `0.23`. Order ticket and order review outputs are versioned as `0.24`. Public asset hub outputs are versioned as `0.25`. Schema inventory and artifact validation outputs are versioned as `0.26`. Scenario packs, scenario case studies, release manifests, and static docs export packets are versioned as `0.30`. Schemas are intentionally small enough to edit by hand.
+Simulation and exposure schemas are versioned as `0.2`. The user-facing pretrade plan packet is versioned as `0.3`. The product template gallery is versioned as `0.4`. Run comparison and run ledger metadata outputs are versioned as `0.5`. Thesis impact outputs are versioned as `0.6`. The market regime gallery is versioned as `0.7`. Position size plans are versioned as `0.8`. Stress matrix outputs are versioned as `0.9`. Thesis watchlist outputs are versioned as `0.10`. Package audit outputs are versioned as `0.11`. Public demo story outputs are versioned as `0.12`. Public gallery index outputs are versioned as `0.13`. Leveraged product glossary outputs are versioned as `0.14`. Product factsheet checklist outputs are versioned as `0.15`. Risk rule profile outputs are versioned as `0.16`. Recipe-run bundles are versioned as `0.17`. Decision-readiness report cards are versioned as `0.18`. Scenario sensitivity grids are versioned as `0.19`. Portfolio sensitivity, thesis dashboard data, and audit trail outputs are versioned as `0.20`. Investment memo and memo review outputs are versioned as `0.21`. Watch cycle state and update outputs are versioned as `0.22`. Allocation guardrail policy and check outputs are versioned as `0.23`. Order ticket and order review outputs are versioned as `0.24`. Public asset hub outputs are versioned as `0.25`. Schema inventory and artifact validation outputs are versioned as `0.26`. Scenario packs, scenario case studies, release manifests, and static docs export packets are versioned as `0.30`. Product snapshot case studies are versioned as `0.31`. Schemas are intentionally small enough to edit by hand.
 
 ## Product
 
@@ -16,6 +16,22 @@ Product files are JSON objects with these fields:
 - `notes`: optional plain-text notes.
 
 The `template-export` command writes product JSON in this same shape, without gallery-only fields such as risk notes or use cases.
+
+## Product Snapshot Case Study
+
+The `product-snapshot` command reads a static local fixture and emits a source-attributed public reviewer packet. It does not fetch live market data, call issuer APIs, shell out, read private context, or enable broker execution.
+
+Product snapshot case-study output contains:
+
+- `schema_version`: fixed as `0.31`.
+- `document_type`: fixed as `product_snapshot_case_study`.
+- `not_investment_advice`: explicit language stating the snapshot is not advice, a recommendation, or a suitability determination.
+- `product`: static display fields for the case-study product.
+- `case_study`: reviewer question, plain-English answer, demo fixture, and learning points.
+- `source_attribution`: source names, URLs, access date, and paraphrased claim summaries.
+- `reviewer_demo_path`: exact local commands a public reviewer can run.
+- `warnings`: static limitations, including no live fees, spreads, prices, holdings, or suitability review.
+- `provenance`: command metadata, including `live_market_data: false`, `shell_out: false`, `private_context: false`, `broker_execution: false`, `trading_enabled: false`, and `personalized_recommendations: false`.
 
 ## Schema Inventory
 

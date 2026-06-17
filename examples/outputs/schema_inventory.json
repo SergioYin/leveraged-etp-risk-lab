@@ -586,6 +586,39 @@
       "title": "Leveraged ETP Risk Lab Pretrade Plan Packet"
     },
     {
+      "document_type": "product_snapshot_case_study",
+      "examples": [
+        "examples/outputs/product_snapshot_tqqq_case_study.json"
+      ],
+      "path": "docs/product-snapshot-case-study.schema.json",
+      "public_safety_notes": [
+        "requires not_investment_advice",
+        "requires live_market_data: false",
+        "requires shell_out: false",
+        "requires private_context: false",
+        "requires broker_execution: false",
+        "requires trading_enabled: false",
+        "requires personalized_recommendations: false",
+        "requires provenance"
+      ],
+      "required_top_level_fields": [
+        "schema_version",
+        "document_type",
+        "snapshot_id",
+        "title",
+        "snapshot_date",
+        "not_investment_advice",
+        "product",
+        "case_study",
+        "source_attribution",
+        "reviewer_demo_path",
+        "warnings",
+        "provenance"
+      ],
+      "schema_version": "0.31",
+      "title": "Product Snapshot Case Study"
+    },
+    {
       "document_type": null,
       "examples": [],
       "path": "docs/product.schema.json",
@@ -1013,7 +1046,7 @@
     }
   ],
   "summary": {
-    "examples": 44,
+    "examples": 45,
     "safety_flags": [
       "live_market_data",
       "shell_out",
@@ -1022,6 +1055,6 @@
       "trading_enabled",
       "personalized_recommendations"
     ],
-    "schemas": 42
+    "schemas": 43
   }
 }

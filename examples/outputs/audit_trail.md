@@ -1,9 +1,9 @@
 # Audit Trail
 
 - Ledger: examples/outputs/run_ledger.jsonl
-- Artifacts: 18
-- Ledger rows: 18
-- Passed: 18
+- Artifacts: 19
+- Ledger rows: 19
+- Passed: 19
 - Review: 0
 
 ## Checklist
@@ -28,10 +28,11 @@
 | thesis_dashboard_data.json | pass | thesis_dashboard_data | 0.20 | 6625 | a411d032e5d4e8fcf7a71902d403526d40e6c81783c387577574179424c3e196 |
 | investment_memo.json | pass | investment_memo_packet | 0.21 | 10963 | e65fdac470f187a1b38ecc8c67b034364fcbb86f98193f09f35e01767be0dbf7 |
 | cycle_state.json | pass | cycle_state | 0.22 | 9527 | eb3a5bc6220f183a2275438a9150630221e3fe1a85deacd5ac358d89f57d625f |
+| product_snapshot_tqqq_case_study.json | pass | product_snapshot_case_study | 0.31 | 4205 | 3c4c1635cd73116630f93f2962f3d25c9ad62579160e233e71251bb9a59d14ef |
 
 ## Provenance
 
-- artifacts: ['examples/outputs/leveraged_nasdaq_3x.json', 'examples/outputs/single_stock_2x.json', 'examples/outputs/portfolio_exposure.json', 'examples/outputs/pretrade_plan.json', 'examples/outputs/position_size.json', 'examples/outputs/stress_matrix.json', 'examples/outputs/sensitivity_grid.json', 'examples/outputs/portfolio_sensitivity.json', 'examples/outputs/compare_runs.json', 'examples/outputs/thesis_impact.json', 'examples/outputs/watchlist.json', 'examples/outputs/factsheet_check.json', 'examples/outputs/risk_profiles.json', 'examples/outputs/recipe_run.json', 'examples/outputs/report_card.json', 'examples/outputs/thesis_dashboard_data.json', 'examples/outputs/investment_memo.json', 'examples/outputs/cycle_state.json']
+- artifacts: ['examples/outputs/leveraged_nasdaq_3x.json', 'examples/outputs/single_stock_2x.json', 'examples/outputs/portfolio_exposure.json', 'examples/outputs/pretrade_plan.json', 'examples/outputs/position_size.json', 'examples/outputs/stress_matrix.json', 'examples/outputs/sensitivity_grid.json', 'examples/outputs/portfolio_sensitivity.json', 'examples/outputs/compare_runs.json', 'examples/outputs/thesis_impact.json', 'examples/outputs/watchlist.json', 'examples/outputs/factsheet_check.json', 'examples/outputs/risk_profiles.json', 'examples/outputs/recipe_run.json', 'examples/outputs/report_card.json', 'examples/outputs/thesis_dashboard_data.json', 'examples/outputs/investment_memo.json', 'examples/outputs/cycle_state.json', 'examples/outputs/product_snapshot_tqqq_case_study.json']
 - command: audit-trail
 - ledger: examples/outputs/run_ledger.jsonl
 - live_market_data: False

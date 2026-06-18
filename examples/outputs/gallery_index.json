@@ -81,7 +81,7 @@
           "suggested_next_command": "python -m leveraged_etp_risk_lab pretrade-plan --product examples/fixtures/leveraged_nasdaq_3x.json --path examples/fixtures/nasdaq_chop_path.csv --thesis-file examples/fixtures/thesis_note.md --max-loss-budget 750 --format markdown"
         },
         {
-          "bytes": 7009,
+          "bytes": 8671,
           "document_type": "product_family_walkthrough",
           "format": "json",
           "name": "product_family_walkthrough.json",
@@ -91,7 +91,7 @@
           "suggested_next_command": "python -m leveraged_etp_risk_lab pretrade-plan --product examples/fixtures/leveraged_nasdaq_3x.json --path examples/fixtures/nasdaq_chop_path.csv --thesis-file examples/fixtures/thesis_note.md --max-loss-budget 750 --format markdown"
         },
         {
-          "bytes": 3852,
+          "bytes": 4679,
           "document_type": "product_family_walkthrough",
           "format": "md",
           "name": "product_family_walkthrough.md",
@@ -930,7 +930,7 @@
           "suggested_next_command": "python -m leveraged_etp_risk_lab artifact-validate --format markdown"
         },
         {
-          "bytes": 31967,
+          "bytes": 31973,
           "document_type": "docs_export",
           "format": "html",
           "name": "docs_export.html",
@@ -940,7 +940,7 @@
           "suggested_next_command": "python -m leveraged_etp_risk_lab docs-export --input-dir examples/outputs --output examples/outputs/docs_export.html"
         },
         {
-          "bytes": 30011,
+          "bytes": 30017,
           "document_type": "docs_export",
           "format": "json",
           "name": "docs_export.json",
@@ -950,7 +950,7 @@
           "suggested_next_command": "python -m leveraged_etp_risk_lab docs-export --input-dir examples/outputs --output examples/outputs/docs_export.html"
         },
         {
-          "bytes": 19416,
+          "bytes": 19422,
           "document_type": "docs_export",
           "format": "md",
           "name": "docs_export.md",
@@ -960,7 +960,7 @@
           "suggested_next_command": "python -m leveraged_etp_risk_lab docs-export --input-dir examples/outputs --output examples/outputs/docs_export.html"
         },
         {
-          "bytes": 9321,
+          "bytes": 9327,
           "document_type": "release_manifest",
           "format": "json",
           "name": "release_manifest.json",
@@ -970,7 +970,7 @@
           "suggested_next_command": "python -m leveraged_etp_risk_lab release-manifest --input-dir examples/outputs --format markdown"
         },
         {
-          "bytes": 4204,
+          "bytes": 4210,
           "document_type": "release_manifest",
           "format": "md",
           "name": "release_manifest.md",
@@ -980,7 +980,7 @@
           "suggested_next_command": "python -m leveraged_etp_risk_lab release-manifest --input-dir examples/outputs --format markdown"
         },
         {
-          "bytes": 29499,
+          "bytes": 29534,
           "document_type": "schema_inventory",
           "format": "json",
           "name": "schema_inventory.json",
@@ -990,7 +990,7 @@
           "suggested_next_command": "python -m leveraged_etp_risk_lab artifact-validate --format markdown"
         },
         {
-          "bytes": 13946,
+          "bytes": 13971,
           "document_type": "schema_inventory",
           "format": "md",
           "name": "schema_inventory.md",
@@ -1006,7 +1006,7 @@
   ],
   "summary": {
     "artifacts": 94,
-    "bytes": 719339,
+    "bytes": 721918,
     "stages": 8
   }
 }

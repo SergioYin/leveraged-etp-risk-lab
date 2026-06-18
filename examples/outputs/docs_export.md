@@ -67,12 +67,12 @@
 
 ## Release Notes
 
-## v0.31.1
+## v0.31.2
 
 ### Highlights
 
 - Hardens deterministic release artifact generation for package audit, schema inventory, artifact validation, release manifest, and docs export.
-- Adds deterministic product-family walkthrough artifacts that connect product snapshots, scenario packs, reviewer receipts, and fixture hashes.
+- Adds a static non-TQQQ product-family fixture example to the deterministic walkthrough while preserving no-live-data/no-broker/no-advice boundaries.
 - Carries safety caveats, command map, release notes, and local artifact links from checked public artifacts.
 - Publishes 94 public demo artifacts across 8 gallery stages.
 - Tracks 44 local schemas and 44 validated artifacts.
@@ -220,16 +220,16 @@
 | `examples/outputs/position_size.md` | Position Size Plan: NDAQ3X | 2279 |
 | `examples/outputs/pretrade_guardrails.md` | Pretrade Guardrails Before An Order | 3693 |
 | `examples/outputs/pretrade_plan.md` | Pretrade Plan: NDAQ3X | 3090 |
-| `examples/outputs/product_family_walkthrough.md` | Product Family Walkthrough | 3852 |
+| `examples/outputs/product_family_walkthrough.md` | Product Family Walkthrough | 4679 |
 | `examples/outputs/product_snapshot_tqqq_case_study.md` | TQQQ Daily-Target Product Snapshot | 3332 |
 | `examples/outputs/recipe_run.md` | Recipe Run | 1965 |
 | `examples/outputs/regime_gallery.md` | Market Regime Gallery | 4525 |
-| `examples/outputs/release_manifest.md` | Release Manifest | 4204 |
+| `examples/outputs/release_manifest.md` | Release Manifest | 4210 |
 | `examples/outputs/report_card.md` | Decision Readiness Report Card | 4259 |
 | `examples/outputs/risk_profiles.md` | Risk Rule Profiles | 4978 |
 | `examples/outputs/scenario_pack.md` | New User Scenario Pack | 4679 |
 | `examples/outputs/scenario_pack_reviewer_receipt.md` | Scenario Pack Reviewer Receipt | 5517 |
-| `examples/outputs/schema_inventory.md` | Schema Inventory | 13946 |
+| `examples/outputs/schema_inventory.md` | Schema Inventory | 13971 |
 | `examples/outputs/sensitivity_grid.md` | Sensitivity Grid: NDAQ3X | 3962 |
 | `examples/outputs/single_stock_2x.md` | Simulation: STK2X | 1372 |
 | `examples/outputs/stress_matrix.md` | Stress Matrix: NDAQ3X | 1957 |

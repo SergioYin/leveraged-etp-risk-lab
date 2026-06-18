@@ -220,12 +220,12 @@
     {
       "category": "metadata",
       "evidence": {
-        "package_init": "0.31.1",
-        "pyproject": "0.31.1",
-        "runtime": "0.31.1"
+        "package_init": "0.31.2",
+        "pyproject": "0.31.2",
+        "runtime": "0.31.2"
       },
       "id": "version_consistency",
-      "message": "version fields agree at 0.31.1",
+      "message": "version fields agree at 0.31.2",
       "status": "pass"
     },
     {
@@ -727,7 +727,7 @@
   "package": {
     "dependencies": [],
     "name": "leveraged-etp-risk-lab",
-    "version": "0.31.1"
+    "version": "0.31.2"
   },
   "schema_version": "0.11",
   "summary": {

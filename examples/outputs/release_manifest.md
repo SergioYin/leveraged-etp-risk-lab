@@ -1,6 +1,6 @@
 # Release Manifest
 
-- Version: 0.31.1
+- Version: 0.31.2
 - Status: ready
 - Agent skill: `skills/agent/leveraged-etp-risk-lab/SKILL.md`
 - Local skill sync: sync after release if you use the local Codex skill copy
@@ -19,7 +19,7 @@
 ## Public Artifact Inventory
 
 - Total artifacts: 94
-- Total bytes: 719339
+- Total bytes: 721918
 
 | Stage | Artifacts | Key artifacts |
 | --- | ---: | --- |
@@ -49,12 +49,12 @@
 
 ## GitHub Release Notes Draft
 
-## v0.31.1
+## v0.31.2
 
 ### Highlights
 
 - Hardens deterministic release artifact generation for package audit, schema inventory, artifact validation, release manifest, and docs export.
-- Adds deterministic product-family walkthrough artifacts that connect product snapshots, scenario packs, reviewer receipts, and fixture hashes.
+- Adds a static non-TQQQ product-family fixture example to the deterministic walkthrough while preserving no-live-data/no-broker/no-advice boundaries.
 - Carries safety caveats, command map, release notes, and local artifact links from checked public artifacts.
 - Publishes 94 public demo artifacts across 8 gallery stages.
 - Tracks 44 local schemas and 44 validated artifacts.
@@ -73,7 +73,7 @@
 - `python -m leveraged_etp_risk_lab package-audit --run-tests --format json`
 
 ## Post-Release Verification
-- [todo] Confirm release tag v0.31.1 points at the intended commit.
+- [todo] Confirm release tag v0.31.2 points at the intended commit.
 - [todo] Confirm JSON and Markdown release_manifest artifacts are attached or linked.
 - [todo] Confirm docs/release-manifest.schema.json and docs/docs-export.schema.json are visible in the published package.
 - [todo] Run scripts/sync_local_skill.py when a local Codex skill copy should be refreshed.

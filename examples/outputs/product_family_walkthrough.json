@@ -37,6 +37,12 @@
       "sha256": "fbcd054ad34a4b97b42c8bf9e3b3c4b180f16e49b193c928ae03eeeb07e3bbc2"
     },
     {
+      "bytes": 284,
+      "kind": "json",
+      "path": "examples/fixtures/sector_index_2x.json",
+      "sha256": "2aab391193de5537bd73d78900d6a0be3c38d23e1ee838f3d4906b34828dc645"
+    },
+    {
       "bytes": 153,
       "kind": "csv",
       "path": "examples/fixtures/nasdaq_chop_path.csv",
@@ -55,6 +61,38 @@
     "Choppy paths can create path decay even when the underlying starts and ends near the same level.",
     "Gap, liquidity, borrow, financing, tax, spread, and execution effects are outside these deterministic fixtures.",
     "Scenario outputs are local education examples; reviewers should compare hashes and commands before relying on narrative consistency."
+  ],
+  "product_family_examples": [
+    {
+      "annual_fee": 0.0095,
+      "boundary": "Static educational fixture only; not a listed-product recommendation or trading instruction.",
+      "fixture": "examples/fixtures/leveraged_nasdaq_3x.json",
+      "leverage": 3,
+      "name": "Generic 3x Nasdaq Daily Reset ETP",
+      "reset_frequency": "daily",
+      "ticker": "NDAQ3X",
+      "underlying": "Nasdaq-100 reference index"
+    },
+    {
+      "annual_fee": 0.0115,
+      "boundary": "Static educational fixture only; not a listed-product recommendation or trading instruction.",
+      "fixture": "examples/fixtures/single_stock_2x.json",
+      "leverage": 2,
+      "name": "Generic 2x Single-Stock Daily Reset ETP",
+      "reset_frequency": "daily",
+      "ticker": "STK2X",
+      "underlying": "Single-stock reference share"
+    },
+    {
+      "annual_fee": 0.0105,
+      "boundary": "Static educational fixture only; not a listed-product recommendation or trading instruction.",
+      "fixture": "examples/fixtures/sector_index_2x.json",
+      "leverage": 2,
+      "name": "Generic 2x Sector Index Daily Reset ETP",
+      "reset_frequency": "daily",
+      "ticker": "SECT2X",
+      "underlying": "Sector index reference basket"
+    }
   ],
   "provenance": {
     "broker_execution": false,
@@ -149,6 +187,12 @@
       "sha256": "fbcd054ad34a4b97b42c8bf9e3b3c4b180f16e49b193c928ae03eeeb07e3bbc2"
     },
     {
+      "bytes": 284,
+      "kind": "json",
+      "path": "examples/fixtures/sector_index_2x.json",
+      "sha256": "2aab391193de5537bd73d78900d6a0be3c38d23e1ee838f3d4906b34828dc645"
+    },
+    {
       "bytes": 153,
       "kind": "csv",
       "path": "examples/fixtures/nasdaq_chop_path.csv",
@@ -166,11 +210,12 @@
     "fixture_inputs": 6,
     "live_market_data": false,
     "personalized_recommendations": false,
+    "product_family_examples": 3,
     "scenario_cases": 3,
     "snapshot_product": "TQQQ",
-    "source_artifacts": 11,
+    "source_artifacts": 12,
     "trading_enabled": false
   },
   "title": "Product Family Walkthrough",
-  "walkthrough_id": "v0.31.1-product-family-walkthrough"
+  "walkthrough_id": "v0.31.2-product-family-walkthrough"
 }

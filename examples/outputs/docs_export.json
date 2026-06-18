@@ -735,7 +735,7 @@
       "title": "Pretrade Plan: NDAQ3X"
     },
     {
-      "bytes": 3852,
+      "bytes": 4679,
       "path": "examples/outputs/product_family_walkthrough.md",
       "title": "Product Family Walkthrough"
     },
@@ -755,7 +755,7 @@
       "title": "Market Regime Gallery"
     },
     {
-      "bytes": 4204,
+      "bytes": 4210,
       "path": "examples/outputs/release_manifest.md",
       "title": "Release Manifest"
     },
@@ -780,7 +780,7 @@
       "title": "Scenario Pack Reviewer Receipt"
     },
     {
-      "bytes": 13946,
+      "bytes": 13971,
       "path": "examples/outputs/schema_inventory.md",
       "title": "Schema Inventory"
     },
@@ -830,8 +830,8 @@
     "workflow_files_read": false
   },
   "release_notes": {
-    "markdown": "## v0.31.1\n\n### Highlights\n\n- Hardens deterministic release artifact generation for package audit, schema inventory, artifact validation, release manifest, and docs export.\n- Adds deterministic product-family walkthrough artifacts that connect product snapshots, scenario packs, reviewer receipts, and fixture hashes.\n- Carries safety caveats, command map, release notes, and local artifact links from checked public artifacts.\n- Publishes 94 public demo artifacts across 8 gallery stages.\n- Tracks 44 local schemas and 44 validated artifacts.\n\n### Readiness\n\n- Release status: ready\n- Package audit ready: yes\n- Artifact validation ready: yes\n\n### Verification\n\n- `python -m unittest discover -s tests`\n- `python scripts/selfcheck.py`\n- `python -m leveraged_etp_risk_lab docs-export --input-dir examples/outputs --output examples/outputs/docs_export.html`\n- `python -m leveraged_etp_risk_lab package-audit --run-tests --format json`\n",
-    "title": "v0.31.1"
+    "markdown": "## v0.31.2\n\n### Highlights\n\n- Hardens deterministic release artifact generation for package audit, schema inventory, artifact validation, release manifest, and docs export.\n- Adds a static non-TQQQ product-family fixture example to the deterministic walkthrough while preserving no-live-data/no-broker/no-advice boundaries.\n- Carries safety caveats, command map, release notes, and local artifact links from checked public artifacts.\n- Publishes 94 public demo artifacts across 8 gallery stages.\n- Tracks 44 local schemas and 44 validated artifacts.\n\n### Readiness\n\n- Release status: ready\n- Package audit ready: yes\n- Artifact validation ready: yes\n\n### Verification\n\n- `python -m unittest discover -s tests`\n- `python scripts/selfcheck.py`\n- `python -m leveraged_etp_risk_lab docs-export --input-dir examples/outputs --output examples/outputs/docs_export.html`\n- `python -m leveraged_etp_risk_lab package-audit --run-tests --format json`\n",
+    "title": "v0.31.2"
   },
   "safety_caveats": [
     "This decision packet is for scenario planning and education only. It is not investment advice, a recommendation, or a suitability determination.",

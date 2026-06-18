@@ -1,6 +1,6 @@
 # leveraged-etp-risk-lab Public Asset Hub
 
-**Version:** 0.31.1
+**Version:** 0.31.2
 
 **Not investment advice:** This decision packet is for scenario planning and education only. It is not investment advice, a recommendation, or a suitability determination.
 

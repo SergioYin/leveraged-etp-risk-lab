@@ -10,6 +10,7 @@
     "title",
     "summary",
     "comparison",
+    "product_family_examples",
     "fixture_provenance",
     "path_dependency_caveats",
     "reviewer_steps",
@@ -30,6 +31,7 @@
         "scenario_cases": {"type": "integer"},
         "fixture_inputs": {"type": "integer"},
         "source_artifacts": {"type": "integer"},
+        "product_family_examples": {"type": "integer"},
         "live_market_data": {"const": false},
         "broker_execution": {"const": false},
         "trading_enabled": {"const": false},
@@ -37,6 +39,10 @@
       }
     },
     "comparison": {"type": "array", "items": {"type": "object"}},
+    "product_family_examples": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/product_family_example"}
+    },
     "fixture_provenance": {"type": "array", "items": {"$ref": "#/$defs/artifact_ref"}},
     "path_dependency_caveats": {"type": "array", "items": {"type": "string"}},
     "reviewer_steps": {"type": "array", "items": {"type": "object"}},
@@ -64,6 +70,20 @@
         "kind": {"type": "string"},
         "bytes": {"type": "integer", "minimum": 0},
         "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "product_family_example": {
+      "type": "object",
+      "required": ["fixture", "name", "ticker", "underlying", "leverage", "reset_frequency", "annual_fee", "boundary"],
+      "properties": {
+        "fixture": {"type": "string"},
+        "name": {"type": "string"},
+        "ticker": {"type": "string"},
+        "underlying": {"type": "string"},
+        "leverage": {"type": "number"},
+        "reset_frequency": {"type": "string"},
+        "annual_fee": {"type": "number"},
+        "boundary": {"type": "string"}
       }
     }
   }

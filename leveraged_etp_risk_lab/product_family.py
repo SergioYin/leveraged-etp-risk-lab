@@ -7,6 +7,11 @@ from typing import Any, Dict, List
 
 
 PRODUCT_FAMILY_WALKTHROUGH_SCHEMA_VERSION = "0.31"
+PRODUCT_FAMILY_FIXTURES = [
+    "leveraged_nasdaq_3x.json",
+    "single_stock_2x.json",
+    "sector_index_2x.json",
+]
 
 
 def product_family_walkthrough(input_dir: str, fixtures_dir: str) -> Dict[str, Any]:
@@ -15,6 +20,7 @@ def product_family_walkthrough(input_dir: str, fixtures_dir: str) -> Dict[str, A
     snapshot = _load_json(input_root / "product_snapshot_tqqq_case_study.json")
     pack = _load_json(input_root / "scenario_pack.json")
     receipt = _load_json(input_root / "scenario_pack_reviewer_receipt.json")
+    product_family_examples = _product_family_examples(fixture_root, PRODUCT_FAMILY_FIXTURES)
     source_artifacts = _source_artifacts(
         [
             input_root / "product_snapshot_tqqq_case_study.json",
@@ -24,8 +30,7 @@ def product_family_walkthrough(input_dir: str, fixtures_dir: str) -> Dict[str, A
             input_root / "scenario_pack_reviewer_receipt.json",
             input_root / "scenario_pack_reviewer_receipt.md",
             fixture_root / "product_snapshot_tqqq_case_study.json",
-            fixture_root / "leveraged_nasdaq_3x.json",
-            fixture_root / "single_stock_2x.json",
+            *[fixture_root / filename for filename in PRODUCT_FAMILY_FIXTURES],
             fixture_root / "nasdaq_chop_path.csv",
             fixture_root / "single_stock_gap_path.csv",
         ]
@@ -34,19 +39,21 @@ def product_family_walkthrough(input_dir: str, fixtures_dir: str) -> Dict[str, A
         "schema_version": PRODUCT_FAMILY_WALKTHROUGH_SCHEMA_VERSION,
         "document_type": "product_family_walkthrough",
         "not_investment_advice": _not_advice(),
-        "walkthrough_id": "v0.31.1-product-family-walkthrough",
+        "walkthrough_id": "v0.31.2-product-family-walkthrough",
         "title": "Product Family Walkthrough",
         "summary": {
             "snapshot_product": snapshot.get("product", {}).get("ticker"),
             "scenario_cases": pack.get("summary", {}).get("cases"),
             "fixture_inputs": receipt.get("summary", {}).get("fixture_inputs"),
             "source_artifacts": len(source_artifacts),
+            "product_family_examples": len(product_family_examples),
             "live_market_data": False,
             "broker_execution": False,
             "trading_enabled": False,
             "personalized_recommendations": False,
         },
         "comparison": _comparison(snapshot, pack, receipt),
+        "product_family_examples": product_family_examples,
         "fixture_provenance": _fixture_provenance(source_artifacts),
         "path_dependency_caveats": [
             "Daily-reset leverage is modeled one day at a time, so multi-day results can diverge from a simple leverage multiple.",
@@ -107,6 +114,7 @@ def product_family_walkthrough_markdown(data: Dict[str, Any]) -> str:
         f"- Scenario cases: {summary['scenario_cases']}",
         f"- Fixture inputs in receipt: {summary['fixture_inputs']}",
         f"- Source artifacts: {summary['source_artifacts']}",
+        f"- Product family examples: {summary['product_family_examples']}",
         f"- Live market data: {summary['live_market_data']}",
         f"- Broker execution: {summary['broker_execution']}",
         f"- Trading enabled: {summary['trading_enabled']}",
@@ -119,6 +127,11 @@ def product_family_walkthrough_markdown(data: Dict[str, Any]) -> str:
     ]
     for item in data["comparison"]:
         lines.append(f"| {item['artifact']} | {item['reviewer_use']} | {item['boundary']} |")
+    lines.extend(["", "## Static Product Family Examples", "", "| Fixture | Ticker | Underlying | Leverage | Boundary |", "| --- | --- | --- | ---: | --- |"])
+    for item in data["product_family_examples"]:
+        lines.append(
+            f"| {item['fixture']} | {item['ticker']} | {item['underlying']} | {item['leverage']} | {item['boundary']} |"
+        )
     lines.extend(["", "## Fixture Provenance", "", "| Path | Kind | Bytes | SHA-256 |", "| --- | --- | ---: | --- |"])
     for item in data["fixture_provenance"]:
         lines.append(f"| {item['path']} | {item['kind']} | {item['bytes']} | `{item['sha256']}` |")
@@ -160,6 +173,25 @@ def _comparison(snapshot: Dict[str, Any], pack: Dict[str, Any], receipt: Dict[st
 
 def _fixture_provenance(source_artifacts: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     return [item for item in source_artifacts if "/fixtures/" in item["path"] or item["path"].startswith("examples/fixtures/")]
+
+
+def _product_family_examples(fixture_root: Path, filenames: List[str]) -> List[Dict[str, Any]]:
+    examples = []
+    for filename in filenames:
+        product = _load_json(fixture_root / filename)
+        examples.append(
+            {
+                "fixture": (fixture_root / filename).as_posix(),
+                "name": str(product.get("name", "")),
+                "ticker": str(product.get("ticker", "")),
+                "underlying": str(product.get("underlying", "")),
+                "leverage": product.get("leverage"),
+                "reset_frequency": str(product.get("reset_frequency", "daily")),
+                "annual_fee": product.get("annual_fee"),
+                "boundary": "Static educational fixture only; not a listed-product recommendation or trading instruction.",
+            }
+        )
+    return examples
 
 
 def _source_artifacts(paths: List[Path]) -> List[Dict[str, Any]]:

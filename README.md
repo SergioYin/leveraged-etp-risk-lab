@@ -241,6 +241,7 @@ Fixtures are in `examples/fixtures/`:
 
 - `leveraged_nasdaq_3x.json`: a generic 3x Nasdaq-linked ETP example.
 - `single_stock_2x.json`: a generic 2x single-stock ETP example.
+- `sector_index_2x.json`: a generic 2x sector-index ETP example used by the static product-family walkthrough.
 - `nasdaq_chop_path.csv`: alternating up/down path that shows volatility decay.
 - `single_stock_gap_path.csv`: path with a gap and partial recovery.
 - `portfolio_manifest.json`: two-position portfolio fixture for exposure aggregation.

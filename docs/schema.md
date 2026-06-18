@@ -697,15 +697,16 @@ Scenario pack reviewer receipt output contains:
 
 ## Product Family Walkthrough
 
-The `product-family-walkthrough` command reads the product snapshot, scenario pack, scenario-pack reviewer receipt, and checked fixtures. It emits a deterministic reviewer walkthrough that compares artifact roles, fixture provenance, leveraged-ETF path-dependency caveats, and no-live-trading/no-advice boundaries.
+The `product-family-walkthrough` command reads the product snapshot, scenario pack, scenario-pack reviewer receipt, and checked fixtures. It emits a deterministic reviewer walkthrough that compares artifact roles, static product-family fixture examples, fixture provenance, leveraged-ETF path-dependency caveats, and no-live-trading/no-advice boundaries.
 
 Product family walkthrough output contains:
 
 - `schema_version`: fixed as `0.31`.
 - `document_type`: fixed as `product_family_walkthrough`.
 - `walkthrough_id`: stable walkthrough identifier.
-- `summary`: product ticker, scenario-case count, receipt fixture count, source-artifact count, and false safety booleans.
+- `summary`: product ticker, scenario-case count, receipt fixture count, source-artifact count, static product-family example count, and false safety booleans.
 - `comparison`: reviewer-use notes for product snapshot, scenario pack, and reviewer receipt artifacts.
+- `product_family_examples`: static local product fixture summaries, including the new generic sector-index example, with fixture paths and no-recommendation boundaries.
 - `fixture_provenance`: checked fixture paths, file kinds, byte sizes, and SHA-256 hashes.
 - `path_dependency_caveats`: daily-reset and path-decay caveats for cold reviewers.
 - `reviewer_steps`: exact local regeneration and validation commands.

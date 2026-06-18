@@ -609,6 +609,7 @@
         "title",
         "summary",
         "comparison",
+        "product_family_examples",
         "fixture_provenance",
         "path_dependency_caveats",
         "reviewer_steps",

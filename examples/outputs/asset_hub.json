@@ -235,7 +235,7 @@
       "No runtime dependencies, workflow files, private context, broker execution, or live market data."
     ],
     "tagline": "leveraged-etp-risk-lab is a zero-dependency Python CLI for planning daily-reset leveraged ETF/ETP risk scenarios. It models product terms, deterministic scenario paths, daily reset leverage, management-fee drag, path decay versus a simple multiple, stop-loss and take-profit bands, portfolio exposure aggregation, and plain-language warnings.",
-    "version": "0.31.1"
+    "version": "0.31.2"
   },
   "provenance": {
     "command": "asset-hub",

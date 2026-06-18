@@ -262,7 +262,7 @@ def _github_release_notes(version: str, inventory: Dict[str, Any], validation: D
         "### Highlights",
         "",
         "- Hardens deterministic release artifact generation for package audit, schema inventory, artifact validation, release manifest, and docs export.",
-        "- Adds deterministic product-family walkthrough artifacts that connect product snapshots, scenario packs, reviewer receipts, and fixture hashes.",
+        "- Adds a static non-TQQQ product-family fixture example to the deterministic walkthrough while preserving no-live-data/no-broker/no-advice boundaries.",
         "- Carries safety caveats, command map, release notes, and local artifact links from checked public artifacts.",
         f"- Publishes {inventory['total_artifacts']} public demo artifacts across {len(inventory['stages'])} gallery stages.",
         f"- Tracks {validation['schemas_indexed']} local schemas and {validation['artifacts_validated']} validated artifacts.",

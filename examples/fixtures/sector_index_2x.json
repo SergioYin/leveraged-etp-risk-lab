@@ -1,0 +1,10 @@
+{
+  "name": "Generic 2x Sector Index Daily Reset ETP",
+  "ticker": "SECT2X",
+  "underlying": "Sector index reference basket",
+  "leverage": 2,
+  "annual_fee": 0.0105,
+  "currency": "USD",
+  "reset_frequency": "daily",
+  "notes": "Generic educational fixture, not a listed product."
+}

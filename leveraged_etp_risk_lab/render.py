@@ -999,6 +999,7 @@ def version_report(version: str) -> str:
                 "asset-hub",
                 "scenario-pack",
                 "scenario-pack-reviewer-receipt",
+                "scenario-pack-visual-receipt",
                 "package-audit",
                 "product-snapshot",
                 "product-family-walkthrough",

@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Scenario Pack Visual Receipt",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "document_type",
+    "not_investment_advice",
+    "receipt_id",
+    "title",
+    "summary",
+    "demo_bundle_bridge",
+    "evidence_chain",
+    "case_cards",
+    "release_owner_checklist",
+    "demo_source_artifacts",
+    "fixture_inputs",
+    "generated_artifacts",
+    "safety_boundaries",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {"const": "0.32"},
+    "document_type": {"const": "scenario_pack_visual_receipt"},
+    "not_investment_advice": {"type": "string"},
+    "receipt_id": {"type": "string"},
+    "title": {"type": "string"},
+    "summary": {
+      "type": "object",
+      "properties": {
+        "scenario_cases": {"type": "integer"},
+        "demo_source_artifacts": {"type": "integer"},
+        "fixture_inputs": {"type": "integer"},
+        "generated_artifacts": {"type": "integer"},
+        "hash_algorithm": {"const": "sha256"},
+        "static_html": {"const": true},
+        "live_market_data": {"const": false},
+        "broker_execution": {"const": false},
+        "trading_enabled": {"const": false},
+        "personalized_recommendations": {"const": false}
+      }
+    },
+    "demo_bundle_bridge": {
+      "type": "object",
+      "required": ["source_command", "scenario_pack_command", "visual_receipt_command", "validation_command"],
+      "properties": {
+        "source_command": {"type": "string"},
+        "scenario_pack_command": {"type": "string"},
+        "visual_receipt_command": {"type": "string"},
+        "validation_command": {"type": "string"}
+      }
+    },
+    "evidence_chain": {"type": "array", "items": {"type": "object"}},
+    "case_cards": {"type": "array", "items": {"type": "object"}},
+    "release_owner_checklist": {"type": "array", "items": {"type": "object"}},
+    "demo_source_artifacts": {"type": "array", "items": {"$ref": "#/$defs/artifact_ref"}},
+    "fixture_inputs": {"type": "array", "items": {"$ref": "#/$defs/artifact_ref"}},
+    "generated_artifacts": {"type": "array", "items": {"$ref": "#/$defs/artifact_ref"}},
+    "safety_boundaries": {"type": "array", "items": {"type": "string"}},
+    "provenance": {
+      "type": "object",
+      "properties": {
+        "live_market_data": {"const": false},
+        "shell_out": {"const": false},
+        "private_context": {"const": false},
+        "broker_execution": {"const": false},
+        "workflow_files_read": {"const": false},
+        "trading_enabled": {"const": false},
+        "personalized_recommendations": {"const": false}
+      }
+    }
+  },
+  "$defs": {
+    "artifact_ref": {
+      "type": "object",
+      "required": ["path", "kind", "bytes", "sha256"],
+      "properties": {
+        "path": {"type": "string"},
+        "kind": {"type": "string"},
+        "bytes": {"type": "integer", "minimum": 0},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    }
+  }
+}

@@ -1,8 +1,8 @@
 # Schema Inventory
 
 - Schema version: 0.26
-- Schemas: 44
-- Matching examples: 46
+- Schemas: 45
+- Matching examples: 47
 
 | Schema | Document type | Version | Required fields | Matching examples | Safety notes |
 | --- | --- | --- | --- | --- | --- |
@@ -41,6 +41,7 @@
 | docs/run-ledger.schema.json | run_ledger_entry | 0.5 | schema_version, document_type, artifact_name, artifact_type, artifact_schema_version, bytes, sha256 | examples/outputs/run_ledger.jsonl | None |
 | docs/scenario-case-study.schema.json | scenario_case_study | 0.30 | schema_version, document_type, not_investment_advice, case_id, title, focus_area, cold_user_question, plain_english_answer, metrics, takeaways, guardrails, cold_user_evidence, source_artifacts, warnings, provenance | examples/outputs/daily_reset_path_decay.json, examples/outputs/drawdown_risk.json, examples/outputs/pretrade_guardrails.json | requires not_investment_advice; requires live_market_data: false; requires shell_out: false; requires private_context: false; requires broker_execution: false; requires provenance |
 | docs/scenario-pack-reviewer-receipt.schema.json | scenario_pack_reviewer_receipt | 0.30 | schema_version, document_type, not_investment_advice, receipt_id, title, summary, fixture_inputs, source_inputs, generated_artifacts, reviewer_checks, regeneration, safety_boundaries, provenance | examples/outputs/scenario_pack_reviewer_receipt.json | requires not_investment_advice; requires live_market_data: false; requires shell_out: false; requires private_context: false; requires broker_execution: false; requires trading_enabled: false; requires personalized_recommendations: false; requires provenance |
+| docs/scenario-pack-visual-receipt.schema.json | scenario_pack_visual_receipt | 0.32 | schema_version, document_type, not_investment_advice, receipt_id, title, summary, demo_bundle_bridge, evidence_chain, case_cards, release_owner_checklist, demo_source_artifacts, fixture_inputs, generated_artifacts, safety_boundaries, provenance | examples/outputs/scenario_pack_visual_receipt.json | requires not_investment_advice; requires live_market_data: false; requires shell_out: false; requires private_context: false; requires broker_execution: false; requires trading_enabled: false; requires personalized_recommendations: false; requires provenance |
 | docs/scenario-pack.schema.json | scenario_pack | 0.30 | schema_version, document_type, not_investment_advice, pack_id, title, summary, cases, integration_notes, cold_user_evidence, source_artifacts, warnings, provenance | examples/outputs/scenario_pack.json | requires not_investment_advice; requires live_market_data: false; requires shell_out: false; requires private_context: false; requires broker_execution: false; requires provenance |
 | docs/schema-inventory.schema.json | schema_inventory | 0.26 | schema_version, document_type, summary, schemas, provenance | examples/outputs/schema_inventory.json | requires live_market_data: false; requires shell_out: false; requires private_context: false; requires broker_execution: false; requires provenance |
 | docs/sensitivity-grid.schema.json | sensitivity_grid | 0.19 | schema_version, document_type, not_investment_advice, product, inputs, summary, rows, cells, warnings, provenance | examples/outputs/sensitivity_grid.json | requires not_investment_advice; requires provenance |

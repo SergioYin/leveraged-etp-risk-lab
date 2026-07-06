@@ -695,6 +695,24 @@ Scenario pack reviewer receipt output contains:
 - `safety_boundaries`: explicit no live market data, no broker/API/account/order access, no trading, no suitability, and no personalized recommendation notes.
 - `provenance`: command metadata, including `live_market_data: false`, `shell_out: false`, `private_context: false`, `broker_execution: false`, and `workflow_files_read: false`.
 
+## Scenario Pack Visual Receipt
+
+The `scenario-pack-visual-receipt` command writes deterministic JSON, Markdown, and static HTML receipts for release owners. It reads local demo-bundle outputs, checked fixtures, scenario-pack case studies, and the reviewer receipt, then records a visual case-card summary, artifact hashes, exact regeneration commands, release-owner checklist prompts, and explicit no-live-data/no-trading/no-advice boundaries. The HTML uses inline CSS only and does not use JavaScript, external assets, live data, workflow files, broker access, or private context.
+
+Scenario pack visual receipt output contains:
+
+- `schema_version`: fixed as `0.32`.
+- `document_type`: fixed as `scenario_pack_visual_receipt`.
+- `receipt_id`: stable visual receipt identifier.
+- `summary`: scenario case count, demo source count, fixture count, generated artifact count, hash algorithm, static HTML flag, and false safety booleans.
+- `demo_bundle_bridge`: exact local commands for demo-bundle regeneration, scenario-pack regeneration, visual receipt regeneration, and artifact validation.
+- `evidence_chain`: ordered bridge from demo-bundle outputs to scenario-pack cases, reviewer receipt, and visual receipt.
+- `case_cards`: compact visual-card records for path decay, drawdown risk, and pretrade guardrails.
+- `release_owner_checklist`: release-owner review prompts tied to evidence fields.
+- `demo_source_artifacts`, `fixture_inputs`, and `generated_artifacts`: local paths, file kinds, sizes, and SHA-256 hashes.
+- `safety_boundaries`: explicit no live market data, no broker/API/account/order access, no trading, no suitability, no personalized recommendations, and static HTML constraints.
+- `provenance`: command metadata, including `live_market_data: false`, `shell_out: false`, `private_context: false`, `broker_execution: false`, and `workflow_files_read: false`.
+
 ## Product Family Walkthrough
 
 The `product-family-walkthrough` command reads the product snapshot, scenario pack, scenario-pack reviewer receipt, and checked fixtures. It emits a deterministic reviewer walkthrough that compares artifact roles, static product-family fixture examples, fixture provenance, leveraged-ETF path-dependency caveats, and no-live-trading/no-advice boundaries.

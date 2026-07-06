@@ -458,6 +458,21 @@
       "stage": "audit/story"
     },
     {
+      "kind": "html",
+      "path": "examples/outputs/scenario_pack_visual_receipt.html",
+      "stage": "audit/story"
+    },
+    {
+      "kind": "json",
+      "path": "examples/outputs/scenario_pack_visual_receipt.json",
+      "stage": "audit/story"
+    },
+    {
+      "kind": "md",
+      "path": "examples/outputs/scenario_pack_visual_receipt.md",
+      "stage": "audit/story"
+    },
+    {
       "kind": "json",
       "path": "examples/outputs/cycle_state.json",
       "stage": "dashboard"
@@ -605,7 +620,7 @@
   ],
   "markdown_artifacts": [
     {
-      "bytes": 5831,
+      "bytes": 6086,
       "path": "examples/outputs/artifact_validation.md",
       "title": "Artifact Validation"
     },
@@ -660,7 +675,7 @@
       "title": "Product Factsheet Checklist"
     },
     {
-      "bytes": 25803,
+      "bytes": 26733,
       "path": "examples/outputs/gallery_index.md",
       "title": "Public Gallery Index"
     },
@@ -705,7 +720,7 @@
       "title": "Pre-Order Ticket: NDAQ3X"
     },
     {
-      "bytes": 5928,
+      "bytes": 6144,
       "path": "examples/outputs/package_audit.md",
       "title": "Package Audit"
     },
@@ -755,7 +770,7 @@
       "title": "Market Regime Gallery"
     },
     {
-      "bytes": 4210,
+      "bytes": 4142,
       "path": "examples/outputs/release_manifest.md",
       "title": "Release Manifest"
     },
@@ -780,7 +795,12 @@
       "title": "Scenario Pack Reviewer Receipt"
     },
     {
-      "bytes": 13971,
+      "bytes": 6149,
+      "path": "examples/outputs/scenario_pack_visual_receipt.md",
+      "title": "Scenario Pack Visual Receipt"
+    },
+    {
+      "bytes": 14620,
       "path": "examples/outputs/schema_inventory.md",
       "title": "Schema Inventory"
     },
@@ -830,8 +850,8 @@
     "workflow_files_read": false
   },
   "release_notes": {
-    "markdown": "## v0.31.2\n\n### Highlights\n\n- Hardens deterministic release artifact generation for package audit, schema inventory, artifact validation, release manifest, and docs export.\n- Adds a static non-TQQQ product-family fixture example to the deterministic walkthrough while preserving no-live-data/no-broker/no-advice boundaries.\n- Carries safety caveats, command map, release notes, and local artifact links from checked public artifacts.\n- Publishes 94 public demo artifacts across 8 gallery stages.\n- Tracks 44 local schemas and 44 validated artifacts.\n\n### Readiness\n\n- Release status: ready\n- Package audit ready: yes\n- Artifact validation ready: yes\n\n### Verification\n\n- `python -m unittest discover -s tests`\n- `python scripts/selfcheck.py`\n- `python -m leveraged_etp_risk_lab docs-export --input-dir examples/outputs --output examples/outputs/docs_export.html`\n- `python -m leveraged_etp_risk_lab package-audit --run-tests --format json`\n",
-    "title": "v0.31.2"
+    "markdown": "## v0.31.3\n\n### Highlights\n\n- Adds deterministic scenario-pack visual receipts with JSON, Markdown, and static HTML release-owner views.\n- Connects demo-bundle outputs, scenario-pack case studies, reviewer hashes, checklist prompts, and safety boundaries.\n- Carries safety caveats, command map, release notes, and local artifact links from checked public artifacts.\n- Publishes 97 public demo artifacts across 8 gallery stages.\n- Tracks 45 local schemas and 45 validated artifacts.\n\n### Readiness\n\n- Release status: ready\n- Package audit ready: yes\n- Artifact validation ready: yes\n\n### Verification\n\n- `python -m unittest discover -s tests`\n- `python scripts/selfcheck.py`\n- `python -m leveraged_etp_risk_lab docs-export --input-dir examples/outputs --output examples/outputs/docs_export.html`\n- `python -m leveraged_etp_risk_lab package-audit --run-tests --format json`\n",
+    "title": "v0.31.3"
   },
   "safety_caveats": [
     "This decision packet is for scenario planning and education only. It is not investment advice, a recommendation, or a suitability determination.",
@@ -910,8 +930,8 @@
   ],
   "summary": {
     "commands": 22,
-    "local_links": 95,
-    "markdown_artifacts": 43,
+    "local_links": 98,
+    "markdown_artifacts": 44,
     "package_ready": true,
     "release_status": "ready",
     "source_artifacts": 6,

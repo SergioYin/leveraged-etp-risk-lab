@@ -1,6 +1,6 @@
 # Release Manifest
 
-- Version: 0.31.2
+- Version: 0.31.3
 - Status: ready
 - Agent skill: `skills/agent/leveraged-etp-risk-lab/SKILL.md`
 - Local skill sync: sync after release if you use the local Codex skill copy
@@ -18,8 +18,8 @@
 
 ## Public Artifact Inventory
 
-- Total artifacts: 94
-- Total bytes: 721918
+- Total artifacts: 97
+- Total bytes: 754041
 
 | Stage | Artifacts | Key artifacts |
 | --- | ---: | --- |
@@ -28,7 +28,7 @@
 | sizing | 2 | examples/outputs/position_size.json, examples/outputs/position_size.md |
 | stress | 6 | examples/outputs/portfolio_sensitivity.json, examples/outputs/portfolio_sensitivity.md, examples/outputs/sensitivity_grid.json, examples/outputs/sensitivity_grid.md, examples/outputs/stress_matrix.json |
 | thesis/watchlist | 4 | examples/outputs/thesis_impact.json, examples/outputs/thesis_impact.md, examples/outputs/watchlist.json, examples/outputs/watchlist.md |
-| audit/story | 20 | examples/outputs/asset_hub.json, examples/outputs/asset_hub.md, examples/outputs/audit_trail.json, examples/outputs/audit_trail.md, examples/outputs/daily_reset_path_decay.json |
+| audit/story | 23 | examples/outputs/asset_hub.json, examples/outputs/asset_hub.md, examples/outputs/audit_trail.json, examples/outputs/audit_trail.md, examples/outputs/daily_reset_path_decay.json |
 | dashboard | 19 | examples/outputs/cycle_state.json, examples/outputs/cycle_state.md, examples/outputs/cycle_update.json, examples/outputs/cycle_update.md, examples/outputs/dashboard.html |
 | validation | 9 | examples/outputs/artifact_validation.json, examples/outputs/artifact_validation.md, examples/outputs/docs_export.html, examples/outputs/docs_export.json, examples/outputs/docs_export.md |
 
@@ -36,7 +36,7 @@
 
 - Package ready: yes
 - Artifact validation ready: yes
-- Schemas indexed: 44
+- Schemas indexed: 45
 - Validation issues: 0
 
 ## Release Readiness
@@ -49,15 +49,15 @@
 
 ## GitHub Release Notes Draft
 
-## v0.31.2
+## v0.31.3
 
 ### Highlights
 
-- Hardens deterministic release artifact generation for package audit, schema inventory, artifact validation, release manifest, and docs export.
-- Adds a static non-TQQQ product-family fixture example to the deterministic walkthrough while preserving no-live-data/no-broker/no-advice boundaries.
+- Adds deterministic scenario-pack visual receipts with JSON, Markdown, and static HTML release-owner views.
+- Connects demo-bundle outputs, scenario-pack case studies, reviewer hashes, checklist prompts, and safety boundaries.
 - Carries safety caveats, command map, release notes, and local artifact links from checked public artifacts.
-- Publishes 94 public demo artifacts across 8 gallery stages.
-- Tracks 44 local schemas and 44 validated artifacts.
+- Publishes 97 public demo artifacts across 8 gallery stages.
+- Tracks 45 local schemas and 45 validated artifacts.
 
 ### Readiness
 
@@ -73,7 +73,7 @@
 - `python -m leveraged_etp_risk_lab package-audit --run-tests --format json`
 
 ## Post-Release Verification
-- [todo] Confirm release tag v0.31.2 points at the intended commit.
+- [todo] Confirm release tag v0.31.3 points at the intended commit.
 - [todo] Confirm JSON and Markdown release_manifest artifacts are attached or linked.
 - [todo] Confirm docs/release-manifest.schema.json and docs/docs-export.schema.json are visible in the published package.
 - [todo] Run scripts/sync_local_skill.py when a local Codex skill copy should be refreshed.

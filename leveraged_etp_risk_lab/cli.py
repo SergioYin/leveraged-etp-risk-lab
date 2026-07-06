@@ -80,7 +80,15 @@ from .release import release_manifest, release_manifest_markdown
 from .recipe import recipe_run, recipe_run_markdown
 from .risk_profile import PROFILE_IDS, risk_profile_markdown, risk_profile_packet
 from .schema_validation import artifact_validate, artifact_validation_markdown, schema_inventory, schema_inventory_markdown
-from .scenario_pack import scenario_pack_markdown, scenario_pack_review_receipt_markdown, write_scenario_pack, write_scenario_pack_review_receipt
+from .scenario_pack import (
+    scenario_pack_markdown,
+    scenario_pack_review_receipt_markdown,
+    scenario_pack_visual_receipt_html,
+    scenario_pack_visual_receipt_markdown,
+    write_scenario_pack,
+    write_scenario_pack_review_receipt,
+    write_scenario_pack_visual_receipt,
+)
 from .templates import get_template, template_gallery, template_ids, template_product
 
 
@@ -164,6 +172,8 @@ def main(argv: Optional[List[str]] = None) -> int:
             return command_scenario_pack(args)
         if args.command == "scenario-pack-reviewer-receipt":
             return command_scenario_pack_reviewer_receipt(args)
+        if args.command == "scenario-pack-visual-receipt":
+            return command_scenario_pack_visual_receipt(args)
         if args.command == "package-audit":
             return command_package_audit(args)
         if args.command == "product-snapshot":
@@ -516,6 +526,17 @@ def build_parser() -> argparse.ArgumentParser:
     receipt.add_argument("--output-dir", default="examples/outputs", help="directory where reviewer receipt artifacts are written")
     receipt.add_argument("--format", choices=["json", "markdown"], default="markdown", help="stdout summary format")
     receipt.add_argument("--output", help="write stdout summary to a file instead of stdout")
+
+    visual_receipt = sub.add_parser(
+        "scenario-pack-visual-receipt",
+        help="write a static visual receipt connecting scenario-pack outputs, demo bundle regeneration, and safety boundaries",
+    )
+    visual_receipt.add_argument("--input-dir", default="examples/outputs", help="directory containing generated JSON report inputs")
+    visual_receipt.add_argument("--fixtures-dir", default="examples/fixtures", help="directory containing example fixtures")
+    visual_receipt.add_argument("--artifact-dir", default="examples/outputs", help="directory containing generated scenario-pack artifacts")
+    visual_receipt.add_argument("--output-dir", default="examples/outputs", help="directory where visual receipt artifacts are written")
+    visual_receipt.add_argument("--format", choices=["json", "markdown", "html"], default="html", help="stdout summary format")
+    visual_receipt.add_argument("--output", help="write stdout summary to a file instead of stdout")
 
     audit = sub.add_parser("package-audit", help="emit a package readiness checklist")
     audit.add_argument("--format", choices=["json", "markdown"], default="json")
@@ -1204,6 +1225,7 @@ def command_demo_bundle(args: argparse.Namespace) -> int:
     write_text(root / "order_review.json", to_json(review))
     write_text(root / "order_review.md", order_review_markdown(review))
     write_scenario_pack(str(root), str(examples), str(root))
+    write_scenario_pack_visual_receipt(str(root), str(examples), str(root), str(root))
     family = product_family_walkthrough(str(root), str(examples))
     write_text(root / "product_family_walkthrough.json", to_json(family))
     write_text(root / "product_family_walkthrough.md", product_family_walkthrough_markdown(family))
@@ -1235,6 +1257,9 @@ def command_demo_bundle(args: argparse.Namespace) -> int:
         root / "pretrade_guardrails.md",
         root / "scenario_pack_reviewer_receipt.json",
         root / "scenario_pack_reviewer_receipt.md",
+        root / "scenario_pack_visual_receipt.json",
+        root / "scenario_pack_visual_receipt.md",
+        root / "scenario_pack_visual_receipt.html",
         root / "product_family_walkthrough.json",
         root / "product_family_walkthrough.md",
     ]
@@ -1306,6 +1331,17 @@ def command_scenario_pack(args: argparse.Namespace) -> int:
 def command_scenario_pack_reviewer_receipt(args: argparse.Namespace) -> int:
     result = write_scenario_pack_review_receipt(args.input_dir, args.fixtures_dir, args.artifact_dir, args.output_dir)
     text = to_json(result) if args.format == "json" else scenario_pack_review_receipt_markdown(result)
+    return emit(text, args.output)
+
+
+def command_scenario_pack_visual_receipt(args: argparse.Namespace) -> int:
+    result = write_scenario_pack_visual_receipt(args.input_dir, args.fixtures_dir, args.artifact_dir, args.output_dir)
+    if args.format == "json":
+        text = to_json(result)
+    elif args.format == "markdown":
+        text = scenario_pack_visual_receipt_markdown(result)
+    else:
+        text = scenario_pack_visual_receipt_html(result)
     return emit(text, args.output)
 
 

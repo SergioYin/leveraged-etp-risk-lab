@@ -45,6 +45,7 @@ class CliTests(unittest.TestCase):
         self.assertIn("asset-hub", data["commands"])
         self.assertIn("scenario-pack", data["commands"])
         self.assertIn("scenario-pack-reviewer-receipt", data["commands"])
+        self.assertIn("scenario-pack-visual-receipt", data["commands"])
         self.assertIn("package-audit", data["commands"])
         self.assertIn("product-snapshot", data["commands"])
         self.assertIn("product-family-walkthrough", data["commands"])
@@ -148,6 +149,9 @@ class CliTests(unittest.TestCase):
             self.assertTrue((Path(tmp) / "pretrade_guardrails.md").exists())
             self.assertTrue((Path(tmp) / "scenario_pack_reviewer_receipt.json").exists())
             self.assertTrue((Path(tmp) / "scenario_pack_reviewer_receipt.md").exists())
+            self.assertTrue((Path(tmp) / "scenario_pack_visual_receipt.json").exists())
+            self.assertTrue((Path(tmp) / "scenario_pack_visual_receipt.md").exists())
+            self.assertTrue((Path(tmp) / "scenario_pack_visual_receipt.html").exists())
             self.assertTrue((Path(tmp) / "schema_inventory.json").exists())
             self.assertTrue((Path(tmp) / "schema_inventory.md").exists())
             self.assertTrue((Path(tmp) / "artifact_validation.json").exists())
@@ -343,6 +347,60 @@ class CliTests(unittest.TestCase):
             bad_validation_data = json.loads(bad_validation.stdout)
             self.assertFalse(bad_validation_data["summary"]["ready"])
             self.assertIn("trading_enabled must be false", bad_validation_data["artifacts"][0]["issues"])
+
+    def test_scenario_pack_visual_receipt(self):
+        with tempfile.TemporaryDirectory() as demo_tmp, tempfile.TemporaryDirectory() as receipt_tmp:
+            demo = self.run_cli("demo-bundle", "--output-dir", demo_tmp)
+            self.assertEqual(demo.returncode, 0, demo.stderr)
+            result = self.run_cli(
+                "scenario-pack-visual-receipt",
+                "--input-dir",
+                demo_tmp,
+                "--fixtures-dir",
+                "examples/fixtures",
+                "--artifact-dir",
+                demo_tmp,
+                "--output-dir",
+                receipt_tmp,
+                "--format",
+                "json",
+            )
+            self.assertEqual(result.returncode, 0, result.stderr)
+            data = json.loads(result.stdout)
+            self.assertEqual(data["schema_version"], "0.32")
+            self.assertEqual(data["document_type"], "scenario_pack_visual_receipt")
+            self.assertEqual(data["summary"]["scenario_cases"], 3)
+            self.assertEqual(data["summary"]["hash_algorithm"], "sha256")
+            self.assertTrue(data["summary"]["static_html"])
+            self.assertFalse(data["summary"]["live_market_data"])
+            self.assertFalse(data["summary"]["broker_execution"])
+            self.assertFalse(data["summary"]["trading_enabled"])
+            self.assertFalse(data["summary"]["personalized_recommendations"])
+            self.assertIn("demo-bundle", data["demo_bundle_bridge"]["source_command"])
+            self.assertIn("scenario-pack-visual-receipt", data["demo_bundle_bridge"]["visual_receipt_command"])
+            self.assertEqual([item["step"] for item in data["evidence_chain"]][-1], "visual_receipt")
+            self.assertTrue(all(len(item["sha256"]) == 64 for item in data["generated_artifacts"]))
+            self.assertEqual({card["case_id"] for card in data["case_cards"]}, {"daily_reset_path_decay", "drawdown_risk", "pretrade_guardrails"})
+            checklist = " ".join(item["item"] for item in data["release_owner_checklist"]).lower()
+            self.assertIn("demo bundle", checklist)
+            self.assertIn("safety", checklist)
+            boundaries = " ".join(data["safety_boundaries"]).lower()
+            self.assertIn("no live market data", boundaries)
+            self.assertIn("no broker", boundaries)
+            self.assertIn("no trading", boundaries)
+            html = (Path(receipt_tmp) / "scenario_pack_visual_receipt.html").read_text(encoding="utf-8")
+            self.assertIn("<!doctype html>", html)
+            self.assertIn("Scenario Evidence Cards", html)
+            self.assertNotIn("<script", html.lower())
+            self.assertNotIn("http://", html.lower())
+            self.assertNotIn("https://", html.lower())
+            markdown = (Path(receipt_tmp) / "scenario_pack_visual_receipt.md").read_text(encoding="utf-8")
+            self.assertIn("## Demo Bundle Bridge", markdown)
+            self.assertIn("## Release Owner Checklist", markdown)
+            validation = self.run_cli("artifact-validate", str(Path(receipt_tmp) / "scenario_pack_visual_receipt.json"))
+            self.assertEqual(validation.returncode, 0, validation.stderr)
+            validation_data = json.loads(validation.stdout)
+            self.assertTrue(validation_data["summary"]["ready"])
 
     def test_release_manifest_json_and_missing_inputs(self):
         result = self.run_cli("release-manifest", "--no-git")

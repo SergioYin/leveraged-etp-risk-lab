@@ -1,7 +1,7 @@
 # Package Audit
 
 - Package: leveraged-etp-risk-lab
-- Version: 0.31.2
+- Version: 0.31.3
 - Ready: yes
 - Checks: 10 passed, 0 failed
 
@@ -17,7 +17,7 @@
 | no_workflows | hygiene | pass | no workflow files found |
 | no_private_terms | hygiene | pass | no private terms, local paths, or secret-like values found |
 | zero_dependencies | metadata | pass | runtime dependency list is empty |
-| version_consistency | metadata | pass | version fields agree at 0.31.2 |
+| version_consistency | metadata | pass | version fields agree at 0.31.3 |
 | test_commands | validation | pass | test commands listed |
 
 ## Test Commands
@@ -33,6 +33,7 @@
 | `python -m leveraged_etp_risk_lab artifact-validate --format json` | not_run |
 | `python -m leveraged_etp_risk_lab scenario-pack --input-dir examples/outputs --fixtures-dir examples/fixtures --output-dir examples/outputs --format json` | not_run |
 | `python -m leveraged_etp_risk_lab scenario-pack-reviewer-receipt --input-dir examples/outputs --fixtures-dir examples/fixtures --artifact-dir examples/outputs --output-dir examples/outputs --format json` | not_run |
+| `python -m leveraged_etp_risk_lab scenario-pack-visual-receipt --input-dir examples/outputs --fixtures-dir examples/fixtures --artifact-dir examples/outputs --output-dir examples/outputs --format json` | not_run |
 | `python -m leveraged_etp_risk_lab release-manifest --format json --no-git` | not_run |
 | `python -m leveraged_etp_risk_lab docs-export --format json` | not_run |
 | `python -m leveraged_etp_risk_lab product-snapshot --format json` | not_run |

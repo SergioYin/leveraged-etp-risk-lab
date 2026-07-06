@@ -65,6 +65,7 @@
           "docs/scenario-pack.schema.json",
           "docs/scenario-case-study.schema.json",
           "docs/scenario-pack-reviewer-receipt.schema.json",
+          "docs/scenario-pack-visual-receipt.schema.json",
           "docs/release-manifest.schema.json",
           "docs/docs-export.schema.json",
           "docs/package-audit.schema.json",
@@ -149,6 +150,9 @@
           "examples/outputs/pretrade_guardrails.md",
           "examples/outputs/scenario_pack_reviewer_receipt.json",
           "examples/outputs/scenario_pack_reviewer_receipt.md",
+          "examples/outputs/scenario_pack_visual_receipt.json",
+          "examples/outputs/scenario_pack_visual_receipt.md",
+          "examples/outputs/scenario_pack_visual_receipt.html",
           "examples/outputs/release_manifest.json",
           "examples/outputs/release_manifest.md",
           "examples/outputs/docs_export.html",
@@ -220,12 +224,12 @@
     {
       "category": "metadata",
       "evidence": {
-        "package_init": "0.31.2",
-        "pyproject": "0.31.2",
-        "runtime": "0.31.2"
+        "package_init": "0.31.3",
+        "pyproject": "0.31.3",
+        "runtime": "0.31.3"
       },
       "id": "version_consistency",
-      "message": "version fields agree at 0.31.2",
+      "message": "version fields agree at 0.31.3",
       "status": "pass"
     },
     {
@@ -336,6 +340,26 @@
               "-m",
               "leveraged_etp_risk_lab",
               "scenario-pack-reviewer-receipt",
+              "--input-dir",
+              "examples/outputs",
+              "--fixtures-dir",
+              "examples/fixtures",
+              "--artifact-dir",
+              "examples/outputs",
+              "--output-dir",
+              "examples/outputs",
+              "--format",
+              "json"
+            ],
+            "returncode": null,
+            "status": "not_run"
+          },
+          {
+            "command": [
+              "python",
+              "-m",
+              "leveraged_etp_risk_lab",
+              "scenario-pack-visual-receipt",
               "--input-dir",
               "examples/outputs",
               "--fixtures-dir",
@@ -727,7 +751,7 @@
   "package": {
     "dependencies": [],
     "name": "leveraged-etp-risk-lab",
-    "version": "0.31.2"
+    "version": "0.31.3"
   },
   "schema_version": "0.11",
   "summary": {
@@ -841,6 +865,26 @@
         "-m",
         "leveraged_etp_risk_lab",
         "scenario-pack-reviewer-receipt",
+        "--input-dir",
+        "examples/outputs",
+        "--fixtures-dir",
+        "examples/fixtures",
+        "--artifact-dir",
+        "examples/outputs",
+        "--output-dir",
+        "examples/outputs",
+        "--format",
+        "json"
+      ],
+      "returncode": null,
+      "status": "not_run"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "leveraged_etp_risk_lab",
+        "scenario-pack-visual-receipt",
         "--input-dir",
         "examples/outputs",
         "--fixtures-dir",

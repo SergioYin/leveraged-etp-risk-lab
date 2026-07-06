@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import hashlib
+import html
 import json
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Tuple
@@ -12,6 +13,7 @@ from .render import to_json
 SCENARIO_PACK_SCHEMA_VERSION = "0.30"
 SCENARIO_CASE_SCHEMA_VERSION = "0.30"
 SCENARIO_PACK_REVIEW_RECEIPT_SCHEMA_VERSION = "0.30"
+SCENARIO_PACK_VISUAL_RECEIPT_SCHEMA_VERSION = "0.32"
 
 
 def scenario_pack(input_dir: str, fixtures_dir: str) -> Dict[str, Any]:
@@ -114,6 +116,15 @@ def write_scenario_pack_review_receipt(input_dir: str, fixtures_dir: str, artifa
     root = Path(output_dir)
     write_text(root / "scenario_pack_reviewer_receipt.json", to_json(receipt))
     write_text(root / "scenario_pack_reviewer_receipt.md", scenario_pack_review_receipt_markdown(receipt))
+    return receipt
+
+
+def write_scenario_pack_visual_receipt(input_dir: str, fixtures_dir: str, artifact_dir: str, output_dir: str) -> Dict[str, Any]:
+    receipt = scenario_pack_visual_receipt(input_dir, fixtures_dir, artifact_dir)
+    root = Path(output_dir)
+    write_text(root / "scenario_pack_visual_receipt.json", to_json(receipt))
+    write_text(root / "scenario_pack_visual_receipt.md", scenario_pack_visual_receipt_markdown(receipt))
+    write_text(root / "scenario_pack_visual_receipt.html", scenario_pack_visual_receipt_html(receipt))
     return receipt
 
 
@@ -317,6 +328,287 @@ def scenario_pack_review_receipt_markdown(data: Dict[str, Any]) -> str:
     for key in sorted(data["provenance"]):
         lines.append(f"- {key}: {data['provenance'][key]}")
     return "\n".join(lines) + "\n"
+
+
+def scenario_pack_visual_receipt(input_dir: str, fixtures_dir: str, artifact_dir: str) -> Dict[str, Any]:
+    input_root = Path(input_dir)
+    fixture_root = Path(fixtures_dir)
+    artifact_root = Path(artifact_dir)
+    pack = _load_json(artifact_root / "scenario_pack.json")
+    reviewer_receipt = _load_json(artifact_root / "scenario_pack_reviewer_receipt.json")
+    case_files = [
+        artifact_root / "daily_reset_path_decay.json",
+        artifact_root / "drawdown_risk.json",
+        artifact_root / "pretrade_guardrails.json",
+    ]
+    cases = [_load_json(path) for path in case_files]
+    generated_artifacts = _source_artifacts(
+        [
+            artifact_root / "scenario_pack.json",
+            artifact_root / "scenario_pack.md",
+            artifact_root / "scenario_pack_reviewer_receipt.json",
+            artifact_root / "scenario_pack_reviewer_receipt.md",
+            artifact_root / "daily_reset_path_decay.json",
+            artifact_root / "daily_reset_path_decay.md",
+            artifact_root / "drawdown_risk.json",
+            artifact_root / "drawdown_risk.md",
+            artifact_root / "pretrade_guardrails.json",
+            artifact_root / "pretrade_guardrails.md",
+        ]
+    )
+    demo_sources = _source_artifacts(
+        [
+            input_root / "leveraged_nasdaq_3x.json",
+            input_root / "single_stock_2x.json",
+            input_root / "compare_runs.json",
+            input_root / "stress_matrix.json",
+            input_root / "portfolio_sensitivity.json",
+            input_root / "pretrade_plan.json",
+            input_root / "position_size.json",
+            input_root / "guardrail_check.json",
+            input_root / "order_review.json",
+        ]
+    )
+    fixture_inputs = _source_artifacts(
+        [
+            fixture_root / "leveraged_nasdaq_3x.json",
+            fixture_root / "single_stock_2x.json",
+            fixture_root / "nasdaq_chop_path.csv",
+            fixture_root / "single_stock_gap_path.csv",
+            fixture_root / "portfolio_manifest.json",
+            fixture_root / "thesis_note.md",
+        ]
+    )
+    case_cards = [_visual_case_card(case, artifact_root) for case in cases]
+    safety_boundaries = _unique(
+        list(reviewer_receipt.get("safety_boundaries", []))
+        + list((pack.get("cold_user_evidence") or {}).get("safety_boundaries", []))
+        + [
+            "The HTML receipt is static: inline CSS only, no JavaScript, no external assets, and no network calls.",
+            "Release-owner checklist items are review prompts, not trading instructions or approval to place orders.",
+        ]
+    )
+    return {
+        "schema_version": SCENARIO_PACK_VISUAL_RECEIPT_SCHEMA_VERSION,
+        "document_type": "scenario_pack_visual_receipt",
+        "not_investment_advice": _not_advice(),
+        "receipt_id": "v0.31.3-scenario-pack-visual-receipt",
+        "title": "Scenario Pack Visual Receipt",
+        "summary": {
+            "scenario_cases": len(case_cards),
+            "demo_source_artifacts": len(demo_sources),
+            "fixture_inputs": len(fixture_inputs),
+            "generated_artifacts": len(generated_artifacts),
+            "hash_algorithm": "sha256",
+            "static_html": True,
+            "live_market_data": False,
+            "broker_execution": False,
+            "trading_enabled": False,
+            "personalized_recommendations": False,
+        },
+        "demo_bundle_bridge": {
+            "source_command": "python -m leveraged_etp_risk_lab demo-bundle --output-dir examples/outputs",
+            "scenario_pack_command": "python -m leveraged_etp_risk_lab scenario-pack --input-dir examples/outputs --fixtures-dir examples/fixtures --output-dir examples/outputs --format markdown",
+            "visual_receipt_command": "python -m leveraged_etp_risk_lab scenario-pack-visual-receipt --input-dir examples/outputs --fixtures-dir examples/fixtures --artifact-dir examples/outputs --output-dir examples/outputs --format html",
+            "validation_command": "python -m leveraged_etp_risk_lab artifact-validate examples/outputs/scenario_pack_visual_receipt.json examples/outputs/scenario_pack.json examples/outputs/scenario_pack_reviewer_receipt.json --format markdown",
+        },
+        "evidence_chain": [
+            {
+                "step": "demo_bundle_outputs",
+                "purpose": "Deterministic local scenario outputs generated from checked fixtures.",
+                "artifacts": [item["path"] for item in demo_sources],
+            },
+            {
+                "step": "scenario_pack_cases",
+                "purpose": "New-user path-decay, drawdown, and guardrail case studies derived from demo outputs.",
+                "artifacts": [card["json"] for card in case_cards],
+            },
+            {
+                "step": "reviewer_receipt",
+                "purpose": "Hash receipt for fixture inputs, source inputs, generated pack artifacts, and safety boundaries.",
+                "artifacts": [str(artifact_root / "scenario_pack_reviewer_receipt.json")],
+            },
+            {
+                "step": "visual_receipt",
+                "purpose": "Static visual release-owner checklist tying the pack to demo-bundle regeneration and boundaries.",
+                "artifacts": [str(artifact_root / "scenario_pack_visual_receipt.html")],
+            },
+        ],
+        "case_cards": case_cards,
+        "release_owner_checklist": [
+            {
+                "id": "regenerate_demo_bundle",
+                "item": "Regenerate the demo bundle before comparing scenario-pack hashes.",
+                "status": "todo",
+                "evidence": "demo_bundle_bridge.source_command",
+            },
+            {
+                "id": "compare_pack_receipt_hashes",
+                "item": "Compare scenario-pack and reviewer-receipt SHA-256 hashes before release notes are drafted.",
+                "status": "todo",
+                "evidence": "generated_artifacts",
+            },
+            {
+                "id": "review_case_cards",
+                "item": "Confirm each visual case card points to one scenario JSON artifact and one Markdown artifact.",
+                "status": "todo",
+                "evidence": "case_cards",
+            },
+            {
+                "id": "confirm_safety_boundaries",
+                "item": "Confirm safety boundaries: live data, broker execution, trading, and personalized recommendations remain disabled.",
+                "status": "todo",
+                "evidence": "summary",
+            },
+        ],
+        "demo_source_artifacts": demo_sources,
+        "fixture_inputs": fixture_inputs,
+        "generated_artifacts": generated_artifacts,
+        "safety_boundaries": safety_boundaries,
+        "provenance": {
+            "command": "scenario-pack-visual-receipt",
+            "input_dir": str(input_root),
+            "fixtures_dir": str(fixture_root),
+            "artifact_dir": str(artifact_root),
+            "live_market_data": False,
+            "shell_out": False,
+            "private_context": False,
+            "broker_execution": False,
+            "workflow_files_read": False,
+            "trading_enabled": False,
+            "personalized_recommendations": False,
+        },
+    }
+
+
+def scenario_pack_visual_receipt_markdown(data: Dict[str, Any]) -> str:
+    summary = data["summary"]
+    lines = [
+        f"# {data['title']}",
+        "",
+        f"**Not investment advice:** {data['not_investment_advice']}",
+        "",
+        "## Summary",
+        "",
+        f"- Scenario cases: {summary['scenario_cases']}",
+        f"- Demo source artifacts: {summary['demo_source_artifacts']}",
+        f"- Fixture inputs: {summary['fixture_inputs']}",
+        f"- Generated artifacts: {summary['generated_artifacts']}",
+        f"- Hash algorithm: {summary['hash_algorithm']}",
+        f"- Static HTML: {summary['static_html']}",
+        f"- Live market data: {summary['live_market_data']}",
+        f"- Broker execution: {summary['broker_execution']}",
+        f"- Trading enabled: {summary['trading_enabled']}",
+        f"- Personalized recommendations: {summary['personalized_recommendations']}",
+        "",
+        "## Demo Bundle Bridge",
+        "",
+    ]
+    for key in ["source_command", "scenario_pack_command", "visual_receipt_command", "validation_command"]:
+        lines.append(f"- {key}: `{data['demo_bundle_bridge'][key]}`")
+    lines.extend(["", "## Evidence Chain", "", "| Step | Purpose | Artifacts |", "| --- | --- | --- |"])
+    for item in data["evidence_chain"]:
+        lines.append(f"| {item['step']} | {item['purpose']} | {'<br>'.join(item['artifacts'])} |")
+    lines.extend(["", "## Case Cards", "", "| Case | Focus | Primary Metric | JSON | Markdown |", "| --- | --- | --- | --- | --- |"])
+    for card in data["case_cards"]:
+        lines.append(f"| {card['title']} | {card['focus_area']} | {card['primary_metric']} | {card['json']} | {card['markdown']} |")
+    lines.extend(["", "## Release Owner Checklist", ""])
+    for item in data["release_owner_checklist"]:
+        lines.append(f"- [ ] {item['item']} ({item['evidence']})")
+    lines.extend(["", "## Generated Artifacts", "", "| Path | Kind | Bytes | SHA-256 |", "| --- | --- | ---: | --- |"])
+    lines.extend(_artifact_rows(data["generated_artifacts"]))
+    lines.extend(["", "## Safety Boundaries", ""])
+    lines.extend(f"- {item}" for item in data["safety_boundaries"])
+    lines.extend(["", "## Provenance", ""])
+    for key in sorted(data["provenance"]):
+        lines.append(f"- {key}: {data['provenance'][key]}")
+    return "\n".join(lines) + "\n"
+
+
+def scenario_pack_visual_receipt_html(data: Dict[str, Any]) -> str:
+    summary = data["summary"]
+    parts = [
+        "<!doctype html>",
+        '<html lang="en">',
+        "<head>",
+        '<meta charset="utf-8">',
+        '<meta name="viewport" content="width=device-width, initial-scale=1">',
+        f"<title>{_e(data['title'])}</title>",
+        "<style>",
+        "body{margin:0;font:15px/1.45 Arial,Helvetica,sans-serif;color:#1f2933;background:#f4f1e8}",
+        "main{max-width:1180px;margin:0 auto;padding:28px 18px 44px}",
+        "header{border-bottom:3px solid #315d5b;padding-bottom:14px;margin-bottom:18px}",
+        "h1{font-size:32px;line-height:1.15;margin:0 0 8px;color:#233f3e}",
+        "h2{font-size:21px;margin:28px 0 10px;color:#243537}",
+        ".note{background:#fff8dd;border:1px solid #c7a84e;padding:12px;border-radius:6px}",
+        ".grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}",
+        ".metric,.card{background:#fff;border:1px solid #cfd6d1;border-radius:6px;padding:12px}",
+        ".metric b{display:block;color:#65706c;text-transform:uppercase;font-size:12px}",
+        ".metric span{font-size:22px;color:#244f4d}",
+        ".cases{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}",
+        ".bar{height:10px;background:#e6e9e5;border-radius:6px;overflow:hidden;margin:10px 0}",
+        ".bar i{display:block;height:10px;background:#2f7f76}",
+        "table{width:100%;border-collapse:collapse;background:#fff;margin:10px 0 18px}",
+        "th,td{border:1px solid #d6ddd8;padding:7px;text-align:left;vertical-align:top}",
+        "th{background:#e8eee9}",
+        "code{background:#eef0ec;padding:2px 4px;border-radius:4px}",
+        "ul{padding-left:20px}",
+        "footer{margin-top:28px;border-top:1px solid #cfd6d1;padding-top:12px;color:#5c6865}",
+        "</style>",
+        "</head>",
+        "<body>",
+        "<main>",
+        "<header>",
+        f"<h1>{_e(data['title'])}</h1>",
+        "<p>Static visual receipt connecting checked demo-bundle outputs, scenario-pack case studies, reviewer hashes, and safety boundaries.</p>",
+        "</header>",
+        f"<section class=\"note\"><b>Not investment advice:</b> {_e(data['not_investment_advice'])}</section>",
+        "<section><h2>Receipt Summary</h2><div class=\"grid\">",
+        _metric_html("Scenario cases", summary["scenario_cases"]),
+        _metric_html("Demo sources", summary["demo_source_artifacts"]),
+        _metric_html("Fixture inputs", summary["fixture_inputs"]),
+        _metric_html("Generated artifacts", summary["generated_artifacts"]),
+        _metric_html("Live market data", str(summary["live_market_data"]).lower()),
+        _metric_html("Broker execution", str(summary["broker_execution"]).lower()),
+        "</div></section>",
+        "<section><h2>Scenario Evidence Cards</h2><div class=\"cases\">",
+    ]
+    for index, card in enumerate(data["case_cards"], start=1):
+        width = min(100, 30 + index * 20)
+        parts.extend(
+            [
+                '<article class="card">',
+                f"<h3>{_e(card['title'])}</h3>",
+                f"<p><b>Focus:</b> {_e(card['focus_area'])}</p>",
+                f"<p><b>Primary metric:</b> <code>{_e(card['primary_metric'])}</code></p>",
+                f'<div class="bar" aria-label="case {index}"><i style="width:{width}%"></i></div>',
+                f"<p><code>{_e(card['json'])}</code><br><code>{_e(card['markdown'])}</code></p>",
+                "</article>",
+            ]
+        )
+    parts.extend(["</div></section>", "<section><h2>Demo Bundle Bridge</h2>", "<table><tr><th>Command</th><th>Value</th></tr>"])
+    for key, value in data["demo_bundle_bridge"].items():
+        parts.append(f"<tr><td>{_e(key)}</td><td><code>{_e(value)}</code></td></tr>")
+    parts.extend(["</table></section>", "<section><h2>Release Owner Checklist</h2><ul>"])
+    parts.extend(f"<li>{_e(item['item'])} <code>{_e(item['evidence'])}</code></li>" for item in data["release_owner_checklist"])
+    parts.extend(["</ul></section>", "<section><h2>Safety Boundaries</h2><ul>"])
+    parts.extend(f"<li>{_e(item)}</li>" for item in data["safety_boundaries"])
+    parts.extend(["</ul></section>", "<section><h2>Generated Artifact Hashes</h2>"])
+    parts.append(_artifact_table_html(data["generated_artifacts"]))
+    parts.extend(
+        [
+            "</section>",
+            "<footer>",
+            f"<p>Generated by <code>{_e(data['provenance']['command'])}</code> from <code>{_e(data['provenance']['input_dir'])}</code>.</p>",
+            "<p>Provenance flags: live_market_data=false, broker_execution=false, trading_enabled=false, personalized_recommendations=false, workflow_files_read=false.</p>",
+            "</footer>",
+            "</main>",
+            "</body>",
+            "</html>",
+            "",
+        ]
+    )
+    return "\n".join(parts)
 
 
 def _path_decay_case(reports: Dict[str, Any], fixtures: Dict[str, Any], sources: List[Dict[str, Any]]) -> Dict[str, Any]:
@@ -617,6 +909,44 @@ def _artifact_href(path: str) -> str:
     if path.startswith("examples/outputs/") or path.startswith("examples/fixtures/"):
         return artifact.name if path.startswith("examples/outputs/") else f"../fixtures/{artifact.name}"
     return path
+
+
+def _visual_case_card(case: Dict[str, Any], artifact_root: Path) -> Dict[str, Any]:
+    primary_key, primary_value = next(iter(case.get("metrics", {"n/a": "n/a"}).items()))
+    case_id = str(case["case_id"])
+    return {
+        "case_id": case_id,
+        "title": case["title"],
+        "focus_area": case["focus_area"],
+        "primary_metric": f"{primary_key}={_display(primary_value)}",
+        "json": str(artifact_root / f"{case_id}.json"),
+        "markdown": str(artifact_root / f"{case_id}.md"),
+        "source_artifacts": [item["path"] for item in case.get("source_artifacts", [])],
+        "safety_note": "Deterministic local case study; no live data, no broker execution, no trading instruction.",
+    }
+
+
+def _metric_html(label: str, value: Any) -> str:
+    return f'<div class="metric"><b>{_e(label)}</b><span>{_e(value)}</span></div>'
+
+
+def _artifact_table_html(items: List[Dict[str, Any]]) -> str:
+    rows = ["<table><tr><th>Path</th><th>Kind</th><th>Bytes</th><th>SHA-256</th></tr>"]
+    for item in items:
+        rows.append(
+            "<tr>"
+            f"<td><code>{_e(item['path'])}</code></td>"
+            f"<td>{_e(item['kind'])}</td>"
+            f"<td>{_e(item['bytes'])}</td>"
+            f"<td><code>{_e(item['sha256'])}</code></td>"
+            "</tr>"
+        )
+    rows.append("</table>")
+    return "\n".join(rows)
+
+
+def _e(value: Any) -> str:
+    return html.escape(str(value), quote=True)
 
 
 def _artifact_rows(items: Iterable[Dict[str, Any]]) -> List[str]:

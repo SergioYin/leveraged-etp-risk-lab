@@ -1560,6 +1560,8 @@ def _artifact_next_command(name: str, stage: str) -> str:
         return "python -m leveraged_etp_risk_lab guardrail-policy --policy conservative --format markdown"
     if name.startswith("audit_trail"):
         return "python -m leveraged_etp_risk_lab audit-trail --ledger examples/outputs/run_ledger.jsonl --artifact examples/outputs/pretrade_plan.json --format markdown"
+    if name.startswith("scenario_pack_visual_receipt"):
+        return "python -m leveraged_etp_risk_lab scenario-pack-visual-receipt --input-dir examples/outputs --fixtures-dir examples/fixtures --artifact-dir examples/outputs --output-dir examples/outputs --format html"
     if name.startswith("asset_hub"):
         return "python -m leveraged_etp_risk_lab asset-hub --input-dir examples/outputs --format markdown"
     if name.startswith("release_manifest"):

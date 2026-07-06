@@ -503,7 +503,7 @@
       "suggested_next_command": "python -m leveraged_etp_risk_lab demo-story --input-dir examples/outputs --format markdown"
     },
     {
-      "artifact_count": 20,
+      "artifact_count": 23,
       "artifacts": [
         {
           "bytes": 17779,
@@ -626,7 +626,7 @@
           "suggested_next_command": "python -m leveraged_etp_risk_lab factsheet-check --product examples/fixtures/leveraged_nasdaq_3x.json --factsheet-file examples/fixtures/factsheet_note.txt --format markdown"
         },
         {
-          "bytes": 33200,
+          "bytes": 34461,
           "document_type": "package_audit",
           "format": "json",
           "name": "package_audit.json",
@@ -636,7 +636,7 @@
           "suggested_next_command": "python -m leveraged_etp_risk_lab gallery-index --input-dir examples/outputs --format markdown"
         },
         {
-          "bytes": 5928,
+          "bytes": 6144,
           "document_type": "package_audit",
           "format": "md",
           "name": "package_audit.md",
@@ -704,6 +704,36 @@
           "schema_version": "0.30",
           "stage": "audit/story",
           "suggested_next_command": "python -m leveraged_etp_risk_lab static-dashboard --input-dir examples/outputs --output examples/outputs/dashboard.html"
+        },
+        {
+          "bytes": 8479,
+          "document_type": "scenario_pack_visual_receipt",
+          "format": "html",
+          "name": "scenario_pack_visual_receipt.html",
+          "path": "examples/outputs/scenario_pack_visual_receipt.html",
+          "schema_version": "0.32",
+          "stage": "audit/story",
+          "suggested_next_command": "python -m leveraged_etp_risk_lab scenario-pack-visual-receipt --input-dir examples/outputs --fixtures-dir examples/fixtures --artifact-dir examples/outputs --output-dir examples/outputs --format html"
+        },
+        {
+          "bytes": 12398,
+          "document_type": "scenario_pack_visual_receipt",
+          "format": "json",
+          "name": "scenario_pack_visual_receipt.json",
+          "path": "examples/outputs/scenario_pack_visual_receipt.json",
+          "schema_version": "0.32",
+          "stage": "audit/story",
+          "suggested_next_command": "python -m leveraged_etp_risk_lab scenario-pack-visual-receipt --input-dir examples/outputs --fixtures-dir examples/fixtures --artifact-dir examples/outputs --output-dir examples/outputs --format html"
+        },
+        {
+          "bytes": 6149,
+          "document_type": "scenario_pack_visual_receipt",
+          "format": "md",
+          "name": "scenario_pack_visual_receipt.md",
+          "path": "examples/outputs/scenario_pack_visual_receipt.md",
+          "schema_version": "0.32",
+          "stage": "audit/story",
+          "suggested_next_command": "python -m leveraged_etp_risk_lab scenario-pack-visual-receipt --input-dir examples/outputs --fixtures-dir examples/fixtures --artifact-dir examples/outputs --output-dir examples/outputs --format html"
         }
       ],
       "stage": "audit/story",
@@ -910,7 +940,7 @@
       "artifact_count": 9,
       "artifacts": [
         {
-          "bytes": 12614,
+          "bytes": 13074,
           "document_type": "artifact_validation",
           "format": "json",
           "name": "artifact_validation.json",
@@ -920,7 +950,7 @@
           "suggested_next_command": "python -m leveraged_etp_risk_lab artifact-validate --format markdown"
         },
         {
-          "bytes": 5831,
+          "bytes": 6086,
           "document_type": "artifact_validation",
           "format": "md",
           "name": "artifact_validation.md",
@@ -930,7 +960,7 @@
           "suggested_next_command": "python -m leveraged_etp_risk_lab artifact-validate --format markdown"
         },
         {
-          "bytes": 31973,
+          "bytes": 32521,
           "document_type": "docs_export",
           "format": "html",
           "name": "docs_export.html",
@@ -940,7 +970,7 @@
           "suggested_next_command": "python -m leveraged_etp_risk_lab docs-export --input-dir examples/outputs --output examples/outputs/docs_export.html"
         },
         {
-          "bytes": 30017,
+          "bytes": 30487,
           "document_type": "docs_export",
           "format": "json",
           "name": "docs_export.json",
@@ -950,7 +980,7 @@
           "suggested_next_command": "python -m leveraged_etp_risk_lab docs-export --input-dir examples/outputs --output examples/outputs/docs_export.html"
         },
         {
-          "bytes": 19422,
+          "bytes": 19677,
           "document_type": "docs_export",
           "format": "md",
           "name": "docs_export.md",
@@ -960,7 +990,7 @@
           "suggested_next_command": "python -m leveraged_etp_risk_lab docs-export --input-dir examples/outputs --output examples/outputs/docs_export.html"
         },
         {
-          "bytes": 9327,
+          "bytes": 9259,
           "document_type": "release_manifest",
           "format": "json",
           "name": "release_manifest.json",
@@ -970,7 +1000,7 @@
           "suggested_next_command": "python -m leveraged_etp_risk_lab release-manifest --input-dir examples/outputs --format markdown"
         },
         {
-          "bytes": 4210,
+          "bytes": 4142,
           "document_type": "release_manifest",
           "format": "md",
           "name": "release_manifest.md",
@@ -980,7 +1010,7 @@
           "suggested_next_command": "python -m leveraged_etp_risk_lab release-manifest --input-dir examples/outputs --format markdown"
         },
         {
-          "bytes": 29534,
+          "bytes": 30653,
           "document_type": "schema_inventory",
           "format": "json",
           "name": "schema_inventory.json",
@@ -990,7 +1020,7 @@
           "suggested_next_command": "python -m leveraged_etp_risk_lab artifact-validate --format markdown"
         },
         {
-          "bytes": 13971,
+          "bytes": 14620,
           "document_type": "schema_inventory",
           "format": "md",
           "name": "schema_inventory.md",
@@ -1005,8 +1035,8 @@
     }
   ],
   "summary": {
-    "artifacts": 94,
-    "bytes": 721918,
+    "artifacts": 97,
+    "bytes": 754041,
     "stages": 8
   }
 }

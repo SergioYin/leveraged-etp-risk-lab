@@ -36,6 +36,7 @@ Use this skill when a user asks an agent to inspect, extend, validate, or explai
 - Build release manifests from checked-in public release artifacts with optional git metadata, release notes drafts, skill sync guidance, and post-release checks.
 - Export one self-contained static HTML documentation page from checked-in release, asset-hub, demo-story, gallery-index, package-audit, and Markdown artifacts.
 - Build new-user scenario packs with exact reproducibility commands, artifact links, and safety boundaries for path decay, drawdown risk, and pretrade guardrails.
+- Build static scenario-pack visual receipts that connect demo-bundle outputs, scenario case studies, reviewer hashes, release-owner checklist prompts, and safety boundaries.
 - Render static no-JavaScript dashboards from manifests or demo outputs.
 - List or export built-in generic product templates.
 - Audit package readiness for public sharing.
@@ -86,6 +87,7 @@ python -m leveraged_etp_risk_lab asset-hub --input-dir examples/outputs --format
 python -m leveraged_etp_risk_lab release-manifest --input-dir examples/outputs --format markdown
 python -m leveraged_etp_risk_lab docs-export --input-dir examples/outputs --output examples/outputs/docs_export.html
 python -m leveraged_etp_risk_lab scenario-pack --input-dir examples/outputs --fixtures-dir examples/fixtures --output-dir examples/outputs --format markdown
+python -m leveraged_etp_risk_lab scenario-pack-visual-receipt --input-dir examples/outputs --fixtures-dir examples/fixtures --artifact-dir examples/outputs --output-dir examples/outputs --format html --output examples/outputs/scenario_pack_visual_receipt.html
 python -m leveraged_etp_risk_lab static-dashboard --manifest examples/fixtures/portfolio_manifest.json --output examples/outputs/dashboard.html
 python -m leveraged_etp_risk_lab template-list --format markdown
 python -m leveraged_etp_risk_lab template-export --template generic-3x-long-index --output generic_index_3x.json

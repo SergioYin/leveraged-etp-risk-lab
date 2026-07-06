@@ -39,7 +39,7 @@ def product_family_walkthrough(input_dir: str, fixtures_dir: str) -> Dict[str, A
         "schema_version": PRODUCT_FAMILY_WALKTHROUGH_SCHEMA_VERSION,
         "document_type": "product_family_walkthrough",
         "not_investment_advice": _not_advice(),
-        "walkthrough_id": "v0.31.2-product-family-walkthrough",
+        "walkthrough_id": "v0.31.3-product-family-walkthrough",
         "title": "Product Family Walkthrough",
         "summary": {
             "snapshot_product": snapshot.get("product", {}).get("ticker"),

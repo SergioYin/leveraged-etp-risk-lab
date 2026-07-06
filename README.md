@@ -199,6 +199,14 @@ python -m leveraged_etp_risk_lab scenario-pack-reviewer-receipt \
   --output-dir examples/outputs \
   --format markdown
 
+python -m leveraged_etp_risk_lab scenario-pack-visual-receipt \
+  --input-dir examples/outputs \
+  --fixtures-dir examples/fixtures \
+  --artifact-dir examples/outputs \
+  --output-dir examples/outputs \
+  --format html \
+  --output examples/outputs/scenario_pack_visual_receipt.html
+
 python -m leveraged_etp_risk_lab release-manifest \
   --input-dir examples/outputs \
   --format markdown
@@ -319,6 +327,8 @@ The `scenario-pack` command writes a new-user evidence section into the pack and
 
 The `scenario-pack-reviewer-receipt` command writes deterministic JSON and Markdown receipts for cold reviewers. The receipt lists scenario-pack fixture inputs, source inputs, generated artifact paths, SHA-256 hashes, exact regeneration and validation commands, and explicit boundaries for no live data, no broker/API/account/order access, no trading, no suitability determination, and no personalized recommendations.
 
+The `scenario-pack-visual-receipt` command writes deterministic JSON, Markdown, and static HTML receipts that connect demo-bundle source outputs, scenario-pack case studies, reviewer hashes, release-owner checklist prompts, and safety boundaries. The HTML uses inline CSS only: no JavaScript, no external assets, no live market data, no workflow reads, no broker access, and no advice.
+
 The `product-family-walkthrough` command reads the existing product snapshot, scenario pack, reviewer receipt, and checked fixtures, then emits a compact reviewer walkthrough that compares what each artifact is for. It highlights fixture provenance hashes, daily-reset path-dependency caveats, and the same no-live-data/no-broker/no-trading/no-advice boundaries.
 
 The local skill sync helper copies the checked-in skill file into a local Codex skills directory:
@@ -372,6 +382,7 @@ Schema notes live in `docs/schema.md`. Machine-readable draft schemas are provid
 - `docs/glossary.schema.json`
 - `docs/demo-story.schema.json`
 - `docs/gallery-index.schema.json`
+- `docs/scenario-pack-visual-receipt.schema.json`
 
 ## Roadmap
 

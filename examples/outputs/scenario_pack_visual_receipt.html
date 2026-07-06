@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scenario Pack Visual Receipt</title>
+<style>
+body{margin:0;font:15px/1.45 Arial,Helvetica,sans-serif;color:#1f2933;background:#f4f1e8}
+main{max-width:1180px;margin:0 auto;padding:28px 18px 44px}
+header{border-bottom:3px solid #315d5b;padding-bottom:14px;margin-bottom:18px}
+h1{font-size:32px;line-height:1.15;margin:0 0 8px;color:#233f3e}
+h2{font-size:21px;margin:28px 0 10px;color:#243537}
+.note{background:#fff8dd;border:1px solid #c7a84e;padding:12px;border-radius:6px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.metric,.card{background:#fff;border:1px solid #cfd6d1;border-radius:6px;padding:12px}
+.metric b{display:block;color:#65706c;text-transform:uppercase;font-size:12px}
+.metric span{font-size:22px;color:#244f4d}
+.cases{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+.bar{height:10px;background:#e6e9e5;border-radius:6px;overflow:hidden;margin:10px 0}
+.bar i{display:block;height:10px;background:#2f7f76}
+table{width:100%;border-collapse:collapse;background:#fff;margin:10px 0 18px}
+th,td{border:1px solid #d6ddd8;padding:7px;text-align:left;vertical-align:top}
+th{background:#e8eee9}
+code{background:#eef0ec;padding:2px 4px;border-radius:4px}
+ul{padding-left:20px}
+footer{margin-top:28px;border-top:1px solid #cfd6d1;padding-top:12px;color:#5c6865}
+</style>
+</head>
+<body>
+<main>
+<header>
+<h1>Scenario Pack Visual Receipt</h1>
+<p>Static visual receipt connecting checked demo-bundle outputs, scenario-pack case studies, reviewer hashes, and safety boundaries.</p>
+</header>
+<section class="note"><b>Not investment advice:</b> This scenario pack is for scenario planning and education only. It is not investment advice, a recommendation, or a suitability determination.</section>
+<section><h2>Receipt Summary</h2><div class="grid">
+<div class="metric"><b>Scenario cases</b><span>3</span></div>
+<div class="metric"><b>Demo sources</b><span>9</span></div>
+<div class="metric"><b>Fixture inputs</b><span>6</span></div>
+<div class="metric"><b>Generated artifacts</b><span>10</span></div>
+<div class="metric"><b>Live market data</b><span>false</span></div>
+<div class="metric"><b>Broker execution</b><span>false</span></div>
+</div></section>
+<section><h2>Scenario Evidence Cards</h2><div class="cases">
+<article class="card">
+<h3>Daily Reset Path Decay</h3>
+<p><b>Focus:</b> daily_reset_path_decay</p>
+<p><b>Primary metric:</b> <code>case_delta_path_decay_nav_points=-0.050687</code></p>
+<div class="bar" aria-label="case 1"><i style="width:50%"></i></div>
+<p><code>examples/outputs/daily_reset_path_decay.json</code><br><code>examples/outputs/daily_reset_path_decay.md</code></p>
+</article>
+<article class="card">
+<h3>Drawdown Risk Under Regime Stress</h3>
+<p><b>Focus:</b> drawdown_risk</p>
+<p><b>Primary metric:</b> <code>aggregate_worst_case_loss_pct=48.8518</code></p>
+<div class="bar" aria-label="case 2"><i style="width:70%"></i></div>
+<p><code>examples/outputs/drawdown_risk.json</code><br><code>examples/outputs/drawdown_risk.md</code></p>
+</article>
+<article class="card">
+<h3>Pretrade Guardrails Before An Order</h3>
+<p><b>Focus:</b> pretrade_guardrails</p>
+<p><b>Primary metric:</b> <code>exposure_multiple=0.3</code></p>
+<div class="bar" aria-label="case 3"><i style="width:90%"></i></div>
+<p><code>examples/outputs/pretrade_guardrails.json</code><br><code>examples/outputs/pretrade_guardrails.md</code></p>
+</article>
+</div></section>
+<section><h2>Demo Bundle Bridge</h2>
+<table><tr><th>Command</th><th>Value</th></tr>
+<tr><td>source_command</td><td><code>python -m leveraged_etp_risk_lab demo-bundle --output-dir examples/outputs</code></td></tr>
+<tr><td>scenario_pack_command</td><td><code>python -m leveraged_etp_risk_lab scenario-pack --input-dir examples/outputs --fixtures-dir examples/fixtures --output-dir examples/outputs --format markdown</code></td></tr>
+<tr><td>visual_receipt_command</td><td><code>python -m leveraged_etp_risk_lab scenario-pack-visual-receipt --input-dir examples/outputs --fixtures-dir examples/fixtures --artifact-dir examples/outputs --output-dir examples/outputs --format html</code></td></tr>
+<tr><td>validation_command</td><td><code>python -m leveraged_etp_risk_lab artifact-validate examples/outputs/scenario_pack_visual_receipt.json examples/outputs/scenario_pack.json examples/outputs/scenario_pack_reviewer_receipt.json --format markdown</code></td></tr>
+</table></section>
+<section><h2>Release Owner Checklist</h2><ul>
+<li>Regenerate the demo bundle before comparing scenario-pack hashes. <code>demo_bundle_bridge.source_command</code></li>
+<li>Compare scenario-pack and reviewer-receipt SHA-256 hashes before release notes are drafted. <code>generated_artifacts</code></li>
+<li>Confirm each visual case card points to one scenario JSON artifact and one Markdown artifact. <code>case_cards</code></li>
+<li>Confirm safety boundaries: live data, broker execution, trading, and personalized recommendations remain disabled. <code>summary</code></li>
+</ul></section>
+<section><h2>Safety Boundaries</h2><ul>
+<li>No live market data is fetched or required.</li>
+<li>No broker, API, account, order, routing, staging, preview, or execution capability is used.</li>
+<li>No trading instruction, no personalized recommendation, no suitability determination, and no investment advice is produced.</li>
+<li>Receipt hashes cover deterministic local fixtures and generated artifacts only.</li>
+<li>Uses checked-in fixtures and generated local examples only.</li>
+<li>Does not read live market data, private context, workflow files, environment variables, or command history.</li>
+<li>Does not place trades, contact brokers, determine suitability, or recommend buying, selling, or holding any product.</li>
+<li>Treats position sizing and guardrail outputs as educational review aids, not instructions.</li>
+<li>The HTML receipt is static: inline CSS only, no JavaScript, no external assets, and no network calls.</li>
+<li>Release-owner checklist items are review prompts, not trading instructions or approval to place orders.</li>
+</ul></section>
+<section><h2>Generated Artifact Hashes</h2>
+<table><tr><th>Path</th><th>Kind</th><th>Bytes</th><th>SHA-256</th></tr>
+<tr><td><code>examples/outputs/scenario_pack.json</code></td><td>json</td><td>8198</td><td><code>c322a9c73a3b24433388dc729644f569ff426e4150557b1bd60bc3836b24fee0</code></td></tr>
+<tr><td><code>examples/outputs/scenario_pack.md</code></td><td>md</td><td>4679</td><td><code>93b47354841d3fa67a97d8216dc29b961fcbd462891cad3a34765428f334b000</code></td></tr>
+<tr><td><code>examples/outputs/scenario_pack_reviewer_receipt.json</code></td><td>json</td><td>7288</td><td><code>c180b6e6e8fbfe27245fd93b39a7b389bf77d5ff1f31b855c69fad075dc6ac0b</code></td></tr>
+<tr><td><code>examples/outputs/scenario_pack_reviewer_receipt.md</code></td><td>md</td><td>5517</td><td><code>bb98ee690cdd01750dd84efa5e41c406e19f9fa0c6adcad2b9784867bfbe7637</code></td></tr>
+<tr><td><code>examples/outputs/daily_reset_path_decay.json</code></td><td>json</td><td>5445</td><td><code>1884b8f128f179e3e512453dd90b55309b52c7b86fb6889b9d00a89f299150d4</code></td></tr>
+<tr><td><code>examples/outputs/daily_reset_path_decay.md</code></td><td>md</td><td>3728</td><td><code>23f376279f7bfa797878e965efa8581f390bc08c631343f2549283c87f0fc338</code></td></tr>
+<tr><td><code>examples/outputs/drawdown_risk.json</code></td><td>json</td><td>4754</td><td><code>adf1aeff43c9972e7bddf6c368886038d28092abba01d181f147bd6d9e99f28b</code></td></tr>
+<tr><td><code>examples/outputs/drawdown_risk.md</code></td><td>md</td><td>3484</td><td><code>d07ce063c4d608fc75312f9a1f3e488b8771d44ee668eb14cb949c361b7846bf</code></td></tr>
+<tr><td><code>examples/outputs/pretrade_guardrails.json</code></td><td>json</td><td>5275</td><td><code>f51702702722e6a95f1f43f7225e92c488a68d7bc07d8b7ab1f4be5c56f6f346</code></td></tr>
+<tr><td><code>examples/outputs/pretrade_guardrails.md</code></td><td>md</td><td>3693</td><td><code>e98d4551088e878803cedacccd5aee0c656ef9f72bf7b615d88700a77ba5d285</code></td></tr>
+</table>
+</section>
+<footer>
+<p>Generated by <code>scenario-pack-visual-receipt</code> from <code>examples/outputs</code>.</p>
+<p>Provenance flags: live_market_data=false, broker_execution=false, trading_enabled=false, personalized_recommendations=false, workflow_files_read=false.</p>
+</footer>
+</main>
+</body>
+</html>

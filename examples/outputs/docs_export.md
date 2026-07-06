@@ -2,7 +2,7 @@
 
 - Schema version: 0.30
 - Source artifacts: 6/6 present
-- Markdown artifacts: 43
+- Markdown artifacts: 44
 - Release status: ready
 - Package ready: yes
 
@@ -67,15 +67,15 @@
 
 ## Release Notes
 
-## v0.31.2
+## v0.31.3
 
 ### Highlights
 
-- Hardens deterministic release artifact generation for package audit, schema inventory, artifact validation, release manifest, and docs export.
-- Adds a static non-TQQQ product-family fixture example to the deterministic walkthrough while preserving no-live-data/no-broker/no-advice boundaries.
+- Adds deterministic scenario-pack visual receipts with JSON, Markdown, and static HTML release-owner views.
+- Connects demo-bundle outputs, scenario-pack case studies, reviewer hashes, checklist prompts, and safety boundaries.
 - Carries safety caveats, command map, release notes, and local artifact links from checked public artifacts.
-- Publishes 94 public demo artifacts across 8 gallery stages.
-- Tracks 44 local schemas and 44 validated artifacts.
+- Publishes 97 public demo artifacts across 8 gallery stages.
+- Tracks 45 local schemas and 45 validated artifacts.
 
 ### Readiness
 
@@ -160,6 +160,9 @@
 | `examples/outputs/scenario_pack.md` | md | audit/story |
 | `examples/outputs/scenario_pack_reviewer_receipt.json` | json | audit/story |
 | `examples/outputs/scenario_pack_reviewer_receipt.md` | md | audit/story |
+| `examples/outputs/scenario_pack_visual_receipt.html` | html | audit/story |
+| `examples/outputs/scenario_pack_visual_receipt.json` | json | audit/story |
+| `examples/outputs/scenario_pack_visual_receipt.md` | md | audit/story |
 | `examples/outputs/cycle_state.json` | json | dashboard |
 | `examples/outputs/cycle_state.md` | md | dashboard |
 | `examples/outputs/cycle_update.json` | json | dashboard |
@@ -194,7 +197,7 @@
 
 | Artifact | Title | Bytes |
 | --- | --- | ---: |
-| `examples/outputs/artifact_validation.md` | Artifact Validation | 5831 |
+| `examples/outputs/artifact_validation.md` | Artifact Validation | 6086 |
 | `examples/outputs/asset_hub.md` | leveraged-etp-risk-lab Public Asset Hub | 12270 |
 | `examples/outputs/audit_trail.md` | Audit Trail | 3660 |
 | `examples/outputs/checklist.md` | Leveraged ETP Risk Checklist: risk-review | 718 |
@@ -205,7 +208,7 @@
 | `examples/outputs/demo_story.md` | Public Demo Story | 9204 |
 | `examples/outputs/drawdown_risk.md` | Drawdown Risk Under Regime Stress | 3484 |
 | `examples/outputs/factsheet_check.md` | Product Factsheet Checklist | 1174 |
-| `examples/outputs/gallery_index.md` | Public Gallery Index | 25803 |
+| `examples/outputs/gallery_index.md` | Public Gallery Index | 26733 |
 | `examples/outputs/glossary.md` | Leveraged Product Glossary | 5341 |
 | `examples/outputs/guardrail_check.md` | Allocation Guardrail Check | 2207 |
 | `examples/outputs/guardrail_policy.md` | Allocation Guardrail Policy: default | 961 |
@@ -214,7 +217,7 @@
 | `examples/outputs/leveraged_nasdaq_3x.md` | Simulation: NDAQ3X | 1426 |
 | `examples/outputs/order_review.md` | Final Educational Order Review | 1414 |
 | `examples/outputs/order_ticket.md` | Pre-Order Ticket: NDAQ3X | 3555 |
-| `examples/outputs/package_audit.md` | Package Audit | 5928 |
+| `examples/outputs/package_audit.md` | Package Audit | 6144 |
 | `examples/outputs/portfolio_exposure.md` | Exposure Report: Generic Leveraged ETP Portfolio | 1430 |
 | `examples/outputs/portfolio_sensitivity.md` | Portfolio Sensitivity: Generic Leveraged ETP Portfolio | 1870 |
 | `examples/outputs/position_size.md` | Position Size Plan: NDAQ3X | 2279 |
@@ -224,12 +227,13 @@
 | `examples/outputs/product_snapshot_tqqq_case_study.md` | TQQQ Daily-Target Product Snapshot | 3332 |
 | `examples/outputs/recipe_run.md` | Recipe Run | 1965 |
 | `examples/outputs/regime_gallery.md` | Market Regime Gallery | 4525 |
-| `examples/outputs/release_manifest.md` | Release Manifest | 4210 |
+| `examples/outputs/release_manifest.md` | Release Manifest | 4142 |
 | `examples/outputs/report_card.md` | Decision Readiness Report Card | 4259 |
 | `examples/outputs/risk_profiles.md` | Risk Rule Profiles | 4978 |
 | `examples/outputs/scenario_pack.md` | New User Scenario Pack | 4679 |
 | `examples/outputs/scenario_pack_reviewer_receipt.md` | Scenario Pack Reviewer Receipt | 5517 |
-| `examples/outputs/schema_inventory.md` | Schema Inventory | 13971 |
+| `examples/outputs/scenario_pack_visual_receipt.md` | Scenario Pack Visual Receipt | 6149 |
+| `examples/outputs/schema_inventory.md` | Schema Inventory | 14620 |
 | `examples/outputs/sensitivity_grid.md` | Sensitivity Grid: NDAQ3X | 3962 |
 | `examples/outputs/single_stock_2x.md` | Simulation: STK2X | 1372 |
 | `examples/outputs/stress_matrix.md` | Stress Matrix: NDAQ3X | 1957 |

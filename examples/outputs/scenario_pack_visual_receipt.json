@@ -1,0 +1,321 @@
+{
+  "case_cards": [
+    {
+      "case_id": "daily_reset_path_decay",
+      "focus_area": "daily_reset_path_decay",
+      "json": "examples/outputs/daily_reset_path_decay.json",
+      "markdown": "examples/outputs/daily_reset_path_decay.md",
+      "primary_metric": "case_delta_path_decay_nav_points=-0.050687",
+      "safety_note": "Deterministic local case study; no live data, no broker execution, no trading instruction.",
+      "source_artifacts": [
+        "examples/outputs/leveraged_nasdaq_3x.json",
+        "examples/outputs/single_stock_2x.json",
+        "examples/outputs/compare_runs.json",
+        "examples/fixtures/leveraged_nasdaq_3x.json",
+        "examples/fixtures/single_stock_2x.json",
+        "examples/fixtures/nasdaq_chop_path.csv"
+      ],
+      "title": "Daily Reset Path Decay"
+    },
+    {
+      "case_id": "drawdown_risk",
+      "focus_area": "drawdown_risk",
+      "json": "examples/outputs/drawdown_risk.json",
+      "markdown": "examples/outputs/drawdown_risk.md",
+      "primary_metric": "aggregate_worst_case_loss_pct=48.8518",
+      "safety_note": "Deterministic local case study; no live data, no broker execution, no trading instruction.",
+      "source_artifacts": [
+        "examples/outputs/stress_matrix.json",
+        "examples/outputs/portfolio_sensitivity.json",
+        "examples/fixtures/portfolio_manifest.json"
+      ],
+      "title": "Drawdown Risk Under Regime Stress"
+    },
+    {
+      "case_id": "pretrade_guardrails",
+      "focus_area": "pretrade_guardrails",
+      "json": "examples/outputs/pretrade_guardrails.json",
+      "markdown": "examples/outputs/pretrade_guardrails.md",
+      "primary_metric": "exposure_multiple=0.3",
+      "safety_note": "Deterministic local case study; no live data, no broker execution, no trading instruction.",
+      "source_artifacts": [
+        "examples/outputs/pretrade_plan.json",
+        "examples/outputs/position_size.json",
+        "examples/outputs/guardrail_check.json",
+        "examples/outputs/order_review.json",
+        "examples/fixtures/thesis_note.md"
+      ],
+      "title": "Pretrade Guardrails Before An Order"
+    }
+  ],
+  "demo_bundle_bridge": {
+    "scenario_pack_command": "python -m leveraged_etp_risk_lab scenario-pack --input-dir examples/outputs --fixtures-dir examples/fixtures --output-dir examples/outputs --format markdown",
+    "source_command": "python -m leveraged_etp_risk_lab demo-bundle --output-dir examples/outputs",
+    "validation_command": "python -m leveraged_etp_risk_lab artifact-validate examples/outputs/scenario_pack_visual_receipt.json examples/outputs/scenario_pack.json examples/outputs/scenario_pack_reviewer_receipt.json --format markdown",
+    "visual_receipt_command": "python -m leveraged_etp_risk_lab scenario-pack-visual-receipt --input-dir examples/outputs --fixtures-dir examples/fixtures --artifact-dir examples/outputs --output-dir examples/outputs --format html"
+  },
+  "demo_source_artifacts": [
+    {
+      "bytes": 2782,
+      "kind": "json",
+      "path": "examples/outputs/leveraged_nasdaq_3x.json",
+      "sha256": "fec4c6c6c83dc18d76579831a83f024506a2983ffdfb0c9f7a2c305561dda48a"
+    },
+    {
+      "bytes": 2539,
+      "kind": "json",
+      "path": "examples/outputs/single_stock_2x.json",
+      "sha256": "8d87b4439e5ce51026b9cc5139f4860460f033a32ffcbe7f033a9a8f78f90a9f"
+    },
+    {
+      "bytes": 961,
+      "kind": "json",
+      "path": "examples/outputs/compare_runs.json",
+      "sha256": "245621f9ace03d0bc48244e2b87348afb99db14185b2541a6b757e7cbe77de32"
+    },
+    {
+      "bytes": 3894,
+      "kind": "json",
+      "path": "examples/outputs/stress_matrix.json",
+      "sha256": "a53e51a4e83cd511dd25b4180b099ad4a70ab36742838b5db260520502d31c3f"
+    },
+    {
+      "bytes": 31150,
+      "kind": "json",
+      "path": "examples/outputs/portfolio_sensitivity.json",
+      "sha256": "f87f726abab68709f90de09c75570888b96604d981882b1ebd06ac0f51454f07"
+    },
+    {
+      "bytes": 3460,
+      "kind": "json",
+      "path": "examples/outputs/pretrade_plan.json",
+      "sha256": "3632930e9b4f6c91c35158bbd19e41f7ea5f98be90fdfda747512cf6702a30f6"
+    },
+    {
+      "bytes": 2630,
+      "kind": "json",
+      "path": "examples/outputs/position_size.json",
+      "sha256": "e858c5ccc946ab87c7b926859fca2cb863013cda3b48b7af3e8085ab379bf940"
+    },
+    {
+      "bytes": 5525,
+      "kind": "json",
+      "path": "examples/outputs/guardrail_check.json",
+      "sha256": "f3ffc62fe1af1941cbd60e5ae38801ad5ecfb8eaa86777f04a75cc301ab744ab"
+    },
+    {
+      "bytes": 2548,
+      "kind": "json",
+      "path": "examples/outputs/order_review.json",
+      "sha256": "63130d3e268e8171d890e745792848cfe9399fa97479bfee6505401e940eb4c7"
+    }
+  ],
+  "document_type": "scenario_pack_visual_receipt",
+  "evidence_chain": [
+    {
+      "artifacts": [
+        "examples/outputs/leveraged_nasdaq_3x.json",
+        "examples/outputs/single_stock_2x.json",
+        "examples/outputs/compare_runs.json",
+        "examples/outputs/stress_matrix.json",
+        "examples/outputs/portfolio_sensitivity.json",
+        "examples/outputs/pretrade_plan.json",
+        "examples/outputs/position_size.json",
+        "examples/outputs/guardrail_check.json",
+        "examples/outputs/order_review.json"
+      ],
+      "purpose": "Deterministic local scenario outputs generated from checked fixtures.",
+      "step": "demo_bundle_outputs"
+    },
+    {
+      "artifacts": [
+        "examples/outputs/daily_reset_path_decay.json",
+        "examples/outputs/drawdown_risk.json",
+        "examples/outputs/pretrade_guardrails.json"
+      ],
+      "purpose": "New-user path-decay, drawdown, and guardrail case studies derived from demo outputs.",
+      "step": "scenario_pack_cases"
+    },
+    {
+      "artifacts": [
+        "examples/outputs/scenario_pack_reviewer_receipt.json"
+      ],
+      "purpose": "Hash receipt for fixture inputs, source inputs, generated pack artifacts, and safety boundaries.",
+      "step": "reviewer_receipt"
+    },
+    {
+      "artifacts": [
+        "examples/outputs/scenario_pack_visual_receipt.html"
+      ],
+      "purpose": "Static visual release-owner checklist tying the pack to demo-bundle regeneration and boundaries.",
+      "step": "visual_receipt"
+    }
+  ],
+  "fixture_inputs": [
+    {
+      "bytes": 275,
+      "kind": "json",
+      "path": "examples/fixtures/leveraged_nasdaq_3x.json",
+      "sha256": "a4f63ef24a1282198e65cda178946b42fdfa0182165607fe86bfd60f92e0cd8f"
+    },
+    {
+      "bytes": 282,
+      "kind": "json",
+      "path": "examples/fixtures/single_stock_2x.json",
+      "sha256": "fbcd054ad34a4b97b42c8bf9e3b3c4b180f16e49b193c928ae03eeeb07e3bbc2"
+    },
+    {
+      "bytes": 153,
+      "kind": "csv",
+      "path": "examples/fixtures/nasdaq_chop_path.csv",
+      "sha256": "9a3ebd3e2fd9bbfa7545d16570c36c3a039d530e435aa5939eddd513d156cf79"
+    },
+    {
+      "bytes": 161,
+      "kind": "csv",
+      "path": "examples/fixtures/single_stock_gap_path.csv",
+      "sha256": "d01514fd8e06f8ce62e23fe0657e33e527a99b3354d5e9eff971d4005d50a838"
+    },
+    {
+      "bytes": 536,
+      "kind": "json",
+      "path": "examples/fixtures/portfolio_manifest.json",
+      "sha256": "be6ed3d6d32f4b14b713beb1e8b7576dc75ef9f301efbaf4f36ff744128dfbdf"
+    },
+    {
+      "bytes": 421,
+      "kind": "md",
+      "path": "examples/fixtures/thesis_note.md",
+      "sha256": "0cec7a6990f71726205f8e2ac9c507ce7782f252d4592e5092c1c4fdeb825b85"
+    }
+  ],
+  "generated_artifacts": [
+    {
+      "bytes": 8198,
+      "kind": "json",
+      "path": "examples/outputs/scenario_pack.json",
+      "sha256": "c322a9c73a3b24433388dc729644f569ff426e4150557b1bd60bc3836b24fee0"
+    },
+    {
+      "bytes": 4679,
+      "kind": "md",
+      "path": "examples/outputs/scenario_pack.md",
+      "sha256": "93b47354841d3fa67a97d8216dc29b961fcbd462891cad3a34765428f334b000"
+    },
+    {
+      "bytes": 7288,
+      "kind": "json",
+      "path": "examples/outputs/scenario_pack_reviewer_receipt.json",
+      "sha256": "c180b6e6e8fbfe27245fd93b39a7b389bf77d5ff1f31b855c69fad075dc6ac0b"
+    },
+    {
+      "bytes": 5517,
+      "kind": "md",
+      "path": "examples/outputs/scenario_pack_reviewer_receipt.md",
+      "sha256": "bb98ee690cdd01750dd84efa5e41c406e19f9fa0c6adcad2b9784867bfbe7637"
+    },
+    {
+      "bytes": 5445,
+      "kind": "json",
+      "path": "examples/outputs/daily_reset_path_decay.json",
+      "sha256": "1884b8f128f179e3e512453dd90b55309b52c7b86fb6889b9d00a89f299150d4"
+    },
+    {
+      "bytes": 3728,
+      "kind": "md",
+      "path": "examples/outputs/daily_reset_path_decay.md",
+      "sha256": "23f376279f7bfa797878e965efa8581f390bc08c631343f2549283c87f0fc338"
+    },
+    {
+      "bytes": 4754,
+      "kind": "json",
+      "path": "examples/outputs/drawdown_risk.json",
+      "sha256": "adf1aeff43c9972e7bddf6c368886038d28092abba01d181f147bd6d9e99f28b"
+    },
+    {
+      "bytes": 3484,
+      "kind": "md",
+      "path": "examples/outputs/drawdown_risk.md",
+      "sha256": "d07ce063c4d608fc75312f9a1f3e488b8771d44ee668eb14cb949c361b7846bf"
+    },
+    {
+      "bytes": 5275,
+      "kind": "json",
+      "path": "examples/outputs/pretrade_guardrails.json",
+      "sha256": "f51702702722e6a95f1f43f7225e92c488a68d7bc07d8b7ab1f4be5c56f6f346"
+    },
+    {
+      "bytes": 3693,
+      "kind": "md",
+      "path": "examples/outputs/pretrade_guardrails.md",
+      "sha256": "e98d4551088e878803cedacccd5aee0c656ef9f72bf7b615d88700a77ba5d285"
+    }
+  ],
+  "not_investment_advice": "This scenario pack is for scenario planning and education only. It is not investment advice, a recommendation, or a suitability determination.",
+  "provenance": {
+    "artifact_dir": "examples/outputs",
+    "broker_execution": false,
+    "command": "scenario-pack-visual-receipt",
+    "fixtures_dir": "examples/fixtures",
+    "input_dir": "examples/outputs",
+    "live_market_data": false,
+    "personalized_recommendations": false,
+    "private_context": false,
+    "shell_out": false,
+    "trading_enabled": false,
+    "workflow_files_read": false
+  },
+  "receipt_id": "v0.31.3-scenario-pack-visual-receipt",
+  "release_owner_checklist": [
+    {
+      "evidence": "demo_bundle_bridge.source_command",
+      "id": "regenerate_demo_bundle",
+      "item": "Regenerate the demo bundle before comparing scenario-pack hashes.",
+      "status": "todo"
+    },
+    {
+      "evidence": "generated_artifacts",
+      "id": "compare_pack_receipt_hashes",
+      "item": "Compare scenario-pack and reviewer-receipt SHA-256 hashes before release notes are drafted.",
+      "status": "todo"
+    },
+    {
+      "evidence": "case_cards",
+      "id": "review_case_cards",
+      "item": "Confirm each visual case card points to one scenario JSON artifact and one Markdown artifact.",
+      "status": "todo"
+    },
+    {
+      "evidence": "summary",
+      "id": "confirm_safety_boundaries",
+      "item": "Confirm safety boundaries: live data, broker execution, trading, and personalized recommendations remain disabled.",
+      "status": "todo"
+    }
+  ],
+  "safety_boundaries": [
+    "No live market data is fetched or required.",
+    "No broker, API, account, order, routing, staging, preview, or execution capability is used.",
+    "No trading instruction, no personalized recommendation, no suitability determination, and no investment advice is produced.",
+    "Receipt hashes cover deterministic local fixtures and generated artifacts only.",
+    "Uses checked-in fixtures and generated local examples only.",
+    "Does not read live market data, private context, workflow files, environment variables, or command history.",
+    "Does not place trades, contact brokers, determine suitability, or recommend buying, selling, or holding any product.",
+    "Treats position sizing and guardrail outputs as educational review aids, not instructions.",
+    "The HTML receipt is static: inline CSS only, no JavaScript, no external assets, and no network calls.",
+    "Release-owner checklist items are review prompts, not trading instructions or approval to place orders."
+  ],
+  "schema_version": "0.32",
+  "summary": {
+    "broker_execution": false,
+    "demo_source_artifacts": 9,
+    "fixture_inputs": 6,
+    "generated_artifacts": 10,
+    "hash_algorithm": "sha256",
+    "live_market_data": false,
+    "personalized_recommendations": false,
+    "scenario_cases": 3,
+    "static_html": true,
+    "trading_enabled": false
+  },
+  "title": "Scenario Pack Visual Receipt"
+}

@@ -873,6 +873,42 @@
       "title": "Scenario Pack Reviewer Receipt"
     },
     {
+      "document_type": "scenario_pack_visual_receipt",
+      "examples": [
+        "examples/outputs/scenario_pack_visual_receipt.json"
+      ],
+      "path": "docs/scenario-pack-visual-receipt.schema.json",
+      "public_safety_notes": [
+        "requires not_investment_advice",
+        "requires live_market_data: false",
+        "requires shell_out: false",
+        "requires private_context: false",
+        "requires broker_execution: false",
+        "requires trading_enabled: false",
+        "requires personalized_recommendations: false",
+        "requires provenance"
+      ],
+      "required_top_level_fields": [
+        "schema_version",
+        "document_type",
+        "not_investment_advice",
+        "receipt_id",
+        "title",
+        "summary",
+        "demo_bundle_bridge",
+        "evidence_chain",
+        "case_cards",
+        "release_owner_checklist",
+        "demo_source_artifacts",
+        "fixture_inputs",
+        "generated_artifacts",
+        "safety_boundaries",
+        "provenance"
+      ],
+      "schema_version": "0.32",
+      "title": "Scenario Pack Visual Receipt"
+    },
+    {
       "document_type": "scenario_pack",
       "examples": [
         "examples/outputs/scenario_pack.json"
@@ -1081,7 +1117,7 @@
     }
   ],
   "summary": {
-    "examples": 46,
+    "examples": 47,
     "safety_flags": [
       "live_market_data",
       "shell_out",
@@ -1090,6 +1126,6 @@
       "trading_enabled",
       "personalized_recommendations"
     ],
-    "schemas": 44
+    "schemas": 45
   }
 }
